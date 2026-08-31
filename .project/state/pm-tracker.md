@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Sprint:** Sprint 1 complete; awaiting UI review  
-**Overall Progress:** Sprint 0 and Sprint 1 complete  
-**Status:** SPRINT_1_COMPLETE — SPRINT_2_DEFERRED
+**Current Sprint:** Sprint 2 Batch 0  
+**Overall Progress:** Sprint 0–1 complete; Sprint 2–3 authorized  
+**Status:** SPRINT_2_BDD_APPROVAL_PENDING
 
 ## Project Timeline
 
@@ -11,7 +11,9 @@
 |---|---:|---|---|
 | Sprint 0 | Checkpoint-driven | Requirements, architecture and UX | COMPLETE |
 | Sprint 1 | 2 weeks after approval | UI foundation and product preview | COMPLETE — QA PASS |
-| Sprint 2–7 | 2 weeks each | Remaining MVP modules | PLANNED — EXECUTION DEFERRED UNTIL UI APPROVAL |
+| Sprint 2 | 2 weeks | Fleet, customers and catalogs | BATCH 0 — APPROVAL PENDING |
+| Sprint 3 | 2 weeks | Pricing and contract creation | BATCH 0 DRAFT; AFTER SPRINT 2 |
+| Sprint 4–7 | 2 weeks each | Remaining MVP modules | PLANNED — DEFERRED |
 | Phase 2 | Deferred | Priority 2 features | DEFERRED |
 
 ## Phase Completion
@@ -42,6 +44,7 @@
 |---|---|---|
 | Gate 1: Planning | PASSED | 2026-08-31 |
 | Sprint 1 BDD approval | APPROVED — 15 scenarios | 2026-08-31 |
+| Sprint 2–3 execution | AUTHORIZED; Batch 0 approval pending | 2026-09-01 |
 
 ## Team Status
 
@@ -53,6 +56,8 @@
 | Backend #1, Backend #2 | API, database, auth/security and demo endpoints | COMPLETE | 1 |
 | Frontend #1, Frontend #2 | Responsive React SPA and localized previews | COMPLETE | 1 |
 | google-code-reviewer | Sprint 1 code review | COMPLETE — LGTM | 1 |
+| google-qa-engineer | Sprint 2–3 BDD drafts | IN PROGRESS — APPROVAL PENDING | 2–3 |
+| apple-ux-wireframer | Sprint 2–3 CRUD/contract wireframes | COMPLETE — APPROVAL PENDING | 2–3 |
 
 ## Activity Log
 
@@ -75,13 +80,16 @@
 - 2026-09-01: Sprint 1 backend/frontend implementation completed and all first-round review findings resolved.
 - 2026-09-01: Final gates passed — build/format/lint/typecheck, 21 tests, 10 browser tests, 80%+ coverage, Prisma validation and dependency audit.
 - 2026-09-01: Sprint 1 closed COMPLETE; Sprint 2 remains deferred for Product Owner UI review.
+- 2026-09-01: Client authorized Sprint 2–3 and requested GitHub delivery.
+- 2026-09-01: Sprint 0–1 baseline committed and pushed to GitHub (`fe5e1e9`).
+- 2026-09-01: Sprint 2–3 BDD, wireframes and exact file blueprint drafted for mandatory approval.
 
 ## Blockers
 
 | Blocker | Required action | Owner |
 |---|---|---|
 | Business assumptions remain open | Resolve before each dependent Sprint 3–6 | Client/BA |
-| Sprint 2 activation | Review/approve Sprint 1 UI before continuing | Client/Product Owner |
+| Sprint 2–3 Batch 1 | Approve drafted BDD, wireframes and Sprint 3 defaults | Client/Product Owner |
 
 **Last Updated:** 2026-09-01  
 **Updated By:** Project Manager

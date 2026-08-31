@@ -3,14 +3,14 @@
 **Sprint:** 3 of 8  
 **Duration:** 2 weeks  
 **Goal:** Lập được hợp đồng nhiều xe với kiểm tra lịch, giá, bàn giao và PDF.  
-**Status:** PLANNED — EXECUTION DEFERRED
+**Status:** BATCH 0 — AWAITING BDD/WIREFRAME APPROVAL
 
 ## Task Details
 
 ### Task 3.S: Pricing and contract BDD scenarios [QA]
-**Status:** [NOT STARTED]  
+**Status:** [IN PROGRESS]  
 **Story Points:** 8  
-**Wireframe:** `04-module-previews.md`
+**Wireframe:** `07-contract-creation.md`
 
 **Deliverables:** Approved scenarios and golden pricing examples for US-007, US-010–US-013.  
 **Acceptance Criteria:** Day calculation, overlap boundaries, override/audit and PDF examples are unambiguous.
@@ -42,7 +42,7 @@
 ### Task 3.4: Contract creation UI [Frontend]
 **Status:** [NOT STARTED]  
 **Story Points:** 8  
-**Wireframe:** Expanded before Sprint 3 Gate 2
+**Wireframe:** `07-contract-creation.md`
 
 **Deliverables:** Responsive multi-step customer/vehicle/pricing/handover/confirmation flow.  
 **Acceptance Criteria:** Validation, price explanation, conflict recovery and accessibility match BDD.
@@ -67,17 +67,17 @@
 
 | ID | Task | Points | Status | Assignee | Wireframe |
 |----|------|--------|--------|----------|-----------|
-| 3.S | Pricing/contract BDD scenarios | 8 | | QA | `04-module-previews.md` |
+| 3.S | Pricing/contract BDD scenarios | 8 | [IN PROGRESS] | QA | `07-contract-creation.md` |
 | 3.1 | Pricing policy/configuration | 8 | | Backend | - |
 | 3.2 | Availability/contract transaction | 8 | | Backend | - |
 | 3.3 | Handover/file/PDF service | 8 | | Backend | - |
-| 3.4 | Contract creation UI | 8 | | Frontend | Expand before Gate 2 |
+| 3.4 | Contract creation UI | 8 | | Frontend | `07-contract-creation.md` |
 | 3.R | Sprint 3 code review | 3 | | Code Review | - |
 | 3.Q | Sprint 3 QA verification | 8 | | QA | - |
 
 ## Sprint Summary
 
-**Total:** 7 tasks · 51 points · planned after Sprint 2.
+**Total:** 7 tasks · 51 points · Batch 0 draft prepared; development follows Sprint 2.
 
 ## Definition of Done
 
@@ -90,4 +90,3 @@
 - Requires final rules for rental-day calculation, extension pricing and advance booking.
 - Requires approved bilingual contract sample before PDF implementation.
 - Pricing and availability are high-risk logic and need golden/concurrency tests.
-

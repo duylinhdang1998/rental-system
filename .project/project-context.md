@@ -68,6 +68,15 @@ hình preview VI/EN. Code review LGTM; QA PASS với 21 kiểm thử unit/integr
 thử trình duyệt và bốn chỉ số coverage đều trên 80%. Sprint 2+ tiếp tục tạm dừng để người
 dùng duyệt UI Sprint 1.
 
+### Session 9 — 2026-09-01
+
+**Yêu cầu:** Nếu Sprint 1 xong thì chạy Sprint 2 và Sprint 3, commit code lên
+`https://github.com/duylinhdang1998/rental-system`.
+
+**Kết quả hiện tại:** Repository trống đã nhận baseline Sprint 0–1 tại commit `fe5e1e9`;
+hai workbook riêng tư được xác nhận không vào Git. Sprint 2–3 được mở Batch 0. BDD,
+wireframe CRUD/lập hợp đồng và blueprint file đã được soạn; Batch 1 chờ phê duyệt bắt buộc.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -97,11 +106,11 @@ dùng duyệt UI Sprint 1.
 | PD-02 | Tech stack | React + Vite admin, NestJS API, PostgreSQL + Prisma | Approved direction |
 | PD-03 | Cơ cấu thực hiện | 2 backend, 2 frontend + UX/QA/review/DevOps | Approved allocation |
 | PD-04 | Một hay nhiều chi nhánh | Một chi nhánh trong MVP | Pending |
-| PD-05 | Cách tính ngày thuê | Theo block 24 giờ, cấu hình giờ ân hạn | Pending |
-| PD-06 | Cách tính giá khi gia hạn | Tính lại toàn bộ thời gian theo bậc cuối | Pending |
-| PD-07 | Đặt trước xe đang thuê | Cho phép nếu không trùng khoảng thời gian | Pending |
+| PD-05 | Cách tính ngày thuê | Block 24 giờ, ân hạn 60 phút | Proposed in Sprint 3 BDD — approval pending |
+| PD-06 | Cách tính giá khi gia hạn | Tính lại toàn bộ thời gian theo bậc cuối | Deferred to Sprint 4; not implemented in Sprint 3 |
+| PD-07 | Đặt trước xe đang thuê | Cho phép nếu không trùng khoảng `[start,end)` | Proposed in Sprint 3 BDD — approval pending |
 | PD-08 | Nhập Excel cũ khi go-live | Chuyển lên MVP nếu có dữ liệu đang vận hành | Pending |
-| PD-09 | Mẫu hợp đồng Việt–Anh | Người dùng cung cấp trước Sprint 3 | Pending |
+| PD-09 | Mẫu hợp đồng Việt–Anh | Template hệ thống Sprint 3, thay bằng mẫu khách hàng khi nhận | Proposed — approval pending |
 | PD-10 | Mẫu báo cáo doanh thu ngày | Đã lưu `daily-revenue-report-sample.xlsx` | Received |
 | PD-11 | Mẫu lịch trả xe | Đã lưu `vehicle-return-schedule-sample.xlsx` | Received |
 

@@ -14,6 +14,8 @@
 | `screens/03-dashboard.md` | Operations dashboard | Yes | Yes | Draft complete |
 | `screens/04-module-previews.md` | Vehicles, customers, contracts, returns, reports | Yes | Yes | Draft complete |
 | `screens/05-states-and-access.md` | Loading, empty, error, access denied | Yes | Yes | Draft complete |
+| `screens/06-fleet-customer-management.md` | Fleet/customer CRUD and warnings | Yes | Yes | Draft — Sprint 2 approval |
+| `screens/07-contract-creation.md` | Five-step multi-vehicle contract flow | Yes | Yes | Draft — Sprint 3 approval |
 | `components.md` | Reusable UI patterns | N/A | N/A | Draft complete |
 
 ## Flow set
@@ -21,6 +23,7 @@
 - `flows/auth-and-role-flow.md`
 - `flows/operations-preview-flow.md`
 - `flows/locale-and-responsive-flow.md`
+- `flows/fleet-customer-contract-flow.md`
 
 ## Sprint 1 scope boundary
 

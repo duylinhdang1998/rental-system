@@ -4,7 +4,7 @@
 
 **Sprint 0:** COMPLETE — Gate 1 passed  
 **Sprint 1:** COMPLETE — Code Review LGTM, QA PASS  
-**Development:** Sprint 2 deferred pending UI review
+**Development:** Sprint 2–3 authorized; Batch 0 approval pending
 
 ## Sprint Progress
 
@@ -12,7 +12,9 @@
 |---|---:|---:|---|
 | Sprint 0 | 8 | 8 | Complete |
 | Sprint 1 | 9 | 9 | Complete |
-| Sprint 2–7 | 0 | 42 | Planned; execution deferred |
+| Sprint 2 | 0 | 7 | Batch 0 approval pending |
+| Sprint 3 | 0 | 7 | Batch 0 draft; runs after Sprint 2 |
+| Sprint 4–7 | 0 | 28 | Planned; execution deferred |
 
 ## Completed Artifacts
 
@@ -33,6 +35,6 @@
 
 ## Next Actions
 
-1. Product Owner runs/reviews the Sprint 1 UI.
-2. Record UI feedback or approval.
-3. Activate Sprint 2 only after approval; later business decisions remain gated before their dependent sprints.
+1. Product Owner approves Sprint 2–3 BDD scenarios, expanded wireframes and pricing/PDF defaults.
+2. Run Sprint 2 implementation → review → QA → commit/push.
+3. Run Sprint 3 implementation → review → QA → commit/push.

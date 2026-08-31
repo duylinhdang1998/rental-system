@@ -1,9 +1,9 @@
 # System Architecture — Hệ thống quản lý cho thuê xe máy
 
-**Version:** 0.4  
+**Version:** 0.5  
 **Last Updated:** 2026-09-01  
 **Architect:** CTO  
-**Status:** APPROVED — GATE 1; Sprint 1 source contract reconciled
+**Status:** APPROVED BASELINE; Sprint 2–3 source contract awaiting Batch 0 approval
 
 ## 1. High-Level Architecture
 
@@ -208,6 +208,13 @@ app/
 The complete per-file blueprint is maintained in
 `.project/documentation/file-blueprint-sprint-1.md`. It is part of this architecture
 contract: new Sprint 1 files require a CTO update there before implementation.
+
+### 6.2 Exact Sprint 2–3 source-file contract
+
+The planned fleet, customer, pricing and contract files are defined in
+`.project/documentation/file-blueprint-sprint-2-3.md`. This extension preserves the
+modular-monolith dependency direction above and becomes authoritative after the Product
+Owner approves the Sprint 2–3 BDD scenarios and expanded wireframes.
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
@@ -258,4 +265,6 @@ MVP uses a static React admin, NestJS API instances and managed PostgreSQL. Admi
 
 ## 12. Architecture Gate
 
-**APPROVED — GATE 1 (2026-08-31).** Tech stack, design direction, roadmap and Sprint 1 scenarios were approved. New files still require a CTO blueprint update before implementation.
+**APPROVED BASELINE — GATE 1 (2026-08-31).** Sprint 1 is complete. Sprint 2–3 blueprint,
+BDD and wireframe extensions were drafted on 2026-09-01 and require Product Owner approval
+before Batch 1 implementation.
