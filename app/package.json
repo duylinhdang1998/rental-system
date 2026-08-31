@@ -1,0 +1,36 @@
+{
+  "name": "rental-system",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @rental/contracts && npm run build --workspace @rental/api && npm run build --workspace @rental/admin",
+    "dev": "concurrently \"npm run dev --workspace @rental/api\" \"npm run dev --workspace @rental/admin\"",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings=0",
+    "start": "npm run start --workspace @rental/api",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "typecheck": "npm run typecheck --workspace @rental/contracts && npm run typecheck --workspace @rental/api && npm run typecheck --workspace @rental/admin"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.62.1",
+    "@vitest/coverage-v8": "^4.1.11",
+    "concurrently": "^10.0.5",
+    "eslint": "^9.39.5",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.11.0",
+    "prettier": "^3.9.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.68.0",
+    "vitest": "^4.1.11"
+  }
+}

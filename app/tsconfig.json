@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "types": ["node", "vitest/globals"]
+  },
+  "include": ["e2e/**/*.ts", "tests/**/*.ts", "tests/**/*.tsx", "*.config.ts"]
+}
