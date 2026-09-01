@@ -64,10 +64,29 @@ export class PrismaFleetRepository implements FleetRepository {
     return items.map((item) => this.toVehicle(item));
   }
 
-  periods(vehicle: Vehicle, days: string[]): Promise<AvailabilityPeriod[]> {
-    return Promise.resolve(
-      days.map((date) => ({ date, state: vehicle.status === 'RENTED' ? 'RENTED' : 'AVAILABLE' })),
-    );
+  async periods(vehicle: Vehicle, days: string[]): Promise<AvailabilityPeriod[]> {
+    if (vehicle.status === 'RENTED') return days.map((date) => ({ date, state: 'RENTED' }));
+    const from = new Date(`${days[0]}T00:00:00.000Z`);
+    const through = new Date(`${days.at(-1)}T23:59:59.999Z`);
+    const lines = await this.prisma.contractVehicleLine.findMany({
+      include: { contract: true },
+      where: {
+        contract: { status: { not: 'CANCELLED' } },
+        endAt: { gt: from },
+        startAt: { lte: through },
+        vehicleId: vehicle.id,
+      },
+    });
+    return days.map((date) => ({
+      date,
+      state: lines.some(
+        (line) =>
+          Date.parse(`${date}T00:00:00.000Z`) < line.endAt.getTime() &&
+          line.startAt.getTime() < Date.parse(`${date}T23:59:59.999Z`),
+      )
+        ? 'HELD'
+        : 'AVAILABLE',
+    }));
   }
 
   async statusHistory(id: string): Promise<VehicleStatusHistory[]> {

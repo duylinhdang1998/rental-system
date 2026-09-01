@@ -96,6 +96,14 @@ Code review LGTM; QA PASS với 34 kiểm thử unit/integration, 15 hành trìn
 bốn chỉ số coverage đều trên 80%. Sprint 3 được mở với MVP một cửa hàng, block 24 giờ,
 60 phút linh động và mẫu hợp đồng PDF Việt–Anh do hệ thống tạo.
 
+### Session 12 — 2026-09-01
+
+**Kết quả Sprint 3:** Hoàn tất bảng giá theo phiên bản, cách tính mỗi block 24 giờ với
+60 phút linh động, VIP/override có giải thích và audit, hợp đồng nhiều xe chống trùng nguyên
+khối, snapshot tên khách/giá, bàn giao riêng tư và PDF Việt–Anh. Lịch xe đọc booking mới.
+Code review LGTM; QA PASS với 54 kiểm thử unit/integration, 18 hành trình trình duyệt và
+bốn chỉ số coverage đều trên 80%. Sprint 0–3 sẵn sàng bàn giao trên GitHub.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -140,7 +148,7 @@ bốn chỉ số coverage đều trên 80%. Sprint 3 được mở với MVP m�
 | Modular monolith | Phù hợp MVP, giảm vận hành nhưng giữ ranh giới nghiệp vụ | 2026-08-31 | Approved and implemented |
 | UI vertical slice in Sprint 1 | Người dùng muốn duyệt UI trước các sprint nghiệp vụ | 2026-08-31 | Approved intent |
 | Server-side authorization | Không dựa vào việc ẩn nút để bảo vệ dữ liệu | 2026-08-31 | Implemented for Sprint 1 |
-| Immutable financial history | Tránh sai lệch khi sửa giao dịch/hợp đồng cũ | 2026-08-31 | Proposed |
+| Immutable financial history | Tránh sai lệch khi sửa giao dịch/hợp đồng cũ | 2026-08-31 | Implemented for contract pricing in Sprint 3 |
 | React SPA cho admin | Hệ thống quản trị không cần SSR | 2026-08-31 | Approved by client |
 | Landing page tách riêng | Cho phép prerender/SEO mà không đổi kiến trúc admin | 2026-08-31 | Approved direction |
 | Hai backend và hai frontend workstreams | Chia ownership và tăng thông lượng khi triển khai | 2026-08-31 | Approved by client |
@@ -160,4 +168,4 @@ bốn chỉ số coverage đều trên 80%. Sprint 3 được mở với MVP m�
 - Design Direction = UI 3 selected; design system/wireframes approved
 - Tech Stack = React SPA + NestJS API approved
 - Team = 2 Backend + 2 Frontend approved; support roles retained
-- Roadmap = Sprint 0–7 approved; Sprint 2+ execution remains deferred after Sprint 1
+- Roadmap = Sprint 0–7 approved; Sprint 0–3 complete, Sprint 4+ awaits authorization

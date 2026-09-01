@@ -10,7 +10,7 @@ Feature: Pricing and multi-vehicle contract creation
     And rental intervals use Asia/Ho_Chi_Minh time with an exclusive end boundary
 
   @US-007 @pricing @golden @unit
-  Scenario Outline: Rental days use 24-hour blocks with a 60-minute grace period
+  Scenario Outline: Rental days use 24-hour blocks with 60 flexible return minutes
     Given a rental starts at "2026-09-01 08:00"
     When its requested end is <end>
     Then the billable rental days are <days>

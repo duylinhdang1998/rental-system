@@ -1,1 +1,1 @@
-export { ContractPreview } from './ContractPreview';
+export { ContractWizardPage } from './ContractWizardPage';

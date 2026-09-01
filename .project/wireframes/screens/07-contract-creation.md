@@ -1,7 +1,7 @@
 # 07 — Multi-vehicle Contract Creation
 
 **Stories:** US-007, US-010, US-011, US-012, US-013  
-**Status:** DRAFT — awaiting Sprint 3 approval  
+**Status:** APPROVED AND IMPLEMENTED — Sprint 3
 **Pattern:** One route, five persisted steps; confirmation performs the atomic transaction.
 
 ## Desktop shell

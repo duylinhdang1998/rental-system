@@ -14,6 +14,9 @@ export class PrismaAuditRepository implements AuditRepository {
       at: event.createdAt,
       entityId: event.entityId,
       entityType: event.entityType,
+      ...(event.metadata && typeof event.metadata === 'object'
+        ? { metadata: event.metadata as Record<string, boolean | null | number | string> }
+        : {}),
     }));
   }
 

@@ -4,6 +4,7 @@ export interface AuditEvent {
   at: Date;
   entityId: string;
   entityType: string;
+  metadata?: Record<string, boolean | null | number | string>;
 }
 
 export type AuditEventInput = Omit<AuditEvent, 'at'>;

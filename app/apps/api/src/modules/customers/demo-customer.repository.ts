@@ -17,9 +17,29 @@ const RISK_CUSTOMER: StoredCustomer = {
   warning: { code: 'BLACKLIST', reason: 'Synthetic risk fixture' },
 };
 
+const SAFE_CUSTOMERS: StoredCustomer[] = [
+  {
+    contacts: [{ primary: true, type: 'PHONE', value: '0900 000 001' }],
+    id: 'demo-customer',
+    name: 'Khách hàng mẫu',
+    nationality: 'VN',
+    normalizedContacts: ['+84900000001'],
+  },
+  {
+    contacts: [{ primary: true, type: 'PHONE', value: '0900 000 002' }],
+    id: 'demo-vip',
+    name: 'Khách VIP mẫu',
+    nationality: 'VN',
+    normalizedContacts: ['+84900000002'],
+  },
+];
+
 @Injectable()
 export class DemoCustomerRepository implements CustomerRepository {
-  private readonly customers: StoredCustomer[] = [structuredClone(RISK_CUSTOMER)];
+  private readonly customers: StoredCustomer[] = [
+    ...structuredClone(SAFE_CUSTOMERS),
+    structuredClone(RISK_CUSTOMER),
+  ];
   private readonly documents: CustomerDocumentRecord[] = [
     {
       customerId: 'demo-risk',

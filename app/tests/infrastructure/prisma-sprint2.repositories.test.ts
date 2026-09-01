@@ -81,6 +81,14 @@ describe('Feature: Sprint 2 Prisma production adapters', () => {
 
   it('covers fleet catalog, create, search and calendar persistence paths', async () => {
     const prisma = {
+      contractVehicleLine: {
+        findMany: vi.fn().mockResolvedValue([
+          {
+            endAt: new Date('2026-09-02T08:00:00Z'),
+            startAt: new Date('2026-09-01T08:00:00Z'),
+          },
+        ]),
+      },
       vehicle: {
         create: vi.fn().mockResolvedValue(VEHICLE),
         findMany: vi.fn().mockResolvedValue([VEHICLE]),
@@ -120,6 +128,9 @@ describe('Feature: Sprint 2 Prisma production adapters', () => {
     await expect(
       repository.periods({ ...VEHICLE, status: 'RENTED', typeCode: 'SCOOTER' }, ['2026-09-01']),
     ).resolves.toEqual([{ date: '2026-09-01', state: 'RENTED' }]);
+    await expect(
+      repository.periods({ ...VEHICLE, status: 'AVAILABLE', typeCode: 'SCOOTER' }, ['2026-09-01']),
+    ).resolves.toEqual([{ date: '2026-09-01', state: 'HELD' }]);
   });
 
   it('covers missing type and both transition branches', async () => {

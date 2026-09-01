@@ -11,6 +11,7 @@ import type {
 } from '@rental/contracts';
 import type { FleetRepository, VehicleQuery } from './fleet.types.js';
 import { normalizePlate } from './plate-normalizer.js';
+import { ReservationRegistry } from '../../common/reservations/reservation-registry.js';
 
 const SEEDED_TYPES: VehicleType[] = [
   { code: 'SCOOTER', id: 'type-scooter', name: 'Xe tay ga' },
@@ -56,6 +57,8 @@ export class DemoFleetRepository implements FleetRepository {
   private readonly vehicles = structuredClone(SEEDED_VEHICLES);
   private readonly history: VehicleStatusHistory[] = [];
 
+  constructor(private readonly reservations: ReservationRegistry) {}
+
   createType(input: VehicleTypeInput): Promise<VehicleType> {
     const created = { ...input, id: randomUUID() };
     this.types.push(created);
@@ -87,7 +90,10 @@ export class DemoFleetRepository implements FleetRepository {
 
   periods(vehicle: Vehicle, days: string[]): Promise<AvailabilityPeriod[]> {
     return Promise.resolve(
-      days.map((date, index) => ({ date, state: this.periodState(vehicle.status, index) })),
+      days.map((date, index) => ({
+        date,
+        state: this.reservations.state(vehicle.id, date) ?? this.periodState(vehicle.status, index),
+      })),
     );
   }
 

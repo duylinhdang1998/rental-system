@@ -6,6 +6,8 @@ import { HealthModule } from './modules/health/health.module.js';
 import { AuditModule } from './common/audit/audit.module.js';
 import { FleetModule } from './modules/fleet/fleet.module.js';
 import { CustomerModule } from './modules/customers/customer.module.js';
+import { ContractModule } from './modules/contracts/contract.module.js';
+import { ReservationModule } from './common/reservations/reservation.module.js';
 
 @Module({})
 export class AppModule {
@@ -15,10 +17,12 @@ export class AppModule {
       module: AppModule,
       imports: [
         AuditModule.register(environment),
+        ReservationModule,
         HealthModule,
         AuthModule.register(environment),
         CustomerModule.register(environment),
         FleetModule.register(environment),
+        ContractModule.register(environment),
         ...optionalImports,
       ],
     };

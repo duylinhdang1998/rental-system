@@ -1,6 +1,6 @@
 # Sprint 2–3 Exact File Blueprint
 
-**Status:** APPROVED — Sprint 2 implementation reconciled; Sprint 3 paths reserved
+**Status:** APPROVED — Sprint 2–3 implementations reconciled
 **Architecture:** Extend the approved modular NestJS + React SPA monolith; no new service boundary.
 
 ```text
@@ -121,6 +121,51 @@ app/e2e/
 ```
 
 ## Dependency rules
+
+## Sprint 3 implementation reconciliation (authoritative)
+
+Sprint 3 follows the planned module boundaries. Repository facade names use singular
+`contract.*` files and injection tokens, while the React flow is split into focused
+one-component files to satisfy the enforced review gates. A shared reservation registry keeps
+demo calendar and contract state consistent; production calendar rows query contract lines.
+
+```text
+app/apps/api/src/common/reservations/
+├── reservation.module.ts                   # One shared demo reservation scope per app
+└── reservation-registry.ts                 # Half-open demo calendar/contract reservations
+
+app/apps/api/src/modules/pricing/
+├── pricing.module.ts                       # Environment-aware pricing composition
+├── pricing.controller.ts                   # Current/publish/quote endpoints
+├── pricing.service.ts                      # Versioned quote and override audit orchestration
+├── pricing.policy.ts                       # Pure day/tier/adjustment rules
+├── pricing.tokens.ts                       # Pricing repository token
+├── pricing.types.ts                        # Pricing port and snapshot inputs
+├── demo-pricing.repository.ts              # Synthetic versioned prices/customers/vehicles
+└── prisma-pricing.repository.ts            # PostgreSQL pricing adapter
+
+app/apps/api/src/modules/contracts/
+├── contract.module.ts                      # Environment-aware contract composition
+├── contract.controller.ts                  # Availability/create/read/PDF endpoints
+├── contract.service.ts                     # Atomic confirmation/private access use cases
+├── availability.policy.ts                  # Pure half-open overlap rule
+├── contract-code.service.ts                # Unique human-readable code function
+├── contract-pdf.service.ts                 # PDF from immutable customer/price snapshot
+├── contract.tokens.ts                      # Contract repository token
+├── contract.types.ts                       # Contract transaction port
+├── demo-contract.repository.ts             # Serialized in-memory atomic adapter
+└── prisma-contract.repository.ts           # Serializable PostgreSQL transaction adapter
+
+app/apps/api/prisma/migrations/202609010002_pricing_contracts/migration.sql
+                                                # Pricing/contracts/indexes/GiST exclusion
+
+app/apps/admin/src/features/contracts/           # Five-step wizard and focused field components
+app/tests/api/pricing-contracts.test.ts           # API, security, PDF and concurrency scenarios
+app/tests/domain/pricing-availability.test.ts     # Golden pricing/overlap policy examples
+app/tests/infrastructure/prisma-sprint3.repositories.test.ts
+                                                # Production adapter verification
+app/e2e/contract-creation.spec.ts                 # Desktop/mobile/conflict recovery journeys
+```
 
 ## Sprint 2 implementation reconciliation (authoritative)
 

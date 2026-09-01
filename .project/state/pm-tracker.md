@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Sprint:** Sprint 3 Batch 0
-**Overall Progress:** Sprint 0–2 complete; Sprint 3 authorized
-**Status:** SPRINT_3_SCENARIOS_ACTIVE
+**Current Sprint:** Sprint 3 complete
+**Overall Progress:** Sprint 0–3 complete
+**Status:** SPRINT_3_COMPLETE_QA_PASS
 
 ## Project Timeline
 
@@ -12,7 +12,7 @@
 | Sprint 0 | Checkpoint-driven | Requirements, architecture and UX | COMPLETE |
 | Sprint 1 | 2 weeks after approval | UI foundation and product preview | COMPLETE — QA PASS |
 | Sprint 2 | 2 weeks | Fleet, customers, catalogs and availability calendar | COMPLETE — QA PASS |
-| Sprint 3 | 2 weeks | Pricing and contract creation | BATCH 0 — ACTIVE |
+| Sprint 3 | 2 weeks | Pricing and contract creation | COMPLETE — QA PASS |
 | Sprint 4–7 | 2 weeks each | Remaining MVP modules | PLANNED — DEFERRED |
 | Phase 2 | Deferred | Priority 2 features | DEFERRED |
 
@@ -60,7 +60,9 @@
 | Backend / Frontend specialists | Fleet, customers and availability calendar | COMPLETE | 2 |
 | google-code-reviewer | Sprint 2 code review | COMPLETE — LGTM | 2 |
 | google-qa-engineer | Sprint 2 regression/browser acceptance | COMPLETE — PASS | 2 |
-| Backend / Frontend specialists | Pricing and contract creation | BATCH 0 — ACTIVE | 3 |
+| Backend / Frontend specialists | Pricing and contract creation | COMPLETE | 3 |
+| google-code-reviewer | Sprint 3 transaction/security/UI review | COMPLETE — LGTM | 3 |
+| google-qa-engineer | Sprint 3 regression/concurrency/browser acceptance | COMPLETE — PASS | 3 |
 
 ## Activity Log
 
@@ -88,6 +90,8 @@
 - 2026-09-01: Sprint 2–3 BDD, wireframes and exact file blueprint drafted for mandatory approval.
 - 2026-09-01: Sprint 2 delivered fleet/customer CRUD, controlled status history, private-document policy and room-style vehicle availability calendar.
 - 2026-09-01: Sprint 2 review LGTM; 34 unit/integration and 15 browser tests passed with all coverage dimensions above 80%.
+- 2026-09-01: Sprint 3 delivered versioned pricing, 24-hour/60-minute calculation, immutable snapshots, overlap-safe multi-vehicle contracts, private handover metadata and bilingual PDF export.
+- 2026-09-01: Sprint 3 review LGTM; 54 unit/integration and 18 browser tests passed with all coverage dimensions above 80%.
 
 ## Blockers
 

@@ -1,4 +1,5 @@
-export type DomainErrorCode = 'CONFLICT' | 'FORBIDDEN' | 'INVALID_TRANSITION' | 'NOT_FOUND';
+export type DomainErrorCode =
+  'CONFLICT' | 'FORBIDDEN' | 'INVALID_INPUT' | 'INVALID_TRANSITION' | 'NOT_FOUND';
 
 export class DomainError extends Error {
   constructor(

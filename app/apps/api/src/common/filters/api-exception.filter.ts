@@ -28,6 +28,7 @@ const AUTH_ERROR_STATUS: Record<AuthErrorCode, HttpStatus> = {
 const DOMAIN_ERROR_STATUS: Record<DomainErrorCode, HttpStatus> = {
   CONFLICT: HttpStatus.CONFLICT,
   FORBIDDEN: HttpStatus.FORBIDDEN,
+  INVALID_INPUT: HttpStatus.BAD_REQUEST,
   INVALID_TRANSITION: HttpStatus.CONFLICT,
   NOT_FOUND: HttpStatus.NOT_FOUND,
 };

@@ -33,6 +33,13 @@ enum CustomerTagCode {
   WATCHLIST
 }
 
+enum ContractStatus {
+  CONFIRMED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
 model Account {
   id           String    @id @default(uuid())
   username     String    @unique
@@ -63,6 +70,7 @@ model VehicleType {
   code      String    @unique
   name      String
   vehicles  Vehicle[]
+  pricingVersions PricingVersion[]
   createdAt DateTime  @default(now()) @db.Timestamptz
   updatedAt DateTime  @updatedAt @db.Timestamptz
 }
@@ -79,6 +87,7 @@ model Vehicle {
   typeId          String
   type            VehicleType            @relation(fields: [typeId], references: [id])
   statusHistory   VehicleStatusHistory[]
+  contractLines   ContractVehicleLine[]
   createdAt       DateTime               @default(now()) @db.Timestamptz
   updatedAt       DateTime               @updatedAt @db.Timestamptz
 
@@ -106,6 +115,7 @@ model Customer {
   contacts    CustomerContact[]
   tags        CustomerTag[]
   documents   CustomerDocument[]
+  contracts   Contract[]
   createdAt   DateTime           @default(now()) @db.Timestamptz
   updatedAt   DateTime           @updatedAt @db.Timestamptz
 
@@ -158,4 +168,81 @@ model AuditEvent {
 
   @@index([entityType, entityId])
   @@index([actorId, createdAt])
+}
+
+model PricingVersion {
+  id          String        @id @default(uuid())
+  typeCode    String
+  vehicleType VehicleType   @relation(fields: [typeCode], references: [code])
+  version     Int
+  createdById String
+  tiers       PricingTier[]
+  lines       ContractVehicleLine[]
+  createdAt   DateTime      @default(now()) @db.Timestamptz
+
+  @@unique([typeCode, version])
+  @@index([typeCode, createdAt])
+}
+
+model PricingTier {
+  id               String         @id @default(uuid())
+  pricingVersionId String
+  pricingVersion   PricingVersion @relation(fields: [pricingVersionId], references: [id], onDelete: Cascade)
+  minDays          Int
+  maxDays          Int?
+  dailyRateVnd     Int
+
+  @@index([pricingVersionId, minDays])
+}
+
+model Contract {
+  id             String                @id @default(uuid())
+  code           String                @unique
+  idempotencyKey String                @unique
+  customerId     String
+  customer       Customer              @relation(fields: [customerId], references: [id])
+  customerNameSnapshot String
+  status         ContractStatus        @default(CONFIRMED)
+  deliveryFeeVnd Int
+  totalVnd       Int
+  createdById    String
+  lines          ContractVehicleLine[]
+  handover       ContractHandover?
+  createdAt      DateTime              @default(now()) @db.Timestamptz
+
+  @@index([customerId, createdAt])
+}
+
+model ContractVehicleLine {
+  id                   String         @id @default(uuid())
+  contractId           String
+  contract             Contract       @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  vehicleId            String
+  vehicle              Vehicle        @relation(fields: [vehicleId], references: [id])
+  pricingVersionId     String
+  pricingVersion       PricingVersion @relation(fields: [pricingVersionId], references: [id])
+  startAt              DateTime       @db.Timestamptz
+  endAt                DateTime       @db.Timestamptz
+  billableDays         Int
+  dailyRateVnd         Int
+  baseSubtotalVnd      Int
+  adjustmentPercent    Int
+  finalSubtotalVnd     Int
+  explanation          String
+  overrideReason       String?
+
+  @@index([vehicleId, startAt, endAt])
+  @@index([contractId])
+}
+
+model ContractHandover {
+  id                String   @id @default(uuid())
+  contractId        String   @unique
+  contract          Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  depositVnd        Int
+  retainedDocument  String
+  deliveryPlace     String
+  fuelPercent       Int
+  notes             String
+  imageObjectKeys   String[]
 }

@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SessionProvider } from './features/auth';
-import { ContractPreview } from './features/contracts';
+import { ContractWizardPage } from './features/contracts';
 import { CustomerListPage } from './features/customers';
 import { OperationsDashboard } from './features/dashboard';
 import { EmployeePreview } from './features/employees';
@@ -26,7 +26,7 @@ export function App() {
                 <Route element={<OperationsDashboard />} index />
                 <Route element={<VehicleListPage />} path="vehicles" />
                 <Route element={<CustomerListPage />} path="customers" />
-                <Route element={<ContractPreview />} path="contracts" />
+                <Route element={<ContractWizardPage />} path="contracts" />
                 <Route element={<ReturnQueuePreview />} path="returns" />
                 <Route element={<OwnerRoute />}>
                   <Route element={<ReportPreview />} path="reports" />
