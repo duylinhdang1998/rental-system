@@ -7,16 +7,17 @@
 
 ## Screen set
 
-| File | Screen | Desktop | Mobile | Status |
-|---|---|---:|---:|---|
-| `screens/01-login.md` | Login | Yes | Yes | Draft complete |
-| `screens/02-app-shell.md` | Navigation and workspace shell | Yes | Yes | Draft complete |
-| `screens/03-dashboard.md` | Operations dashboard | Yes | Yes | Draft complete |
-| `screens/04-module-previews.md` | Vehicles, customers, contracts, returns, reports | Yes | Yes | Draft complete |
-| `screens/05-states-and-access.md` | Loading, empty, error, access denied | Yes | Yes | Draft complete |
-| `screens/06-fleet-customer-management.md` | Fleet/customer CRUD and warnings | Yes | Yes | Draft — Sprint 2 approval |
-| `screens/07-contract-creation.md` | Five-step multi-vehicle contract flow | Yes | Yes | Draft — Sprint 3 approval |
-| `components.md` | Reusable UI patterns | N/A | N/A | Draft complete |
+| File                                      | Screen                                           | Desktop | Mobile | Status                          |
+| ----------------------------------------- | ------------------------------------------------ | ------: | -----: | ------------------------------- |
+| `screens/01-login.md`                     | Login                                            |     Yes |    Yes | Draft complete                  |
+| `screens/02-app-shell.md`                 | Navigation and workspace shell                   |     Yes |    Yes | Draft complete                  |
+| `screens/03-dashboard.md`                 | Operations dashboard                             |     Yes |    Yes | Draft complete                  |
+| `screens/04-module-previews.md`           | Vehicles, customers, contracts, returns, reports |     Yes |    Yes | Draft complete                  |
+| `screens/05-states-and-access.md`         | Loading, empty, error, access denied             |     Yes |    Yes | Draft complete                  |
+| `screens/06-fleet-customer-management.md` | Fleet/customer CRUD and warnings                 |     Yes |    Yes | Draft — Sprint 2 approval       |
+| `screens/07-contract-creation.md`         | Five-step multi-vehicle contract flow            |     Yes |    Yes | Draft — Sprint 3 approval       |
+| `screens/08-ui-component-showroom.md`     | Development-only component review workspace      |     Yes |    Yes | Awaiting Product Owner approval |
+| `components.md`                           | Reusable UI patterns                             |     N/A |    N/A | Draft complete                  |
 
 ## Flow set
 

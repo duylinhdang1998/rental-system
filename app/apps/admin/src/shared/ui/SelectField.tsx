@@ -1,6 +1,7 @@
 import { Field } from '@/components/ui/field';
 import { FieldLabel } from '@/components/ui/field-label';
 import { SelectContent } from '@/components/ui/select-content';
+import { SelectGroup } from '@/components/ui/select-group';
 import { SelectItem } from '@/components/ui/select-item';
 import { Select } from '@/components/ui/select-root';
 import { SelectTrigger } from '@/components/ui/select-trigger';
@@ -33,11 +34,13 @@ export function SelectField({ id, label, onChange, options, value }: SelectField
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {options.map((option) => (
-            <SelectItem key={option.value || EMPTY_VALUE} value={option.value || EMPTY_VALUE}>
-              {option.label}
-            </SelectItem>
-          ))}
+          <SelectGroup>
+            {options.map((option) => (
+              <SelectItem key={option.value || EMPTY_VALUE} value={option.value || EMPTY_VALUE}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
         </SelectContent>
       </Select>
     </Field>

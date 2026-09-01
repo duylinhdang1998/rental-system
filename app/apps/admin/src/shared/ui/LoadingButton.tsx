@@ -14,11 +14,14 @@ export function LoadingButton({
   ...props
 }: LoadingButtonProps) {
   return (
-    <ShadcnButton className={className} disabled={loading || props.disabled} {...props}>
-      {loading ? (
-        <LoaderCircle aria-hidden className="animate-spin" data-icon="inline-start" />
-      ) : null}
-      {children}
+    <ShadcnButton
+      aria-busy={loading}
+      className={`relative ${className}`}
+      disabled={loading || props.disabled}
+      {...props}
+    >
+      <span className={loading ? 'opacity-0' : undefined}>{children}</span>
+      {loading ? <LoaderCircle aria-hidden className="absolute animate-spin" /> : null}
     </ShadcnButton>
   );
 }

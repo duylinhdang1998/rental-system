@@ -39,6 +39,23 @@
   --motion-fast: 120ms ease-out;
   --motion-base: 180ms ease-out;
   --motion-slow: 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --font-size-display: 2rem;
+  --font-size-h1-mobile: 1.5rem;
+  --font-size-h1: 1.75rem;
+  --font-size-h2: 1.375rem;
+  --font-size-h3: 1.125rem;
+  --font-size-body-lg: 1rem;
+  --font-size-body: 0.875rem;
+  --font-size-label: 0.8125rem;
+  --font-size-caption: 0.75rem;
+  --line-height-display: 2.5rem;
+  --line-height-h1-mobile: 2rem;
+  --line-height-h1: 2.25rem;
+  --line-height-h2: 1.875rem;
+  --line-height-h3: 1.625rem;
+  --line-height-body-lg: 1.5rem;
+  --line-height-body: 1.375rem;
+  --line-height-compact: 1.125rem;
   --sidebar-width: 15.5rem;
   --dialog-max-height: 90vh;
   --calendar-dialog-max-height: 92vh;
@@ -104,6 +121,7 @@
   --color-ring: var(--ring);
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
   --radius-control: var(--radius-md);
+  --radius-compact: var(--radius-sm);
   --radius-card: var(--radius-lg);
   --radius-panel: var(--radius-xl);
   --shadow-card: var(--shadow-sm);
@@ -140,6 +158,32 @@ a {
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
+}
+
+.type-display {
+  font-size: var(--font-size-display);
+  font-weight: 700;
+  line-height: var(--line-height-display);
+}
+.type-h1 {
+  font-size: var(--font-size-h1-mobile);
+  font-weight: 700;
+  line-height: var(--line-height-h1-mobile);
+}
+.type-h2 {
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  line-height: var(--line-height-h2);
+}
+.type-body {
+  font-size: var(--font-size-body);
+  font-weight: 450;
+  line-height: var(--line-height-body);
+}
+.type-label {
+  font-size: var(--font-size-label);
+  font-weight: 650;
+  line-height: var(--line-height-compact);
 }
 
 .app-grid {
@@ -184,6 +228,10 @@ a {
 }
 
 @media (min-width: 640px) {
+  .type-h1 {
+    font-size: var(--font-size-h1);
+    line-height: var(--line-height-h1);
+  }
   .calendar-dialog-content {
     max-width: min(94vw, var(--calendar-dialog-max-width));
   }

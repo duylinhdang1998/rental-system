@@ -50,19 +50,19 @@ Dependencies hướng vào domain/application. Component không chứa quy tắc
 
 ## 3. Domain Modules
 
-| Module | Responsibility |
-|---|---|
-| identity | User, employee, role, permission, session |
-| dashboard | Operational read model for today |
-| fleet | Vehicle, type, status, availability, images |
+| Module    | Responsibility                                 |
+| --------- | ---------------------------------------------- |
+| identity  | User, employee, role, permission, session      |
+| dashboard | Operational read model for today               |
+| fleet     | Vehicle, type, status, availability, images    |
 | customers | Customer, contacts, documents, tags, blacklist |
-| pricing | Price tiers, late fee, override policy |
-| contracts | Contract aggregate, vehicle lines, lifecycle |
-| returns | Partial return, inspections, settlement |
-| finance | Payments, allocations, refunds, receivables |
-| reporting | Revenue, debt, employee reports, export |
-| settings | Business profile and editable catalogs |
-| audit | Append-only sensitive action log |
+| pricing   | Price tiers, late fee, override policy         |
+| contracts | Contract aggregate, vehicle lines, lifecycle   |
+| returns   | Partial return, inspections, settlement        |
+| finance   | Payments, allocations, refunds, receivables    |
+| reporting | Revenue, debt, employee reports, export        |
+| settings  | Business profile and editable catalogs         |
+| audit     | Append-only sensitive action log               |
 
 ## 4. Sprint 1 Data Flow
 
@@ -117,6 +117,8 @@ sequenceDiagram
 > Sprint 8 frontend remediation is governed by
 > `.project/documentation/file-blueprint-sprint-8.md`; it supersedes older flat frontend
 > feature paths while preserving the same domain boundaries.
+> The development-only component review workspace is governed by
+> `.project/documentation/file-blueprint-sprint-10.md`; it does not enter production routes.
 
 ```text
 app/
@@ -222,6 +224,7 @@ Owner approves the Sprint 2–3 BDD scenarios and expanded wireframes.
 The same blueprint includes the approved Sprint 3 follow-up for configurable late-return
 fees: versioned pricing owns configuration, each contract vehicle line owns an immutable
 snapshot, and the Owner-only Settings page publishes new versions.
+
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
@@ -233,15 +236,15 @@ snapshot, and the Owner-only Settings page publishes new versions.
 
 ## 8. Naming Conventions
 
-| Element | Convention | Example |
-|---|---|---|
-| Components | PascalCase noun | `OperationsDashboard.tsx` |
-| Hooks/functions | camelCase, hook uses `use` | `useLocale` |
-| Domain utilities | kebab-case file | `availability-policy.ts` |
-| Types | PascalCase noun | `ContractPreview` |
-| Unit tests | `{source}.test.ts` | `access-policy.test.ts` |
-| E2E | `{journey}.spec.ts` | `responsive-preview.spec.ts` |
-| Constants | UPPER_SNAKE_CASE | `SESSION_MAX_AGE` |
+| Element          | Convention                 | Example                      |
+| ---------------- | -------------------------- | ---------------------------- |
+| Components       | PascalCase noun            | `OperationsDashboard.tsx`    |
+| Hooks/functions  | camelCase, hook uses `use` | `useLocale`                  |
+| Domain utilities | kebab-case file            | `availability-policy.ts`     |
+| Types            | PascalCase noun            | `ContractPreview`            |
+| Unit tests       | `{source}.test.ts`         | `access-policy.test.ts`      |
+| E2E              | `{journey}.spec.ts`        | `responsive-preview.spec.ts` |
+| Constants        | UPPER_SNAKE_CASE           | `SESSION_MAX_AGE`            |
 
 ## 9. Security Architecture
 
