@@ -1,8 +1,8 @@
 import { Bike } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { useSession } from '../../features/auth/hooks/use-session';
-import { navigationForRole } from '../navigation/routes';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { navigationForRole } from '@/shared/navigation/routes';
 
 const ROLE_LABELS = { OWNER: 'Chủ cửa hàng', STAFF: 'Nhân viên' } as const;
 

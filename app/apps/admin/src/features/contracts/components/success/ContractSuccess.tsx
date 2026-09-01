@@ -1,6 +1,6 @@
 import { CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { clearContractState } from '../../lib/contract-draft';
+import { clearContractState } from '@/features/contracts/lib/contract-draft';
 import { Button } from '@/components/ui/button';
 import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 

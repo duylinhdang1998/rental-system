@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { VehicleInput } from '@rental/contracts';
-import { createVehicle, fetchVehicles, type FleetFilters } from '../api/fleet-api';
+import { createVehicle, fetchVehicles, type FleetFilters } from '@/features/fleet/api/fleet-api';
 
 export function useFleet(filters: FleetFilters) {
   return useQuery({ queryFn: () => fetchVehicles(filters), queryKey: ['fleet', filters] });

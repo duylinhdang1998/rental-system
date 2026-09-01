@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { PublishPricingInput } from '@rental/contracts';
-import { fetchCurrentPricing, publishPricing } from '../api/settings-api';
+import { fetchCurrentPricing, publishPricing } from '@/features/settings/api/settings-api';
 
 const QUERY_KEY = ['pricing', 'SCOOTER'];
 

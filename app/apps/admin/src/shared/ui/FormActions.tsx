@@ -1,4 +1,4 @@
-import { LoadingButton } from './LoadingButton';
+import { LoadingButton } from '@/shared/ui/LoadingButton';
 import { Button as ShadcnButton } from '@/components/ui/button';
 
 interface FormActionsProps {

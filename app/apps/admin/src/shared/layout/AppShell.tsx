@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { AppHeader } from './AppHeader';
-import { DemoBanner } from './DemoBanner';
-import { DesktopNavigation } from './DesktopNavigation';
-import { MobileNavigation } from './MobileNavigation';
+import { AppHeader } from '@/shared/layout/AppHeader';
+import { DemoBanner } from '@/shared/layout/DemoBanner';
+import { DesktopNavigation } from '@/shared/layout/DesktopNavigation';
+import { MobileNavigation } from '@/shared/layout/MobileNavigation';
 
 export function AppShell() {
   return (

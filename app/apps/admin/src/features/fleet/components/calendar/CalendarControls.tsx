@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { moveCalendar } from '../../hooks/use-fleet-calendar';
+import { moveCalendar } from '@/features/fleet/hooks/use-fleet-calendar';
 import { Button } from '@/components/ui/button';
 
 interface CalendarControlsProps {

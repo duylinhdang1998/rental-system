@@ -1,6 +1,6 @@
 import type { Vehicle } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
-import { ContractVehicleOption } from './ContractVehicleOption';
+import { ContractVehicleOption } from '@/features/contracts/components/vehicle/ContractVehicleOption';
 
 interface Props {
   onToggle: (id: string) => void;

@@ -1,6 +1,6 @@
 import type { Vehicle } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
-import { VehicleTableRow } from './VehicleTableRow';
+import { VehicleTableRow } from '@/features/fleet/components/list/VehicleTableRow';
 import { TableBody } from '@/components/ui/table-body';
 import { TableHead } from '@/components/ui/table-head';
 import { TableHeader } from '@/components/ui/table-header';

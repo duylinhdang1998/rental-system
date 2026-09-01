@@ -1,6 +1,6 @@
 import { AlertCircle, Bike, CalendarClock, Route } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { KpiCard } from '../../../shared/ui/KpiCard';
+import { KpiCard } from '@/shared/ui/KpiCard';
 import type { DemoDashboard } from '@rental/contracts';
 
 const KPI_ITEMS = [

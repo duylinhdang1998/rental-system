@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { useSession } from '../../features/auth/hooks/use-session';
-import { navigationForRole } from '../navigation/routes';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { navigationForRole } from '@/shared/navigation/routes';
 
 const MOBILE_ITEM_COUNT = 5;
 

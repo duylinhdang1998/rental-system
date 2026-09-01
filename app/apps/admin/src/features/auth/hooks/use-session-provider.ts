@@ -1,7 +1,7 @@
 import type { AuthenticatedUser, LoginInput } from '@rental/contracts';
 import { useEffect, useMemo, useState } from 'react';
-import { loginRequest, restoreSessionRequest } from '../api/auth-api';
-import type { SessionContextValue } from '../lib/session-context';
+import { loginRequest, restoreSessionRequest } from '@/features/auth/api/auth-api';
+import type { SessionContextValue } from '@/features/auth/lib/session-context';
 
 export function useSessionProvider(): SessionContextValue {
   const [user, setUser] = useState<AuthenticatedUser | null>(null);

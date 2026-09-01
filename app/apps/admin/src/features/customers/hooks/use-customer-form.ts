@@ -1,8 +1,8 @@
 import { useState, type FormEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { CustomerInput } from '@rental/contracts';
-import { useCreateCustomer } from '../hooks/use-customers';
-import { fetchDuplicates } from '../api/customers-api';
+import { useCreateCustomer } from '@/features/customers/hooks/use-customers';
+import { fetchDuplicates } from '@/features/customers/api/customers-api';
 
 interface CustomerFields {
   email: string;

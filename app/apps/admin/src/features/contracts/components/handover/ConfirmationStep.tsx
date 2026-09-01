@@ -1,6 +1,6 @@
 import type { Quote } from '@rental/contracts';
-import { ConfirmationForm } from './ConfirmationForm';
-import { ContractSuccess } from '../success/ContractSuccess';
+import { ConfirmationForm } from '@/features/contracts/components/handover/ConfirmationForm';
+import { ContractSuccess } from '@/features/contracts/components/success/ContractSuccess';
 
 interface Props {
   busy: boolean;

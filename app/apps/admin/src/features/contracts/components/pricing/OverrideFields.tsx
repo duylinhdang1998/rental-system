@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { OverrideAmountField } from './OverrideAmountField';
-import { OverrideReasonField } from './OverrideReasonField';
+import { OverrideAmountField } from '@/features/contracts/components/pricing/OverrideAmountField';
+import { OverrideReasonField } from '@/features/contracts/components/pricing/OverrideReasonField';
 import { Button } from '@/components/ui/button';
 
 interface Props {

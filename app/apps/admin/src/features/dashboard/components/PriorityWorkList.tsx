@@ -1,6 +1,6 @@
 import { AlertCircle, CalendarClock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { PriorityItem } from './PriorityItem';
+import { PriorityItem } from '@/features/dashboard/components/PriorityItem';
 import { Button } from '@/components/ui/button';
 
 const PRIORITIES = [

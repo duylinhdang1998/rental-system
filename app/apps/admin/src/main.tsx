@@ -1,9 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource-variable/inter';
-import { App } from './App';
-import './shared/i18n/i18n';
-import './styles.css';
+import { App } from '@/App';
+import '@/shared/i18n/i18n';
+import '@/styles.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Root element is missing');

@@ -1,6 +1,6 @@
-import { LoadingButton } from '../../../shared/ui/LoadingButton';
-import { LoginFields } from './LoginFields';
-import { useLoginForm } from '../hooks/use-login-form';
+import { LoadingButton } from '@/shared/ui/LoadingButton';
+import { LoginFields } from '@/features/auth/components/LoginFields';
+import { useLoginForm } from '@/features/auth/hooks/use-login-form';
 
 export function LoginForm() {
   const form = useLoginForm();

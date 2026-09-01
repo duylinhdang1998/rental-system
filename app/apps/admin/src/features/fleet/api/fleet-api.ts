@@ -7,7 +7,7 @@ import {
   type VehicleInput,
   type VehicleStatus,
 } from '@rental/contracts';
-import { apiRequest } from '../../../shared/api/http';
+import { apiRequest } from '@/shared/api/http';
 
 export interface FleetFilters {
   search?: string;

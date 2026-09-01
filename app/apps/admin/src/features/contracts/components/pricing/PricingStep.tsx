@@ -1,8 +1,8 @@
 import type { Quote } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
-import { OverrideFields } from './OverrideFields';
-import { PriceLines } from './PriceLines';
-import { WizardActions } from '../layout/WizardActions';
+import { OverrideFields } from '@/features/contracts/components/pricing/OverrideFields';
+import { PriceLines } from '@/features/contracts/components/pricing/PriceLines';
+import { WizardActions } from '@/features/contracts/components/layout/WizardActions';
 import { TextField } from '@/shared/ui/TextField';
 
 interface Props {

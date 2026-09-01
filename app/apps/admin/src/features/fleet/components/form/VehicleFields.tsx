@@ -1,7 +1,7 @@
 import type { VehicleInput } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
 import { TextField } from '@/shared/ui/TextField';
-import { VehicleTypeField } from './VehicleTypeField';
+import { VehicleTypeField } from '@/features/fleet/components/form/VehicleTypeField';
 
 interface VehicleFieldsProps {
   change: (field: keyof VehicleInput, value: string) => void;

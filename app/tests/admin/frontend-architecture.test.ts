@@ -46,6 +46,16 @@ describe('Feature: Approved frontend architecture and operational interaction pa
   });
 
   describe('Scenario: Feature code is nested and hooks have a dedicated boundary', () => {
+    it('uses the configured alias for every application-internal import', () => {
+      const relativeImportPattern = /(?:\bfrom\s*|\bimport\s*(?:\(\s*)?)['"]\.{1,2}\//;
+      const offenders = sourceFiles(SRC_ROOT)
+        .filter((path) => ['.ts', '.tsx'].includes(extname(path)))
+        .filter((path) => relativeImportPattern.test(source(path)))
+        .map((path) => relative(SRC_ROOT, path));
+
+      expect(offenders).toEqual([]);
+    });
+
     it('stores hook modules under feature hooks folders', () => {
       const offenders = sourceFiles(FEATURE_ROOT)
         .filter((path) => /^use-.+\.ts$/.test(path.split('/').at(-1) ?? ''))

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import type { VehicleInput } from '@rental/contracts';
-import { useCreateVehicle } from '../hooks/use-fleet';
+import { useCreateVehicle } from '@/features/fleet/hooks/use-fleet';
 
 const DEFAULT_YEAR = 2026;
 const EMPTY_FORM: VehicleInput = {

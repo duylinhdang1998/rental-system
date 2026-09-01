@@ -1,8 +1,8 @@
 import { Info } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { PreviewModule } from '@rental/contracts';
-import { ViewState } from '../ui/ViewState';
-import { usePreview } from './use-preview';
+import { ViewState } from '@/shared/ui/ViewState';
+import { usePreview } from '@/shared/pages/use-preview';
 
 interface PreviewPageProps {
   routeKey: PreviewModule;

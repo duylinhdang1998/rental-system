@@ -1,6 +1,6 @@
 import { Bike } from 'lucide-react';
-import { LoginForm } from '../components/LoginForm';
-import { LoginHero } from '../components/LoginHero';
+import { LoginForm } from '@/features/auth/components/LoginForm';
+import { LoginHero } from '@/features/auth/components/LoginHero';
 
 export function LoginPage() {
   return (

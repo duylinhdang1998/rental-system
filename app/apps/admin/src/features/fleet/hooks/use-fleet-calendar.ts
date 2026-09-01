@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ISO_DATE_LENGTH, MILLISECONDS_PER_DAY } from '@rental/contracts';
-import { fetchCalendar } from '../api/fleet-api';
+import { fetchCalendar } from '@/features/fleet/api/fleet-api';
 
 const RANGE_DAYS = 6;
 

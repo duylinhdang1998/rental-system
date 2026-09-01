@@ -1,7 +1,7 @@
 import { ViewState } from '@/shared/ui/ViewState';
-import { CalendarGrid } from './CalendarGrid';
-import { CalendarToolbar } from './CalendarToolbar';
-import { useFleetCalendar } from '../../hooks/use-fleet-calendar';
+import { CalendarGrid } from '@/features/fleet/components/calendar/CalendarGrid';
+import { CalendarToolbar } from '@/features/fleet/components/calendar/CalendarToolbar';
+import { useFleetCalendar } from '@/features/fleet/hooks/use-fleet-calendar';
 
 interface AvailabilityCalendarProps {
   from: string;

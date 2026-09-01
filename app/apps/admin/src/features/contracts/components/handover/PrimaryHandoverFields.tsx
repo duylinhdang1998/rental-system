@@ -1,6 +1,6 @@
-import type { ContractDraftState } from '../../lib/contract-draft';
-import { HandoverDeliveryFields } from './HandoverDeliveryFields';
-import { HandoverFinancialFields } from './HandoverFinancialFields';
+import type { ContractDraftState } from '@/features/contracts/lib/contract-draft';
+import { HandoverDeliveryFields } from '@/features/contracts/components/handover/HandoverDeliveryFields';
+import { HandoverFinancialFields } from '@/features/contracts/components/handover/HandoverFinancialFields';
 
 interface Props {
   draft: ContractDraftState;

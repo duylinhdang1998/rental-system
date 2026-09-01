@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { vehicleStatusSchema, type VehicleStatus } from '@rental/contracts';
-import { todayIso } from '../hooks/use-fleet-calendar';
-import { useFleet } from '../hooks/use-fleet';
+import { todayIso } from '@/features/fleet/hooks/use-fleet-calendar';
+import { useFleet } from '@/features/fleet/hooks/use-fleet';
 
 function parsedStatus(value: string | null): VehicleStatus | undefined {
   const parsed = vehicleStatusSchema.safeParse(value);

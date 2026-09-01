@@ -4,7 +4,7 @@ import { DialogContent } from '@/components/ui/dialog-content';
 import { DialogDescription } from '@/components/ui/dialog-description';
 import { DialogHeader } from '@/components/ui/dialog-header';
 import { DialogTitle } from '@/components/ui/dialog-title';
-import { AvailabilityCalendar } from './AvailabilityCalendar';
+import { AvailabilityCalendar } from '@/features/fleet/components/calendar/AvailabilityCalendar';
 
 interface AvailabilityCalendarDialogProps {
   from: string;

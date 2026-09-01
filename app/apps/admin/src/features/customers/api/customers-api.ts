@@ -4,7 +4,7 @@ import {
   type CustomerInput,
   type CustomerSummary,
 } from '@rental/contracts';
-import { apiRequest } from '../../../shared/api/http';
+import { apiRequest } from '@/shared/api/http';
 
 export async function fetchCustomers(search?: string): Promise<{ items: CustomerSummary[] }> {
   const query = new URLSearchParams();

@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
-import { LoginPage, useSession } from '../features/auth';
-import { LoadingScreen } from '../shared/ui/LoadingScreen';
+import { LoginPage, useSession } from '@/features/auth';
+import { LoadingScreen } from '@/shared/ui/LoadingScreen';
 
 export function LoginRoute() {
   const { loading, user } = useSession();

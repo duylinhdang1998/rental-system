@@ -1,6 +1,6 @@
 import type { Vehicle } from '@rental/contracts';
-import { VehicleCard } from './VehicleCard';
-import { VehicleTable } from './VehicleTable';
+import { VehicleCard } from '@/features/fleet/components/list/VehicleCard';
+import { VehicleTable } from '@/features/fleet/components/list/VehicleTable';
 
 interface VehicleListProps {
   vehicles: Vehicle[];

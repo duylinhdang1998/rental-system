@@ -1,6 +1,6 @@
 import { Bike } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { LocaleToggle } from './LocaleToggle';
+import { LocaleToggle } from '@/shared/layout/LocaleToggle';
 
 export function AppHeader() {
   const { t } = useTranslation();

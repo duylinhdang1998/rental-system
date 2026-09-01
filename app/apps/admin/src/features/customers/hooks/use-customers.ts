@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { CustomerInput } from '@rental/contracts';
-import { createCustomer, fetchCustomers } from '../api/customers-api';
+import { createCustomer, fetchCustomers } from '@/features/customers/api/customers-api';
 
 export function useCustomers(search?: string) {
   return useQuery({ queryFn: () => fetchCustomers(search), queryKey: ['customers', search] });

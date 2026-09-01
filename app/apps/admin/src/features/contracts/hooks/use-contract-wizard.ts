@@ -1,18 +1,22 @@
 import type { CustomerSummary, QuoteInput, Vehicle } from '@rental/contracts';
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useSession } from '../../auth/hooks/use-session';
-import { fetchCustomers } from '../../customers/api/customers-api';
-import { fetchVehicles } from '../../fleet/api/fleet-api';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { fetchCustomers } from '@/features/customers/api/customers-api';
+import { fetchVehicles } from '@/features/fleet/api/fleet-api';
 import {
   loadContractState,
   saveContractState,
   toIso,
   type ContractDraftState,
   type ContractWizardState,
-} from '../lib/contract-draft';
-import { checkAvailability, createContract, fetchQuote } from '../api/contracts-api';
-import { HANDOVER_STEP, PRICING_STEP, VEHICLE_STEP } from '../lib/wizard-steps';
+} from '@/features/contracts/lib/contract-draft';
+import {
+  checkAvailability,
+  createContract,
+  fetchQuote,
+} from '@/features/contracts/api/contracts-api';
+import { HANDOVER_STEP, PRICING_STEP, VEHICLE_STEP } from '@/features/contracts/lib/wizard-steps';
 type StateSetter = Dispatch<SetStateAction<ContractWizardState>>;
 type TextSetter = Dispatch<SetStateAction<string>>;
 type BusySetter = Dispatch<SetStateAction<boolean>>;

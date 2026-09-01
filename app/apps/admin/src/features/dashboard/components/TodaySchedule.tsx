@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ScheduleItem } from './ScheduleItem';
+import { ScheduleItem } from '@/features/dashboard/components/ScheduleItem';
 import { Button } from '@/components/ui/button';
 
 const SCHEDULE = [

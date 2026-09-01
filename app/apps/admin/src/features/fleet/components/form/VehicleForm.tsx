@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { FormActions } from '@/shared/ui/FormActions';
-import { useVehicleForm } from '../../hooks/use-vehicle-form';
-import { VehicleFields } from './VehicleFields';
+import { useVehicleForm } from '@/features/fleet/hooks/use-vehicle-form';
+import { VehicleFields } from '@/features/fleet/components/form/VehicleFields';
 
 interface VehicleFormProps {
   onClose: () => void;

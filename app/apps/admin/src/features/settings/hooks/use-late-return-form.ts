@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import type { PricingVersion } from '@rental/contracts';
-import { usePublishPricing } from '../hooks/use-pricing-settings';
+import { usePublishPricing } from '@/features/settings/hooks/use-pricing-settings';
 
 export function useLateReturnForm(pricing: PricingVersion) {
   const publish = usePublishPricing();

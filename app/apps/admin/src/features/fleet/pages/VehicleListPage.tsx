@@ -1,10 +1,10 @@
-import { ViewState } from '../../../shared/ui/ViewState';
-import { AvailabilityCalendarDialog } from '../components/calendar/AvailabilityCalendarDialog';
-import { FleetFilterBar } from '../components/filters/FleetFilterBar';
-import { FleetPageHeader } from '../components/list/FleetPageHeader';
-import { useFleetPage } from '../hooks/use-fleet-page';
-import { VehicleCreateDialog } from '../components/form/VehicleCreateDialog';
-import { VehicleList } from '../components/list/VehicleList';
+import { ViewState } from '@/shared/ui/ViewState';
+import { AvailabilityCalendarDialog } from '@/features/fleet/components/calendar/AvailabilityCalendarDialog';
+import { FleetFilterBar } from '@/features/fleet/components/filters/FleetFilterBar';
+import { FleetPageHeader } from '@/features/fleet/components/list/FleetPageHeader';
+import { useFleetPage } from '@/features/fleet/hooks/use-fleet-page';
+import { VehicleCreateDialog } from '@/features/fleet/components/form/VehicleCreateDialog';
+import { VehicleList } from '@/features/fleet/components/list/VehicleList';
 
 export function VehicleListPage() {
   const page = useFleetPage();

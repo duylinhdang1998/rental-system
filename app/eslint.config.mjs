@@ -42,6 +42,22 @@ export default tseslint.config(
     rules: sourceRules,
   },
   {
+    files: ['apps/admin/src/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              message: 'Use the configured @/ alias for application-internal imports.',
+              regex: '^\\.{1,2}/',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     files: ['apps/admin/src/**/*.tsx'],
     plugins: { 'jsx-a11y': jsxA11y, react, 'react-hooks': reactHooks },
     rules: {

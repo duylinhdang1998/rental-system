@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { resolveInitialLocale } from './locale';
-import { contractTranslations } from '../../features/contracts/lib/contract-translations';
+import { resolveInitialLocale } from '@/shared/i18n/locale';
+import { contractTranslations } from '@/features/contracts/lib/contract-translations';
 
 const translations = {
   en: {

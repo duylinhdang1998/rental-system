@@ -1,1 +1,1 @@
-export { VehicleListPage } from './pages/VehicleListPage';
+export { VehicleListPage } from '@/features/fleet/pages/VehicleListPage';

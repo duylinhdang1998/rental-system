@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { FormActions } from '@/shared/ui/FormActions';
-import { CustomerFields } from './CustomerFields';
-import { DuplicateCustomerNotice } from './DuplicateCustomerNotice';
-import { useCustomerForm } from '../../hooks/use-customer-form';
+import { CustomerFields } from '@/features/customers/components/form/CustomerFields';
+import { DuplicateCustomerNotice } from '@/features/customers/components/form/DuplicateCustomerNotice';
+import { useCustomerForm } from '@/features/customers/hooks/use-customer-form';
 
 interface CustomerFormProps {
   onClose: () => void;

@@ -1,6 +1,6 @@
 import { FilePlus2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { formatDate, resolveInitialLocale } from '../../../shared/i18n/locale';
+import { formatDate, resolveInitialLocale } from '@/shared/i18n/locale';
 import { Button } from '@/components/ui/button';
 
 const DEMO_DATE = new Date('2026-08-31T00:00:00+07:00');

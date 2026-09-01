@@ -1,10 +1,10 @@
 import type { Vehicle } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
 import { StatusBadge } from '@/shared/ui/StatusBadge';
-import { vehicleStatusTone } from '../../lib/vehicle-status';
+import { vehicleStatusTone } from '@/features/fleet/lib/vehicle-status';
 import { Button } from '@/components/ui/button';
 import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
-import { VehicleCardMetadata } from './VehicleCardMetadata';
+import { VehicleCardMetadata } from '@/features/fleet/components/list/VehicleCardMetadata';
 
 interface VehicleCardProps {
   vehicle: Vehicle;

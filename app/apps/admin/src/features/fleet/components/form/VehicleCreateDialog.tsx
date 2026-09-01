@@ -4,7 +4,7 @@ import { DialogContent } from '@/components/ui/dialog-content';
 import { DialogDescription } from '@/components/ui/dialog-description';
 import { DialogHeader } from '@/components/ui/dialog-header';
 import { DialogTitle } from '@/components/ui/dialog-title';
-import { VehicleForm } from './VehicleForm';
+import { VehicleForm } from '@/features/fleet/components/form/VehicleForm';
 import { focusDialogPrimaryField } from '@/shared/ui/dialog-focus';
 
 interface VehicleCreateDialogProps {

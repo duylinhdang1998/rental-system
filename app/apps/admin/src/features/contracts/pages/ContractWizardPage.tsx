@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { ContractProgress } from '../components/layout/ContractProgress';
-import { ContractSummary } from '../components/layout/ContractSummary';
-import { ContractWizardContent } from '../components/ContractWizardContent';
-import { useContractWizard } from '../hooks/use-contract-wizard';
+import { ContractProgress } from '@/features/contracts/components/layout/ContractProgress';
+import { ContractSummary } from '@/features/contracts/components/layout/ContractSummary';
+import { ContractWizardContent } from '@/features/contracts/components/ContractWizardContent';
+import { useContractWizard } from '@/features/contracts/hooks/use-contract-wizard';
 
 export function ContractWizardPage() {
   const { t } = useTranslation();

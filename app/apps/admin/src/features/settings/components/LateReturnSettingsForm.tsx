@@ -1,10 +1,10 @@
 import type { PricingVersion } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
-import { LoadingButton } from '../../../shared/ui/LoadingButton';
-import { LateReturnFields } from './LateReturnFields';
-import { LateReturnSettingsHeader } from './LateReturnSettingsHeader';
-import { LateReturnSaveStatus } from './LateReturnSaveStatus';
-import { useLateReturnForm } from '../hooks/use-late-return-form';
+import { LoadingButton } from '@/shared/ui/LoadingButton';
+import { LateReturnFields } from '@/features/settings/components/LateReturnFields';
+import { LateReturnSettingsHeader } from '@/features/settings/components/LateReturnSettingsHeader';
+import { LateReturnSaveStatus } from '@/features/settings/components/LateReturnSaveStatus';
+import { useLateReturnForm } from '@/features/settings/hooks/use-late-return-form';
 
 interface LateReturnSettingsFormProps {
   pricing: PricingVersion;

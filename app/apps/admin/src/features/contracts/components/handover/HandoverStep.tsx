@@ -1,7 +1,7 @@
-import { WizardActions } from '../layout/WizardActions';
-import type { ContractDraftState } from '../../lib/contract-draft';
-import { OptionalHandoverFields } from './OptionalHandoverFields';
-import { PrimaryHandoverFields } from './PrimaryHandoverFields';
+import { WizardActions } from '@/features/contracts/components/layout/WizardActions';
+import type { ContractDraftState } from '@/features/contracts/lib/contract-draft';
+import { OptionalHandoverFields } from '@/features/contracts/components/handover/OptionalHandoverFields';
+import { PrimaryHandoverFields } from '@/features/contracts/components/handover/PrimaryHandoverFields';
 
 interface Props {
   draft: ContractDraftState;

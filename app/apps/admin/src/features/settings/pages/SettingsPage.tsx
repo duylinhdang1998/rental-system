@@ -1,7 +1,7 @@
-import { SettingsHeader } from '../components/SettingsHeader';
-import { PricingSettingsState } from '../components/PricingSettingsState';
-import { LateReturnSettingsForm } from '../components/LateReturnSettingsForm';
-import { useCurrentPricing } from '../hooks/use-pricing-settings';
+import { SettingsHeader } from '@/features/settings/components/SettingsHeader';
+import { PricingSettingsState } from '@/features/settings/components/PricingSettingsState';
+import { LateReturnSettingsForm } from '@/features/settings/components/LateReturnSettingsForm';
+import { useCurrentPricing } from '@/features/settings/hooks/use-pricing-settings';
 
 export function SettingsPage() {
   const pricing = useCurrentPricing();

@@ -3,7 +3,7 @@ import {
   type PricingVersion,
   type PublishPricingInput,
 } from '@rental/contracts';
-import { apiRequest } from '../../../shared/api/http';
+import { apiRequest } from '@/shared/api/http';
 
 export async function fetchCurrentPricing(): Promise<PricingVersion> {
   return pricingVersionSchema.parse(await apiRequest('/api/pricing/current?typeCode=SCOOTER'));

@@ -1,6 +1,6 @@
 import { AlertTriangle, RotateCw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import type { useCurrentPricing } from '../hooks/use-pricing-settings';
+import type { useCurrentPricing } from '@/features/settings/hooks/use-pricing-settings';
 import { Button } from '@/components/ui/button';
 
 interface PricingSettingsStateProps {

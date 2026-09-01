@@ -1,6 +1,6 @@
 import { CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import type { LateReturnForm } from '../hooks/use-late-return-form';
+import type { LateReturnForm } from '@/features/settings/hooks/use-late-return-form';
 
 interface LateReturnSaveStatusProps {
   publish: LateReturnForm['publish'];

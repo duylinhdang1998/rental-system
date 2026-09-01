@@ -1,8 +1,8 @@
 import type { Vehicle } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
-import { ContractDateFields } from '../handover/ContractDateFields';
-import { ContractVehicleOptions } from './ContractVehicleOptions';
-import { WizardActions } from '../layout/WizardActions';
+import { ContractDateFields } from '@/features/contracts/components/handover/ContractDateFields';
+import { ContractVehicleOptions } from '@/features/contracts/components/vehicle/ContractVehicleOptions';
+import { WizardActions } from '@/features/contracts/components/layout/WizardActions';
 
 interface Props {
   busy: boolean;

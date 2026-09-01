@@ -5,7 +5,7 @@ import { TableHead } from '@/components/ui/table-head';
 import { TableHeader } from '@/components/ui/table-header';
 import { Table } from '@/components/ui/table-root';
 import { TableRow } from '@/components/ui/table-row';
-import { CustomerTableRow } from './CustomerTableRow';
+import { CustomerTableRow } from '@/features/customers/components/list/CustomerTableRow';
 
 export function CustomerTable({ customers }: { customers: CustomerSummary[] }) {
   const { t } = useTranslation();

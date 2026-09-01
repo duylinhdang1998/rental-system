@@ -1,10 +1,10 @@
-import { DashboardHeader } from '../components/DashboardHeader';
-import { FleetStatus } from '../components/FleetStatus';
-import { KpiGrid } from '../components/KpiGrid';
-import { PriorityWorkList } from '../components/PriorityWorkList';
-import { TodaySchedule } from '../components/TodaySchedule';
-import { ViewState } from '../../../shared/ui/ViewState';
-import { useDashboard } from '../hooks/use-dashboard';
+import { DashboardHeader } from '@/features/dashboard/components/DashboardHeader';
+import { FleetStatus } from '@/features/dashboard/components/FleetStatus';
+import { KpiGrid } from '@/features/dashboard/components/KpiGrid';
+import { PriorityWorkList } from '@/features/dashboard/components/PriorityWorkList';
+import { TodaySchedule } from '@/features/dashboard/components/TodaySchedule';
+import { ViewState } from '@/shared/ui/ViewState';
+import { useDashboard } from '@/features/dashboard/hooks/use-dashboard';
 
 export function OperationsDashboard() {
   const dashboard = useDashboard();

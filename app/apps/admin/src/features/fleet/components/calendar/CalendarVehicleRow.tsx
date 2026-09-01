@@ -1,5 +1,5 @@
 import type { VehicleCalendarRow } from '@rental/contracts';
-import { AvailabilityDay } from './AvailabilityDay';
+import { AvailabilityDay } from '@/features/fleet/components/calendar/AvailabilityDay';
 
 interface CalendarVehicleRowProps {
   vehicle: VehicleCalendarRow;

@@ -1,6 +1,6 @@
 import { Clock3 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { formatDateTime, resolveInitialLocale } from '../../../shared/i18n/locale';
+import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 
 export function LateReturnSettingsHeader({ createdAt }: { createdAt: string }) {
   const { i18n, t } = useTranslation();

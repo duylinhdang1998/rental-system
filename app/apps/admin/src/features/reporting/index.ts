@@ -1,1 +1,1 @@
-export { ReportPreview } from './pages/ReportPreview';
+export { ReportPreview } from '@/features/reporting/pages/ReportPreview';

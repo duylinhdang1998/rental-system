@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useCustomers } from './use-customers';
+import { useCustomers } from '@/features/customers/hooks/use-customers';
 
 export function useCustomerPage() {
   const [params, setParams] = useSearchParams();

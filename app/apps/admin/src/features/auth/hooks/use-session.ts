@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { SessionContext, type SessionContextValue } from '../lib/session-context';
+import { SessionContext, type SessionContextValue } from '@/features/auth/lib/session-context';
 
 export function useSession(): SessionContextValue {
   const context = useContext(SessionContext);

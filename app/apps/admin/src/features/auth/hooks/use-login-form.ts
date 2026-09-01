@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSession } from '../hooks/use-session';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 export function useLoginForm() {
   const navigate = useNavigate();

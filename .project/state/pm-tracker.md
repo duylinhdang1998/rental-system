@@ -1,21 +1,22 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Sprint:** Sprint 8 remediation complete
-**Overall Progress:** Sprint 0–3 complete; frontend remediation accepted
-**Status:** SPRINT_8_REMEDIATION_COMPLETE_QA_PASS
+**Current Sprint:** Sprint 9 bug fix complete
+**Overall Progress:** Sprint 0–3 complete; frontend remediation and absolute-import regression accepted
+**Status:** SPRINT_9_BUG_FIX_COMPLETE_QA_PASS
 
 ## Project Timeline
 
-| Sprint | Duration | Focus | Status |
-|---|---:|---|---|
-| Sprint 0 | Checkpoint-driven | Requirements, architecture and UX | COMPLETE |
-| Sprint 1 | 2 weeks after approval | UI foundation and product preview | COMPLETE — QA PASS |
-| Sprint 2 | 2 weeks | Fleet, customers, catalogs and availability calendar | COMPLETE — QA PASS |
-| Sprint 3 | 2 weeks | Pricing and contract creation | COMPLETE — QA PASS |
-| Sprint 4–7 | 2 weeks each | Remaining MVP modules | PLANNED — DEFERRED |
-| Sprint 8 | Remediation | shadcn/Radix, frontend structure, CreatedAt | COMPLETE — QA PASS |
-| Phase 2 | Deferred | Priority 2 features | DEFERRED |
+| Sprint     |               Duration | Focus                                                | Status             |
+| ---------- | ---------------------: | ---------------------------------------------------- | ------------------ |
+| Sprint 0   |      Checkpoint-driven | Requirements, architecture and UX                    | COMPLETE           |
+| Sprint 1   | 2 weeks after approval | UI foundation and product preview                    | COMPLETE — QA PASS |
+| Sprint 2   |                2 weeks | Fleet, customers, catalogs and availability calendar | COMPLETE — QA PASS |
+| Sprint 3   |                2 weeks | Pricing and contract creation                        | COMPLETE — QA PASS |
+| Sprint 4–7 |           2 weeks each | Remaining MVP modules                                | PLANNED — DEFERRED |
+| Sprint 8   |            Remediation | shadcn/Radix, frontend structure, CreatedAt          | COMPLETE — QA PASS |
+| Sprint 9   |                Bug fix | Absolute frontend imports and enforcement gate       | COMPLETE — QA PASS |
+| Phase 2    |               Deferred | Priority 2 features                                  | DEFERRED           |
 
 ## Phase Completion
 
@@ -30,43 +31,46 @@
 
 ## Sprint 0 Decisions
 
-| Decision | Choice | Date |
-|---|---|---|
-| Wireframes | Yes | 2026-08-31 |
-| Design direction | UI 3 — Soft Modern Operations | 2026-08-31 |
-| Tech Stack | React + Vite admin, NestJS API, PostgreSQL/Prisma | 2026-08-31 |
-| Backend security | Layered edge/WAF + NestJS controls | 2026-08-31 |
-| Team | 2 Backend + 2 Frontend workstreams; support roles retained | 2026-08-31 |
-| Execute later sprints | No; pause after Sprint 1 UI review | 2026-08-31 |
+| Decision              | Choice                                                     | Date       |
+| --------------------- | ---------------------------------------------------------- | ---------- |
+| Wireframes            | Yes                                                        | 2026-08-31 |
+| Design direction      | UI 3 — Soft Modern Operations                              | 2026-08-31 |
+| Tech Stack            | React + Vite admin, NestJS API, PostgreSQL/Prisma          | 2026-08-31 |
+| Backend security      | Layered edge/WAF + NestJS controls                         | 2026-08-31 |
+| Team                  | 2 Backend + 2 Frontend workstreams; support roles retained | 2026-08-31 |
+| Execute later sprints | No; pause after Sprint 1 UI review                         | 2026-08-31 |
 
 ## Gate Checks
 
-| Gate | Status | Date |
-|---|---|---|
-| Gate 1: Planning | PASSED | 2026-08-31 |
-| Sprint 1 BDD approval | APPROVED — 15 scenarios | 2026-08-31 |
-| Sprint 2 execution | APPROVED; QA PASS | 2026-09-01 |
-| Sprint 3 execution | AUTHORIZED; configurable late-return rule and system PDF approved | 2026-09-01 |
+| Gate                  | Status                                                            | Date       |
+| --------------------- | ----------------------------------------------------------------- | ---------- |
+| Gate 1: Planning      | PASSED                                                            | 2026-08-31 |
+| Sprint 1 BDD approval | APPROVED — 15 scenarios                                           | 2026-08-31 |
+| Sprint 2 execution    | APPROVED; QA PASS                                                 | 2026-09-01 |
+| Sprint 3 execution    | AUTHORIZED; configurable late-return rule and system PDF approved | 2026-09-01 |
 
 ## Team Status
 
-| Specialist | Current Task | Status | Sprint |
-|---|---|---|---|
-| apple-ux-wireframer | Design system and wireframes delivered | COMPLETE — APPROVED | 0 |
-| google-code-reviewer | Sprint 0 artifact review | COMPLETE — LGTM | 0 |
-| google-qa-engineer | Sprint 1 QA/browser acceptance | COMPLETE — PASS | 1 |
-| Backend #1, Backend #2 | API, database, auth/security and demo endpoints | COMPLETE | 1 |
-| Frontend #1, Frontend #2 | Responsive React SPA and localized previews | COMPLETE | 1 |
-| google-code-reviewer | Sprint 1 code review | COMPLETE — LGTM | 1 |
-| Backend / Frontend specialists | Fleet, customers and availability calendar | COMPLETE | 2 |
-| google-code-reviewer | Sprint 2 code review | COMPLETE — LGTM | 2 |
-| google-qa-engineer | Sprint 2 regression/browser acceptance | COMPLETE — PASS | 2 |
-| Backend / Frontend specialists | Pricing, contracts and configurable late-return policy | COMPLETE | 3 |
-| google-code-reviewer | Sprint 3 transaction/security/UI follow-up review | COMPLETE — LGTM | 3 |
-| google-qa-engineer | Sprint 3 regression/concurrency/browser acceptance | COMPLETE — PASS (59 + 19) | 3 |
-| Frontend + Backend specialists | Frontend architecture and CreatedAt remediation | COMPLETE | 8 |
-| google-code-reviewer | Sprint 8 architecture/code review | COMPLETE — LGTM | 8 |
-| google-qa-engineer | Sprint 8 regression/browser acceptance | COMPLETE — PASS (65 + 22) | 8 |
+| Specialist                     | Current Task                                           | Status                    | Sprint |
+| ------------------------------ | ------------------------------------------------------ | ------------------------- | ------ |
+| apple-ux-wireframer            | Design system and wireframes delivered                 | COMPLETE — APPROVED       | 0      |
+| google-code-reviewer           | Sprint 0 artifact review                               | COMPLETE — LGTM           | 0      |
+| google-qa-engineer             | Sprint 1 QA/browser acceptance                         | COMPLETE — PASS           | 1      |
+| Backend #1, Backend #2         | API, database, auth/security and demo endpoints        | COMPLETE                  | 1      |
+| Frontend #1, Frontend #2       | Responsive React SPA and localized previews            | COMPLETE                  | 1      |
+| google-code-reviewer           | Sprint 1 code review                                   | COMPLETE — LGTM           | 1      |
+| Backend / Frontend specialists | Fleet, customers and availability calendar             | COMPLETE                  | 2      |
+| google-code-reviewer           | Sprint 2 code review                                   | COMPLETE — LGTM           | 2      |
+| google-qa-engineer             | Sprint 2 regression/browser acceptance                 | COMPLETE — PASS           | 2      |
+| Backend / Frontend specialists | Pricing, contracts and configurable late-return policy | COMPLETE                  | 3      |
+| google-code-reviewer           | Sprint 3 transaction/security/UI follow-up review      | COMPLETE — LGTM           | 3      |
+| google-qa-engineer             | Sprint 3 regression/concurrency/browser acceptance     | COMPLETE — PASS (59 + 19) | 3      |
+| Frontend + Backend specialists | Frontend architecture and CreatedAt remediation        | COMPLETE                  | 8      |
+| google-code-reviewer           | Sprint 8 architecture/code review                      | COMPLETE — LGTM           | 8      |
+| google-qa-engineer             | Sprint 8 regression/browser acceptance                 | COMPLETE — PASS (65 + 22) | 8      |
+| meta-react-architect           | Absolute import regression fix and lint/test gate      | COMPLETE                  | 9      |
+| google-code-reviewer           | Sprint 9 import architecture review                    | COMPLETE — LGTM           | 9      |
+| google-qa-engineer             | Sprint 9 regression/browser acceptance                 | COMPLETE — PASS (66 + 22) | 9      |
 
 ## Activity Log
 
@@ -104,11 +108,15 @@
   Inter and CreatedAt across persistence/contracts/current UI.
 - 2026-09-01: Sprint 8 review LGTM and QA PASS; 65 unit/integration and 22 browser tests pass,
   all coverage dimensions remain above 80%, and local FE/BE health checks return HTTP 200.
+- 2026-09-01: Client identified that Sprint 8 left relative imports despite an existing `@/`
+  alias; root cause was a missing enforcement gate.
+- 2026-09-01: Sprint 9 converted 194 imports across 94 frontend source files, added Vitest
+  and ESLint regression gates, and passed review plus QA (66 unit/integration, 22 browser).
 
 ## Blockers
 
-| Blocker | Required action | Owner |
-|---|---|---|
+| Blocker                                       | Required action                          | Owner     |
+| --------------------------------------------- | ---------------------------------------- | --------- |
 | Later-sprint business assumptions remain open | Resolve before each dependent Sprint 4–6 | Client/BA |
 
 **Last Updated:** 2026-09-01  

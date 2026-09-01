@@ -1,18 +1,18 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { SessionProvider } from './features/auth';
-import { ContractWizardPage } from './features/contracts';
-import { CustomerListPage } from './features/customers';
-import { OperationsDashboard } from './features/dashboard';
-import { EmployeePreview } from './features/employees';
-import { VehicleListPage } from './features/fleet';
-import { ReportPreview } from './features/reporting';
-import { ReturnQueuePreview } from './features/returns';
-import { SettingsPage } from './features/settings';
-import { AuthenticatedRoute } from './routes/AuthenticatedRoute';
-import { LoginRoute } from './routes/LoginRoute';
-import { OwnerRoute } from './routes/OwnerRoute';
-import { AppShell } from './shared/layout/AppShell';
-import { QueryProvider } from './shared/query/QueryProvider';
+import { SessionProvider } from '@/features/auth';
+import { ContractWizardPage } from '@/features/contracts';
+import { CustomerListPage } from '@/features/customers';
+import { OperationsDashboard } from '@/features/dashboard';
+import { EmployeePreview } from '@/features/employees';
+import { VehicleListPage } from '@/features/fleet';
+import { ReportPreview } from '@/features/reporting';
+import { ReturnQueuePreview } from '@/features/returns';
+import { SettingsPage } from '@/features/settings';
+import { AuthenticatedRoute } from '@/routes/AuthenticatedRoute';
+import { LoginRoute } from '@/routes/LoginRoute';
+import { OwnerRoute } from '@/routes/OwnerRoute';
+import { AppShell } from '@/shared/layout/AppShell';
+import { QueryProvider } from '@/shared/query/QueryProvider';
 
 export function App() {
   return (

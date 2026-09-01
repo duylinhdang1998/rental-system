@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import type { ContractDraftState } from '../../lib/contract-draft';
+import type { ContractDraftState } from '@/features/contracts/lib/contract-draft';
 import { TextField } from '@/shared/ui/TextField';
 
 interface Props {

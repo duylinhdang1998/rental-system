@@ -1,6 +1,6 @@
 import type { CustomerSummary } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
-import { CustomerContacts } from './CustomerContacts';
+import { CustomerContacts } from '@/features/customers/components/list/CustomerContacts';
 import { Button } from '@/components/ui/button';
 import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 

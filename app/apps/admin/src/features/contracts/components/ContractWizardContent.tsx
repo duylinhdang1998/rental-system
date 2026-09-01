@@ -1,16 +1,16 @@
-import { ConfirmationStep } from './handover/ConfirmationStep';
-import { CustomerStep } from './customer/CustomerStep';
-import { HandoverStep } from './handover/HandoverStep';
-import { PricingStep } from './pricing/PricingStep';
-import type { ContractWizard } from '../hooks/use-contract-wizard';
-import { VehicleStep } from './vehicle/VehicleStep';
+import { ConfirmationStep } from '@/features/contracts/components/handover/ConfirmationStep';
+import { CustomerStep } from '@/features/contracts/components/customer/CustomerStep';
+import { HandoverStep } from '@/features/contracts/components/handover/HandoverStep';
+import { PricingStep } from '@/features/contracts/components/pricing/PricingStep';
+import type { ContractWizard } from '@/features/contracts/hooks/use-contract-wizard';
+import { VehicleStep } from '@/features/contracts/components/vehicle/VehicleStep';
 import {
   CONFIRMATION_STEP,
   CUSTOMER_STEP,
   HANDOVER_STEP,
   PRICING_STEP,
   VEHICLE_STEP,
-} from '../lib/wizard-steps';
+} from '@/features/contracts/lib/wizard-steps';
 
 function customerContent(wizard: ContractWizard) {
   const draft = wizard.state.draft;

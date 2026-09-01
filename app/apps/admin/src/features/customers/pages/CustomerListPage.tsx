@@ -1,9 +1,9 @@
-import { ViewState } from '../../../shared/ui/ViewState';
-import { CustomerCreateDialog } from '../components/form/CustomerCreateDialog';
-import { CustomerList } from '../components/list/CustomerList';
-import { CustomerPageHeader } from '../components/list/CustomerPageHeader';
-import { CustomerSearch } from '../components/list/CustomerSearch';
-import { useCustomerPage } from '../hooks/use-customer-page';
+import { ViewState } from '@/shared/ui/ViewState';
+import { CustomerCreateDialog } from '@/features/customers/components/form/CustomerCreateDialog';
+import { CustomerList } from '@/features/customers/components/list/CustomerList';
+import { CustomerPageHeader } from '@/features/customers/components/list/CustomerPageHeader';
+import { CustomerSearch } from '@/features/customers/components/list/CustomerSearch';
+import { useCustomerPage } from '@/features/customers/hooks/use-customer-page';
 
 export function CustomerListPage() {
   const page = useCustomerPage();

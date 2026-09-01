@@ -4,7 +4,7 @@ import { DialogContent } from '@/components/ui/dialog-content';
 import { DialogDescription } from '@/components/ui/dialog-description';
 import { DialogHeader } from '@/components/ui/dialog-header';
 import { DialogTitle } from '@/components/ui/dialog-title';
-import { CustomerForm } from './CustomerForm';
+import { CustomerForm } from '@/features/customers/components/form/CustomerForm';
 import { focusDialogPrimaryField } from '@/shared/ui/dialog-focus';
 
 interface CustomerCreateDialogProps {

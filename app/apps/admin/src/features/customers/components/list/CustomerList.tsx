@@ -1,7 +1,7 @@
 import type { CustomerSummary } from '@rental/contracts';
-import { BlacklistWarning } from './BlacklistWarning';
-import { CustomerCard } from './CustomerCard';
-import { CustomerTable } from './CustomerTable';
+import { BlacklistWarning } from '@/features/customers/components/list/BlacklistWarning';
+import { CustomerCard } from '@/features/customers/components/list/CustomerCard';
+import { CustomerTable } from '@/features/customers/components/list/CustomerTable';
 
 interface CustomerListProps {
   customers: CustomerSummary[];

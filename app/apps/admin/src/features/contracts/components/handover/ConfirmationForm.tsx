@@ -1,7 +1,7 @@
 import type { Quote } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
-import { QuoteConfirmation } from '../pricing/QuoteConfirmation';
-import { WizardActions } from '../layout/WizardActions';
+import { QuoteConfirmation } from '@/features/contracts/components/pricing/QuoteConfirmation';
+import { WizardActions } from '@/features/contracts/components/layout/WizardActions';
 import { CheckboxField } from '@/shared/ui/CheckboxField';
 
 interface Props {

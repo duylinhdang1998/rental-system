@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { SessionContext } from '../lib/session-context';
-import { useSessionProvider } from '../hooks/use-session-provider';
+import { SessionContext } from '@/features/auth/lib/session-context';
+import { useSessionProvider } from '@/features/auth/hooks/use-session-provider';
 
 interface SessionProviderProps {
   children: ReactNode;

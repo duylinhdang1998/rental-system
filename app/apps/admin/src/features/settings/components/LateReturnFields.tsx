@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { TextField } from '../../../shared/ui/TextField';
-import type { LateReturnForm } from '../hooks/use-late-return-form';
+import { TextField } from '@/shared/ui/TextField';
+import type { LateReturnForm } from '@/features/settings/hooks/use-late-return-form';
 
 interface LateReturnFieldsProps {
   form: LateReturnForm;

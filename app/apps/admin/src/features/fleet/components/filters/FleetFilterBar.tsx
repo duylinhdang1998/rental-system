@@ -1,7 +1,7 @@
 import type { VehicleStatus } from '@rental/contracts';
-import { FleetSearchField } from './FleetSearchField';
-import { FleetStatusFilter } from './FleetStatusFilter';
-import { FleetTypeFilter } from './FleetTypeFilter';
+import { FleetSearchField } from '@/features/fleet/components/filters/FleetSearchField';
+import { FleetStatusFilter } from '@/features/fleet/components/filters/FleetStatusFilter';
+import { FleetTypeFilter } from '@/features/fleet/components/filters/FleetTypeFilter';
 
 interface FleetFilterBarProps {
   filters: { search?: string; status?: VehicleStatus; typeCode?: string };

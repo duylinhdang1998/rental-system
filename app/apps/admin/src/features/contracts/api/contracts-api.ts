@@ -8,7 +8,7 @@ import {
   type QuoteInput,
   type RentalContract,
 } from '@rental/contracts';
-import { apiRequest } from '../../../shared/api/http';
+import { apiRequest } from '@/shared/api/http';
 
 export async function checkAvailability(input: AvailabilityInput) {
   return availabilityResultSchema.parse(

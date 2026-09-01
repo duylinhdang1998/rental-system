@@ -1,4 +1,4 @@
-import { TextField } from '../../../shared/ui/TextField';
+import { TextField } from '@/shared/ui/TextField';
 
 interface LoginFieldsProps {
   password: string;

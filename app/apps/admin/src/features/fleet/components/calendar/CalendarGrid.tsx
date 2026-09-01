@@ -1,7 +1,7 @@
-import type { FleetCalendar } from '../../api/fleet-api';
+import type { FleetCalendar } from '@/features/fleet/api/fleet-api';
 import { useTranslation } from 'react-i18next';
-import { CalendarHeaderRow } from './CalendarHeaderRow';
-import { CalendarVehicleRow } from './CalendarVehicleRow';
+import { CalendarHeaderRow } from '@/features/fleet/components/calendar/CalendarHeaderRow';
+import { CalendarVehicleRow } from '@/features/fleet/components/calendar/CalendarVehicleRow';
 
 interface CalendarGridProps {
   calendar: FleetCalendar;

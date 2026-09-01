@@ -1,7 +1,7 @@
 import type { CustomerSummary } from '@rental/contracts';
-import { CustomerOptions } from './CustomerOptions';
-import { RiskAcknowledgement } from '../pricing/RiskAcknowledgement';
-import { WizardActions } from '../layout/WizardActions';
+import { CustomerOptions } from '@/features/contracts/components/customer/CustomerOptions';
+import { RiskAcknowledgement } from '@/features/contracts/components/pricing/RiskAcknowledgement';
+import { WizardActions } from '@/features/contracts/components/layout/WizardActions';
 
 interface Props {
   acknowledged: boolean;

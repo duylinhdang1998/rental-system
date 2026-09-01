@@ -1,1 +1,1 @@
-export { CustomerListPage } from './pages/CustomerListPage';
+export { CustomerListPage } from '@/features/customers/pages/CustomerListPage';

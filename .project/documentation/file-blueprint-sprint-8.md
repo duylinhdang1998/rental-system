@@ -81,6 +81,8 @@ app/e2e/frontend-remediation.spec.ts          # Dialog, calendar, Inter, mobile 
 
 ## Dependency rules
 
+- Every application-internal import under `apps/admin/src` uses the configured `@/` alias;
+  `./` and `../` module specifiers are rejected by ESLint and the architecture regression test.
 - Feature modules may import `components/ui`, shared API/i18n/layout utilities and their own
   feature internals; they do not import another feature's private folders.
 - Only `components/ui` may contain native form-control tags because those files are the

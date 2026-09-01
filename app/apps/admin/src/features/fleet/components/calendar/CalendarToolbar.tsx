@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { CalendarControls } from './CalendarControls';
+import { CalendarControls } from '@/features/fleet/components/calendar/CalendarControls';
 
 interface CalendarToolbarProps {
   from: string;
