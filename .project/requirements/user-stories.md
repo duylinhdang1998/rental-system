@@ -1,7 +1,7 @@
 # User Stories — Hệ thống quản lý cho thuê xe máy
 
 **Status:** Approved planning baseline  
-**Total:** 20 stories  
+**Total:** 21 stories
 **Usage:** BDD, development and QA must read this index and every linked epic in scope.
 
 ## Epic Index
@@ -14,6 +14,7 @@
 | D — Contracts | US-010–US-015 | Creation, pricing, handover and lifecycle | [epic-d-contracts.md](user-stories/epic-d-contracts.md) |
 | E — Return, Settlement and Finance | US-016–US-018 | Partial returns, settlement and receipts | [epic-e-return-finance.md](user-stories/epic-e-return-finance.md) |
 | F — Reporting and Safety | US-019–US-020 | Reporting, audit and recovery | [epic-f-reporting-safety.md](user-stories/epic-f-reporting-safety.md) |
+| G — Frontend Architecture | US-021 | Approved component stack and maintainable UI boundaries | [epic-g-frontend-architecture.md](user-stories/epic-g-frontend-architecture.md) |
 
 ## Traceability Summary
 
@@ -26,6 +27,7 @@
 | Sprint 5 | US-016, US-017 |
 | Sprint 6 | US-018, US-019 |
 | Sprint 7 | US-020 plus cross-story hardening and UAT |
+| Sprint 8 | US-021 frontend architecture remediation before later business work |
 
 ## Approval Contract
 

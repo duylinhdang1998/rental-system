@@ -1,12 +1,5 @@
 import { expect, test } from '@playwright/test';
-
-async function signInAsStaff(page: import('@playwright/test').Page) {
-  await page.goto('/login');
-  await page.getByLabel('Tên đăng nhập').fill('staff');
-  await page.getByLabel('Mật khẩu').fill('StaffDemo!2026');
-  await page.getByRole('button', { name: 'Đăng nhập' }).click();
-  await expect(page).toHaveURL('/');
-}
+import { signInAsStaff } from './support/auth';
 
 test.describe('Feature: Fleet, customer and catalog foundations', () => {
   test('Staff filters responsive vehicle cards and opens availability calendar', async ({

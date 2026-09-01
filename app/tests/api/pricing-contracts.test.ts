@@ -3,22 +3,14 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { INestApplication } from '@nestjs/common';
 import { AuditService } from '../../apps/api/src/common/audit/audit.service';
 import { createApiApp } from '../../apps/api/src/main';
-
-function csrfFrom(response: request.Response): string {
-  const value = response.headers['set-cookie']
-    ?.find((cookie: string) => cookie.startsWith('rental_csrf='))
-    ?.split(';')[0]
-    ?.split('=')[1];
-  if (!value) throw new Error('Expected CSRF cookie');
-  return value;
-}
+import { csrfFrom } from './support/csrf';
 
 const INTERVAL = {
   endAt: '2026-10-06T08:00:00.000Z',
   startAt: '2026-10-01T08:00:00.000Z',
 };
 
-function contractInput(vehicleIds = ['vehicle-001']) {
+function pricingContractInput(vehicleIds = ['vehicle-001']) {
   return {
     confirmed: true,
     customerId: 'demo-customer',
@@ -79,7 +71,7 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
     const before = await staff
       .post('/api/contracts')
       .set('x-csrf-token', staffCsrf)
-      .send(contractInput())
+      .send(pricingContractInput())
       .expect(201);
     const owner = request.agent(app.getHttpServer());
     const login = await owner
@@ -185,7 +177,7 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
     const created = await staff
       .post('/api/contracts')
       .set('x-csrf-token', staffCsrf)
-      .send(contractInput())
+      .send(pricingContractInput())
       .expect(201);
     expect(created.body.code).toMatch(/^HD-\d{4}-/);
 
@@ -213,7 +205,7 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
 
   it('has exactly one winner for concurrent overlapping contract creation', async () => {
     const outcomes = await Promise.all(
-      [contractInput(), contractInput()].map((input) =>
+      [pricingContractInput(), pricingContractInput()].map((input) =>
         staff.post('/api/contracts').set('x-csrf-token', staffCsrf).send(input),
       ),
     );
@@ -224,12 +216,12 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
     await staff
       .post('/api/contracts')
       .set('x-csrf-token', staffCsrf)
-      .send(contractInput(['vehicle-002']))
+      .send(pricingContractInput(['vehicle-002']))
       .expect(201);
     await staff
       .post('/api/contracts')
       .set('x-csrf-token', staffCsrf)
-      .send(contractInput(['vehicle-001', 'vehicle-002']))
+      .send(pricingContractInput(['vehicle-001', 'vehicle-002']))
       .expect(409);
     const available = await staff
       .post('/api/contracts/availability')
@@ -240,7 +232,7 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
   });
 
   it('creates an immutable snapshot and exports an authenticated PDF', async () => {
-    const input = contractInput(['vehicle-001', 'vehicle-002']);
+    const input = pricingContractInput(['vehicle-001', 'vehicle-002']);
     const created = await staff
       .post('/api/contracts')
       .set('x-csrf-token', staffCsrf)
@@ -279,14 +271,14 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
   });
 
   it('protects private handover keys and returns only access descriptors', async () => {
-    const invalid = contractInput();
+    const invalid = pricingContractInput();
     invalid.handover.imageObjectKeys = ['public/leaked.jpg'];
     await staff.post('/api/contracts').set('x-csrf-token', staffCsrf).send(invalid).expect(400);
     await staff.get('/api/contracts/missing').expect(404);
     const created = await staff
       .post('/api/contracts')
       .set('x-csrf-token', staffCsrf)
-      .send(contractInput())
+      .send(pricingContractInput())
       .expect(201);
     const access = await staff.get(`/api/contracts/${created.body.id}/handover-images`).expect(200);
     expect(access.body.items[0]).toMatchObject({ expiresInSeconds: 300, label: 'Ảnh bàn giao 1' });

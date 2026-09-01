@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const MAX_CODE_LENGTH = 32;
+const MAX_VEHICLE_CODE_LENGTH = 32;
 const MAX_COLOR_LENGTH = 40;
 const MAX_MODEL_LENGTH = 80;
 const MAX_PLATE_LENGTH = 24;
@@ -21,7 +21,7 @@ export const vehicleStatusSchema = z.enum([
 ]);
 
 export const vehicleInputSchema = z.object({
-  code: z.string().trim().min(2).max(MAX_CODE_LENGTH),
+  code: z.string().trim().min(2).max(MAX_VEHICLE_CODE_LENGTH),
   color: z.string().trim().min(1).max(MAX_COLOR_LENGTH),
   model: z.string().trim().min(1).max(MAX_MODEL_LENGTH),
   plate: z.string().trim().min(MIN_PLATE_LENGTH).max(MAX_PLATE_LENGTH),
@@ -44,6 +44,7 @@ export type VehicleStatus = z.infer<typeof vehicleStatusSchema>;
 export type VehicleTransitionInput = z.infer<typeof vehicleTransitionSchema>;
 
 export const vehicleSchema = vehicleInputSchema.extend({
+  createdAt: z.iso.datetime(),
   id: z.string(),
   status: vehicleStatusSchema,
 });

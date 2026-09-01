@@ -1,5 +1,6 @@
 import { Languages } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
 
 export function LocaleToggle() {
   const { i18n } = useTranslation();
@@ -14,13 +15,9 @@ export function LocaleToggle() {
     await i18n.changeLanguage(locale);
   };
   return (
-    <button
-      className="button-base border border-line bg-panel text-sm text-ink"
-      onClick={() => void changeLocale()}
-      type="button"
-    >
-      <Languages aria-hidden className="size-4" />
+    <Button onClick={() => void changeLocale()} type="button" variant="outline">
+      <Languages aria-hidden data-icon="inline-start" />
       {isVietnamese ? 'English' : 'Tiếng Việt'}
-    </button>
+    </Button>
   );
 }

@@ -115,12 +115,27 @@ thay sau.
 sách trả trễ được lưu theo phiên bản bảng giá và chụp vào từng hợp đồng, nên đổi cấu hình
 không làm thay đổi hợp đồng cũ. PDF hệ thống phải in chính sách đã chụp của hợp đồng.
 
+### Session 14 — 2026-09-01
+
+**Phản hồi:** Frontend Sprint 1–3 không tuân thủ stack đã duyệt: thiếu shadcn/Radix,
+native form controls, feature folders phẳng, hooks/state còn nằm trong component route,
+CTA “Thêm xe” wrap hai dòng, form tạo mới và lịch xe chèn inline, font không phải Inter,
+và dữ liệu nghiệp vụ thiếu/không hiển thị CreatedAt.
+
+**Quyết định:** Mở Sprint 8 remediation trước Sprint 4–7. Dùng shadcn radix-nova làm
+primitive registry, Inter là font bắt buộc, feature source nested theo trách nhiệm, form tạo
+xe/khách dùng dialog và lịch xe dùng dedicated overlay. Mọi persisted business record có
+`createdAt`; các list/card/summary đang triển khai phải hiển thị “Ngày tạo”. Thêm static
+architecture gate để cấm native form controls ngoài `components/ui`.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
 - Sản phẩm: Web app responsive, dùng tốt trên điện thoại.
 - Cách triển khai: Xem và duyệt UI sớm trước khi mở rộng nghiệp vụ.
 - Giao diện: UI số 3 — Soft Modern Operations.
+- Frontend primitives: shadcn/ui với Radix; không dùng native form controls trực tiếp trong feature code.
+- Typography: Inter cho toàn bộ admin app.
 - Frontend admin: React SPA, không SSR.
 - Backend: NestJS + TypeScript.
 - Bảo mật: defense-in-depth; rate limit/CSRF/RBAC/validation ở API và DDoS/WAF ở edge.
@@ -166,6 +181,8 @@ không làm thay đổi hợp đồng cũ. PDF hệ thống phải in chính sá
 | NestJS backend | Dùng TypeScript xuyên stack, module/guard/pipe rõ ràng | 2026-08-31 | Approved by client |
 | Security nhiều lớp | NestJS throttling không thay thế edge DDoS/WAF | 2026-08-31 | Approved requirement |
 | Soft Modern Operations | Dựa trên UI số 3, tăng contrast/mật độ cho vận hành | 2026-08-31 | Selected by client |
+| shadcn/Radix frontend foundation | Khớp stack đã duyệt, có primitive accessibility và tránh custom controls phân tán | 2026-09-01 | Required by client |
+| Feature-first nested source | Hooks/API/components/pages tách theo trách nhiệm trong từng domain | 2026-09-01 | Required by client |
 
 ## Scope Changes
 

@@ -1,3 +1,3 @@
-export { LoginPage } from './LoginPage';
-export { SessionProvider } from './SessionProvider';
-export { useSession } from './use-session';
+export { LoginPage } from './pages/LoginPage';
+export { SessionProvider } from './components/SessionProvider';
+export { useSession } from './hooks/use-session';

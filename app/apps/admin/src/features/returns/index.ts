@@ -1,1 +1,1 @@
-export { ReturnQueuePreview } from './ReturnQueuePreview';
+export { ReturnQueuePreview } from './pages/ReturnQueuePreview';

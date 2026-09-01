@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { resolveInitialLocale } from './locale';
-import { contractTranslations } from '../../features/contracts/contract-translations';
+import { contractTranslations } from '../../features/contracts/lib/contract-translations';
 
 const translations = {
   en: {
@@ -19,7 +19,9 @@ const translations = {
       contracts: 'Contracts',
       blacklistTitle: 'Customer requires caution',
       cancel: 'Cancel',
+      close: 'Close',
       createContract: 'Create contract · Sprint 3',
+      createdAt: 'Created at',
       customers: 'Customers',
       customerFormHelp: 'Contact values are normalized before secure storage.',
       customerName: 'Customer name',
@@ -127,7 +129,9 @@ const translations = {
       contracts: 'Hợp đồng',
       blacklistTitle: 'Khách hàng cần cảnh giác',
       cancel: 'Hủy',
+      close: 'Đóng',
       createContract: 'Tạo hợp đồng · Sprint 3',
+      createdAt: 'Ngày tạo',
       customers: 'Khách hàng',
       customerFormHelp: 'Thông tin liên hệ được chuẩn hóa trước khi lưu an toàn.',
       customerName: 'Tên khách hàng',

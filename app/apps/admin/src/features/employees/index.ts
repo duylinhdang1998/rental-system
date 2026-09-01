@@ -1,1 +1,1 @@
-export { EmployeePreview } from './EmployeePreview';
+export { EmployeePreview } from './pages/EmployeePreview';

@@ -1,1 +1,1 @@
-export { VehicleListPage } from './VehicleListPage';
+export { VehicleListPage } from './pages/VehicleListPage';

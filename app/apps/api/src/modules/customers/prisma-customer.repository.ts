@@ -5,8 +5,8 @@ import { PrismaService } from '../../database/prisma.service.js';
 import { normalizeContact } from './contact-normalizer.js';
 import type { CustomerDocumentRecord, CustomerRepository } from './customer.types.js';
 
-const INCLUDE = { contacts: true, tags: true } as const;
-type CustomerWithRelations = Prisma.CustomerGetPayload<{ include: typeof INCLUDE }>;
+const CUSTOMER_INCLUDE = { contacts: true, tags: true } as const;
+type CustomerWithRelations = Prisma.CustomerGetPayload<{ include: typeof CUSTOMER_INCLUDE }>;
 
 @Injectable()
 export class PrismaCustomerRepository implements CustomerRepository {
@@ -25,7 +25,7 @@ export class PrismaCustomerRepository implements CustomerRepository {
         nationality: input.nationality,
         tags: { create: input.tags },
       },
-      include: INCLUDE,
+      include: CUSTOMER_INCLUDE,
     });
     return this.toSummary(item);
   }
@@ -44,7 +44,7 @@ export class PrismaCustomerRepository implements CustomerRepository {
 
   async findDuplicates(normalizedContact: string): Promise<CustomerSummary[]> {
     const items = await this.prisma.customer.findMany({
-      include: INCLUDE,
+      include: CUSTOMER_INCLUDE,
       where: { contacts: { some: { normalizedValue: normalizedContact } } },
     });
     return items.map((item) => this.toSummary(item));
@@ -52,7 +52,7 @@ export class PrismaCustomerRepository implements CustomerRepository {
 
   async list(search?: string): Promise<CustomerSummary[]> {
     const items = await this.prisma.customer.findMany({
-      include: INCLUDE,
+      include: CUSTOMER_INCLUDE,
       orderBy: { name: 'asc' },
       where: search
         ? {
@@ -74,6 +74,7 @@ export class PrismaCustomerRepository implements CustomerRepository {
         type: contact.type,
         value: contact.value,
       })),
+      createdAt: item.createdAt.toISOString(),
       id: item.id,
       name: item.name,
       nationality: item.nationality,

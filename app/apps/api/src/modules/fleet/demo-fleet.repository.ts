@@ -14,14 +14,25 @@ import { normalizePlate } from './plate-normalizer.js';
 import { ReservationRegistry } from '../../common/reservations/reservation-registry.js';
 
 const SEEDED_TYPES: VehicleType[] = [
-  { code: 'SCOOTER', id: 'type-scooter', name: 'Xe tay ga' },
-  { code: 'MANUAL', id: 'type-manual', name: 'Xe số' },
+  {
+    code: 'SCOOTER',
+    createdAt: '2026-08-01T02:00:00.000Z',
+    id: 'type-scooter',
+    name: 'Xe tay ga',
+  },
+  {
+    code: 'MANUAL',
+    createdAt: '2026-08-01T02:05:00.000Z',
+    id: 'type-manual',
+    name: 'Xe số',
+  },
 ];
 
 const SEEDED_VEHICLES: Vehicle[] = [
   {
     code: 'XE-001',
     color: 'Trắng',
+    createdAt: '2026-08-02T03:00:00.000Z',
     id: 'vehicle-001',
     model: 'Vision',
     plate: '43A1-000.01',
@@ -32,6 +43,7 @@ const SEEDED_VEHICLES: Vehicle[] = [
   {
     code: 'XE-002',
     color: 'Đen',
+    createdAt: '2026-08-03T03:00:00.000Z',
     id: 'vehicle-002',
     model: 'Air Blade',
     plate: '43A1-222.22',
@@ -42,6 +54,7 @@ const SEEDED_VEHICLES: Vehicle[] = [
   {
     code: 'XE-003',
     color: 'Xanh',
+    createdAt: '2026-08-04T03:00:00.000Z',
     id: 'vehicle-003',
     model: 'Lead',
     plate: '43A1-333.33',
@@ -60,14 +73,19 @@ export class DemoFleetRepository implements FleetRepository {
   constructor(private readonly reservations: ReservationRegistry) {}
 
   createType(input: VehicleTypeInput): Promise<VehicleType> {
-    const created = { ...input, id: randomUUID() };
+    const created = { ...input, createdAt: new Date().toISOString(), id: randomUUID() };
     this.types.push(created);
     return Promise.resolve(created);
   }
 
   createVehicle(input: VehicleInput, normalizedPlate: string): Promise<Vehicle> {
     void normalizedPlate;
-    const created: Vehicle = { ...input, id: randomUUID(), status: 'AVAILABLE' };
+    const created: Vehicle = {
+      ...input,
+      createdAt: new Date().toISOString(),
+      id: randomUUID(),
+      status: 'AVAILABLE',
+    };
     this.vehicles.push(created);
     return Promise.resolve(created);
   }

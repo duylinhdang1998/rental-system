@@ -1,1 +1,1 @@
-export { ContractWizardPage } from './ContractWizardPage';
+export { ContractWizardPage } from './pages/ContractWizardPage';

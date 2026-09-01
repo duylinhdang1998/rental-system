@@ -21,7 +21,8 @@ export class PrismaFleetRepository implements FleetRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createType(input: VehicleTypeInput): Promise<VehicleType> {
-    return this.prisma.vehicleType.create({ data: input });
+    const item = await this.prisma.vehicleType.create({ data: input });
+    return { ...item, createdAt: item.createdAt.toISOString() };
   }
 
   async createVehicle(input: VehicleInput, normalizedPlate: string): Promise<Vehicle> {
@@ -51,7 +52,8 @@ export class PrismaFleetRepository implements FleetRepository {
   }
 
   async listTypes(): Promise<VehicleType[]> {
-    return this.prisma.vehicleType.findMany({ orderBy: { name: 'asc' } });
+    const items = await this.prisma.vehicleType.findMany({ orderBy: { name: 'asc' } });
+    return items.map((item) => ({ ...item, createdAt: item.createdAt.toISOString() }));
   }
 
   async listVehicles(query: VehicleQuery): Promise<Vehicle[]> {
@@ -125,6 +127,7 @@ export class PrismaFleetRepository implements FleetRepository {
     return {
       code: item.code,
       color: item.color,
+      createdAt: item.createdAt.toISOString(),
       id: item.id,
       model: item.model,
       plate: item.plate,

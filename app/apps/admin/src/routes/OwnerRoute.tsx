@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { useSession } from '../features/auth/use-session';
+import { useSession } from '../features/auth/hooks/use-session';
 import { AccessDeniedPage } from '../shared/pages/AccessDeniedPage';
 
 export function OwnerRoute() {

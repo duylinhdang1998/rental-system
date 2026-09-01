@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Sprint:** Sprint 3 complete
-**Overall Progress:** Sprint 0–3 complete
-**Status:** SPRINT_3_COMPLETE_QA_PASS
+**Current Sprint:** Sprint 8 remediation complete
+**Overall Progress:** Sprint 0–3 complete; frontend remediation accepted
+**Status:** SPRINT_8_REMEDIATION_COMPLETE_QA_PASS
 
 ## Project Timeline
 
@@ -14,6 +14,7 @@
 | Sprint 2 | 2 weeks | Fleet, customers, catalogs and availability calendar | COMPLETE — QA PASS |
 | Sprint 3 | 2 weeks | Pricing and contract creation | COMPLETE — QA PASS |
 | Sprint 4–7 | 2 weeks each | Remaining MVP modules | PLANNED — DEFERRED |
+| Sprint 8 | Remediation | shadcn/Radix, frontend structure, CreatedAt | COMPLETE — QA PASS |
 | Phase 2 | Deferred | Priority 2 features | DEFERRED |
 
 ## Phase Completion
@@ -63,6 +64,9 @@
 | Backend / Frontend specialists | Pricing, contracts and configurable late-return policy | COMPLETE | 3 |
 | google-code-reviewer | Sprint 3 transaction/security/UI follow-up review | COMPLETE — LGTM | 3 |
 | google-qa-engineer | Sprint 3 regression/concurrency/browser acceptance | COMPLETE — PASS (59 + 19) | 3 |
+| Frontend + Backend specialists | Frontend architecture and CreatedAt remediation | COMPLETE | 8 |
+| google-code-reviewer | Sprint 8 architecture/code review | COMPLETE — LGTM | 8 |
+| google-qa-engineer | Sprint 8 regression/browser acceptance | COMPLETE — PASS (65 + 22) | 8 |
 
 ## Activity Log
 
@@ -93,6 +97,13 @@
 - 2026-09-01: Sprint 3 delivered versioned pricing, strict planned 24-hour blocks, configurable late-return fees, immutable per-vehicle snapshots, overlap-safe multi-vehicle contracts, private handover metadata and bilingual PDF export.
 - 2026-09-01: Client approved 60 free late minutes, 20.000 VND per started hour afterwards, Owner configuration and the system PDF until a client template arrives.
 - 2026-09-01: Sprint 3 follow-up review LGTM; 59 unit/integration and 19 browser tests passed with all coverage dimensions above 80%.
+- 2026-09-01: Client rejected the initial frontend architecture for missing shadcn/Radix,
+  flat feature internals, native controls, inline list forms, typography and CreatedAt gaps.
+- 2026-09-01: Sprint 8 remediation completed with shadcn/Radix primitives split to VFM
+  one-component-per-file standards, deep feature grouping, dedicated dialogs/calendar overlay,
+  Inter and CreatedAt across persistence/contracts/current UI.
+- 2026-09-01: Sprint 8 review LGTM and QA PASS; 65 unit/integration and 22 browser tests pass,
+  all coverage dimensions remain above 80%, and local FE/BE health checks return HTTP 200.
 
 ## Blockers
 

@@ -2,17 +2,9 @@ import type { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createApiApp } from '../../apps/api/src/main';
+import { csrfFrom } from './support/csrf';
 
-function csrfFrom(response: request.Response): string {
-  const value = response.headers['set-cookie']
-    ?.find((cookie: string) => cookie.startsWith('rental_csrf='))
-    ?.split(';')[0]
-    ?.split('=')[1];
-  if (!value) throw new Error('Expected CSRF cookie');
-  return value;
-}
-
-function contractInput() {
+function lateReturnContractInput() {
   return {
     confirmed: true,
     customerId: 'demo-customer',
@@ -66,7 +58,7 @@ describe('Feature: Configurable late-return pricing', () => {
     const created = await staff
       .post('/api/contracts')
       .set('x-csrf-token', csrf)
-      .send(contractInput())
+      .send(lateReturnContractInput())
       .expect(201);
     const calculate = (actualReturnAt: string) =>
       staff

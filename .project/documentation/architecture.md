@@ -1,9 +1,9 @@
 # System Architecture — Hệ thống quản lý cho thuê xe máy
 
-**Version:** 0.6
+**Version:** 0.7
 **Last Updated:** 2026-09-01  
 **Architect:** CTO  
-**Status:** APPROVED BASELINE; Sprint 2–3 implementation reconciled
+**Status:** APPROVED BASELINE; Sprint 8 remediation blueprint added
 
 ## 1. High-Level Architecture
 
@@ -114,6 +114,9 @@ sequenceDiagram
 > The tree below is the Gate 1 capability map. The authoritative source-file list is
 > `.project/documentation/file-blueprint-sprint-1.md`, reconciled and approved by CTO on
 > 2026-09-01 after code review. Where individual paths differ, the exact file contract wins.
+> Sprint 8 frontend remediation is governed by
+> `.project/documentation/file-blueprint-sprint-8.md`; it supersedes older flat frontend
+> feature paths while preserving the same domain boundaries.
 
 ```text
 app/

@@ -3,6 +3,7 @@ import { navigationForRole } from '../../apps/admin/src/shared/navigation/routes
 import {
   formatCurrency,
   formatDate,
+  formatDateTime,
   resolveInitialLocale,
 } from '../../apps/admin/src/shared/i18n/locale';
 
@@ -45,6 +46,7 @@ describe('Feature: Secure responsive operations preview — navigation and local
       const date = new Date('2026-08-31T00:00:00+07:00');
       expect(formatDate(date, 'vi')).toBe('31/08/2026');
       expect(formatDate(date, 'en')).toBe('08/31/2026');
+      expect(formatDateTime(date, 'vi')).toContain('31/08/2026');
     });
   });
 });

@@ -10,6 +10,7 @@ interface StoredCustomer extends CustomerSummary {
 
 const RISK_CUSTOMER: StoredCustomer = {
   contacts: [{ primary: true, type: 'PHONE', value: '0909 123 456' }],
+  createdAt: '2026-08-10T02:00:00.000Z',
   id: 'demo-risk',
   name: 'Risk Fixture',
   nationality: 'VN',
@@ -20,6 +21,7 @@ const RISK_CUSTOMER: StoredCustomer = {
 const SAFE_CUSTOMERS: StoredCustomer[] = [
   {
     contacts: [{ primary: true, type: 'PHONE', value: '0900 000 001' }],
+    createdAt: '2026-08-08T02:00:00.000Z',
     id: 'demo-customer',
     name: 'Khách hàng mẫu',
     nationality: 'VN',
@@ -27,6 +29,7 @@ const SAFE_CUSTOMERS: StoredCustomer[] = [
   },
   {
     contacts: [{ primary: true, type: 'PHONE', value: '0900 000 002' }],
+    createdAt: '2026-08-09T02:00:00.000Z',
     id: 'demo-vip',
     name: 'Khách VIP mẫu',
     nationality: 'VN',
@@ -52,6 +55,7 @@ export class DemoCustomerRepository implements CustomerRepository {
   create(input: CustomerInput): Promise<CustomerSummary> {
     const customer: StoredCustomer = {
       contacts: input.contacts,
+      createdAt: new Date().toISOString(),
       id: randomUUID(),
       name: input.name,
       nationality: input.nationality,
@@ -94,6 +98,7 @@ export class DemoCustomerRepository implements CustomerRepository {
 
   private readonly summary = (customer: StoredCustomer): CustomerSummary => ({
     contacts: structuredClone(customer.contacts),
+    createdAt: customer.createdAt,
     id: customer.id,
     name: customer.name,
     nationality: customer.nationality,

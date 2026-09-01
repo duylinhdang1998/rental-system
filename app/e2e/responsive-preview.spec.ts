@@ -1,11 +1,5 @@
 import { expect, test } from '@playwright/test';
-
-async function signInAsStaff(page: import('@playwright/test').Page) {
-  await page.goto('/login');
-  await page.getByLabel('Tên đăng nhập').fill('staff');
-  await page.getByLabel('Mật khẩu').fill('StaffDemo!2026');
-  await page.getByRole('button', { name: 'Đăng nhập' }).click();
-}
+import { signInAsStaff } from './support/auth';
 
 test.describe('Feature: Secure responsive operations preview — responsive workspace', () => {
   test.use({ viewport: { width: 360, height: 800 } });

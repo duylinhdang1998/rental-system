@@ -1,1 +1,1 @@
-export { OperationsDashboard } from './OperationsDashboard';
+export { OperationsDashboard } from './pages/OperationsDashboard';

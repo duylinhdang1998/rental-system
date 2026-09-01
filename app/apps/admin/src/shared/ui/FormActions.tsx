@@ -1,4 +1,5 @@
-import { Button } from './Button';
+import { LoadingButton } from './LoadingButton';
+import { Button as ShadcnButton } from '@/components/ui/button';
 
 interface FormActionsProps {
   cancelLabel: string;
@@ -10,16 +11,12 @@ interface FormActionsProps {
 export function FormActions({ cancelLabel, loading, onCancel, saveLabel }: FormActionsProps) {
   return (
     <div className="flex flex-wrap justify-end gap-3">
-      <button
-        className="button-base border border-line bg-panel text-ink"
-        onClick={onCancel}
-        type="button"
-      >
+      <ShadcnButton onClick={onCancel} type="button" variant="outline">
         {cancelLabel}
-      </button>
-      <Button loading={loading} type="submit">
+      </ShadcnButton>
+      <LoadingButton loading={loading} type="submit">
         {saveLabel}
-      </Button>
+      </LoadingButton>
     </div>
   );
 }

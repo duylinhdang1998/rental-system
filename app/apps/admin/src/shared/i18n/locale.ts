@@ -23,3 +23,15 @@ export function formatDate(value: Date, locale: Locale): string {
     year: 'numeric',
   }).format(value);
 }
+
+export function formatDateTime(value: Date | string, locale: Locale): string {
+  const languageTag = locale === 'vi' ? 'vi-VN' : 'en-US';
+  return new Intl.DateTimeFormat(languageTag, {
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    month: '2-digit',
+    timeZone: 'Asia/Ho_Chi_Minh',
+    year: 'numeric',
+  }).format(typeof value === 'string' ? new Date(value) : value);
+}

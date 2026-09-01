@@ -1,6 +1,7 @@
 import { AlertTriangle, CheckCircle2, LoaderCircle, RotateCw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
 
 interface ViewStateProps {
   onRetry?: () => void;
@@ -29,15 +30,15 @@ export function ViewState({ onRetry, state }: ViewStateProps) {
       <h1 className="text-2xl font-extrabold text-ink">{t(COPY_KEYS[state].title)}</h1>
       <p className="mt-2 max-w-lg text-ink-muted">{t(COPY_KEYS[state].description)}</p>
       {state === 'error' ? (
-        <button className="button-base button-primary mt-5" onClick={onRetry} type="button">
-          <RotateCw aria-hidden className="size-5" />
+        <Button className="mt-5" onClick={onRetry} type="button">
+          <RotateCw aria-hidden data-icon="inline-start" />
           {t('retry')}
-        </button>
+        </Button>
       ) : null}
       {state === 'empty' ? (
-        <Link className="button-base mt-5 border border-line bg-panel text-brand" to="/vehicles">
-          {t('emptyAction')}
-        </Link>
+        <Button asChild className="mt-5" variant="outline">
+          <Link to="/vehicles">{t('emptyAction')}</Link>
+        </Button>
       ) : null}
     </section>
   );

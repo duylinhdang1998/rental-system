@@ -1,1 +1,1 @@
-export { ReportPreview } from './ReportPreview';
+export { ReportPreview } from './pages/ReportPreview';

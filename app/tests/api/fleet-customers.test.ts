@@ -3,15 +3,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { INestApplication } from '@nestjs/common';
 import { createApiApp } from '../../apps/api/src/main';
 import { AuditService } from '../../apps/api/src/common/audit/audit.service';
-
-function csrfFrom(response: request.Response): string {
-  const cookie = response.headers['set-cookie']
-    ?.find((value: string) => value.startsWith('rental_csrf='))
-    ?.split(';')[0]
-    ?.split('=')[1];
-  if (!cookie) throw new Error('Expected CSRF cookie');
-  return cookie;
-}
+import { csrfFrom } from './support/csrf';
 
 describe('Feature: Fleet, customer and catalog foundations — API', () => {
   let app: INestApplication;
@@ -31,11 +23,12 @@ describe('Feature: Fleet, customer and catalog foundations — API', () => {
       .send({ username: 'owner', password: 'OwnerDemo!2026' })
       .expect(201);
     const payload = { code: 'SCOOTER', name: 'Scooter' };
-    await owner
+    const createdType = await owner
       .post('/api/fleet/types')
       .set('x-csrf-token', csrfFrom(ownerLogin))
       .send(payload)
       .expect(201);
+    expect(createdType.body.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
     expect(await app.get(AuditService).list()).toContainEqual(
       expect.objectContaining({ action: 'VEHICLE_TYPE_CREATED', actorId: 'demo-owner' }),
     );
@@ -67,10 +60,19 @@ describe('Feature: Fleet, customer and catalog foundations — API', () => {
       typeCode: 'SCOOTER',
       year: 2025,
     };
-    await staff.post('/api/fleet/vehicles').set('x-csrf-token', csrf).send(vehicle).expect(201);
+    const createdVehicle = await staff
+      .post('/api/fleet/vehicles')
+      .set('x-csrf-token', csrf)
+      .send(vehicle)
+      .expect(201);
+    expect(createdVehicle.body.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
     const list = await staff.get('/api/fleet/vehicles?search=099.99&status=AVAILABLE').expect(200);
     expect(list.body.items).toContainEqual(
-      expect.objectContaining({ code: 'TEST-099', status: 'AVAILABLE' }),
+      expect.objectContaining({
+        code: 'TEST-099',
+        createdAt: expect.stringMatching(/^\d{4}-\d{2}-\d{2}T/),
+        status: 'AVAILABLE',
+      }),
     );
 
     const duplicate = await staff
@@ -154,6 +156,7 @@ describe('Feature: Fleet, customer and catalog foundations — API', () => {
         tags: [{ code: 'BLACKLIST', reason: 'Synthetic risk fixture' }],
       })
       .expect(201);
+    expect(customer.body.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
     const duplicates = await staff.get('/api/customers/duplicates?phone=0900000099').expect(200);
     expect(duplicates.body.items).toContainEqual(expect.objectContaining({ id: customer.body.id }));
 

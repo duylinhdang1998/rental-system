@@ -1,4 +1,8 @@
 import type { InputHTMLAttributes } from 'react';
+import { Field } from '@/components/ui/field';
+import { FieldError } from '@/components/ui/field-error';
+import { FieldLabel } from '@/components/ui/field-label';
+import { Input } from '@/components/ui/input';
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
@@ -8,22 +12,15 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 export function TextField({ error, id, label, ...props }: TextFieldProps) {
   const errorId = `${id}-error`;
   return (
-    <div className="grid gap-2">
-      <label className="text-sm font-bold text-ink" htmlFor={id}>
-        {label}
-      </label>
-      <input
+    <Field data-invalid={Boolean(error)}>
+      <FieldLabel htmlFor={id}>{label}</FieldLabel>
+      <Input
         aria-describedby={error ? errorId : undefined}
         aria-invalid={Boolean(error)}
-        className="field-control"
         id={id}
         {...props}
       />
-      {error ? (
-        <p className="text-sm font-semibold text-negative" id={errorId}>
-          {error}
-        </p>
-      ) : null}
-    </div>
+      <FieldError id={errorId}>{error}</FieldError>
+    </Field>
   );
 }
