@@ -59,6 +59,40 @@ Xe                                                     [ + Thêm xe ]
 - Status is not freely editable in this form; controlled transitions use a separate dialog.
 - Maintenance transition requires reason and shows immutable history after save.
 
+## Availability calendar — hotel/meeting-room pattern
+
+```text
+Lịch xe                         [‹ 26/08] [Tuần này] [02/09 ›] [Loại xe ▾]
+Chú thích: ✓ Trống   ◌ Đang giữ   ■ Đã có lịch thuê   ⚒ Bảo dưỡng
+
+┌─────────────────┬──── 01/09 ────┬──── 02/09 ────┬──── 03/09 ────┬──── 04/09 ────┐
+│ 43A1-000.01     │ ✓ Trống       │ ■ HD-00021     │ ■ HD-00021     │ ✓ Trống       │
+│ TEST-001        │ [Chọn ngày]   │ Đã có lịch thuê│ Đã có lịch thuê│ [Chọn ngày]   │
+├─────────────────┼───────────────┼───────────────┼───────────────┼───────────────┤
+│ 43A1-000.02     │ ◌ Đang giữ    │ ✓ Trống        │ ✓ Trống        │ ⚒ Bảo dưỡng   │
+│ TEST-002        │ đến 12:00     │ [Chọn ngày]    │ [Chọn ngày]    │ Không thể chọn│
+└─────────────────┴───────────────┴───────────────┴───────────────┴───────────────┘
+```
+
+Mobile uses one vehicle at a time with a horizontal seven-day strip:
+
+```text
+╭──────────────────────────────╮
+│ Lịch xe          [Tuần ▾]    │
+│ [‹] 01–07/09/2026        [›] │
+│ TEST-001 · 43A1-000.01   [▾] │
+│ T2  T3  T4  T5  T6  T7  CN │
+│ ✓   ■   ■   ✓   ✓   ◌   ✓  │
+│ Trống · chọn ngày bắt đầu    │
+│ [Dùng xe này để lập HĐ]      │
+╰──────────────────────────────╯
+```
+
+- Day cells have text/ARIA labels, not color alone. Contract/customer names are minimized.
+- Keyboard arrows move day focus; Enter selects an available start/end range.
+- Selecting a range opens Sprint 3 contract creation with vehicle and dates prefilled.
+- Loading keeps calendar dimensions stable; error retains current week/type filters.
+
 ## Customer list — desktop
 
 ```text

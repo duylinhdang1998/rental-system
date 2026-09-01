@@ -3,12 +3,12 @@
 **Sprint:** 2 of 8  
 **Duration:** 2 weeks after Sprint 1 UI approval  
 **Goal:** Quản lý được dữ liệu xe, khách hàng và danh mục nền phục vụ hợp đồng.  
-**Status:** BATCH 0 — AWAITING BDD/WIREFRAME APPROVAL
+**Status:** COMPLETE — QA PASS
 
 ## Task Details
 
 ### Task 2.S: Fleet and customer BDD scenarios [QA]
-**Status:** [IN PROGRESS]  
+**Status:** [COMPLETE]
 **Story Points:** 5  
 **Wireframe:** `06-fleet-customer-management.md`
 
@@ -16,7 +16,7 @@
 **Acceptance Criteria:** CRUD, search/filter, blacklist warning, permissions and mobile behavior are testable.
 
 ### Task 2.1: Fleet and catalog data/API [Backend]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 8  
 **Wireframe:** -
 
@@ -24,7 +24,7 @@
 **Acceptance Criteria:** Constraints and state transitions pass approved BDD/integration tests.
 
 ### Task 2.2: Customer data/API [Backend]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 8  
 **Wireframe:** -
 
@@ -32,7 +32,7 @@
 **Acceptance Criteria:** Duplicate search, PII access and blacklist warnings pass tests.
 
 ### Task 2.3: Fleet management UI [Frontend]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 8  
 **Wireframe:** `06-fleet-customer-management.md`
 
@@ -40,7 +40,7 @@
 **Acceptance Criteria:** Desktop/mobile, all view states and authorization behavior match BDD.
 
 ### Task 2.4: Customer and catalog UI [Frontend]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 8  
 **Wireframe:** `06-fleet-customer-management.md`
 
@@ -48,7 +48,7 @@
 **Acceptance Criteria:** Search, tags, blacklist and private-data treatment match BDD.
 
 ### Task 2.R: Sprint 2 code review [Code Review]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 3  
 **Wireframe:** -
 
@@ -56,7 +56,7 @@
 **Acceptance Criteria:** LGTM after findings are fixed.
 
 ### Task 2.Q: Sprint 2 QA verification [QA]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 5  
 **Wireframe:** -
 
@@ -67,23 +67,27 @@
 
 | ID | Task | Points | Status | Assignee | Wireframe |
 |----|------|--------|--------|----------|-----------|
-| 2.S | Fleet/customer BDD scenarios | 5 | [IN PROGRESS] | QA | `06-fleet-customer-management.md` |
-| 2.1 | Fleet and catalog data/API | 8 | | Backend | - |
-| 2.2 | Customer data/API | 8 | | Backend | - |
-| 2.3 | Fleet management UI | 8 | | Frontend | `06-fleet-customer-management.md` |
-| 2.4 | Customer and catalog UI | 8 | | Frontend | `06-fleet-customer-management.md` |
-| 2.R | Sprint 2 code review | 3 | | Code Review | - |
-| 2.Q | Sprint 2 QA verification | 5 | | QA | - |
+| 2.S | Fleet/customer BDD scenarios | 5 | [COMPLETE] | QA | `06-fleet-customer-management.md` |
+| 2.1 | Fleet and catalog data/API | 8 | [COMPLETE] | Backend | - |
+| 2.2 | Customer data/API | 8 | [COMPLETE] | Backend | - |
+| 2.3 | Fleet management UI | 8 | [COMPLETE] | Frontend | `06-fleet-customer-management.md` |
+| 2.4 | Customer and catalog UI | 8 | [COMPLETE] | Frontend | `06-fleet-customer-management.md` |
+| 2.R | Sprint 2 code review | 3 | [COMPLETE — LGTM] | Code Review | - |
+| 2.Q | Sprint 2 QA verification | 5 | [COMPLETE — PASS] | QA | - |
 
 ## Sprint Summary
 
-**Total:** 7 tasks · 45 points · Batch 0 drafts ready for approval.
+**Total:** 7 tasks · 45 points · all four batches complete.
+
+QA evidence: 34 unit/integration tests and 15 browser journeys passed. Coverage reached
+94.93% statements, 80.88% branches, 91.94% functions and 95.78% lines. Format, lint,
+typecheck, production build, Prisma validation and high-severity dependency audit passed.
 
 ## Definition of Done
 
-- [ ] Approved BDD and expanded CRUD wireframes before development.
-- [ ] Fleet/customer APIs and responsive UI pass tests and build.
-- [ ] Code review LGTM and QA regression/coverage approved.
+- [x] Approved BDD and expanded CRUD wireframes before development.
+- [x] Fleet/customer APIs and responsive UI pass tests and build.
+- [x] Code review LGTM and QA regression/coverage approved.
 
 ## Dependencies and Risks
 

@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Sprint:** Sprint 2 Batch 0  
-**Overall Progress:** Sprint 0–1 complete; Sprint 2–3 authorized  
-**Status:** SPRINT_2_BDD_APPROVAL_PENDING
+**Current Sprint:** Sprint 3 Batch 0
+**Overall Progress:** Sprint 0–2 complete; Sprint 3 authorized
+**Status:** SPRINT_3_SCENARIOS_ACTIVE
 
 ## Project Timeline
 
@@ -11,8 +11,8 @@
 |---|---:|---|---|
 | Sprint 0 | Checkpoint-driven | Requirements, architecture and UX | COMPLETE |
 | Sprint 1 | 2 weeks after approval | UI foundation and product preview | COMPLETE — QA PASS |
-| Sprint 2 | 2 weeks | Fleet, customers and catalogs | BATCH 0 — APPROVAL PENDING |
-| Sprint 3 | 2 weeks | Pricing and contract creation | BATCH 0 DRAFT; AFTER SPRINT 2 |
+| Sprint 2 | 2 weeks | Fleet, customers, catalogs and availability calendar | COMPLETE — QA PASS |
+| Sprint 3 | 2 weeks | Pricing and contract creation | BATCH 0 — ACTIVE |
 | Sprint 4–7 | 2 weeks each | Remaining MVP modules | PLANNED — DEFERRED |
 | Phase 2 | Deferred | Priority 2 features | DEFERRED |
 
@@ -44,7 +44,8 @@
 |---|---|---|
 | Gate 1: Planning | PASSED | 2026-08-31 |
 | Sprint 1 BDD approval | APPROVED — 15 scenarios | 2026-08-31 |
-| Sprint 2–3 execution | AUTHORIZED; Batch 0 approval pending | 2026-09-01 |
+| Sprint 2 execution | APPROVED; QA PASS | 2026-09-01 |
+| Sprint 3 execution | AUTHORIZED; defaults accepted from client feedback | 2026-09-01 |
 
 ## Team Status
 
@@ -56,8 +57,10 @@
 | Backend #1, Backend #2 | API, database, auth/security and demo endpoints | COMPLETE | 1 |
 | Frontend #1, Frontend #2 | Responsive React SPA and localized previews | COMPLETE | 1 |
 | google-code-reviewer | Sprint 1 code review | COMPLETE — LGTM | 1 |
-| google-qa-engineer | Sprint 2–3 BDD drafts | IN PROGRESS — APPROVAL PENDING | 2–3 |
-| apple-ux-wireframer | Sprint 2–3 CRUD/contract wireframes | COMPLETE — APPROVAL PENDING | 2–3 |
+| Backend / Frontend specialists | Fleet, customers and availability calendar | COMPLETE | 2 |
+| google-code-reviewer | Sprint 2 code review | COMPLETE — LGTM | 2 |
+| google-qa-engineer | Sprint 2 regression/browser acceptance | COMPLETE — PASS | 2 |
+| Backend / Frontend specialists | Pricing and contract creation | BATCH 0 — ACTIVE | 3 |
 
 ## Activity Log
 
@@ -83,13 +86,14 @@
 - 2026-09-01: Client authorized Sprint 2–3 and requested GitHub delivery.
 - 2026-09-01: Sprint 0–1 baseline committed and pushed to GitHub (`fe5e1e9`).
 - 2026-09-01: Sprint 2–3 BDD, wireframes and exact file blueprint drafted for mandatory approval.
+- 2026-09-01: Sprint 2 delivered fleet/customer CRUD, controlled status history, private-document policy and room-style vehicle availability calendar.
+- 2026-09-01: Sprint 2 review LGTM; 34 unit/integration and 15 browser tests passed with all coverage dimensions above 80%.
 
 ## Blockers
 
 | Blocker | Required action | Owner |
 |---|---|---|
-| Business assumptions remain open | Resolve before each dependent Sprint 3–6 | Client/BA |
-| Sprint 2–3 Batch 1 | Approve drafted BDD, wireframes and Sprint 3 defaults | Client/Product Owner |
+| Later-sprint business assumptions remain open | Resolve before each dependent Sprint 4–6 | Client/BA |
 
 **Last Updated:** 2026-09-01  
 **Updated By:** Project Manager

@@ -48,11 +48,11 @@ test.describe('Feature: Secure responsive operations preview — responsive work
     await expect(page.getByRole('heading', { name: 'Today’s overview' })).toBeVisible();
     await expect(page.getByText('08/31/2026')).toBeVisible();
     await expect(page.getByText('Demo data', { exact: false })).toBeVisible();
-    await page.goto('/vehicles?status=available');
+    await page.goto('/vehicles?status=AVAILABLE');
     await expect(page.getByRole('heading', { name: 'Vehicles' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Ready for the next workflow' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '43A1-000.01' })).toBeVisible();
     await page.reload();
-    await expect(page).toHaveURL(/status=available/);
+    await expect(page).toHaveURL(/status=AVAILABLE/);
     await expect(page.getByRole('heading', { name: 'Vehicles' })).toBeVisible();
   });
 

@@ -6,7 +6,9 @@ Owner catalog setup
         ▼
 Vehicle types ──► Vehicle create/edit ──► Controlled status history
         │                                      │
-        └──────────────────┬───────────────────┘
+        └──────────────► Availability calendar ──► Prefill vehicle + dates
+                               │
+        └──────────────────┬────┘
                            ▼
 Customer search ── duplicate? ── yes ──► Existing profile
         │                    │
@@ -31,3 +33,4 @@ Contract wizard: Customer → Vehicles → Pricing → Handover → Confirmation
 4. A quote is disposable; a confirmed contract stores immutable price and customer/vehicle snapshots.
 5. Confirmation re-checks every vehicle in one transaction; any conflict rolls back the whole contract.
 6. User-entered wizard state survives recoverable validation/network/conflict errors.
+7. Calendar behaves like room booking: vehicle rows, date columns, explicit Available/Held/Rented labels.

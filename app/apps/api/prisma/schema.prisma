@@ -12,6 +12,27 @@ enum UserRole {
   STAFF
 }
 
+enum VehicleStatus {
+  AVAILABLE
+  RESERVED
+  RENTED
+  MAINTENANCE
+  DAMAGED
+  LOST
+  RETIRED
+}
+
+enum ContactType {
+  PHONE
+  EMAIL
+}
+
+enum CustomerTagCode {
+  BLACKLIST
+  VIP
+  WATCHLIST
+}
+
 model Account {
   id           String    @id @default(uuid())
   username     String    @unique
@@ -35,4 +56,106 @@ model Session {
 
   @@index([accountId])
   @@index([expiresAt])
+}
+
+model VehicleType {
+  id        String    @id @default(uuid())
+  code      String    @unique
+  name      String
+  vehicles  Vehicle[]
+  createdAt DateTime  @default(now()) @db.Timestamptz
+  updatedAt DateTime  @updatedAt @db.Timestamptz
+}
+
+model Vehicle {
+  id              String                 @id @default(uuid())
+  code            String                 @unique
+  plate           String
+  normalizedPlate String                 @unique
+  model           String
+  color           String
+  year            Int
+  status          VehicleStatus          @default(AVAILABLE)
+  typeId          String
+  type            VehicleType            @relation(fields: [typeId], references: [id])
+  statusHistory   VehicleStatusHistory[]
+  createdAt       DateTime               @default(now()) @db.Timestamptz
+  updatedAt       DateTime               @updatedAt @db.Timestamptz
+
+  @@index([status])
+  @@index([typeId])
+}
+
+model VehicleStatusHistory {
+  id        String        @id @default(uuid())
+  vehicleId String
+  vehicle   Vehicle       @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  from      VehicleStatus
+  to        VehicleStatus
+  actorId   String
+  reason    String
+  createdAt DateTime      @default(now()) @db.Timestamptz
+
+  @@index([vehicleId, createdAt])
+}
+
+model Customer {
+  id          String             @id @default(uuid())
+  name        String
+  nationality String
+  contacts    CustomerContact[]
+  tags        CustomerTag[]
+  documents   CustomerDocument[]
+  createdAt   DateTime           @default(now()) @db.Timestamptz
+  updatedAt   DateTime           @updatedAt @db.Timestamptz
+
+  @@index([name])
+}
+
+model CustomerContact {
+  id              String      @id @default(uuid())
+  customerId      String
+  customer        Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  type            ContactType
+  value           String
+  normalizedValue String
+  primary         Boolean     @default(false)
+
+  @@index([normalizedValue])
+  @@index([customerId])
+}
+
+model CustomerTag {
+  id         String          @id @default(uuid())
+  customerId String
+  customer   Customer        @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  code       CustomerTagCode
+  reason     String
+  createdAt  DateTime        @default(now()) @db.Timestamptz
+
+  @@index([customerId])
+}
+
+model CustomerDocument {
+  id         String   @id @default(uuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  label      String
+  objectKey  String
+  createdAt  DateTime @default(now()) @db.Timestamptz
+
+  @@index([customerId])
+}
+
+model AuditEvent {
+  id         String   @id @default(uuid())
+  action     String
+  actorId    String
+  entityId   String
+  entityType String
+  metadata   Json?
+  createdAt  DateTime @default(now()) @db.Timestamptz
+
+  @@index([entityType, entityId])
+  @@index([actorId, createdAt])
 }

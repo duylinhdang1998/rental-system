@@ -1,0 +1,1 @@
+export const FLEET_REPOSITORY = Symbol('FLEET_REPOSITORY');

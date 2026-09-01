@@ -54,6 +54,16 @@ Feature: Fleet, customer and catalog foundations
     And plate, type, status and primary action remain visible
     And there is no page-level horizontal overflow
 
+  @US-008 @availability @calendar @e2e
+  Scenario: Staff sees vehicle availability like a room-booking calendar
+    Given synthetic vehicles have available, held and rented periods this month
+    When Staff opens the fleet availability calendar
+    Then rows identify vehicles and columns identify calendar days
+    And each period says Available, Held or Rented with an icon and accessible text
+    And Staff can move between date ranges and filter by vehicle type
+    When Staff selects an available period
+    Then the chosen vehicle and dates can be carried into contract creation
+
   @US-009 @customer @crud @integration
   Scenario: Staff creates a customer with multiple contact channels
     When Staff creates customer "Test Customer" with phone and email contacts

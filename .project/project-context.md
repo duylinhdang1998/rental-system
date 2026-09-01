@@ -77,6 +77,25 @@ dùng duyệt UI Sprint 1.
 hai workbook riêng tư được xác nhận không vào Git. Sprint 2–3 được mở Batch 0. BDD,
 wireframe CRUD/lập hợp đồng và blueprint file đã được soạn; Batch 1 chờ phê duyệt bắt buộc.
 
+### Session 10 — 2026-09-01
+
+**Phản hồi:** Duyệt MVP một cửa hàng, quyền cấu hình/override và bảng giá cấu hình. Yêu
+cầu lịch trực quan như đặt phòng họp/khách sạn để xem ngày xe còn trống. Cần giải thích
+dễ hiểu hơn về quy tắc block 24 giờ/ân hạn và mục đích PDF hợp đồng.
+
+**Xử lý:** Sprint 2 được duyệt triển khai. BDD/wireframe bổ sung availability calendar
+theo xe × ngày, với Trống/Đang giữ/Đã có lịch thuê/Bảo dưỡng bằng biểu tượng + chữ. Quy
+tắc 60 phút và mẫu PDF hệ thống được giải thích lại. Vì khách hàng đã cho phép chạy
+Sprint 3, các mặc định này được dùng cho phiên bản đầu và vẫn có thể cấu hình/thay mẫu sau.
+
+### Session 11 — 2026-09-01
+
+**Kết quả Sprint 2:** Hoàn tất quản lý xe/khách hàng, lịch trống kiểu đặt phòng, kiểm soát
+chuyển trạng thái có lý do, lịch sử bất biến, cảnh báo blacklist và dữ liệu giấy tờ riêng tư.
+Code review LGTM; QA PASS với 34 kiểm thử unit/integration, 15 hành trình trình duyệt và
+bốn chỉ số coverage đều trên 80%. Sprint 3 được mở với MVP một cửa hàng, block 24 giờ,
+60 phút linh động và mẫu hợp đồng PDF Việt–Anh do hệ thống tạo.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -105,12 +124,12 @@ wireframe CRUD/lập hợp đồng và blueprint file đã được soạn; Batc
 | PD-01 | Phong cách thiết kế | UI 3 — Soft Modern Operations | Approved and implemented in Sprint 1 |
 | PD-02 | Tech stack | React + Vite admin, NestJS API, PostgreSQL + Prisma | Approved direction |
 | PD-03 | Cơ cấu thực hiện | 2 backend, 2 frontend + UX/QA/review/DevOps | Approved allocation |
-| PD-04 | Một hay nhiều chi nhánh | Một chi nhánh trong MVP | Pending |
-| PD-05 | Cách tính ngày thuê | Block 24 giờ, ân hạn 60 phút | Proposed in Sprint 3 BDD — approval pending |
+| PD-04 | Một hay nhiều chi nhánh | Một chi nhánh trong MVP | Approved |
+| PD-05 | Cách tính ngày thuê | Block 24 giờ, linh động thêm tối đa 60 phút trước khi tính block kế tiếp | Accepted as Sprint 3 default |
 | PD-06 | Cách tính giá khi gia hạn | Tính lại toàn bộ thời gian theo bậc cuối | Deferred to Sprint 4; not implemented in Sprint 3 |
-| PD-07 | Đặt trước xe đang thuê | Cho phép nếu không trùng khoảng `[start,end)` | Proposed in Sprint 3 BDD — approval pending |
+| PD-07 | Đặt trước xe đang thuê | Cho phép nếu không trùng khoảng `[start,end)` | Accepted as Sprint 3 default |
 | PD-08 | Nhập Excel cũ khi go-live | Chuyển lên MVP nếu có dữ liệu đang vận hành | Pending |
-| PD-09 | Mẫu hợp đồng Việt–Anh | Template hệ thống Sprint 3, thay bằng mẫu khách hàng khi nhận | Proposed — approval pending |
+| PD-09 | Mẫu hợp đồng Việt–Anh | Template hệ thống Sprint 3, thay bằng mẫu khách hàng khi nhận | Accepted as Sprint 3 default |
 | PD-10 | Mẫu báo cáo doanh thu ngày | Đã lưu `daily-revenue-report-sample.xlsx` | Received |
 | PD-11 | Mẫu lịch trả xe | Đã lưu `vehicle-return-schedule-sample.xlsx` | Received |
 

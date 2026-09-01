@@ -1,6 +1,6 @@
 # Sprint 2–3 Exact File Blueprint
 
-**Status:** DRAFT — awaiting BDD/wireframe approval  
+**Status:** APPROVED — Sprint 2 implementation reconciled; Sprint 3 paths reserved
 **Architecture:** Extend the approved modular NestJS + React SPA monolith; no new service boundary.
 
 ```text
@@ -70,8 +70,11 @@ app/apps/admin/src/features/fleet/
 ├── VehicleCard.tsx                         # One mobile fleet record
 ├── VehicleForm.tsx                         # Validated add/edit form
 ├── VehicleStatusDialog.tsx                 # Reasoned status transition UI
+├── AvailabilityCalendar.tsx                # Room-booking style vehicle/day grid
+├── AvailabilityDay.tsx                     # Accessible one-vehicle/day state cell
 ├── fleet-api.ts                            # Validated fleet HTTP adapter
 ├── use-fleet.ts                            # Fleet query/mutations
+├── use-fleet-calendar.ts                   # Date-range availability query/URL state
 └── index.ts                                # Fleet public exports
 
 app/apps/admin/src/features/customers/
@@ -118,6 +121,101 @@ app/e2e/
 ```
 
 ## Dependency rules
+
+## Sprint 2 implementation reconciliation (authoritative)
+
+The approved implementation splits presentation files further to satisfy the enforced
+one-component-per-file and 30-line function gates. These paths supersede differing Sprint 2
+names in the earlier planning tree; reserved Sprint 3 paths remain unchanged.
+
+```text
+app/apps/api/src/common/
+├── audit/audit.module.ts                    # Environment-aware audit composition
+├── audit/audit.service.ts                   # Application-facing append-only audit port
+├── audit/audit.tokens.ts                    # Audit repository injection token
+├── audit/audit.types.ts                     # Audit event and repository contracts
+├── audit/demo-audit.repository.ts           # Synthetic in-memory audit adapter
+├── audit/prisma-audit.repository.ts         # Persistent PostgreSQL audit adapter
+└── errors/domain.error.ts                   # Typed domain errors normalized by one filter
+
+app/packages/contracts/src/time.ts            # Shared ISO date/day constants for API and SPA
+
+app/apps/api/src/modules/fleet/
+├── fleet.module.ts                          # Fleet adapter composition
+├── fleet.controller.ts                      # Authenticated fleet HTTP boundary
+├── fleet.service.ts                         # Fleet/catalog/calendar use cases
+├── fleet.tokens.ts                          # Fleet repository injection token
+├── fleet.types.ts                           # Fleet repository/query contracts
+├── demo-fleet.repository.ts                 # Synthetic fleet/calendar/history adapter
+├── prisma-fleet.repository.ts               # PostgreSQL fleet/history adapter
+├── plate-normalizer.ts                      # Pure plate canonicalization
+└── vehicle-transition.policy.ts             # Pure manual transition policy
+
+app/apps/api/src/modules/customers/
+├── customer.module.ts                       # Customer adapter composition
+├── customer.controller.ts                   # Authenticated customer HTTP boundary
+├── customer.service.ts                      # Customer/duplicate/document use cases
+├── customer.tokens.ts                       # Customer repository injection token
+├── customer.types.ts                        # Customer repository/document contracts
+├── demo-customer.repository.ts              # Synthetic customer/private-file metadata adapter
+├── prisma-customer.repository.ts            # PostgreSQL customer adapter
+├── contact-normalizer.ts                    # Pure phone/email normalization
+└── private-file.service.ts                  # Redacted short-lived document access descriptor
+
+app/apps/admin/src/features/fleet/
+├── VehicleListPage.tsx                      # Fleet route composition and view states
+├── VehicleList.tsx                          # Responsive list composition
+├── VehicleCard.tsx                          # Mobile vehicle card
+├── VehicleTable.tsx                         # Desktop vehicle table
+├── VehicleTableRow.tsx                      # Desktop vehicle row
+├── VehicleForm.tsx                          # Create-vehicle form composition
+├── VehicleFields.tsx                        # Vehicle text fields
+├── VehicleTypeField.tsx                     # Vehicle-type control
+├── FleetPageHeader.tsx                      # Fleet title and primary actions
+├── FleetFilterBar.tsx                       # URL-backed filter composition
+├── FleetSearchField.tsx                     # Vehicle search control
+├── FleetStatusFilter.tsx                    # Vehicle status filter
+├── FleetTypeFilter.tsx                      # Vehicle type filter
+├── AvailabilityCalendar.tsx                 # Calendar query-state composition
+├── AvailabilityDay.tsx                      # Accessible availability cell
+├── CalendarControls.tsx                     # Previous/next week controls
+├── CalendarGrid.tsx                         # Scroll-contained calendar grid
+├── CalendarHeaderRow.tsx                    # Calendar day headers
+├── CalendarToolbar.tsx                      # Calendar title/range composition
+├── CalendarVehicleRow.tsx                   # One vehicle calendar row
+├── fleet-api.ts                             # Runtime-validated fleet HTTP adapter
+├── use-fleet.ts                             # Fleet query/mutation hooks
+├── use-fleet-calendar.ts                    # Calendar date/query hook
+├── use-fleet-page.ts                        # URL/local route state hook
+├── use-vehicle-form.ts                      # Controlled vehicle form hook
+├── vehicle-status.ts                        # Single status-to-tone policy
+└── index.ts                                 # Fleet public export
+
+app/apps/admin/src/features/customers/
+├── CustomerListPage.tsx                     # Customer route composition and view states
+├── CustomerList.tsx                         # Responsive customer collection
+├── CustomerCard.tsx                         # Customer summary card
+├── CustomerContacts.tsx                     # Contact channel list
+├── CustomerForm.tsx                         # Create-customer form composition
+├── CustomerFields.tsx                       # Customer contact/profile controls
+├── CustomerPageHeader.tsx                   # Customer title and primary action
+├── CustomerSearch.tsx                       # URL-backed customer search
+├── DuplicateCustomerNotice.tsx              # Existing-record recovery action
+├── BlacklistWarning.tsx                     # Explicit risk acknowledgement
+├── customers-api.ts                         # Runtime-validated customer HTTP adapter
+├── use-customers.ts                         # Customer query/mutation hooks
+├── use-customer-form.ts                     # Controlled form and duplicate query hook
+└── index.ts                                 # Customer public export
+
+app/apps/admin/src/shared/
+├── api/http.ts                              # Credential/CSRF/error fetch policy
+├── ui/FormActions.tsx                       # Shared cancel/save action row
+└── ui/StatusBadge.tsx                       # Icon-and-text semantic status primitive
+
+app/apps/api/prisma/
+├── schema.prisma                            # Fleet/customer/audit persistence model
+└── migrations/202609010001_fleet_customers/migration.sql # Sprint 2 forward migration
+```
 
 - HTTP controllers depend on services and shared Zod contracts only.
 - Services depend on repository facades, pure policies, audit and private-file services.

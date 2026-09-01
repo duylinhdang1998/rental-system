@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SessionProvider } from './features/auth';
 import { ContractPreview } from './features/contracts';
-import { CustomerPreview } from './features/customers';
+import { CustomerListPage } from './features/customers';
 import { OperationsDashboard } from './features/dashboard';
 import { EmployeePreview } from './features/employees';
-import { VehiclePreview } from './features/fleet';
+import { VehicleListPage } from './features/fleet';
 import { ReportPreview } from './features/reporting';
 import { ReturnQueuePreview } from './features/returns';
 import { SettingsPreview } from './features/settings';
@@ -24,8 +24,8 @@ export function App() {
             <Route element={<AuthenticatedRoute />}>
               <Route element={<AppShell />}>
                 <Route element={<OperationsDashboard />} index />
-                <Route element={<VehiclePreview />} path="vehicles" />
-                <Route element={<CustomerPreview />} path="customers" />
+                <Route element={<VehicleListPage />} path="vehicles" />
+                <Route element={<CustomerListPage />} path="customers" />
                 <Route element={<ContractPreview />} path="contracts" />
                 <Route element={<ReturnQueuePreview />} path="returns" />
                 <Route element={<OwnerRoute />}>

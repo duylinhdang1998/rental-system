@@ -9,6 +9,7 @@ import {
 import type { Response } from 'express';
 import type { ContextRequest } from '../http/request-context.js';
 import { AuthError, type AuthErrorCode } from '../../modules/auth/auth.errors.js';
+import { DomainError, type DomainErrorCode } from '../errors/domain.error.js';
 
 interface ErrorResponseBody {
   error: { code: string; message: string };
@@ -24,8 +25,16 @@ const AUTH_ERROR_STATUS: Record<AuthErrorCode, HttpStatus> = {
   SESSION_INVALID: HttpStatus.UNAUTHORIZED,
 };
 
+const DOMAIN_ERROR_STATUS: Record<DomainErrorCode, HttpStatus> = {
+  CONFLICT: HttpStatus.CONFLICT,
+  FORBIDDEN: HttpStatus.FORBIDDEN,
+  INVALID_TRANSITION: HttpStatus.CONFLICT,
+  NOT_FOUND: HttpStatus.NOT_FOUND,
+};
+
 function errorStatus(exception: unknown): HttpStatus {
   if (exception instanceof AuthError) return AUTH_ERROR_STATUS[exception.code];
+  if (exception instanceof DomainError) return DOMAIN_ERROR_STATUS[exception.code];
   if (exception instanceof HttpException) return exception.getStatus();
   return HttpStatus.INTERNAL_SERVER_ERROR;
 }
@@ -48,7 +57,7 @@ export class ApiExceptionFilter implements ExceptionFilter {
     const response = context.getResponse<Response>();
     const statusCode = errorStatus(exception);
     const message =
-      exception instanceof AuthError
+      exception instanceof AuthError || exception instanceof DomainError
         ? exception.message
         : exception instanceof HttpException
           ? exceptionMessage(exception)
@@ -56,7 +65,7 @@ export class ApiExceptionFilter implements ExceptionFilter {
     const body: ErrorResponseBody = {
       error: {
         code:
-          exception instanceof AuthError
+          exception instanceof AuthError || exception instanceof DomainError
             ? exception.code
             : (HttpStatus[statusCode] ?? 'INTERNAL_SERVER_ERROR'),
         message,

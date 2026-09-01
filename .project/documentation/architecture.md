@@ -3,7 +3,7 @@
 **Version:** 0.5  
 **Last Updated:** 2026-09-01  
 **Architect:** CTO  
-**Status:** APPROVED BASELINE; Sprint 2–3 source contract awaiting Batch 0 approval
+**Status:** APPROVED BASELINE; Sprint 2 implementation reconciled, Sprint 3 paths reserved
 
 ## 1. High-Level Architecture
 
@@ -266,5 +266,5 @@ MVP uses a static React admin, NestJS API instances and managed PostgreSQL. Admi
 ## 12. Architecture Gate
 
 **APPROVED BASELINE — GATE 1 (2026-08-31).** Sprint 1 is complete. Sprint 2–3 blueprint,
-BDD and wireframe extensions were drafted on 2026-09-01 and require Product Owner approval
-before Batch 1 implementation.
+BDD and wireframe extensions were approved on 2026-09-01. The exact Sprint 2 implementation
+paths were reconciled in `file-blueprint-sprint-2-3.md` after code review.

@@ -57,6 +57,7 @@ export class AuthModule {
         AuthRepository,
         AuthService,
         AuthenticationGuard,
+        CsrfGuard,
         OwnerAuthorizationGuard,
         SecurityEventService,
       ],
