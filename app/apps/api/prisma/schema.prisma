@@ -176,6 +176,8 @@ model PricingVersion {
   vehicleType VehicleType   @relation(fields: [typeCode], references: [code])
   version     Int
   createdById String
+  lateReturnGraceMinutes Int @default(60)
+  lateReturnHourlyRateVnd Int @default(20000)
   tiers       PricingTier[]
   lines       ContractVehicleLine[]
   createdAt   DateTime      @default(now()) @db.Timestamptz
@@ -228,6 +230,8 @@ model ContractVehicleLine {
   baseSubtotalVnd      Int
   adjustmentPercent    Int
   finalSubtotalVnd     Int
+  lateReturnGraceMinutes Int @default(60)
+  lateReturnHourlyRateVnd Int @default(20000)
   explanation          String
   overrideReason       String?
 

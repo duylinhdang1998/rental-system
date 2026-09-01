@@ -115,6 +115,7 @@ export class PricingService {
       dailyRateVnd: calculated.dailyRateVnd,
       explanation: this.explanation(days, calculated.dailyRateVnd, pricing, adjustment),
       finalSubtotalVnd: override?.amountVnd ?? adjusted,
+      lateReturnPolicy: pricing.lateReturnPolicy,
       ...(override ? { overrideReason: override.reason } : {}),
       pricingVersionId: pricing.id,
       pricingVersionNumber: pricing.version,

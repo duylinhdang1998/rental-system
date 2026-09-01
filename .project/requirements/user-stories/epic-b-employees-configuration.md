@@ -28,7 +28,12 @@ Scenario: Thay đổi bảng giá
   When Chủ cập nhật giá thuê
   Then hợp đồng mới dùng giá mới
   And hợp đồng cũ giữ giá snapshot ban đầu
+
+Scenario: Thay đổi chính sách trả trễ
+  Given hợp đồng cũ miễn phí 60 phút trễ và tính 20000 VND mỗi giờ bắt đầu sau đó
+  When Chủ cấu hình 90 phút và 30000 VND
+  Then hợp đồng mới dùng chính sách mới
+  And từng xe trong hợp đồng cũ giữ chính sách ban đầu
 ```
 
 **Priority:** MUST · **Target:** Post Sprint 1 · **Points:** 8
-

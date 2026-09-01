@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   billableRentalDays,
+  calculateLateReturnFee,
   calculateTierPrice,
   applyPercentAdjustment,
   validatePricingTiers,
@@ -10,10 +11,23 @@ import { intervalsOverlap } from '../../apps/api/src/modules/contracts/availabil
 describe('Feature: Pricing and availability policy', () => {
   it.each([
     ['2026-09-02T08:00:00.000Z', 1],
-    ['2026-09-02T09:00:00.000Z', 1],
-    ['2026-09-02T09:01:00.000Z', 2],
-  ])('bills 24-hour blocks with 60 flexible minutes (%s)', (endAt, expected) => {
+    ['2026-09-02T08:01:00.000Z', 2],
+  ])('bills strict 24-hour blocks (%s)', (endAt, expected) => {
     expect(billableRentalDays('2026-09-01T08:00:00.000Z', endAt)).toBe(expected);
+  });
+
+  it.each([
+    ['2026-09-02T09:00:00.000Z', 0, 0],
+    ['2026-09-02T09:01:00.000Z', 1, 20_000],
+    ['2026-09-02T10:00:00.000Z', 1, 20_000],
+    ['2026-09-02T10:01:00.000Z', 2, 40_000],
+  ])('charges each started late hour after 60 free minutes (%s)', (actualReturnAt, hours, fee) => {
+    expect(
+      calculateLateReturnFee('2026-09-02T08:00:00.000Z', actualReturnAt, {
+        graceMinutes: 60,
+        hourlyRateVnd: 20_000,
+      }),
+    ).toMatchObject({ billableLateHours: hours, feeVnd: fee });
   });
 
   it.each([
@@ -53,6 +67,12 @@ describe('Feature: Pricing and availability policy', () => {
     expect(() =>
       billableRentalDays('2026-09-02T08:00:00.000Z', '2026-09-01T08:00:00.000Z'),
     ).toThrow('Invalid rental interval');
+    expect(() =>
+      calculateLateReturnFee('invalid', '2026-09-01T08:00:00.000Z', {
+        graceMinutes: 60,
+        hourlyRateVnd: 20_000,
+      }),
+    ).toThrow('Invalid return time');
     expect(() =>
       calculateTierPrice(3, [{ dailyRateVnd: 150_000, maxDays: 2, minDays: 1 }]),
     ).toThrow('No pricing tier');

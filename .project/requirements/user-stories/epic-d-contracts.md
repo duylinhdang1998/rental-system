@@ -59,6 +59,7 @@ Scenario: Xuất hợp đồng song ngữ
   Given hợp đồng hợp lệ và có ít nhất một xe
   When nhân viên chọn Xuất PDF
   Then hệ thống tạo PDF Việt–Anh theo mẫu đã duyệt
+  And PDF hiển thị chính sách trả trễ đã chụp của hợp đồng
 ```
 
 **Priority:** MUST · **Target:** Post Sprint 1 · **Points:** 8
@@ -94,4 +95,3 @@ Scenario: Đổi xe
 ```
 
 **Priority:** MUST · **Target:** Post Sprint 1 · **Points:** 8
-

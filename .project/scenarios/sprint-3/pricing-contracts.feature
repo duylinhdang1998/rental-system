@@ -10,7 +10,7 @@ Feature: Pricing and multi-vehicle contract creation
     And rental intervals use Asia/Ho_Chi_Minh time with an exclusive end boundary
 
   @US-007 @pricing @golden @unit
-  Scenario Outline: Rental days use 24-hour blocks with 60 flexible return minutes
+  Scenario Outline: Planned rental days use strict 24-hour blocks
     Given a rental starts at "2026-09-01 08:00"
     When its requested end is <end>
     Then the billable rental days are <days>
@@ -18,8 +18,29 @@ Feature: Pricing and multi-vehicle contract creation
     Examples:
       | end                | days |
       | "2026-09-02 08:00" | 1    |
-      | "2026-09-02 09:00" | 1    |
-      | "2026-09-02 09:01" | 2    |
+      | "2026-09-02 08:01" | 2    |
+
+  @US-007 @pricing @late-return @golden @unit
+  Scenario Outline: Actual late returns use the contract fee snapshot
+    Given a confirmed contract ends at "2026-09-02 08:00"
+    And its late-return policy allows 60 free minutes then charges 20000 VND per started hour
+    When the vehicle is actually returned at <returnedAt>
+    Then the late-return fee is <fee>
+
+    Examples:
+      | returnedAt          | fee  |
+      | "2026-09-02 09:00" | 0    |
+      | "2026-09-02 09:01" | 20000 |
+      | "2026-09-02 10:00" | 20000 |
+      | "2026-09-02 10:01" | 40000 |
+
+  @US-007 @pricing @configuration @snapshot @integration
+  Scenario: Owner configures late-return policy without changing old contracts
+    Given the current policy allows 60 free minutes then charges 20000 VND per started hour
+    And an existing contract stores that policy
+    When the Owner publishes a new policy with 90 free minutes and 30000 VND per started hour
+    Then new quotes and contracts use the new policy
+    And the existing contract still uses 60 minutes and 20000 VND
 
   @US-007 @pricing @tier @golden @unit
   Scenario Outline: Versioned tiers produce integer VND totals
@@ -105,6 +126,7 @@ Feature: Pricing and multi-vehicle contract creation
     When Staff requests the contract PDF
     Then the response is a valid PDF with contract code and Việt-Anh section labels
     And the PDF is generated from the immutable contract snapshot
+    And it includes the contract's late-return policy
     And an unauthenticated request receives status 401
 
   @US-010 @responsive @accessibility @e2e

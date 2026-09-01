@@ -7,7 +7,20 @@ const MIN_REASON = 3;
 const MAX_REASON = 240;
 const MAX_VEHICLES = 20;
 const MAX_PERCENT = 100;
+const HOURS_PER_DAY = 24;
+const MINUTES_PER_HOUR = 60;
+const MAX_GRACE_MINUTES = HOURS_PER_DAY * MINUTES_PER_HOUR;
 const vndSchema = z.number().int().min(0).max(MAX_VND);
+
+export const DEFAULT_LATE_RETURN_POLICY = {
+  graceMinutes: 60,
+  hourlyRateVnd: 20_000,
+} as const;
+
+export const lateReturnPolicySchema = z.object({
+  graceMinutes: z.number().int().min(0).max(MAX_GRACE_MINUTES),
+  hourlyRateVnd: vndSchema,
+});
 
 export const pricingTierSchema = z.object({
   dailyRateVnd: vndSchema,
@@ -18,6 +31,7 @@ export const pricingTierSchema = z.object({
 export const pricingVersionSchema = z.object({
   createdAt: z.iso.datetime(),
   id: z.string(),
+  lateReturnPolicy: lateReturnPolicySchema,
   tiers: z.array(pricingTierSchema).min(1),
   typeCode: z.string(),
   version: z.number().int().positive(),
@@ -25,6 +39,7 @@ export const pricingVersionSchema = z.object({
 
 export const publishPricingInputSchema = z
   .object({
+    lateReturnPolicy: lateReturnPolicySchema.default(DEFAULT_LATE_RETURN_POLICY),
     tiers: z.array(pricingTierSchema).min(1).max(MAX_TIERS),
     typeCode: z.string().trim().min(2).max(MAX_TYPE_CODE),
   })
@@ -56,6 +71,7 @@ export const quoteLineSchema = z.object({
   dailyRateVnd: vndSchema,
   explanation: z.string(),
   finalSubtotalVnd: vndSchema,
+  lateReturnPolicy: lateReturnPolicySchema,
   overrideReason: z.string().optional(),
   pricingVersionId: z.string(),
   pricingVersionNumber: z.number().int().positive(),
@@ -73,6 +89,7 @@ export const quoteSchema = z.object({
 });
 
 export type PricingTier = z.infer<typeof pricingTierSchema>;
+export type LateReturnPolicy = z.infer<typeof lateReturnPolicySchema>;
 export type PricingVersion = z.infer<typeof pricingVersionSchema>;
 export type PublishPricingInput = z.infer<typeof publishPricingInputSchema>;
 export type QuoteInput = z.infer<typeof quoteInputSchema>;

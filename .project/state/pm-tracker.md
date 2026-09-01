@@ -45,7 +45,7 @@
 | Gate 1: Planning | PASSED | 2026-08-31 |
 | Sprint 1 BDD approval | APPROVED — 15 scenarios | 2026-08-31 |
 | Sprint 2 execution | APPROVED; QA PASS | 2026-09-01 |
-| Sprint 3 execution | AUTHORIZED; defaults accepted from client feedback | 2026-09-01 |
+| Sprint 3 execution | AUTHORIZED; configurable late-return rule and system PDF approved | 2026-09-01 |
 
 ## Team Status
 
@@ -60,9 +60,9 @@
 | Backend / Frontend specialists | Fleet, customers and availability calendar | COMPLETE | 2 |
 | google-code-reviewer | Sprint 2 code review | COMPLETE — LGTM | 2 |
 | google-qa-engineer | Sprint 2 regression/browser acceptance | COMPLETE — PASS | 2 |
-| Backend / Frontend specialists | Pricing and contract creation | COMPLETE | 3 |
-| google-code-reviewer | Sprint 3 transaction/security/UI review | COMPLETE — LGTM | 3 |
-| google-qa-engineer | Sprint 3 regression/concurrency/browser acceptance | COMPLETE — PASS | 3 |
+| Backend / Frontend specialists | Pricing, contracts and configurable late-return policy | COMPLETE | 3 |
+| google-code-reviewer | Sprint 3 transaction/security/UI follow-up review | COMPLETE — LGTM | 3 |
+| google-qa-engineer | Sprint 3 regression/concurrency/browser acceptance | COMPLETE — PASS (59 + 19) | 3 |
 
 ## Activity Log
 
@@ -90,8 +90,9 @@
 - 2026-09-01: Sprint 2–3 BDD, wireframes and exact file blueprint drafted for mandatory approval.
 - 2026-09-01: Sprint 2 delivered fleet/customer CRUD, controlled status history, private-document policy and room-style vehicle availability calendar.
 - 2026-09-01: Sprint 2 review LGTM; 34 unit/integration and 15 browser tests passed with all coverage dimensions above 80%.
-- 2026-09-01: Sprint 3 delivered versioned pricing, 24-hour/60-minute calculation, immutable snapshots, overlap-safe multi-vehicle contracts, private handover metadata and bilingual PDF export.
-- 2026-09-01: Sprint 3 review LGTM; 54 unit/integration and 18 browser tests passed with all coverage dimensions above 80%.
+- 2026-09-01: Sprint 3 delivered versioned pricing, strict planned 24-hour blocks, configurable late-return fees, immutable per-vehicle snapshots, overlap-safe multi-vehicle contracts, private handover metadata and bilingual PDF export.
+- 2026-09-01: Client approved 60 free late minutes, 20.000 VND per started hour afterwards, Owner configuration and the system PDF until a client template arrives.
+- 2026-09-01: Sprint 3 follow-up review LGTM; 59 unit/integration and 19 browser tests passed with all coverage dimensions above 80%.
 
 ## Blockers
 

@@ -24,6 +24,10 @@ function pdfSafeText(value: string): string {
 }
 
 function pdfLines(contract: RentalContract): string[] {
+  const latePolicies = contract.quote.lines.map(
+    (line) =>
+      `${line.vehicleCode}: ${line.lateReturnPolicy.graceMinutes} phut mien phi, ${line.lateReturnPolicy.hourlyRateVnd.toLocaleString('vi-VN')} VND/gio bat dau`,
+  );
   return [
     `Ma hop dong / Contract code: ${contract.code}`,
     `Khach hang / Customer: ${contract.quote.customerName}`,
@@ -34,6 +38,8 @@ function pdfLines(contract: RentalContract): string[] {
     '',
     'Dieu khoan tieng Viet / Vietnamese terms',
     'Gia va thoi gian duoc co dinh theo thong tin tai thoi diem tao hop dong.',
+    'Tra tre / Late return:',
+    ...latePolicies,
     '',
     'English terms',
     'Price and rental period are fixed from the confirmed contract snapshot.',

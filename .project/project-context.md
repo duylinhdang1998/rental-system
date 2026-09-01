@@ -104,6 +104,17 @@ khối, snapshot tên khách/giá, bàn giao riêng tư và PDF Việt–Anh. L�
 Code review LGTM; QA PASS với 54 kiểm thử unit/integration, 18 hành trình trình duyệt và
 bốn chỉ số coverage đều trên 80%. Sprint 0–3 sẵn sàng bàn giao trên GitHub.
 
+### Session 13 — 2026-09-01
+
+**Phản hồi:** Trả xe trễ tối đa 60 phút không tính phí; từ phút 61 tính 20.000 VND cho
+mỗi giờ bắt đầu, làm tròn lên. Chủ cửa hàng phải cấu hình được số phút miễn phí và mức
+phí theo giờ. Duyệt mẫu PDF hệ thống cho bản đầu; khi khách hàng cung cấp mẫu riêng thì
+thay sau.
+
+**Quyết định:** Tách rõ thời gian thuê dự kiến (block 24 giờ) khỏi trả xe thực tế. Chính
+sách trả trễ được lưu theo phiên bản bảng giá và chụp vào từng hợp đồng, nên đổi cấu hình
+không làm thay đổi hợp đồng cũ. PDF hệ thống phải in chính sách đã chụp của hợp đồng.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -133,11 +144,11 @@ bốn chỉ số coverage đều trên 80%. Sprint 0–3 sẵn sàng bàn giao t
 | PD-02 | Tech stack | React + Vite admin, NestJS API, PostgreSQL + Prisma | Approved direction |
 | PD-03 | Cơ cấu thực hiện | 2 backend, 2 frontend + UX/QA/review/DevOps | Approved allocation |
 | PD-04 | Một hay nhiều chi nhánh | Một chi nhánh trong MVP | Approved |
-| PD-05 | Cách tính ngày thuê | Block 24 giờ, linh động thêm tối đa 60 phút trước khi tính block kế tiếp | Accepted as Sprint 3 default |
+| PD-05 | Cách tính ngày thuê và trả trễ | Thời gian dự kiến tính block 24 giờ; trả thực tế trễ tối đa 60 phút miễn phí, từ phút 61 tính 20.000 VND mỗi giờ bắt đầu | Approved; configurable and snapshotted per contract |
 | PD-06 | Cách tính giá khi gia hạn | Tính lại toàn bộ thời gian theo bậc cuối | Deferred to Sprint 4; not implemented in Sprint 3 |
 | PD-07 | Đặt trước xe đang thuê | Cho phép nếu không trùng khoảng `[start,end)` | Accepted as Sprint 3 default |
 | PD-08 | Nhập Excel cũ khi go-live | Chuyển lên MVP nếu có dữ liệu đang vận hành | Pending |
-| PD-09 | Mẫu hợp đồng Việt–Anh | Template hệ thống Sprint 3, thay bằng mẫu khách hàng khi nhận | Accepted as Sprint 3 default |
+| PD-09 | Mẫu hợp đồng Việt–Anh | Template hệ thống Sprint 3, thay bằng mẫu khách hàng khi nhận | Approved for initial operation |
 | PD-10 | Mẫu báo cáo doanh thu ngày | Đã lưu `daily-revenue-report-sample.xlsx` | Received |
 | PD-11 | Mẫu lịch trả xe | Đã lưu `vehicle-return-schedule-sample.xlsx` | Received |
 

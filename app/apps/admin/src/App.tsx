@@ -7,7 +7,7 @@ import { EmployeePreview } from './features/employees';
 import { VehicleListPage } from './features/fleet';
 import { ReportPreview } from './features/reporting';
 import { ReturnQueuePreview } from './features/returns';
-import { SettingsPreview } from './features/settings';
+import { SettingsPage } from './features/settings';
 import { AuthenticatedRoute } from './routes/AuthenticatedRoute';
 import { LoginRoute } from './routes/LoginRoute';
 import { OwnerRoute } from './routes/OwnerRoute';
@@ -31,7 +31,7 @@ export function App() {
                 <Route element={<OwnerRoute />}>
                   <Route element={<ReportPreview />} path="reports" />
                   <Route element={<EmployeePreview />} path="employees" />
-                  <Route element={<SettingsPreview />} path="settings" />
+                  <Route element={<SettingsPage />} path="settings" />
                 </Route>
               </Route>
             </Route>

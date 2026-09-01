@@ -5,6 +5,28 @@ import type { PricingRepository } from './pricing.types.js';
 
 const VIP_PERCENT = 10;
 
+function mapVersion(item: {
+  createdAt: Date;
+  id: string;
+  lateReturnGraceMinutes: number;
+  lateReturnHourlyRateVnd: number;
+  tiers: PricingVersion['tiers'];
+  typeCode: string;
+  version: number;
+}): PricingVersion {
+  return {
+    createdAt: item.createdAt.toISOString(),
+    id: item.id,
+    lateReturnPolicy: {
+      graceMinutes: item.lateReturnGraceMinutes,
+      hourlyRateVnd: item.lateReturnHourlyRateVnd,
+    },
+    tiers: item.tiers,
+    typeCode: item.typeCode,
+    version: item.version,
+  };
+}
+
 @Injectable()
 export class PrismaPricingRepository implements PricingRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -27,7 +49,7 @@ export class PrismaPricingRepository implements PricingRepository {
       orderBy: { version: 'desc' },
       where: { typeCode },
     });
-    return item ? { ...item, createdAt: item.createdAt.toISOString() } : null;
+    return item ? mapVersion(item) : null;
   }
 
   async publish(input: PublishPricingInput, actorId: string): Promise<PricingVersion> {
@@ -39,13 +61,15 @@ export class PrismaPricingRepository implements PricingRepository {
       const created = await transaction.pricingVersion.create({
         data: {
           createdById: actorId,
+          lateReturnGraceMinutes: input.lateReturnPolicy.graceMinutes,
+          lateReturnHourlyRateVnd: input.lateReturnPolicy.hourlyRateVnd,
           tiers: { create: input.tiers },
           typeCode: input.typeCode,
           version: (latest?.version ?? 0) + 1,
         },
         include: { tiers: { orderBy: { minDays: 'asc' } } },
       });
-      return { ...created, createdAt: created.createdAt.toISOString() };
+      return mapVersion(created);
     });
   }
 

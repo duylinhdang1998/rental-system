@@ -64,8 +64,28 @@ export const availabilityResultSchema = z.object({
   conflicts: z.array(availabilityConflictSchema),
 });
 
+export const lateReturnFeeInputSchema = z
+  .object({
+    actualReturnAt: z.iso.datetime(),
+    vehicleId: z.string().min(1),
+  })
+  .strict();
+
+export const lateReturnFeeResultSchema = z.object({
+  actualReturnAt: z.iso.datetime(),
+  billableLateHours: z.number().int().min(0),
+  feeVnd: vndSchema,
+  graceMinutes: z.number().int().min(0),
+  hourlyRateVnd: vndSchema,
+  lateMinutes: z.number().int().min(0),
+  scheduledEndAt: z.iso.datetime(),
+  vehicleId: z.string(),
+});
+
 export type ContractCreateInput = z.infer<typeof contractCreateInputSchema>;
 export type RentalContract = z.infer<typeof contractSchema>;
 export type AvailabilityInput = z.infer<typeof availabilityInputSchema>;
 export type AvailabilityConflict = z.infer<typeof availabilityConflictSchema>;
 export type HandoverInput = z.infer<typeof handoverInputSchema>;
+export type LateReturnFeeInput = z.infer<typeof lateReturnFeeInputSchema>;
+export type LateReturnFeeResult = z.infer<typeof lateReturnFeeResultSchema>;

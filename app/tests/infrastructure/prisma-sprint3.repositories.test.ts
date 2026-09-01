@@ -8,6 +8,8 @@ const PRICING = {
   createdAt: CREATED_AT,
   createdById: 'owner-1',
   id: 'pricing-1',
+  lateReturnGraceMinutes: 60,
+  lateReturnHourlyRateVnd: 20_000,
   tiers: [
     {
       dailyRateVnd: 150_000,
@@ -30,6 +32,8 @@ const LINE = {
   explanation: '1 day',
   finalSubtotalVnd: 150_000,
   id: 'line-1',
+  lateReturnGraceMinutes: 60,
+  lateReturnHourlyRateVnd: 20_000,
   overrideReason: null,
   pricingVersion: PRICING,
   pricingVersionId: PRICING.id,
@@ -96,7 +100,11 @@ describe('Feature: Sprint 3 Prisma production adapters', () => {
     await expect(repository.current('MISSING')).resolves.toBeNull();
     await expect(
       repository.publish(
-        { tiers: [{ dailyRateVnd: 150_000, maxDays: null, minDays: 1 }], typeCode: 'SCOOTER' },
+        {
+          lateReturnPolicy: { graceMinutes: 60, hourlyRateVnd: 20_000 },
+          tiers: [{ dailyRateVnd: 150_000, maxDays: null, minDays: 1 }],
+          typeCode: 'SCOOTER',
+        },
         'owner-1',
       ),
     ).resolves.toMatchObject({ id: 'pricing-1' });
@@ -135,7 +143,13 @@ describe('Feature: Sprint 3 Prisma production adapters', () => {
           deliveryFeeVnd: 0,
           endAt: LINE.endAt.toISOString(),
           lines: [
-            { ...LINE, overrideReason: undefined, pricingVersionNumber: 1, vehicleCode: 'XE-001' },
+            {
+              ...LINE,
+              lateReturnPolicy: { graceMinutes: 60, hourlyRateVnd: 20_000 },
+              overrideReason: undefined,
+              pricingVersionNumber: 1,
+              vehicleCode: 'XE-001',
+            },
           ],
           startAt: LINE.startAt.toISOString(),
           totalVnd: 150_000,
@@ -176,7 +190,13 @@ describe('Feature: Sprint 3 Prisma production adapters', () => {
         deliveryFeeVnd: 0,
         endAt: LINE.endAt.toISOString(),
         lines: [
-          { ...LINE, overrideReason: undefined, pricingVersionNumber: 1, vehicleCode: 'XE-001' },
+          {
+            ...LINE,
+            lateReturnPolicy: { graceMinutes: 60, hourlyRateVnd: 20_000 },
+            overrideReason: undefined,
+            pricingVersionNumber: 1,
+            vehicleCode: 'XE-001',
+          },
         ],
         startAt: LINE.startAt.toISOString(),
         totalVnd: 150_000,

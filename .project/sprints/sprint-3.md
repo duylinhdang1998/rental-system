@@ -47,6 +47,16 @@
 **Deliverables:** Responsive multi-step customer/vehicle/pricing/handover/confirmation flow.  
 **Acceptance Criteria:** Validation, price explanation, conflict recovery and accessibility match BDD.
 
+### Task 3.5: Configurable late-return policy [Backend + Frontend]
+**Status:** [COMPLETE]
+**Story Points:** 5
+**Wireframe:** Settings route using the approved Soft Modern system
+
+**Deliverables:** Strict planned 24-hour blocks; configurable grace/rate version; per-vehicle
+contract snapshot; late-fee calculation API; Owner Settings UI; PDF terms.
+**Acceptance Criteria:** 60 minutes costs 0; minute 61 costs 20.000 VND; every started hour
+rounds up; old contracts remain unchanged after configuration updates.
+
 ### Task 3.R: Sprint 3 code review [Code Review]
 **Status:** [COMPLETE]
 **Story Points:** 3  
@@ -72,21 +82,23 @@
 | 3.2 | Availability/contract transaction | 8 | [COMPLETE] | Backend | - |
 | 3.3 | Handover/file/PDF service | 8 | [COMPLETE] | Backend | - |
 | 3.4 | Contract creation UI | 8 | [COMPLETE] | Frontend | `07-contract-creation.md` |
+| 3.5 | Configurable late-return policy | 5 | [COMPLETE] | Backend + Frontend | Settings route |
 | 3.R | Sprint 3 code review | 3 | [COMPLETE — LGTM] | Code Review | - |
 | 3.Q | Sprint 3 QA verification | 8 | [COMPLETE — PASS] | QA | - |
 
 ## Sprint Summary
 
-**Total:** 7 tasks · 51 points · all four batches complete.
+**Total:** 8 tasks · 56 points · all four batches complete, including approved follow-up.
 
-QA evidence: 54 unit/integration tests and 18 browser journeys passed. Coverage reached
-95.80% statements, 80.74% branches, 94.63% functions and 96.63% lines. Format, lint,
+QA evidence: 59 unit/integration tests and 19 browser journeys passed. Coverage reached
+95.72% statements, 80.79% branches, 94.73% functions and 96.62% lines. Format, lint,
 typecheck, production build, Prisma validation and high-severity dependency audit passed.
 
 ## Definition of Done
 
 - [x] Business pricing decisions, PDF template and contract wireframes approved.
 - [x] Multi-vehicle creation is atomic and overlap-safe.
+- [x] Late-return configuration is Owner-only and immutable per contract vehicle.
 - [x] Review LGTM; QA regression/concurrency/browser acceptance approved.
 
 ## Dependencies and Risks

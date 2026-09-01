@@ -158,6 +158,8 @@ app/apps/api/src/modules/contracts/
 
 app/apps/api/prisma/migrations/202609010002_pricing_contracts/migration.sql
                                                 # Pricing/contracts/indexes/GiST exclusion
+app/apps/api/prisma/migrations/202609010003_configurable_late_return_fee/migration.sql
+                                                # Versioned late-return settings and snapshots
 
 app/apps/admin/src/features/contracts/           # Five-step wizard and focused field components
 app/tests/api/pricing-contracts.test.ts           # API, security, PDF and concurrency scenarios
@@ -165,6 +167,41 @@ app/tests/domain/pricing-availability.test.ts     # Golden pricing/overlap polic
 app/tests/infrastructure/prisma-sprint3.repositories.test.ts
                                                 # Production adapter verification
 app/e2e/contract-creation.spec.ts                 # Desktop/mobile/conflict recovery journeys
+```
+
+## Sprint 3 late-return policy follow-up (authoritative)
+
+```text
+app/packages/contracts/src/
+├── pricing.ts                              # Shared default/policy schemas and quote-line snapshot
+└── contracts.ts                            # Per-vehicle late-return fee request/result schemas
+
+app/apps/api/src/modules/pricing/
+├── pricing.policy.ts                       # Strict 24h blocks and pure started-hour late fee
+├── pricing.service.ts                      # Policy snapshot on every quoted vehicle line
+├── demo-pricing.repository.ts              # Shared-default demo pricing adapter
+└── prisma-pricing.repository.ts            # Versioned policy persistence mapping
+
+app/apps/api/src/modules/contracts/
+├── contract.controller.ts                  # Authenticated/CSRF late-fee calculation boundary
+├── contract.service.ts                     # Calculate from the selected contract-line snapshot
+├── prisma-contract.repository.ts           # Persist/map immutable per-line late policy
+└── contract-pdf.service.ts                 # Print snapshotted late-return terms
+
+app/apps/admin/src/features/settings/
+├── SettingsPage.tsx                        # Owner settings route composition
+├── SettingsHeader.tsx                      # Settings title and operational context
+├── PricingSettingsState.tsx                # Loading/error state with retry
+├── LateReturnSettingsForm.tsx              # Policy form composition and live example
+├── LateReturnFields.tsx                    # Accessible minutes/rate controls
+├── LateReturnSaveStatus.tsx                # Inline save success/error feedback
+├── settings-api.ts                         # Runtime-validated current/publish adapter
+├── use-late-return-form.ts                 # Controlled policy form state and submit
+├── use-pricing-settings.ts                 # Pricing query/mutation invalidation
+└── index.ts                                # Public SettingsPage export
+
+app/tests/api/late-return-pricing.test.ts    # RBAC and immutable contract fee calculation
+app/e2e/workspace-navigation.spec.ts         # Owner configuration browser acceptance
 ```
 
 ## Sprint 2 implementation reconciliation (authoritative)

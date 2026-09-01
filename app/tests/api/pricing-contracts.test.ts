@@ -91,6 +91,7 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
       .post('/api/pricing/versions')
       .set('x-csrf-token', csrf)
       .send({
+        lateReturnPolicy: { graceMinutes: 90, hourlyRateVnd: 30_000 },
         typeCode: 'SCOOTER',
         tiers: [
           { dailyRateVnd: 140_000, maxDays: 2, minDays: 1 },
@@ -100,7 +101,12 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
       .expect(201);
     const current = await owner.get('/api/pricing/current?typeCode=SCOOTER').expect(200);
     expect(current.body.version).toBe(2);
+    expect(current.body.lateReturnPolicy).toEqual({ graceMinutes: 90, hourlyRateVnd: 30_000 });
     const stored = await staff.get(`/api/contracts/${before.body.id}`).expect(200);
+    expect(stored.body.quote.lines[0].lateReturnPolicy).toEqual({
+      graceMinutes: 60,
+      hourlyRateVnd: 20_000,
+    });
     expect(stored.body.quote.lines[0]).toMatchObject({
       dailyRateVnd: 130_000,
       pricingVersionNumber: 1,
@@ -117,6 +123,10 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
       })
       .expect(201);
     expect(next.body.lines[0]).toMatchObject({ dailyRateVnd: 120_000, pricingVersionNumber: 2 });
+    expect(next.body.lines[0].lateReturnPolicy).toEqual({
+      graceMinutes: 90,
+      hourlyRateVnd: 30_000,
+    });
     await owner
       .post('/api/pricing/versions')
       .set('x-csrf-token', csrf)
@@ -238,8 +248,14 @@ describe('Feature: Pricing and multi-vehicle contract APIs', () => {
       .expect(201);
     expect(created.body).toMatchObject({
       handover: { imageCount: 1 },
-      quote: { totalVnd: 1_350_000 },
+      quote: {
+        totalVnd: 1_350_000,
+      },
       status: 'CONFIRMED',
+    });
+    expect(created.body.quote.lines[0].lateReturnPolicy).toEqual({
+      graceMinutes: 60,
+      hourlyRateVnd: 20_000,
     });
     expect(JSON.stringify(created.body)).not.toContain('imageObjectKeys');
     const calendar = await staff

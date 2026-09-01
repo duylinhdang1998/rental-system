@@ -1,6 +1,10 @@
 import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
-import type { PricingVersion, PublishPricingInput } from '@rental/contracts';
+import {
+  DEFAULT_LATE_RETURN_POLICY,
+  type PricingVersion,
+  type PublishPricingInput,
+} from '@rental/contracts';
 import type { PricedCustomer, PricedVehicle, PricingRepository } from './pricing.types.js';
 
 const DEFAULT_TIERS = [
@@ -22,6 +26,7 @@ export class DemoPricingRepository implements PricingRepository {
     {
       createdAt: new Date('2026-09-01T00:00:00.000Z').toISOString(),
       id: 'pricing-scooter-v1',
+      lateReturnPolicy: DEFAULT_LATE_RETURN_POLICY,
       tiers: DEFAULT_TIERS,
       typeCode: 'SCOOTER',
       version: 1,

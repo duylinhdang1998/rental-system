@@ -26,11 +26,13 @@ Hệ thống thay thế quy trình rời rạc bằng Excel, giấy và trao đ�
 - **Tất toán:** xác định tổng phải trả, đã thu, còn thiếu hoặc cần hoàn.
 - **Availability:** khả năng chọn xe trong một khoảng thời gian mà không trùng thuê/đặt trước.
 
-## 2. Assumptions Pending Approval
+## 2. Business Rules and Remaining Assumptions
 
-- MVP phục vụ một chi nhánh.
+- MVP phục vụ một chi nhánh (đã duyệt).
 - Tiền tệ là VND và lưu theo số nguyên.
-- Ngày thuê mặc định tính theo block 24 giờ; có cấu hình thời gian ân hạn.
+- Thời gian thuê dự kiến tính theo block 24 giờ. Khi trả thực tế, 60 phút trễ đầu tiên
+  miễn phí; từ phút 61 tính 20.000 VND cho mỗi giờ bắt đầu. Chủ cấu hình được hai giá trị
+  này và hợp đồng cũ giữ nguyên snapshot (đã duyệt).
 - Gia hạn tính lại toàn bộ kỳ thuê theo bậc ngày cuối cùng.
 - Có thể đặt trước xe đang thuê nếu khoảng thời gian không trùng.
 - Sprint 1 dùng dữ liệu demo có nhãn rõ để duyệt UI; không giả lập rằng nghiệp vụ đã hoàn chỉnh.
@@ -72,6 +74,7 @@ Hệ thống thay thế quy trình rời rạc bằng Excel, giấy và trao đ�
 
 - Chủ quản lý loại xe, kênh liên hệ, loại giấy tờ, nhãn, bảng giá, phí trễ, hạng mục hư hỏng, đối tác và thông tin hộ kinh doanh.
 - Bảng giá hỗ trợ bậc theo số ngày.
+- Chủ cấu hình số phút trả trễ miễn phí và phí VND cho mỗi giờ bắt đầu.
 - Thay đổi cấu hình không làm thay đổi số liệu hợp đồng đã lập.
 
 ### FR-05 Contract Creation
@@ -84,7 +87,8 @@ Hệ thống thay thế quy trình rời rạc bằng Excel, giấy và trao đ�
 - Hệ thống tính số ngày, giá từng xe, phí giao và tổng hợp đồng.
 - Sửa giá tay yêu cầu lý do và lưu người thao tác.
 - Ghi cọc tiền, giấy tờ giữ, địa điểm giao, ảnh giao xe, mức xăng, ghi chú và nhân viên phụ trách.
-- Xuất hợp đồng PDF song ngữ Việt–Anh.
+- Xuất hợp đồng PDF song ngữ Việt–Anh theo mẫu hệ thống đã duyệt cho bản đầu; PDF dùng
+  snapshot hợp đồng, gồm chính sách trả trễ. Thay mẫu khi khách hàng cung cấp mẫu riêng.
 
 ### FR-06 Contract Lifecycle
 

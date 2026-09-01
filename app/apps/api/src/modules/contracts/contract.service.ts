@@ -1,8 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { AuthenticatedUser, AvailabilityInput, ContractCreateInput } from '@rental/contracts';
+import type {
+  AuthenticatedUser,
+  AvailabilityInput,
+  ContractCreateInput,
+  LateReturnFeeInput,
+} from '@rental/contracts';
 import { AuditService } from '../../common/audit/audit.service.js';
 import { DomainError } from '../../common/errors/domain.error.js';
 import { PricingService } from '../pricing/pricing.service.js';
+import { calculateLateReturnFee } from '../pricing/pricing.policy.js';
 import { nextContractCode } from './contract-code.service.js';
 import { ContractPdfService } from './contract-pdf.service.js';
 import { CONTRACT_REPOSITORY } from './contract.tokens.js';
@@ -53,6 +59,24 @@ export class ContractService {
 
   async generatePdf(id: string) {
     return this.pdf.generate(await this.get(id));
+  }
+
+  async lateReturnFee(id: string, input: LateReturnFeeInput) {
+    const contract = await this.get(id);
+    const line = contract.quote.lines.find((item) => item.vehicleId === input.vehicleId);
+    if (!line) throw new DomainError('NOT_FOUND', 'Xe không thuộc hợp đồng này');
+    try {
+      return {
+        ...calculateLateReturnFee(
+          contract.quote.endAt,
+          input.actualReturnAt,
+          line.lateReturnPolicy,
+        ),
+        vehicleId: input.vehicleId,
+      };
+    } catch {
+      throw new DomainError('INVALID_INPUT', 'Thời điểm trả xe không hợp lệ');
+    }
   }
 
   async imageAccess(id: string) {

@@ -2,8 +2,10 @@ import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs
 import {
   availabilityInputSchema,
   contractCreateInputSchema,
+  lateReturnFeeInputSchema,
   type AvailabilityInput,
   type ContractCreateInput,
+  type LateReturnFeeInput,
 } from '@rental/contracts';
 import type { Response } from 'express';
 import { AuthenticationGuard } from '../../common/guards/authentication.guard.js';
@@ -35,6 +37,15 @@ export class ContractController {
   @Get(':id')
   get(@Param('id') id: string) {
     return this.service.get(id);
+  }
+
+  @Post(':id/late-return-fee')
+  @UseGuards(CsrfGuard)
+  lateReturnFee(
+    @Param('id') id: string,
+    @Body(new ZodValidationPipe(lateReturnFeeInputSchema)) input: LateReturnFeeInput,
+  ) {
+    return this.service.lateReturnFee(id, input);
   }
 
   @Get(':id/handover-images')

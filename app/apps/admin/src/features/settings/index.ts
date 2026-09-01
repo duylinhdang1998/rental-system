@@ -1,1 +1,1 @@
-export { SettingsPreview } from './SettingsPreview';
+export { SettingsPage } from './SettingsPage';

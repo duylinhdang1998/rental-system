@@ -1,9 +1,9 @@
 # System Architecture — Hệ thống quản lý cho thuê xe máy
 
-**Version:** 0.5  
+**Version:** 0.6
 **Last Updated:** 2026-09-01  
 **Architect:** CTO  
-**Status:** APPROVED BASELINE; Sprint 2 implementation reconciled, Sprint 3 paths reserved
+**Status:** APPROVED BASELINE; Sprint 2–3 implementation reconciled
 
 ## 1. High-Level Architecture
 
@@ -215,6 +215,10 @@ The planned fleet, customer, pricing and contract files are defined in
 `.project/documentation/file-blueprint-sprint-2-3.md`. This extension preserves the
 modular-monolith dependency direction above and becomes authoritative after the Product
 Owner approves the Sprint 2–3 BDD scenarios and expanded wireframes.
+
+The same blueprint includes the approved Sprint 3 follow-up for configurable late-return
+fees: versioned pricing owns configuration, each contract vehicle line owns an immutable
+snapshot, and the Owner-only Settings page publishes new versions.
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
