@@ -90,6 +90,11 @@ export class DemoFleetRepository implements FleetRepository {
     return Promise.resolve(created);
   }
 
+  findById(id: string): Promise<Vehicle | null> {
+    const vehicle = this.vehicles.find((item) => item.id === id);
+    return Promise.resolve(vehicle ? { ...vehicle } : null);
+  }
+
   findByPlate(normalizedPlate: string): Promise<Vehicle | null> {
     return Promise.resolve(
       this.vehicles.find((vehicle) => normalizePlate(vehicle.plate) === normalizedPlate) ?? null,

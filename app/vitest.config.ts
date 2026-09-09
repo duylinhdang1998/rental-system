@@ -1,6 +1,11 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 
+const ADMIN_SRC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), './apps/admin/src');
+
 export default defineConfig({
+  resolve: { alias: { '@': ADMIN_SRC } },
   test: {
     coverage: {
       provider: 'v8',

@@ -119,6 +119,8 @@ sequenceDiagram
 > feature paths while preserving the same domain boundaries.
 > The development-only component review workspace is governed by
 > `.project/documentation/file-blueprint-sprint-10.md`; it does not enter production routes.
+> Sprint 4 contract lifecycle, extension/swap and operations-board files are governed by
+> `.project/documentation/file-blueprint-sprint-4.md`.
 
 ```text
 app/
@@ -225,6 +227,15 @@ The same blueprint includes the approved Sprint 3 follow-up for configurable lat
 fees: versioned pricing owns configuration, each contract vehicle line owns an immutable
 snapshot, and the Owner-only Settings page publishes new versions.
 
+### 6.3 Exact Sprint 4 source-file contract
+
+Contract lifecycle transitions, the scheduled overdue evaluation, cancellation, extension,
+linked vehicle swaps and the operations board are defined in
+`.project/documentation/file-blueprint-sprint-4.md`. Lifecycle rules live in pure policies,
+use cases in dedicated services, and every transition is recorded as an immutable contract
+event plus an audit entry. Vehicle RENTED/RESERVED status is derived from open contract
+lines and re-synchronized after each transition.
+
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
@@ -277,4 +288,5 @@ MVP uses a static React admin, NestJS API instances and managed PostgreSQL. Admi
 
 **APPROVED BASELINE — GATE 1 (2026-08-31).** Sprint 1 is complete. Sprint 2–3 blueprint,
 BDD and wireframe extensions were approved on 2026-09-01. The exact Sprint 2 implementation
-paths were reconciled in `file-blueprint-sprint-2-3.md` after code review.
+paths were reconciled in `file-blueprint-sprint-2-3.md` after code review. Sprint 4 lifecycle
+files were reconciled in `file-blueprint-sprint-4.md` on 2026-09-09.

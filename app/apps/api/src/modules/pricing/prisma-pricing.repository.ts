@@ -73,6 +73,14 @@ export class PrismaPricingRepository implements PricingRepository {
     });
   }
 
+  async version(id: string): Promise<PricingVersion | null> {
+    const item = await this.prisma.pricingVersion.findUnique({
+      include: { tiers: { orderBy: { minDays: 'asc' } } },
+      where: { id },
+    });
+    return item ? mapVersion(item) : null;
+  }
+
   async vehicles(ids: string[]) {
     return this.prisma.vehicle
       .findMany({

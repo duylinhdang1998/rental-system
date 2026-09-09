@@ -10,7 +10,9 @@ export function ContractWizardPage() {
   return (
     <section className="grid min-w-0 gap-5">
       <header>
-        <p className="text-sm font-bold text-brand">Sprint 3</p>
+        <p className="text-sm font-bold uppercase tracking-wide text-brand">
+          {t('contractWorkspace')}
+        </p>
         <h1 className="text-3xl font-black">{t('contractTitle')}</h1>
       </header>
       <ContractProgress step={wizard.state.step} />

@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import {
   availabilityInputSchema,
   contractCreateInputSchema,
+  contractListQuerySchema,
   lateReturnFeeInputSchema,
   type AvailabilityInput,
   type ContractCreateInput,
+  type ContractListQuery,
   type LateReturnFeeInput,
 } from '@rental/contracts';
 import type { Response } from 'express';
@@ -12,12 +14,29 @@ import { AuthenticationGuard } from '../../common/guards/authentication.guard.js
 import type { ContextRequest } from '../../common/http/request-context.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
 import { CsrfGuard } from '../auth/csrf.guard.js';
+import { ContractBoardService } from './contract-board.service.js';
+import { ContractPdfService } from './contract-pdf.service.js';
 import { ContractService } from './contract.service.js';
 
 @Controller('contracts')
 @UseGuards(AuthenticationGuard)
 export class ContractController {
-  constructor(private readonly service: ContractService) {}
+  constructor(
+    private readonly service: ContractService,
+    private readonly board: ContractBoardService,
+    private readonly pdfs: ContractPdfService,
+  ) {}
+
+  @Get()
+  list(@Query(new ZodValidationPipe(contractListQuerySchema)) query: ContractListQuery) {
+    return this.board.list(query);
+  }
+
+  /** Declared before `:id` so the static segment wins route matching. */
+  @Get('board')
+  operationsBoard() {
+    return this.board.board();
+  }
 
   @Post('availability')
   @UseGuards(CsrfGuard)
@@ -55,7 +74,7 @@ export class ContractController {
 
   @Get(':id/pdf')
   async pdf(@Param('id') id: string, @Res() response: Response) {
-    const bytes = await this.service.generatePdf(id);
+    const bytes = await this.pdfs.generate(await this.service.get(id));
     response.setHeader('content-type', 'application/pdf');
     response.setHeader('content-disposition', `attachment; filename="contract-${id}.pdf"`);
     response.send(Buffer.from(bytes));

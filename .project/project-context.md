@@ -128,6 +128,18 @@ xe/khách dùng dialog và lịch xe dùng dedicated overlay. Mọi persisted bu
 `createdAt`; các list/card/summary đang triển khai phải hiển thị “Ngày tạo”. Thêm static
 architecture gate để cấm native form controls ngoài `components/ui`.
 
+### Session 15 — 2026-09-09
+
+**Yêu cầu:** Cài dependency và mở Sprint 4 theo kế hoạch: vòng đời hợp đồng (đặt trước,
+đang thuê, quá hạn, đã trả, đã hủy), gia hạn, đổi xe và bảng vận hành hôm nay.
+
+**Quyết định:** Sprint 4 triển khai trên nền Sprint 3/8 đã duyệt. PD-06 dùng mặc định đề
+xuất (tính lại toàn bộ kỳ thuê theo bậc của tổng số ngày mới, dùng bảng giá đã chốt của hợp
+đồng) trong khi chờ Product Owner xác nhận. Trạng thái quá hạn do job đánh giá theo giờ
+Asia/Ho_Chi_Minh; 60 phút ân hạn chỉ ảnh hưởng phí, không ảnh hưởng trạng thái. Đổi xe bắt
+buộc ghi lý do; dòng xe cũ kết thúc tại thời điểm đổi, dòng mới thừa kế kỳ còn lại và giá,
+tổng tiền không đổi. Hủy hợp đồng giữ nguyên bản ghi kèm người thao tác và lý do.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -160,7 +172,7 @@ architecture gate để cấm native form controls ngoài `components/ui`.
 | PD-03 | Cơ cấu thực hiện | 2 backend, 2 frontend + UX/QA/review/DevOps | Approved allocation |
 | PD-04 | Một hay nhiều chi nhánh | Một chi nhánh trong MVP | Approved |
 | PD-05 | Cách tính ngày thuê và trả trễ | Thời gian dự kiến tính block 24 giờ; trả thực tế trễ tối đa 60 phút miễn phí, từ phút 61 tính 20.000 VND mỗi giờ bắt đầu | Approved; configurable and snapshotted per contract |
-| PD-06 | Cách tính giá khi gia hạn | Tính lại toàn bộ thời gian theo bậc cuối | Deferred to Sprint 4; not implemented in Sprint 3 |
+| PD-06 | Cách tính giá khi gia hạn | Tính lại toàn bộ thời gian theo bậc cuối | Implemented in Sprint 4 as the working default; Product Owner confirmation pending |
 | PD-07 | Đặt trước xe đang thuê | Cho phép nếu không trùng khoảng `[start,end)` | Accepted as Sprint 3 default |
 | PD-08 | Nhập Excel cũ khi go-live | Chuyển lên MVP nếu có dữ liệu đang vận hành | Pending |
 | PD-09 | Mẫu hợp đồng Việt–Anh | Template hệ thống Sprint 3, thay bằng mẫu khách hàng khi nhận | Approved for initial operation |
@@ -196,4 +208,4 @@ architecture gate để cấm native form controls ngoài `components/ui`.
 - Design Direction = UI 3 selected; design system/wireframes approved
 - Tech Stack = React SPA + NestJS API approved
 - Team = 2 Backend + 2 Frontend approved; support roles retained
-- Roadmap = Sprint 0–7 approved; Sprint 0–3 complete, Sprint 4+ awaits authorization
+- Roadmap = Sprint 0–7 approved; Sprint 0–4 complete, Sprint 5+ awaits authorization

@@ -23,6 +23,7 @@ export interface CalendarQuery {
 export interface FleetRepository {
   createType(input: VehicleTypeInput): Promise<VehicleType>;
   createVehicle(input: VehicleInput, normalizedPlate: string): Promise<Vehicle>;
+  findById(id: string): Promise<Vehicle | null>;
   findByPlate(normalizedPlate: string): Promise<Vehicle | null>;
   listTypes(): Promise<VehicleType[]>;
   listVehicles(query: VehicleQuery): Promise<Vehicle[]>;

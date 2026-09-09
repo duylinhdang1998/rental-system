@@ -218,6 +218,28 @@ a {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
 }
+.progress-track {
+  appearance: none;
+  background: var(--color-surface-subtle);
+  border: 0;
+  border-radius: 999px;
+  display: block;
+  height: 0.75rem;
+  overflow: hidden;
+  width: 100%;
+}
+.progress-track::-webkit-progress-bar {
+  background: var(--color-surface-subtle);
+  border-radius: 999px;
+}
+.progress-track::-webkit-progress-value {
+  background: var(--color-success);
+  border-radius: 999px;
+}
+.progress-track::-moz-progress-bar {
+  background: var(--color-success);
+  border-radius: 999px;
+}
 .form-dialog-content {
   max-height: var(--dialog-max-height);
   overflow-y: auto;

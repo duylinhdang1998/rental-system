@@ -16,4 +16,5 @@ export interface PricingRepository {
   current(typeCode: string): Promise<PricingVersion | null>;
   publish(input: PublishPricingInput, actorId: string): Promise<PricingVersion>;
   vehicles(ids: string[]): Promise<PricedVehicle[]>;
+  version(id: string): Promise<PricingVersion | null>;
 }

@@ -36,8 +36,19 @@ enum CustomerTagCode {
 enum ContractStatus {
   CONFIRMED
   ACTIVE
+  OVERDUE
   COMPLETED
   CANCELLED
+}
+
+enum ContractEventType {
+  CREATED
+  ACTIVATED
+  EXTENDED
+  SWAPPED
+  OVERDUE
+  CANCELLED
+  COMPLETED
 }
 
 model Account {
@@ -210,36 +221,62 @@ model Contract {
   deliveryFeeVnd       Int
   totalVnd             Int
   createdById          String
+  activatedAt          DateTime?             @db.Timestamptz
+  overdueSince         DateTime?             @db.Timestamptz
+  completedAt          DateTime?             @db.Timestamptz
+  cancelledAt          DateTime?             @db.Timestamptz
+  cancelledById        String?
+  cancellationReason   String?
   lines                ContractVehicleLine[]
   handover             ContractHandover?
+  events               ContractEvent[]
   createdAt            DateTime              @default(now()) @db.Timestamptz
 
   @@index([customerId, createdAt])
+  @@index([status])
 }
 
 model ContractVehicleLine {
-  id                      String         @id @default(uuid())
+  id                      String               @id @default(uuid())
   contractId              String
-  contract                Contract       @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contract                Contract             @relation(fields: [contractId], references: [id], onDelete: Cascade)
   vehicleId               String
-  vehicle                 Vehicle        @relation(fields: [vehicleId], references: [id])
+  vehicle                 Vehicle              @relation(fields: [vehicleId], references: [id])
   pricingVersionId        String
-  pricingVersion          PricingVersion @relation(fields: [pricingVersionId], references: [id])
-  startAt                 DateTime       @db.Timestamptz
-  endAt                   DateTime       @db.Timestamptz
+  pricingVersion          PricingVersion       @relation(fields: [pricingVersionId], references: [id])
+  startAt                 DateTime             @db.Timestamptz
+  endAt                   DateTime             @db.Timestamptz
   billableDays            Int
   dailyRateVnd            Int
   baseSubtotalVnd         Int
   adjustmentPercent       Int
   finalSubtotalVnd        Int
-  lateReturnGraceMinutes  Int            @default(60)
-  lateReturnHourlyRateVnd Int            @default(20000)
+  lateReturnGraceMinutes  Int                  @default(60)
+  lateReturnHourlyRateVnd Int                  @default(20000)
   explanation             String
   overrideReason          String?
-  createdAt               DateTime       @default(now()) @db.Timestamptz
+  blocksAvailability      Boolean              @default(true)
+  replacesLineId          String?              @unique
+  replaces                ContractVehicleLine? @relation("LineReplacement", fields: [replacesLineId], references: [id])
+  replacedBy              ContractVehicleLine? @relation("LineReplacement")
+  createdAt               DateTime             @default(now()) @db.Timestamptz
 
   @@index([vehicleId, startAt, endAt])
   @@index([contractId])
+}
+
+model ContractEvent {
+  id         String            @id @default(uuid())
+  contractId String
+  contract   Contract          @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  type       ContractEventType
+  actorId    String
+  reason     String?
+  metadata   Json?
+  occurredAt DateTime          @db.Timestamptz
+  createdAt  DateTime          @default(now()) @db.Timestamptz
+
+  @@index([contractId, occurredAt])
 }
 
 model ContractHandover {

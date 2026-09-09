@@ -43,6 +43,11 @@ export class PrismaFleetRepository implements FleetRepository {
     return this.toVehicle(created);
   }
 
+  async findById(id: string): Promise<Vehicle | null> {
+    const item = await this.prisma.vehicle.findUnique({ include: { type: true }, where: { id } });
+    return item ? this.toVehicle(item) : null;
+  }
+
   async findByPlate(normalizedPlate: string): Promise<Vehicle | null> {
     const item = await this.prisma.vehicle.findUnique({
       include: { type: true },

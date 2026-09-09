@@ -6,7 +6,7 @@ test.describe('Feature: Fleet, customer and catalog foundations', () => {
     page,
   }) => {
     await signInAsStaff(page);
-    await page.goto('/vehicles?status=AVAILABLE&typeCode=SCOOTER');
+    await page.goto('/vehicles?search=43A1-000&typeCode=SCOOTER');
     await expect(page.getByRole('heading', { name: 'Xe' })).toBeVisible();
     await expect(page.getByRole('cell', { name: /43A1-000\.01/ })).toBeVisible();
     await page.getByRole('button', { name: 'Lịch xe' }).click();
@@ -15,7 +15,7 @@ test.describe('Feature: Fleet, customer and catalog foundations', () => {
     await expect(calendar.getByText('Trống', { exact: true }).first()).toBeVisible();
     await expect(calendar.getByText('Đã có lịch thuê', { exact: true }).first()).toBeVisible();
     await calendar.getByRole('button', { name: /Trống/ }).first().click();
-    await expect(page).toHaveURL(/\/contracts\?from=\d{4}-\d{2}-\d{2}&vehicleId=/);
+    await expect(page).toHaveURL(/\/contracts\/new\?from=\d{4}-\d{2}-\d{2}&vehicleId=/);
   });
 
   test('Customer search shows duplicate and blacklist guidance', async ({ page }) => {

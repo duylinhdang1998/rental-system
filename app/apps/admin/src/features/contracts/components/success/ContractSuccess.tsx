@@ -1,18 +1,12 @@
 import { CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { clearContractState } from '@/features/contracts/lib/contract-draft';
-import { Button } from '@/components/ui/button';
+import { ContractSuccessActions } from '@/features/contracts/components/success/ContractSuccessActions';
 import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 
 interface ContractSuccessProps {
   code?: string;
   contractId?: string;
   createdAt?: string;
-}
-
-function createAnotherContract() {
-  clearContractState();
-  window.location.assign('/contracts');
 }
 
 export function ContractSuccess({ code, contractId, createdAt }: ContractSuccessProps) {
@@ -31,14 +25,7 @@ export function ContractSuccess({ code, contractId, createdAt }: ContractSuccess
           {t('createdAt')}: {formatDateTime(createdAt, resolveInitialLocale(i18n.language))}
         </p>
       ) : null}
-      <div className="flex flex-wrap gap-3">
-        <Button asChild>
-          <a href={`/api/contracts/${contractId}/pdf`}>{t('contractDownloadPdf')}</a>
-        </Button>
-        <Button onClick={createAnotherContract} type="button" variant="outline">
-          {t('contractCreateAnother')}
-        </Button>
-      </div>
+      <ContractSuccessActions contractId={contractId} />
     </div>
   );
 }

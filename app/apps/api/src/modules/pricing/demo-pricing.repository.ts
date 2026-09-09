@@ -67,4 +67,9 @@ export class DemoPricingRepository implements PricingRepository {
   vehicles(ids: string[]): Promise<PricedVehicle[]> {
     return Promise.resolve(VEHICLES.filter((vehicle) => ids.includes(vehicle.id)));
   }
+
+  version(id: string): Promise<PricingVersion | null> {
+    const found = this.versions.find((item) => item.id === id);
+    return Promise.resolve(found ? structuredClone(found) : null);
+  }
 }

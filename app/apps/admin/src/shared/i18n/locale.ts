@@ -24,6 +24,16 @@ export function formatDate(value: Date, locale: Locale): string {
   }).format(value);
 }
 
+export function formatTime(value: Date | string, locale: Locale): string {
+  const languageTag = locale === 'vi' ? 'vi-VN' : 'en-US';
+  return new Intl.DateTimeFormat(languageTag, {
+    hour: '2-digit',
+    hour12: false,
+    minute: '2-digit',
+    timeZone: 'Asia/Ho_Chi_Minh',
+  }).format(typeof value === 'string' ? new Date(value) : value);
+}
+
 export function formatDateTime(value: Date | string, locale: Locale): string {
   const languageTag = locale === 'vi' ? 'vi-VN' : 'en-US';
   return new Intl.DateTimeFormat(languageTag, {

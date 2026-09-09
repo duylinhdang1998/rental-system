@@ -17,6 +17,8 @@ export class FleetModule {
   static register(environment: Environment): DynamicModule {
     return {
       controllers: [FleetController],
+      exports: [FLEET_REPOSITORY],
+      global: true,
       module: FleetModule,
       providers: [...providers(environment), FleetService],
     };

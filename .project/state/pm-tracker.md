@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Workstream:** UI foundation review — ready for Product Owner component review
-**Overall Progress:** Business Sprint 4–7 paused; component showroom implementation complete
-**Status:** UI_FOUNDATION_REVIEW_READY
+**Current Workstream:** Sprint 4 — contract lifecycle and daily operations delivered
+**Overall Progress:** Sprint 0–4 complete; Sprint 5–7 planned and awaiting authorization
+**Status:** SPRINT_4_COMPLETE
 
 ## Project Timeline
 
@@ -13,7 +13,8 @@
 | Sprint 1   | 2 weeks after approval | UI foundation and product preview                    | COMPLETE — QA PASS |
 | Sprint 2   |                2 weeks | Fleet, customers, catalogs and availability calendar | COMPLETE — QA PASS |
 | Sprint 3   |                2 weeks | Pricing and contract creation                        | COMPLETE — QA PASS |
-| Sprint 4–7 |           2 weeks each | Remaining MVP modules                                | PLANNED — DEFERRED |
+| Sprint 4   |                2 weeks | Contract lifecycle, extension, swap and daily board   | COMPLETE — QA PASS |
+| Sprint 5–7 |           2 weeks each | Remaining MVP modules                                | PLANNED — DEFERRED |
 | Sprint 8   |            Remediation | shadcn/Radix, frontend structure, CreatedAt          | COMPLETE — QA PASS |
 | Sprint 9   |                Bug fix | Absolute frontend imports and enforcement gate       | COMPLETE — QA PASS |
 | UI review  |      Design foundation | Development-only component showroom                  | READY FOR REVIEW   |
@@ -49,6 +50,7 @@
 | Sprint 1 BDD approval | APPROVED — 15 scenarios                                           | 2026-08-31 |
 | Sprint 2 execution    | APPROVED; QA PASS                                                 | 2026-09-01 |
 | Sprint 3 execution    | AUTHORIZED; configurable late-return rule and system PDF approved | 2026-09-01 |
+| Sprint 4 execution    | AUTHORIZED; PD-06 whole-period repricing applied as working default | 2026-09-09 |
 
 ## Team Status
 
@@ -75,6 +77,9 @@
 | meta-react-architect           | Component showroom and base UI integration             | COMPLETE                  | 10     |
 | google-code-reviewer           | UI Foundation measurement and architecture review      | COMPLETE — LGTM           | 10     |
 | google-qa-engineer             | UI Foundation regression and browser acceptance        | COMPLETE — PASS (69 + 30) | 10     |
+| Backend / Frontend specialists | Lifecycle, overdue job, cancel/extend/swap, daily board | COMPLETE                  | 4      |
+| google-code-reviewer           | Sprint 4 state-machine, transaction and UI review      | COMPLETE — LGTM           | 4      |
+| google-qa-engineer             | Sprint 4 time-boundary, regression and browser acceptance | COMPLETE — PASS (111 + 36) | 4      |
 
 ## Activity Log
 
@@ -124,12 +129,21 @@
   section-catalog and BDD coverage findings were resolved.
 - 2026-09-01: UI Foundation QA PASS — 69 unit/integration and 30 browser tests passed,
   all coverage dimensions exceed 80%, production excludes `/ui-kit`, and dependency audit is clean.
+- 2026-09-09: Client asked to install dependencies and execute Sprint 4 per plan; 17 lifecycle
+  BDD scenarios and the Sprint 4 file blueprint were drafted before implementation.
+- 2026-09-09: Sprint 4 delivered the contract state machine (CONFIRMED/ACTIVE/OVERDUE/COMPLETED/
+  CANCELLED), the idempotent business-time overdue job, reasoned cancellation, whole-period
+  extension repricing from the contract snapshot (PD-06 default), linked vehicle swaps, vehicle
+  status synchronization, contract list/detail pages and the today/overdue operations board.
+- 2026-09-09: Sprint 4 review LGTM after label, test-alias and e2e sign-in race fixes; QA PASS with
+  111 unit/integration and 36 browser tests, all coverage dimensions above 80%.
 
 ## Blockers
 
 | Blocker                                       | Required action                          | Owner     |
 | --------------------------------------------- | ---------------------------------------- | --------- |
-| Later-sprint business assumptions remain open | Resolve before each dependent Sprint 4–6 | Client/BA |
+| PD-06 extension repricing applied as default  | Product Owner confirms or changes the rule | Client/BA |
+| Later-sprint business assumptions remain open | Resolve before each dependent Sprint 5–6 | Client/BA |
 
-**Last Updated:** 2026-09-01  
+**Last Updated:** 2026-09-09  
 **Updated By:** Project Manager

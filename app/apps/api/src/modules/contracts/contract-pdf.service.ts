@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import type { RentalContract } from '@rental/contracts';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { activeLines } from './contract-lifecycle.policy.js';
 
 const PAGE_WIDTH = 595;
 const PAGE_HEIGHT = 842;
@@ -24,7 +25,8 @@ function pdfSafeText(value: string): string {
 }
 
 function pdfLines(contract: RentalContract): string[] {
-  const latePolicies = contract.quote.lines.map(
+  const lines = activeLines(contract.quote.lines);
+  const latePolicies = lines.map(
     (line) =>
       `${line.vehicleCode}: ${line.lateReturnPolicy.graceMinutes} phut mien phi, ${line.lateReturnPolicy.hourlyRateVnd.toLocaleString('vi-VN')} VND/gio bat dau`,
   );
@@ -32,7 +34,8 @@ function pdfLines(contract: RentalContract): string[] {
     `Ma hop dong / Contract code: ${contract.code}`,
     `Khach hang / Customer: ${contract.quote.customerName}`,
     `Thoi gian / Rental period: ${contract.quote.startAt} - ${contract.quote.endAt}`,
-    `Xe / Vehicles: ${contract.quote.lines.map((line) => line.vehicleCode).join(', ')}`,
+    `Xe / Vehicles: ${lines.map((line) => line.vehicleCode).join(', ')}`,
+    `Trang thai / Status: ${contract.status}`,
     `Tong tien / Total: ${contract.quote.totalVnd.toLocaleString('vi-VN')} VND`,
     `Tien coc / Deposit: ${contract.handover.depositVnd.toLocaleString('vi-VN')} VND`,
     '',

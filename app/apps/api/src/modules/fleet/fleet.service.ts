@@ -66,7 +66,7 @@ export class FleetService {
   }
 
   async transition(id: string, input: VehicleTransitionInput, actor: AuthenticatedUser) {
-    const current = (await this.repository.listVehicles({})).find((vehicle) => vehicle.id === id);
+    const current = await this.repository.findById(id);
     if (!current) throw new DomainError('NOT_FOUND', 'Không tìm thấy xe');
     if (!canTransitionVehicle(current.status, input.status)) {
       throw new DomainError('INVALID_TRANSITION', 'Không thể chuyển sang trạng thái này thủ công');

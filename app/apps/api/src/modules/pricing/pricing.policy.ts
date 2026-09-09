@@ -61,3 +61,13 @@ export function validatePricingTiers(tiers: PricingTier[]): boolean {
     return Boolean(previous && previous.maxDays !== null && tier.minDays === previous.maxDays + 1);
   });
 }
+
+export function explainPrice(
+  days: number,
+  dailyRateVnd: number,
+  version: number,
+  adjustmentPercent: number,
+): string {
+  const adjusted = adjustmentPercent ? ` · VIP -${adjustmentPercent}%` : '';
+  return `${days} ngày × ${dailyRateVnd.toLocaleString('vi-VN')} ₫ · bảng giá v${version}${adjusted}`;
+}

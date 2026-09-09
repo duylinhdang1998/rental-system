@@ -9,16 +9,21 @@ const assetsRoot = join(workspaceRoot, 'apps/admin/dist/assets');
 
 describe('UI component showroom production exclusion', () => {
   it('tree-shakes the development route and showroom from the production bundle', () => {
-    execFileSync('npm', ['run', 'build', '--workspace', '@rental/admin'], {
-      cwd: workspaceRoot,
-      env: { ...process.env, NODE_ENV: 'production' },
-      stdio: 'pipe',
-    });
+    execFileSync(
+      process.platform === 'win32' ? 'npm.cmd' : 'npm',
+      ['run', 'build', '--workspace', '@rental/admin'],
+      {
+        cwd: workspaceRoot,
+        env: { ...process.env, NODE_ENV: 'production' },
+        shell: process.platform === 'win32',
+        stdio: 'pipe',
+      },
+    );
     const bundle = readdirSync(assetsRoot)
       .filter((file) => file.endsWith('.js'))
       .map((file) => readFileSync(join(assetsRoot, file), 'utf8'))
       .join('\n');
     expect(bundle).not.toContain('UI Foundation');
     expect(bundle).not.toContain('/ui-kit');
-  }, 15_000);
+  }, 90_000);
 });

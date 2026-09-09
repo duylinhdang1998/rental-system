@@ -23,7 +23,7 @@ export function AvailabilityDay({ period, vehicleId }: AvailabilityDayProps) {
   const label = t(`availability.${period.state}`);
   const select = () => {
     const query = new URLSearchParams({ from: period.date, vehicleId });
-    void navigate(`/contracts?${query.toString()}`);
+    void navigate(`/contracts/new?${query.toString()}`);
   };
   return (
     <div role="gridcell">

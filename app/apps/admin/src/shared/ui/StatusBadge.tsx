@@ -1,14 +1,21 @@
-import { Circle, CircleAlert, CircleCheck, Clock3 } from 'lucide-react';
+import { Ban, Circle, CircleAlert, CircleCheck, Clock3 } from 'lucide-react';
 
 interface StatusBadgeProps {
   label: string;
-  tone: 'danger' | 'info' | 'success' | 'warning';
+  tone: 'danger' | 'info' | 'neutral' | 'success' | 'warning';
 }
 
-const STATUS_ICONS = { danger: CircleAlert, info: Clock3, success: CircleCheck, warning: Circle };
+const STATUS_ICONS = {
+  danger: CircleAlert,
+  info: Clock3,
+  neutral: Ban,
+  success: CircleCheck,
+  warning: Circle,
+};
 const CLASSES = {
   danger: 'bg-negative-soft text-negative',
   info: 'bg-information-soft text-information',
+  neutral: 'bg-panel-subtle text-ink-muted',
   success: 'bg-positive-soft text-positive',
   warning: 'bg-caution-soft text-caution',
 };

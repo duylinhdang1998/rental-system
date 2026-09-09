@@ -11,6 +11,8 @@ interface ReservationRecord extends AvailabilityConflict {
   state: 'HELD' | 'RENTED';
 }
 
+export type ReservationEntry = Omit<ReservationRecord, 'contractCode'>;
+
 @Injectable()
 export class ReservationRegistry {
   private readonly records: ReservationRecord[] = [];
@@ -25,6 +27,13 @@ export class ReservationRegistry {
         vehicleId,
       }),
     );
+  }
+
+  /** Replaces every record of one contract so cancellations, extensions and swaps stay in sync. */
+  sync(contractCode: string, entries: ReservationEntry[]) {
+    const kept = this.records.filter((record) => record.contractCode !== contractCode);
+    this.records.splice(0, this.records.length, ...kept);
+    entries.forEach((entry) => this.records.push({ ...entry, contractCode }));
   }
 
   conflicts(input: AvailabilityInput): AvailabilityConflict[] {

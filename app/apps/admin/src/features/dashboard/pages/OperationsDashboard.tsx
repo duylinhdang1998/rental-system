@@ -11,16 +11,20 @@ export function OperationsDashboard() {
   if (dashboard.isPending) return <ViewState state="loading" />;
   if (dashboard.isError)
     return <ViewState onRetry={() => void dashboard.refetch()} state="error" />;
-  if (dashboard.data.overdue + dashboard.data.dueToday === 0) return <ViewState state="empty" />;
+  const board = dashboard.data;
   return (
     <div className="grid gap-5 lg:gap-6">
-      <DashboardHeader />
-      <KpiGrid dashboard={dashboard.data} />
+      <DashboardHeader generatedAt={board.generatedAt} />
+      <KpiGrid board={board} />
       <div className="grid gap-5 xl:grid-cols-2">
-        <PriorityWorkList />
-        <FleetStatus />
+        {board.items.length ? (
+          <PriorityWorkList items={board.items} />
+        ) : (
+          <ViewState heading="section" state="empty" />
+        )}
+        <FleetStatus fleet={board.fleet} />
       </div>
-      <TodaySchedule />
+      {board.items.length ? <TodaySchedule items={board.items} /> : null}
     </div>
   );
 }

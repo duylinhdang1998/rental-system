@@ -15,6 +15,7 @@ import {
   applyPercentAdjustment,
   billableRentalDays,
   calculateTierPrice,
+  explainPrice,
   validatePricingTiers,
 } from './pricing.policy.js';
 
@@ -43,6 +44,13 @@ export class PricingService {
 
   current(typeCode: string) {
     return this.requireVersion(typeCode);
+  }
+
+  /** Snapshot lookup used when an existing contract is repriced from its stored version. */
+  async version(id: string): Promise<PricingVersion> {
+    const version = await this.repository.version(id);
+    if (!version) throw new DomainError('NOT_FOUND', 'Không tìm thấy bảng giá đã snapshot');
+    return version;
   }
 
   async publish(input: PublishPricingInput, actor: AuthenticatedUser) {
@@ -113,7 +121,7 @@ export class PricingService {
       baseSubtotalVnd: calculated.subtotalVnd,
       billableDays: days,
       dailyRateVnd: calculated.dailyRateVnd,
-      explanation: this.explanation(days, calculated.dailyRateVnd, pricing, adjustment),
+      explanation: explainPrice(days, calculated.dailyRateVnd, pricing.version, adjustment),
       finalSubtotalVnd: override?.amountVnd ?? adjusted,
       lateReturnPolicy: pricing.lateReturnPolicy,
       ...(override ? { overrideReason: override.reason } : {}),
@@ -122,16 +130,6 @@ export class PricingService {
       vehicleCode: vehicle.code,
       vehicleId: vehicle.id,
     };
-  }
-
-  private explanation(
-    days: number,
-    rate: number,
-    pricing: PricingVersion,
-    adjustment: number,
-  ): string {
-    const adjusted = adjustment ? ` · VIP -${adjustment}%` : '';
-    return `${days} ngày × ${rate.toLocaleString('vi-VN')} ₫ · bảng giá v${pricing.version}${adjusted}`;
   }
 
   private async requireVersion(typeCode: string): Promise<PricingVersion> {

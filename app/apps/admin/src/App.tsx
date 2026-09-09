@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ContractWizardPage } from '@/features/contracts';
+import { ContractDetailPage, ContractListPage, ContractWizardPage } from '@/features/contracts';
 import { CustomerListPage } from '@/features/customers';
 import { OperationsDashboard } from '@/features/dashboard';
 import { EmployeePreview } from '@/features/employees';
@@ -26,7 +26,9 @@ export function App() {
               <Route element={<OperationsDashboard />} index />
               <Route element={<VehicleListPage />} path="vehicles" />
               <Route element={<CustomerListPage />} path="customers" />
-              <Route element={<ContractWizardPage />} path="contracts" />
+              <Route element={<ContractListPage />} path="contracts" />
+              <Route element={<ContractWizardPage />} path="contracts/new" />
+              <Route element={<ContractDetailPage />} path="contracts/:id" />
               <Route element={<ReturnQueuePreview />} path="returns" />
               <Route element={<OwnerRoute />}>
                 <Route element={<ReportPreview />} path="reports" />

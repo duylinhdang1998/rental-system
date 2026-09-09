@@ -1,16 +1,9 @@
 import { expect, test } from '@playwright/test';
-
-async function signIn(page: import('@playwright/test').Page, role: 'owner' | 'staff') {
-  await page.goto('/login');
-  await page.getByLabel('Tên đăng nhập').fill(role);
-  await page.getByLabel('Mật khẩu').fill(role === 'owner' ? 'OwnerDemo!2026' : 'StaffDemo!2026');
-  await page.getByRole('button', { name: 'Đăng nhập' }).click();
-  await expect(page).toHaveURL('/');
-}
+import { signInAs } from './support/auth';
 
 test.describe('Feature: Secure responsive operations preview — role navigation', () => {
   test('Scenario: Staff cannot access Owner-only routes', async ({ page }) => {
-    await signIn(page, 'staff');
+    await signInAs(page, 'staff');
     await expect(page.getByRole('link', { name: 'Báo cáo' })).toHaveCount(0);
 
     for (const route of ['/reports', '/employees', '/settings']) {
@@ -22,7 +15,7 @@ test.describe('Feature: Secure responsive operations preview — role navigation
   });
 
   test('Scenario: Owner can preview all Sprint 1 modules', async ({ page }) => {
-    await signIn(page, 'owner');
+    await signInAs(page, 'owner');
 
     for (const route of ['/returns', '/reports', '/employees']) {
       await page.goto(route);
@@ -30,6 +23,8 @@ test.describe('Feature: Secure responsive operations preview — role navigation
       await expect(page.getByText(/Có trong Sprint|Bản xem trước/).first()).toBeVisible();
     }
     await page.goto('/contracts');
+    await expect(page.getByRole('heading', { exact: true, name: 'Hợp đồng' })).toBeVisible();
+    await page.goto('/contracts/new');
     await expect(page.getByRole('heading', { name: 'Tạo hợp đồng' })).toBeVisible();
     await page.goto('/vehicles');
     await expect(page.getByRole('heading', { name: 'Xe' })).toBeVisible();
@@ -41,7 +36,7 @@ test.describe('Feature: Secure responsive operations preview — role navigation
   });
 
   test('Scenario: Owner configures the late-return policy for new contracts', async ({ page }) => {
-    await signIn(page, 'owner');
+    await signInAs(page, 'owner');
     await page.goto('/settings');
     await page.getByLabel('Số phút trả trễ miễn phí').fill('90');
     await page.getByLabel('Phí mỗi giờ bắt đầu (VND)').fill('30000');

@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { dirname, extname, join, relative } from 'node:path';
+import { dirname, extname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
@@ -10,7 +10,7 @@ const FEATURE_ROOT = join(SRC_ROOT, 'features');
 
 function sourceFiles(root: string): string[] {
   return readdirSync(root, { withFileTypes: true }).flatMap((entry) => {
-    const path = join(root, entry.name);
+    const path = join(root, entry.name).split(sep).join('/');
     return entry.isDirectory() ? sourceFiles(path) : [path];
   });
 }
@@ -37,7 +37,7 @@ describe('Feature: Approved frontend architecture and operational interaction pa
     it('keeps native form-control tags inside the shadcn registry only', () => {
       const offenders = sourceFiles(SRC_ROOT)
         .filter((path) => ['.ts', '.tsx'].includes(extname(path)))
-        .filter((path) => !path.includes(`${join('components', 'ui')}/`))
+        .filter((path) => !path.includes('components/ui/'))
         .filter((path) => /<(?:button|input|select|textarea)(?:\s|>)/.test(source(path)))
         .map((path) => relative(SRC_ROOT, path));
 
