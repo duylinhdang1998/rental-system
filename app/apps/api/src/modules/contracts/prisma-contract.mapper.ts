@@ -4,10 +4,13 @@ import {
   contractEventMetadataSchema,
   contractEventTypeSchema,
   contractStatusSchema,
+  paymentKindSchema,
+  paymentMethodSchema,
   returnConditionSchema,
   type ContractCharge,
   type ContractEvent,
   type ContractLine,
+  type ContractPayment,
   type QuoteLine,
   type RentalContract,
 } from '@rental/contracts';
@@ -22,12 +25,14 @@ export const CONTRACT_INCLUDE = {
     include: { pricingVersion: true, replacedBy: { select: { id: true } }, vehicle: true },
     orderBy: { createdAt: 'asc' },
   },
+  payments: { orderBy: { receivedAt: 'asc' } },
   settlement: true,
 } as const;
 
 export type ContractRecord = Prisma.ContractGetPayload<{ include: typeof CONTRACT_INCLUDE }>;
 type LineRecord = ContractRecord['lines'][number];
 type ChargeRecord = ContractRecord['charges'][number];
+type PaymentRecord = ContractRecord['payments'][number];
 
 export function eventData(event: LifecycleEventInput) {
   return {
@@ -130,6 +135,19 @@ export function mapCharge(item: ChargeRecord): ContractCharge {
   };
 }
 
+export function mapPayment(item: PaymentRecord): ContractPayment {
+  return {
+    amountVnd: item.amountVnd,
+    id: item.id,
+    kind: paymentKindSchema.parse(item.kind),
+    method: paymentMethodSchema.parse(item.method),
+    notes: item.notes,
+    receivedAt: item.receivedAt.toISOString(),
+    receivedById: item.receivedById,
+    reference: item.reference,
+  };
+}
+
 export function mapSettlement(item: ContractRecord['settlement']): RentalContract['settlement'] {
   if (!item) return null;
   return {
@@ -153,10 +171,23 @@ export function mapSettlement(item: ContractRecord['settlement']): RentalContrac
 
 const iso = (value: Date | null): string | null => value?.toISOString() ?? null;
 
-export function mapRecord(item: ContractRecord): RentalContract {
-  const lines = item.lines.map((line) => mapLine(line, item.charges));
+function mapQuote(
+  item: ContractRecord,
+  lines: ReturnType<typeof mapLine>[],
+): RentalContract['quote'] {
   const fallback = item.createdAt.toISOString();
   const bounds = lines.length ? quoteBounds(lines) : { endAt: fallback, startAt: fallback };
+  return {
+    customerName: item.customerNameSnapshot,
+    deliveryFeeVnd: item.deliveryFeeVnd,
+    lines,
+    totalVnd: item.totalVnd,
+    ...bounds,
+  };
+}
+
+export function mapRecord(item: ContractRecord): RentalContract {
+  const lines = item.lines.map((line) => mapLine(line, item.charges));
   return {
     activatedAt: iso(item.activatedAt),
     cancellationReason: item.cancellationReason,
@@ -165,19 +196,14 @@ export function mapRecord(item: ContractRecord): RentalContract {
     charges: item.charges.map(mapCharge),
     code: item.code,
     completedAt: iso(item.completedAt),
-    createdAt: fallback,
+    createdAt: item.createdAt.toISOString(),
     customerId: item.customerId,
     events: item.events.map(mapEvent),
     handover: mapHandover(item.handover),
     id: item.id,
     overdueSince: iso(item.overdueSince),
-    quote: {
-      customerName: item.customerNameSnapshot,
-      deliveryFeeVnd: item.deliveryFeeVnd,
-      lines,
-      totalVnd: item.totalVnd,
-      ...bounds,
-    },
+    payments: item.payments.map(mapPayment),
+    quote: mapQuote(item, lines),
     settledAt: iso(item.settledAt),
     settlement: mapSettlement(item.settlement),
     status: contractStatusSchema.parse(item.status),

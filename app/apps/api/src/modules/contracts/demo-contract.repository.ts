@@ -24,6 +24,7 @@ import type {
   ExtensionChange,
   LifecycleEventInput,
   LifecyclePatch,
+  PaymentDraft,
   ReturnChange,
   SettlementDraft,
   SwapChange,
@@ -32,6 +33,7 @@ import {
   buildCharge,
   buildContract,
   buildEvent,
+  buildPayment,
   buildSettlement,
   reservationEntries,
 } from './demo-contract.builders.js';
@@ -140,6 +142,13 @@ export class DemoContractRepository implements ContractRepository {
     return Promise.resolve(structuredClone(contract));
   }
 
+  addPayment(id: string, draft: PaymentDraft, event: LifecycleEventInput) {
+    const contract = this.require(id).contract;
+    contract.payments.push(buildPayment(draft));
+    contract.events.push(buildEvent(event));
+    return Promise.resolve(structuredClone(contract));
+  }
+
   settle(id: string, draft: SettlementDraft, event: LifecycleEventInput) {
     const contract = this.require(id).contract;
     contract.settlement = buildSettlement(draft);
@@ -158,6 +167,13 @@ export class DemoContractRepository implements ContractRepository {
     return Promise.resolve(item ? structuredClone(item.contract) : null);
   }
 
+  findByPaymentKey(key: string): Promise<RentalContract | null> {
+    const item = this.contracts.find((stored) =>
+      stored.contract.payments.some((payment) => payment.id === key),
+    );
+    return Promise.resolve(item ? structuredClone(item.contract) : null);
+  }
+
   findConflicts(input: AvailabilityInput): Promise<AvailabilityConflict[]> {
     return Promise.resolve(this.reservations.conflicts(input));
   }
@@ -172,6 +188,14 @@ export class DemoContractRepository implements ContractRepository {
     const summaries = this.contracts.map((item) => contractSummary(item.contract));
     return Promise.resolve(
       sortNewestFirst(summaries.filter((summary) => matchesContractQuery(summary, query))),
+    );
+  }
+
+  listFinancial(): Promise<RentalContract[]> {
+    return Promise.resolve(
+      this.contracts
+        .filter((item) => item.contract.status !== 'CANCELLED')
+        .map((item) => structuredClone(item.contract)),
     );
   }
 

@@ -12,6 +12,7 @@ describe('Feature: Secure responsive operations preview — navigation and local
     it('omits reports, employees and settings from Staff navigation', () => {
       const paths = navigationForRole('STAFF').map((item) => item.path);
 
+      expect(paths).toContain('/receivables');
       expect(paths).not.toContain('/reports');
       expect(paths).not.toContain('/employees');
       expect(paths).not.toContain('/settings');
@@ -29,6 +30,7 @@ describe('Feature: Secure responsive operations preview — navigation and local
           '/customers',
           '/contracts',
           '/returns',
+          '/receivables',
           '/reports',
           '/employees',
           '/settings',

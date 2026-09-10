@@ -1,6 +1,7 @@
 import type {
   ContractCharge,
   ContractLine,
+  ContractPayment,
   ContractSettlement,
   ContractStatus,
   RentalContract,
@@ -75,6 +76,20 @@ export function settlementFixture(overrides: Partial<ContractSettlement> = {}): 
   };
 }
 
+export function paymentFixture(overrides: Partial<ContractPayment> = {}): ContractPayment {
+  return {
+    amountVnd: 100_000,
+    id: '00000000-0000-4000-8000-000000000101',
+    kind: 'PAYMENT',
+    method: 'CASH',
+    notes: '',
+    receivedAt: DEFAULT_END,
+    receivedById: 'staff-1',
+    reference: '',
+    ...overrides,
+  };
+}
+
 export function contractLine(overrides: Partial<ContractLine> = {}): ContractLine {
   return {
     adjustmentPercent: 0,
@@ -106,6 +121,7 @@ interface ContractOverrides {
   depositVnd?: number;
   endAt?: string;
   lines?: ContractLine[];
+  payments?: ContractPayment[];
   retainedDocument?: string;
   settlement?: ContractSettlement | null;
   startAt?: string;
@@ -147,6 +163,7 @@ export function contractFixture(overrides: ContractOverrides = {}): RentalContra
     events: [],
     handover: fixtureHandover(overrides),
     id: code.toLowerCase(),
+    payments: overrides.payments ?? [],
     quote: fixtureQuote(overrides),
     settledAt: settlement?.settledAt ?? null,
     settlement,

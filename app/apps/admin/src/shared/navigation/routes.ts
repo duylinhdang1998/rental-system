@@ -7,6 +7,7 @@ import {
   Settings,
   UserRound,
   Users,
+  Wallet,
   Warehouse,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -24,6 +25,7 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
   { icon: Users, key: 'customers', path: '/customers' },
   { icon: FileText, key: 'contracts', path: '/contracts' },
   { icon: RotateCcw, key: 'returns', path: '/returns' },
+  { icon: Wallet, key: 'receivables', path: '/receivables' },
   { icon: ClipboardList, key: 'reports', ownerOnly: true, path: '/reports' },
   { icon: UserRound, key: 'employees', ownerOnly: true, path: '/employees' },
   { icon: Settings, key: 'settings', ownerOnly: true, path: '/settings' },

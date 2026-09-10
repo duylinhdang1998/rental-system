@@ -3,6 +3,7 @@ import {
   addContractCharge,
   cancelContract,
   extendContract,
+  recordPayment,
   settleContract,
   swapContract,
 } from '@/features/contracts/api/contracts-api';
@@ -14,6 +15,7 @@ export function useContractMutations(id: string) {
     cancel: useContractMutation(id, cancelContract),
     charge: useContractMutation(id, addContractCharge),
     extend: useContractMutation(id, extendContract),
+    payment: useContractMutation(id, recordPayment),
     settle: useContractMutation(id, settleContract),
     swap: useContractMutation(id, swapContract),
   };

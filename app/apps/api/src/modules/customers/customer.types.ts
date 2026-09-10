@@ -10,6 +10,7 @@ export interface CustomerDocumentRecord {
 export interface CustomerRepository {
   create(input: CustomerInput): Promise<CustomerSummary>;
   findDocument(customerId: string, documentId: string): Promise<CustomerDocumentRecord | null>;
+  findById(id: string): Promise<CustomerSummary | null>;
   findDuplicates(normalizedContact: string): Promise<CustomerSummary[]>;
   list(search?: string): Promise<CustomerSummary[]>;
 }

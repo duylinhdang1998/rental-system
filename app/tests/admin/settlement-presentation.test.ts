@@ -68,9 +68,10 @@ function event(overrides: Partial<ContractEvent>): ContractEvent {
 
 describe('Feature: Contract actions after Sprint 5', () => {
   it('offers charges while renting, settlement once complete, nothing once settled', () => {
-    expect(contractActions('ACTIVE')).toEqual(['extend', 'swap', 'charge']);
-    expect(contractActions('COMPLETED')).toEqual(['settle', 'charge']);
+    expect(contractActions('ACTIVE')).toEqual(['payment', 'extend', 'swap', 'charge']);
+    expect(contractActions('COMPLETED')).toEqual(['settle', 'payment', 'charge']);
     expect(contractActions('COMPLETED', true)).toEqual([]);
+    expect(contractActions('COMPLETED', true, true)).toEqual(['payment']);
     expect(isRentingStatus('OVERDUE')).toBe(true);
     expect(isRentingStatus('COMPLETED')).toBe(false);
     expect(showsSettlement('COMPLETED')).toBe(true);

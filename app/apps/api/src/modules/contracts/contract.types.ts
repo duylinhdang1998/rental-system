@@ -9,6 +9,8 @@ import type {
   ContractStatus,
   ContractSummary,
   HandoverInput,
+  PaymentKind,
+  PaymentMethod,
   Quote,
   RentalContract,
   SettlementFigures,
@@ -81,6 +83,17 @@ export interface ReturnChange {
   lineId: string;
 }
 
+export interface PaymentDraft {
+  amountVnd: number;
+  idempotencyKey: string;
+  kind: PaymentKind;
+  method: PaymentMethod;
+  notes: string;
+  receivedAt: string;
+  receivedById: string;
+  reference: string;
+}
+
 export interface SettlementDraft extends SettlementFigures {
   depositRefunded: boolean;
   documentReturned: boolean;
@@ -91,6 +104,7 @@ export interface SettlementDraft extends SettlementFigures {
 
 export interface ContractRepository {
   addCharge(id: string, draft: ChargeDraft, event: LifecycleEventInput): Promise<RentalContract>;
+  addPayment(id: string, draft: PaymentDraft, event: LifecycleEventInput): Promise<RentalContract>;
   applyLifecycle(
     id: string,
     patch: LifecyclePatch,
@@ -100,9 +114,12 @@ export interface ContractRepository {
   extend(id: string, change: ExtensionChange, event: LifecycleEventInput): Promise<RentalContract>;
   findById(id: string): Promise<RentalContract | null>;
   findByIdempotencyKey(key: string): Promise<RentalContract | null>;
+  findByPaymentKey(key: string): Promise<RentalContract | null>;
   findConflicts(input: AvailabilityInput): Promise<AvailabilityConflict[]>;
   imageObjectKeys(id: string): Promise<string[]>;
   list(query: ContractListQuery): Promise<ContractSummary[]>;
+  /** Every contract that can carry money (all but CANCELLED), oldest first. */
+  listFinancial(): Promise<RentalContract[]>;
   listOpen(): Promise<RentalContract[]>;
   returnLine(
     id: string,

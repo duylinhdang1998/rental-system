@@ -6,10 +6,12 @@ import {
   type ContractStatus,
   type RentalContract,
 } from '@rental/contracts';
+import { paymentMethodLabel } from '@/features/contracts/lib/payment-presentation';
 import { formatCurrency, formatDateTime, type Locale } from '@/shared/i18n/locale';
 
 export type BadgeTone = 'danger' | 'info' | 'neutral' | 'success' | 'warning';
-export type ContractAction = 'activate' | 'cancel' | 'charge' | 'extend' | 'settle' | 'swap';
+export type ContractAction =
+  'activate' | 'cancel' | 'charge' | 'extend' | 'payment' | 'settle' | 'swap';
 
 const STATUS_TONES: Record<ContractStatus, BadgeTone> = {
   ACTIVE: 'info',
@@ -19,13 +21,16 @@ const STATUS_TONES: Record<ContractStatus, BadgeTone> = {
   OVERDUE: 'danger',
 };
 
-/** Returning a vehicle is a per-line action (Sprint 5), so it is not listed here. */
+/**
+ * Returning a vehicle is a per-line action (Sprint 5), so it is not listed here. Money can be
+ * collected from the reservation onwards (FR-08); a cancelled contract never carries money.
+ */
 const STATUS_ACTIONS: Record<ContractStatus, ContractAction[]> = {
-  ACTIVE: ['extend', 'swap', 'charge'],
+  ACTIVE: ['payment', 'extend', 'swap', 'charge'],
   CANCELLED: [],
-  COMPLETED: ['settle', 'charge'],
-  CONFIRMED: ['activate', 'extend', 'cancel'],
-  OVERDUE: ['extend', 'swap', 'charge'],
+  COMPLETED: ['settle', 'payment', 'charge'],
+  CONFIRMED: ['activate', 'payment', 'extend', 'cancel'],
+  OVERDUE: ['payment', 'extend', 'swap', 'charge'],
 };
 
 const RENTING_STATUSES: ContractStatus[] = ['ACTIVE', 'OVERDUE'];
@@ -36,9 +41,20 @@ export function contractStatusTone(status: ContractStatus): BadgeTone {
   return STATUS_TONES[status];
 }
 
-/** BR-07: a settled contract is frozen; nothing can be appended any more. */
-export function contractActions(status: ContractStatus, settled = false): ContractAction[] {
-  return settled ? [] : STATUS_ACTIONS[status];
+/**
+ * BR-07: a settled contract is frozen, so only the receivable it froze can still be collected.
+ */
+export function contractActions(
+  status: ContractStatus,
+  settled = false,
+  openReceivable = false,
+): ContractAction[] {
+  if (settled) return openReceivable ? ['payment'] : [];
+  return STATUS_ACTIONS[status];
+}
+
+export function showsLedger(status: ContractStatus): boolean {
+  return status !== 'CANCELLED';
 }
 
 export function isRentingStatus(status: ContractStatus): boolean {
@@ -126,11 +142,20 @@ const describeSwap: EventDescriber = (event) => [
   `${text(event, 'fromVehicleCode')} → ${text(event, 'toVehicleCode')}`,
 ];
 
+/** BR-04: a refund row carries its own minus sign, never a negative payment. */
+const describePayment: EventDescriber = (event, locale) => {
+  const amount = money(event, 'amountVnd', locale);
+  const sign = event.type === 'REFUND_RECORDED' ? '−' : '+';
+  return [amount ? `${sign}${amount}` : '', paymentMethodLabel(text(event, 'method'), locale)];
+};
+
 const DESCRIBERS: Partial<Record<ContractEventType, EventDescriber>> = {
   CHARGE_ADDED: describeCharge,
   EXTENDED: describeExtension,
   LINE_RETURNED: describeReturn,
   OVERDUE: describeOverdue,
+  PAYMENT_RECORDED: describePayment,
+  REFUND_RECORDED: describePayment,
   SETTLED: describeSettlement,
   SWAPPED: describeSwap,
 };

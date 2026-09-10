@@ -13,6 +13,7 @@ import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
 import { CsrfGuard } from './csrf.guard.js';
 import { DemoAccountRepository } from './demo-account.repository.js';
+import { EmployeeDirectory } from './employee-directory.js';
 import { MemorySessionRepository } from './memory-session.repository.js';
 import { PrismaAccountRepository } from './prisma-account.repository.js';
 import { PrismaSessionRepository } from './prisma-session.repository.js';
@@ -49,6 +50,7 @@ export class AuthModule {
         AuthTokenService,
         AuthenticationGuard,
         CsrfGuard,
+        EmployeeDirectory,
         OwnerAuthorizationGuard,
         SecurityEventService,
       ],
@@ -58,6 +60,7 @@ export class AuthModule {
         AuthService,
         AuthenticationGuard,
         CsrfGuard,
+        EmployeeDirectory,
         OwnerAuthorizationGuard,
         SecurityEventService,
       ],

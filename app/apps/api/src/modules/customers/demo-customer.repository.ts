@@ -73,6 +73,11 @@ export class DemoCustomerRepository implements CustomerRepository {
     );
   }
 
+  findById(id: string): Promise<CustomerSummary | null> {
+    const item = this.customers.find((customer) => customer.id === id);
+    return Promise.resolve(item ? this.summary(item) : null);
+  }
+
   findDuplicates(normalizedContact: string): Promise<CustomerSummary[]> {
     return Promise.resolve(
       this.customers

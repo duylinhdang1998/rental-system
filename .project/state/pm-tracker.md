@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Workstream:** Sprint 5 — per-vehicle return, charges and settlement delivered
-**Overall Progress:** Sprint 0–5 complete; Sprint 6–7 planned and awaiting authorization
-**Status:** SPRINT_5_COMPLETE
+**Current Workstream:** Sprint 6 — payment ledger, receivables and revenue reporting delivered
+**Overall Progress:** Sprint 0–6 complete; Sprint 7 planned and awaiting authorization
+**Status:** SPRINT_6_COMPLETE
 
 ## Project Timeline
 
@@ -15,7 +15,8 @@
 | Sprint 3   |                2 weeks | Pricing and contract creation                        | COMPLETE — QA PASS |
 | Sprint 4   |                2 weeks | Contract lifecycle, extension, swap and daily board   | COMPLETE — QA PASS |
 | Sprint 5   |                2 weeks | Per-vehicle return, charges and settlement           | COMPLETE — QA PASS |
-| Sprint 6–7 |           2 weeks each | Remaining MVP modules                                | PLANNED — DEFERRED |
+| Sprint 6   |                2 weeks | Payment ledger, receivables and revenue reporting    | COMPLETE — QA PASS |
+| Sprint 7   |                2 weeks | Remaining MVP modules                                | PLANNED — DEFERRED |
 | Sprint 8   |            Remediation | shadcn/Radix, frontend structure, CreatedAt          | COMPLETE — QA PASS |
 | Sprint 9   |                Bug fix | Absolute frontend imports and enforcement gate       | COMPLETE — QA PASS |
 | UI review  |      Design foundation | Development-only component showroom                  | READY FOR REVIEW   |
@@ -53,6 +54,7 @@
 | Sprint 3 execution    | AUTHORIZED; configurable late-return rule and system PDF approved | 2026-09-01 |
 | Sprint 4 execution    | AUTHORIZED; PD-06 whole-period repricing applied as working default | 2026-09-09 |
 | Sprint 5 execution    | AUTHORIZED; PD-12 deposit/discount/early-return defaults applied  | 2026-09-10 |
+| Sprint 6 execution    | AUTHORIZED; PD-13 dependency-free workbook writer applied         | 2026-09-10 |
 
 ## Team Status
 
@@ -85,6 +87,9 @@
 | Backend / Frontend specialists | Per-vehicle return, charges, settlement, return queue  | COMPLETE                  | 5      |
 | google-code-reviewer           | Sprint 5 money, transaction, security and UI review    | COMPLETE — LGTM           | 5      |
 | google-qa-engineer             | Sprint 5 money reconciliation, regression and browser acceptance | COMPLETE — PASS (151 + 37) | 5      |
+| Backend / Frontend specialists | Payment ledger, receivables, revenue report, Excel export | COMPLETE                  | 6      |
+| google-code-reviewer           | Sprint 6 money, idempotency, authorization and UI review | COMPLETE — LGTM           | 6      |
+| google-qa-engineer             | Sprint 6 ledger reconciliation, regression and browser acceptance | COMPLETE — PASS (192 + 40) | 6      |
 
 ## Activity Log
 
@@ -153,6 +158,18 @@
 - 2026-09-10: Sprint 5 review LGTM after component-split, test-timeout, demo-seed and currency
   assertion fixes; QA PASS with 151 unit/integration and 37 browser tests, all
   coverage dimensions above 80%.
+- 2026-09-10: Client asked to continue with the next sprint; 14 finance/reporting BDD scenarios,
+  the `10-finance-reporting.md` wireframe and the Sprint 6 file blueprint were drafted before
+  implementation.
+- 2026-09-10: Sprint 6 delivered the append-only payment ledger (cash / bank transfer,
+  collection / refund, explicit caps, idempotent replay, Serializable write + event + audit),
+  ledger-backed settlement figures, the receivable list for both roles, the Owner-only revenue
+  report by business day / employee / contract with receivable aging, the dependency-free
+  14-column Excel export (PD-13), the detail-page ledger panel and "Thu tiền" dialog, the
+  `/receivables` page and the live `/reports` page.
+- 2026-09-10: Sprint 6 review LGTM after component-split, ZIP-writer readability, e2e race and
+  golden-tier fixes; QA PASS with 192 unit/integration and 40 browser tests, all coverage
+  dimensions above 80%. GitHub push still refused (403); commits are ready on local branches.
 
 ## Blockers
 
@@ -161,7 +178,8 @@
 | PD-06 extension repricing applied as default  | Product Owner confirms or changes the rule | Client/BA |
 | PD-12 settlement defaults applied             | Product Owner confirms deposit cap, Owner-only discount, no early-return refund | Client/BA |
 | GitHub push refused (403)                     | Grant the delivery Git account write access or push from an authorized account | Client/DevOps |
-| Later-sprint business assumptions remain open | Resolve before Sprint 6 (payments ledger, reports) | Client/BA |
+| PD-13 workbook writer applied                 | Product Owner confirms the unstyled single-sheet export or requests styling/library | Client/BA |
+| Later-sprint business assumptions remain open | Resolve before Sprint 7 (remaining MVP modules) | Client/BA |
 
 **Last Updated:** 2026-09-10  
 **Updated By:** Project Manager

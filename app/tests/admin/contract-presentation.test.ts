@@ -52,8 +52,8 @@ describe('Feature: Contract lifecycle presentation', () => {
     expect(contractStatusTone('CONFIRMED')).toBe('warning');
     expect(contractStatusTone('OVERDUE')).toBe('danger');
     expect(contractStatusTone('CANCELLED')).toBe('neutral');
-    expect(contractActions('CONFIRMED')).toEqual(['activate', 'extend', 'cancel']);
-    expect(contractActions('OVERDUE')).toEqual(['extend', 'swap', 'charge']);
+    expect(contractActions('CONFIRMED')).toEqual(['activate', 'payment', 'extend', 'cancel']);
+    expect(contractActions('OVERDUE')).toEqual(['payment', 'extend', 'swap', 'charge']);
     expect(contractActions('CANCELLED')).toEqual([]);
   });
 

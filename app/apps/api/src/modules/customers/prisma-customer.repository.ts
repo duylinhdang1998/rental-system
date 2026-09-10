@@ -42,6 +42,14 @@ export class PrismaCustomerRepository implements CustomerRepository {
       : null;
   }
 
+  async findById(id: string): Promise<CustomerSummary | null> {
+    const item = await this.prisma.customer.findUnique({
+      include: CUSTOMER_INCLUDE,
+      where: { id },
+    });
+    return item ? this.toSummary(item) : null;
+  }
+
   async findDuplicates(normalizedContact: string): Promise<CustomerSummary[]> {
     const items = await this.prisma.customer.findMany({
       include: CUSTOMER_INCLUDE,

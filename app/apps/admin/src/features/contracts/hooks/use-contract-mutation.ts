@@ -4,8 +4,11 @@ import type { RentalContract } from '@rental/contracts';
 const INVALIDATED_KEYS = [
   ['contracts'],
   ['fleet'],
+  ['ledger'],
   ['operations-board'],
+  ['receivables'],
   ['return-queue'],
+  ['revenue-report'],
   ['settlement'],
 ];
 

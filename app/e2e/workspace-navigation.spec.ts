@@ -17,11 +17,13 @@ test.describe('Feature: Secure responsive operations preview — role navigation
   test('Scenario: Owner can preview all Sprint 1 modules', async ({ page }) => {
     await signInAs(page, 'owner');
 
-    for (const route of ['/reports', '/employees']) {
-      await page.goto(route);
-      await expect(page.getByText('Dữ liệu minh họa', { exact: false })).toBeVisible();
-      await expect(page.getByText(/Có trong Sprint|Bản xem trước/).first()).toBeVisible();
-    }
+    await page.goto('/employees');
+    await expect(page.getByText('Dữ liệu minh họa', { exact: false })).toBeVisible();
+    await expect(page.getByText(/Có trong Sprint|Bản xem trước/).first()).toBeVisible();
+    await page.goto('/reports');
+    await expect(page.getByRole('heading', { name: 'Báo cáo doanh thu' })).toBeVisible();
+    await page.goto('/receivables');
+    await expect(page.getByRole('heading', { name: 'Công nợ' })).toBeVisible();
     await page.goto('/returns');
     await expect(page.getByRole('heading', { name: 'Trả xe' })).toBeVisible();
     await page.goto('/contracts');

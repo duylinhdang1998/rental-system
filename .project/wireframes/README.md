@@ -18,6 +18,7 @@
 | `screens/07-contract-creation.md`         | Five-step multi-vehicle contract flow            |     Yes |    Yes | Draft — Sprint 3 approval       |
 | `screens/08-ui-component-showroom.md`     | Development-only component review workspace      |     Yes |    Yes | Awaiting Product Owner approval |
 | `screens/09-return-settlement.md`         | Return queue, per-vehicle return and settlement  |     Yes |    Yes | Draft — Sprint 5 approval       |
+| `screens/10-finance-reporting.md`         | Payments, receivables and revenue report         |     Yes |    Yes | Approved — implemented Sprint 6 |
 | `components.md`                           | Reusable UI patterns                             |     N/A |    N/A | Draft complete                  |
 
 ## Flow set

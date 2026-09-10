@@ -22,7 +22,6 @@ export function SettlementFigureList({ figures }: SettlementFigureListProps) {
           </dd>
         </div>
       ))}
-      <p className="mt-1 text-xs text-ink-muted">{t('settlementPaidNote')}</p>
     </dl>
   );
 }

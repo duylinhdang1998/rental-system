@@ -1,11 +1,17 @@
 import { randomUUID } from 'node:crypto';
-import type { ContractCharge, ContractEvent, RentalContract } from '@rental/contracts';
+import type {
+  ContractCharge,
+  ContractEvent,
+  ContractPayment,
+  RentalContract,
+} from '@rental/contracts';
 import type { ReservationEntry } from '../../common/reservations/reservation-registry.js';
 import { isOpenContract, isRentingContract } from './contract-lifecycle.policy.js';
 import type {
   ChargeDraft,
   ContractDraft,
   LifecycleEventInput,
+  PaymentDraft,
   SettlementDraft,
 } from './contract.types.js';
 
@@ -59,6 +65,7 @@ export function buildContract(draft: ContractDraft): RentalContract {
     handover: buildHandover(draft),
     id: randomUUID(),
     overdueSince: null,
+    payments: [],
     quote: { ...structuredClone(draft.quote), lines: buildLines(draft) },
     settledAt: null,
     settlement: null,
@@ -80,6 +87,20 @@ export function buildCharge(
     kind: draft.kind,
     lineId: draft.lineId,
     vehicleCode: draft.vehicleCode,
+  };
+}
+
+/** The ledger row id is the idempotency key, so a replay can find its own row. */
+export function buildPayment(draft: PaymentDraft): ContractPayment {
+  return {
+    amountVnd: draft.amountVnd,
+    id: draft.idempotencyKey,
+    kind: draft.kind,
+    method: draft.method,
+    notes: draft.notes,
+    receivedAt: draft.receivedAt,
+    receivedById: draft.receivedById,
+    reference: draft.reference,
   };
 }
 

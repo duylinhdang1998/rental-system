@@ -2,13 +2,19 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { resolveInitialLocale } from '@/shared/i18n/locale';
 import { contractTranslations } from '@/features/contracts/lib/contract-translations';
+import { paymentTranslations } from '@/features/contracts/lib/payment-translations';
 import { settlementTranslations } from '@/features/contracts/lib/settlement-translations';
+import { financeTranslations } from '@/features/finance/lib/finance-translations';
+import { reportTranslations } from '@/features/reporting/lib/report-translations';
 import { returnTranslations } from '@/features/returns/lib/return-translations';
 
 const translations = {
   en: {
     translation: {
       ...contractTranslations.en,
+      ...financeTranslations.en,
+      ...paymentTranslations.en,
+      ...reportTranslations.en,
       ...returnTranslations.en,
       ...settlementTranslations.en,
       accessDeniedBody: 'Return to an area you can access or contact the Owner.',
@@ -86,6 +92,7 @@ const translations = {
       phone: 'Phone',
       previousWeek: 'Previous week',
       primary: 'Primary',
+      receivables: 'Receivables',
       reports: 'Reports',
       saveCustomer: 'Save customer',
       saveVehicle: 'Save vehicle',
@@ -129,6 +136,9 @@ const translations = {
   vi: {
     translation: {
       ...contractTranslations.vi,
+      ...financeTranslations.vi,
+      ...paymentTranslations.vi,
+      ...reportTranslations.vi,
       ...returnTranslations.vi,
       ...settlementTranslations.vi,
       accessDeniedBody: 'Vui lòng quay lại khu vực được cấp quyền hoặc liên hệ Chủ cửa hàng.',
@@ -206,6 +216,7 @@ const translations = {
       phone: 'Số điện thoại',
       previousWeek: 'Tuần trước',
       primary: 'Chính',
+      receivables: 'Công nợ',
       reports: 'Báo cáo',
       saveCustomer: 'Lưu khách hàng',
       saveVehicle: 'Lưu xe',

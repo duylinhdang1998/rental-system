@@ -8,11 +8,14 @@ import { FleetModule } from './modules/fleet/fleet.module.js';
 import { CustomerModule } from './modules/customers/customer.module.js';
 import { ContractModule } from './modules/contracts/contract.module.js';
 import { ReservationModule } from './common/reservations/reservation.module.js';
+import { FinanceModule } from './modules/finance/finance.module.js';
 
 @Module({})
 export class AppModule {
   static forRoot(environment: Environment): DynamicModule {
     const optionalImports = environment.DEMO_MODE ? [DemoModule] : [];
+    const customers = CustomerModule.register(environment);
+    const contracts = ContractModule.register(environment);
     return {
       module: AppModule,
       imports: [
@@ -20,9 +23,10 @@ export class AppModule {
         ReservationModule,
         HealthModule,
         AuthModule.register(environment),
-        CustomerModule.register(environment),
+        customers,
         FleetModule.register(environment),
-        ContractModule.register(environment),
+        contracts,
+        FinanceModule.register(contracts, customers),
         ...optionalImports,
       ],
     };

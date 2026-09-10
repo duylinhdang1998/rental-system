@@ -53,11 +53,10 @@ Page title
 - The Sprint 1 preview was replaced by the live return queue; see
   `09-return-settlement.md` for the queue, per-vehicle return and settlement screens.
 
-## Report preview — Owner only, Sprint 6
+## Report preview — replaced in Sprint 6
 
-- Period control and summary cards: gross received, receivable, contracts, utilization placeholder.
-- One simple revenue chart with text/table fallback.
-- “Xuất Excel” disabled with “Có trong Sprint 6”; Staff direct route returns denied.
+- The Sprint 1 preview was replaced by the live Owner-only revenue report with Excel export;
+  see `10-finance-reporting.md` for the ledger panel, payment dialog, receivable list and report.
 
 ## Employees preview — Owner only, later Sprint 1 business expansion
 

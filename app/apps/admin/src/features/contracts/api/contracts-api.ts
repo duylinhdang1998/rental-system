@@ -1,5 +1,6 @@
 import {
   availabilityResultSchema,
+  contractLedgerSchema,
   contractListSchema,
   contractSchema,
   quoteSchema,
@@ -9,7 +10,9 @@ import {
   type ContractChargeInput,
   type ContractCreateInput,
   type ContractExtendInput,
+  type ContractLedger,
   type ContractListQuery,
+  type ContractPaymentInput,
   type ContractReturnInput,
   type ContractSettleInput,
   type ContractSummary,
@@ -101,4 +104,13 @@ export function addContractCharge(id: string, input: ContractChargeInput): Promi
 
 export function settleContract(id: string, input: ContractSettleInput): Promise<RentalContract> {
   return lifecycleRequest(id, 'settle', input);
+}
+
+/** Sprint 6: immutable ledger rows plus the live balance (FR-08). */
+export async function fetchLedger(id: string): Promise<ContractLedger> {
+  return contractLedgerSchema.parse(await apiRequest(`/api/contracts/${id}/ledger`));
+}
+
+export function recordPayment(id: string, input: ContractPaymentInput): Promise<RentalContract> {
+  return lifecycleRequest(id, 'payments', input);
 }

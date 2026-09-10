@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { contractPaymentSchema } from './payments.js';
 import { quoteInputSchema, quoteLineSchema, quoteSchema } from './pricing.js';
 import {
   contractChargeSchema,
@@ -38,6 +39,8 @@ export const contractEventTypeSchema = z.enum([
   'LINE_RETURNED',
   'CHARGE_ADDED',
   'SETTLED',
+  'PAYMENT_RECORDED',
+  'REFUND_RECORDED',
 ]);
 
 export const contractEventMetadataSchema = z.record(
@@ -99,6 +102,7 @@ export const contractSchema = z.object({
   handover: handoverInputSchema.omit({ imageObjectKeys: true }).extend({ imageCount: z.number() }),
   id: z.string(),
   overdueSince: z.iso.datetime().nullable(),
+  payments: z.array(contractPaymentSchema),
   quote: quoteSchema.extend({ lines: z.array(contractLineSchema) }),
   settledAt: z.iso.datetime().nullable(),
   settlement: contractSettlementSchema.nullable(),

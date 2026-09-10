@@ -10,6 +10,8 @@ import {
   PackageCheck,
   Receipt,
   Repeat,
+  Undo2,
+  Wallet,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { describeEvent } from '@/features/contracts/lib/contract-presentation';
@@ -28,6 +30,8 @@ const EVENT_ICONS = {
   EXTENDED: CalendarPlus,
   LINE_RETURNED: PackageCheck,
   OVERDUE: AlertCircle,
+  PAYMENT_RECORDED: Wallet,
+  REFUND_RECORDED: Undo2,
   SETTLED: BadgeCheck,
   SWAPPED: Repeat,
 };
@@ -40,6 +44,8 @@ const EVENT_TONES = {
   EXTENDED: 'bg-caution-soft text-caution',
   LINE_RETURNED: 'bg-positive-soft text-positive',
   OVERDUE: 'bg-negative-soft text-negative',
+  PAYMENT_RECORDED: 'bg-positive-soft text-positive',
+  REFUND_RECORDED: 'bg-caution-soft text-caution',
   SETTLED: 'bg-brand-soft text-brand',
   SWAPPED: 'bg-information-soft text-information',
 };

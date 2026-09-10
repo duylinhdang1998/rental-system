@@ -88,6 +88,7 @@ const UNTOUCHED_CONTRACT = {
   charges: [],
   completedAt: null,
   overdueSince: null,
+  payments: [],
   settledAt: null,
   settlement: null,
 } as const;
@@ -105,6 +106,7 @@ function seedContract(spec: SeedSpec): StoredContract {
     events: seedEvents(spec, createdAt),
     handover: DEMO_HANDOVER,
     id: spec.id,
+    payments: [],
     quote: {
       customerName: spec.customerName,
       deliveryFeeVnd: 0,

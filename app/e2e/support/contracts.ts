@@ -60,3 +60,24 @@ export async function seedContract(page: Page, options: ContractSeedOptions) {
   }
   return contract;
 }
+
+export interface PaymentSeedOptions {
+  amountVnd: number;
+  method: 'BANK_TRANSFER' | 'CASH';
+  reference?: string;
+}
+
+/** Records one payment through the API; the key is fresh so every call is a new ledger row. */
+export async function recordPayment(page: Page, contractId: string, options: PaymentSeedOptions) {
+  const response = await page.request.post(`/api/contracts/${contractId}/payments`, {
+    data: {
+      amountVnd: options.amountVnd,
+      idempotencyKey: crypto.randomUUID(),
+      kind: 'PAYMENT',
+      method: options.method,
+      reference: options.reference ?? '',
+    },
+    headers: { 'x-csrf-token': await csrfToken(page) },
+  });
+  expect(response.ok()).toBe(true);
+}

@@ -90,6 +90,7 @@ const CONTRACT = {
     },
   ],
   overdueSince: null,
+  payments: [],
   settledAt: null,
   settlement: null,
   status: 'CANCELLED',

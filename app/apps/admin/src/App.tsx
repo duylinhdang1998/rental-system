@@ -3,8 +3,9 @@ import { ContractDetailPage, ContractListPage, ContractWizardPage } from '@/feat
 import { CustomerListPage } from '@/features/customers';
 import { OperationsDashboard } from '@/features/dashboard';
 import { EmployeePreview } from '@/features/employees';
+import { ReceivableListPage } from '@/features/finance';
 import { VehicleListPage } from '@/features/fleet';
-import { ReportPreview } from '@/features/reporting';
+import { ReportPage } from '@/features/reporting';
 import { ReturnQueuePage } from '@/features/returns';
 import { SettingsPage } from '@/features/settings';
 import { UiKitPage } from '@/features/ui-kit';
@@ -30,8 +31,9 @@ export function App() {
               <Route element={<ContractWizardPage />} path="contracts/new" />
               <Route element={<ContractDetailPage />} path="contracts/:id" />
               <Route element={<ReturnQueuePage />} path="returns" />
+              <Route element={<ReceivableListPage />} path="receivables" />
               <Route element={<OwnerRoute />}>
-                <Route element={<ReportPreview />} path="reports" />
+                <Route element={<ReportPage />} path="reports" />
                 <Route element={<EmployeePreview />} path="employees" />
                 <Route element={<SettingsPage />} path="settings" />
               </Route>

@@ -156,6 +156,23 @@ giữ lại và hoàn cọc; sau tất toán mọi con số bị khóa (BR-07). 
 này. Push GitHub bị từ chối (403) vì tài khoản Git hiện tại không có quyền ghi vào repository
 của khách; commit đã sẵn sàng trên nhánh `main` cục bộ.
 
+### Session 17 — 2026-09-10
+
+**Yêu cầu:** Chạy tiếp sprint kế tiếp (Sprint 6): sổ thanh toán nhiều lần/nhiều hình thức,
+công nợ và báo cáo doanh thu kèm xuất Excel.
+
+**Quyết định:** Mỗi khoản thu/hoàn là một dòng sổ bất biến trên hợp đồng (tiền mặt hoặc
+chuyển khoản, loại thu/hoàn chọn rõ, BR-04); số tiền thu tối đa bằng phần còn phải thu, hoàn tối
+đa bằng phần đã thu ròng; gửi lặp cùng khóa giao dịch trả về đúng dòng đã ghi, dùng lại khóa cho
+khoản khác bị từ chối (409). Bảng tất toán đọc "Đã thanh toán" từ sổ; sau tất toán vẫn thu tiếp
+cho đến khi hết công nợ (BR-07). Công nợ chỉ tính khi hợp đồng đã hết hạn thuê hoặc đã nhận xe;
+hợp đồng đặt trước và đã hủy không phải công nợ. Trang "Công nợ" mở cho cả hai vai trò; báo cáo
+doanh thu (theo ngày làm việc Asia/Ho_Chi_Minh, theo nhân viên, theo hợp đồng, tuổi nợ) chỉ Chủ
+xem được ở cả API lẫn giao diện (BR-08), khoảng báo cáo dưới 92 ngày. Xuất Excel theo đúng 14
+cột của mẫu cửa hàng bằng bộ ghi OOXML tự viết, không thêm thư viện; mở PD-13 để Product Owner
+xác nhận file một sheet không định dạng. Push GitHub vẫn bị từ chối (403); mã nguồn nằm trên
+nhánh `feature/sprint-6-payments-reporting` cục bộ.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -195,6 +212,7 @@ của khách; commit đã sẵn sàng trên nhánh `main` cục bộ.
 | PD-10 | Mẫu báo cáo doanh thu ngày | Đã lưu `daily-revenue-report-sample.xlsx` | Received |
 | PD-11 | Mẫu lịch trả xe | Đã lưu `vehicle-return-schedule-sample.xlsx` | Received |
 | PD-12 | Xử lý cọc và phụ phí khi tất toán | Cọc khấu trừ tối đa min(cọc, còn phải thu); giảm trừ chỉ Chủ; công nợ còn lại chờ sổ thanh toán Sprint 6; trả sớm không hoàn tiền | Implemented in Sprint 5 as the working default; Product Owner confirmation pending |
+| PD-13 | Cách xuất Excel báo cáo doanh thu | Bộ ghi OOXML tự viết: một sheet "Doanh thu", 14 cột theo mẫu, dòng tổng, số tiền dạng số, không định dạng/công thức; không thêm thư viện | Implemented in Sprint 6 as the working default; Product Owner confirmation pending |
 
 ## Design Decisions
 

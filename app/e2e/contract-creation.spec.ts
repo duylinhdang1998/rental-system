@@ -1,10 +1,22 @@
 import { expect, test, type Page } from '@playwright/test';
 import { signInAsStaff } from './support/auth';
 
-async function reachConfirmation(page: Page) {
+interface RentalPeriod {
+  endAt: string;
+  startAt: string;
+}
+
+/** Own window for the conflict test so the parallel creation test's XE-001 booking never collides. */
+const CONFLICT_PERIOD: RentalPeriod = { endAt: '2026-11-11T08:00', startAt: '2026-11-10T08:00' };
+
+async function reachConfirmation(page: Page, period?: RentalPeriod) {
   await page.goto('/contracts/new');
   await page.getByRole('radio', { name: 'Khách hàng mẫu' }).check();
   await page.getByRole('button', { name: 'Tiếp tục' }).click();
+  if (period) {
+    await page.getByLabel('Giờ nhận xe').fill(period.startAt);
+    await page.getByLabel('Giờ trả xe').fill(period.endAt);
+  }
   await page.getByRole('checkbox', { name: /XE-001/ }).check();
   await page.getByRole('button', { name: 'Tiếp tục' }).click();
   await expect(page.getByText(/1 ngày × 150.000/)).toBeVisible();
@@ -29,7 +41,7 @@ test.describe('Feature: Responsive contract creation', () => {
 
   test('A conflict returns to vehicles while preserving the contract draft', async ({ page }) => {
     await signInAsStaff(page);
-    await reachConfirmation(page);
+    await reachConfirmation(page, CONFLICT_PERIOD);
     await page.getByLabel(/Tôi xác nhận giá/).check();
     await page.route('**/api/contracts', async (route) =>
       route.fulfill({

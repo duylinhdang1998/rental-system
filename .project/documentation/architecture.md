@@ -122,6 +122,8 @@ sequenceDiagram
 > Sprint 4 contract lifecycle, extension/swap and operations-board files are governed by
 > `.project/documentation/file-blueprint-sprint-4.md`. Sprint 5 per-vehicle return, charge
 > and settlement files are governed by `.project/documentation/file-blueprint-sprint-5.md`.
+> Sprint 6 payment ledger, receivable and revenue report files are governed by
+> `.project/documentation/file-blueprint-sprint-6.md`.
 
 ```text
 app/
@@ -246,6 +248,15 @@ preview. A contract completes only when its last open line is returned (BR-03); 
 freezes the figures on the contract (BR-07) and every write is one Serializable transaction
 plus immutable contract events and an audit entry.
 
+### 6.5 Exact Sprint 6 source-file contract
+
+The append-only payment ledger, the receivable list and the Owner-only revenue report with
+Excel export are defined in `.project/documentation/file-blueprint-sprint-6.md`. Payments live
+on the contract aggregate so the settlement statement, receivables and reports reconcile to the
+same rows; balance math is shared through `@rental/contracts`. Reporting is a read-only finance
+module guarded by `OwnerAuthorizationGuard` (BR-08); the workbook encoder has no third-party
+dependency.
+
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
@@ -300,4 +311,6 @@ MVP uses a static React admin, NestJS API instances and managed PostgreSQL. Admi
 BDD and wireframe extensions were approved on 2026-09-01. The exact Sprint 2 implementation
 paths were reconciled in `file-blueprint-sprint-2-3.md` after code review. Sprint 4 lifecycle
 files were reconciled in `file-blueprint-sprint-4.md` on 2026-09-09. Sprint 5 return and
-settlement files were reconciled in `file-blueprint-sprint-5.md` on 2026-09-10.
+settlement files were reconciled in `file-blueprint-sprint-5.md` on 2026-09-10. Sprint 6 payment
+ledger, receivable and reporting files were reconciled in `file-blueprint-sprint-6.md` on
+2026-09-10.

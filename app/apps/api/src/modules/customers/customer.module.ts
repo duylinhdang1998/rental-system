@@ -20,6 +20,7 @@ export class CustomerModule {
   static register(environment: Environment): DynamicModule {
     return {
       controllers: [CustomerController],
+      exports: [CUSTOMER_REPOSITORY],
       module: CustomerModule,
       providers: [...providers(environment), CustomerService, PrivateFileService],
     };

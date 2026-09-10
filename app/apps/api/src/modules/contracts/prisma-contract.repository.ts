@@ -15,6 +15,7 @@ import {
 } from './contract-lifecycle.policy.js';
 import { contractSummary } from './contract-view.js';
 import { CONTRACT_INCLUDE, eventData, lineData, mapRecord } from './prisma-contract.mapper.js';
+import { writePayment } from './prisma-payment.writes.js';
 import { writeCharge, writeReturn, writeSettlement } from './prisma-return.writes.js';
 import type {
   ChargeDraft,
@@ -23,6 +24,7 @@ import type {
   ExtensionChange,
   LifecycleEventInput,
   LifecyclePatch,
+  PaymentDraft,
   ReturnChange,
   SettlementDraft,
   SwapChange,
@@ -30,11 +32,17 @@ import type {
 
 const SERIALIZABLE = { isolationLevel: Prisma.TransactionIsolationLevel.Serializable } as const;
 const RELEASING_STATUSES = ['CANCELLED', 'COMPLETED'] as const;
+const UNIQUE_VIOLATION = 'P2002';
 
 function isOverlapError(error: unknown): boolean {
   return (
     error instanceof Prisma.PrismaClientKnownRequestError || String(error).includes('no_overlap')
   );
+}
+
+/** Duck-typed on purpose: monorepos may load two Prisma client copies, breaking instanceof. */
+function isUniqueViolation(error: unknown): boolean {
+  return error instanceof Error && (error as { code?: string }).code === UNIQUE_VIOLATION;
 }
 
 function toDate(value?: string): Date | undefined {
@@ -145,6 +153,23 @@ export class PrismaContractRepository implements ContractRepository {
     return mapRecord(record);
   }
 
+  /** Serializable ledger write; a concurrent replay of the same key returns the stored row. */
+  async addPayment(id: string, draft: PaymentDraft, event: LifecycleEventInput) {
+    try {
+      const record = await this.prisma.$transaction(
+        (transaction) => writePayment(transaction, id, draft, event),
+        SERIALIZABLE,
+      );
+      return mapRecord(record);
+    } catch (error) {
+      if (isUniqueViolation(error)) {
+        const stored = await this.findByPaymentKey(draft.idempotencyKey);
+        if (stored) return stored;
+      }
+      throw error;
+    }
+  }
+
   async settle(id: string, draft: SettlementDraft, event: LifecycleEventInput) {
     const record = await this.prisma.$transaction(
       (transaction) => writeSettlement(transaction, id, draft, event),
@@ -165,6 +190,14 @@ export class PrismaContractRepository implements ContractRepository {
     const item = await this.prisma.contract.findUnique({
       include: CONTRACT_INCLUDE,
       where: { idempotencyKey: key },
+    });
+    return item ? mapRecord(item) : null;
+  }
+
+  async findByPaymentKey(key: string): Promise<RentalContract | null> {
+    const item = await this.prisma.contract.findFirst({
+      include: CONTRACT_INCLUDE,
+      where: { payments: { some: { idempotencyKey: key } } },
     });
     return item ? mapRecord(item) : null;
   }
@@ -214,6 +247,15 @@ export class PrismaContractRepository implements ContractRepository {
       },
     });
     return items.map((item) => contractSummary(mapRecord(item)));
+  }
+
+  async listFinancial(): Promise<RentalContract[]> {
+    const items = await this.prisma.contract.findMany({
+      include: CONTRACT_INCLUDE,
+      orderBy: { createdAt: 'asc' },
+      where: { status: { not: 'CANCELLED' } },
+    });
+    return items.map(mapRecord);
   }
 
   async listOpen(): Promise<RentalContract[]> {

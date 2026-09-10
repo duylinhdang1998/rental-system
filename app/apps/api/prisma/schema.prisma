@@ -52,6 +52,8 @@ enum ContractEventType {
   LINE_RETURNED
   CHARGE_ADDED
   SETTLED
+  PAYMENT_RECORDED
+  REFUND_RECORDED
 }
 
 enum ReturnCondition {
@@ -65,6 +67,16 @@ enum ChargeKind {
   DAMAGE
   OTHER
   DISCOUNT
+}
+
+enum PaymentKind {
+  PAYMENT
+  REFUND
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
 }
 
 model Account {
@@ -249,6 +261,7 @@ model Contract {
   events               ContractEvent[]
   charges              ContractCharge[]
   settlement           ContractSettlement?
+  payments             ContractPayment[]
   createdAt            DateTime              @default(now()) @db.Timestamptz
 
   @@index([customerId, createdAt])
@@ -342,6 +355,26 @@ model ContractSettlement {
   notes             String   @default("")
   createdAt         DateTime @default(now()) @db.Timestamptz
 }
+
+/// Append-only payment ledger (BR-07): the API never updates or deletes a row.
+model ContractPayment {
+  id             String        @id @default(uuid())
+  contractId     String
+  contract       Contract      @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  idempotencyKey String        @unique
+  kind           PaymentKind
+  method         PaymentMethod
+  amountVnd      Int
+  reference      String        @default("")
+  notes          String        @default("")
+  receivedById   String
+  receivedAt     DateTime      @db.Timestamptz
+  createdAt      DateTime      @default(now()) @db.Timestamptz
+
+  @@index([contractId, receivedAt])
+  @@index([receivedAt])
+}
+
 
 model ContractHandover {
   id               String   @id @default(uuid())

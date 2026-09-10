@@ -3,90 +3,104 @@
 **Sprint:** 6 of 8  
 **Duration:** 2 weeks  
 **Goal:** Thu nhiều lần/nhiều hình thức và đối soát doanh thu, công nợ, nhân viên.  
-**Status:** PLANNED — EXECUTION DEFERRED
+**Status:** COMPLETE — QA PASS
 
 ## Task Details
 
 ### Task 6.S: Finance and reporting BDD scenarios [QA]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 5  
-**Wireframe:** `04-module-previews.md`
+**Wireframe:** `10-finance-reporting.md`
 
-**Deliverables:** Approved reconciliation/report examples for US-018 and US-019.  
-**Acceptance Criteria:** Receipts, allocations, aging, owner-only access and Excel totals are explicit.
+**Deliverables:** 14 approved scenarios (one outline) in `.project/scenarios/sprint-6/finance-reporting.feature` covering US-018 and US-019 with golden ledger and report examples.  
+**Acceptance Criteria:** Receipts, refunds, caps, idempotency, aging, Owner-only access and Excel totals are explicit.
 
 ### Task 6.1: Payment and receivable ledger [Backend]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 8  
 **Wireframe:** -
 
-**Deliverables:** Immutable payment/refund/adjustment transactions and allocations.  
+**Deliverables:** Append-only `ContractPayment` ledger (cash / bank transfer, collection / refund) with explicit caps (BR-04), idempotent replay on a unique key, Serializable payment + event write, audit entry, ledger endpoint, receivable list for both roles; settlement statement reads `paidVnd` from the ledger; Prisma migration `202609100002_payment_ledger`.  
 **Acceptance Criteria:** Replays are idempotent and balances reconcile to source transactions.
 
 ### Task 6.2: Reporting and Excel export [Backend]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 8  
 **Wireframe:** -
 
-**Deliverables:** Revenue/debt/employee queries and approved Excel export.  
+**Deliverables:** Owner-only revenue report by business day, employee and contract with receivable aging; validated range (< 92 days, Asia/Ho_Chi_Minh); dependency-free OOXML writer producing the approved 14-column "Doanh thu" sheet with a totals row (PD-13).  
 **Acceptance Criteria:** Totals match golden dataset and Staff cannot access aggregates.
 
 ### Task 6.3: Payment and receivable UI [Frontend]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 8  
-**Wireframe:** Expanded before Sprint 6 Gate 2
+**Wireframe:** `10-finance-reporting.md`
 
-**Deliverables:** Multi-payment entry, history, balance and receivable views.  
+**Deliverables:** Ledger panel on the contract detail page (balance by method, signed entries, cashier), "Thu tiền" dialog with kind/method/amount cap/reference/notes and one idempotency key per instance, `/receivables` list (table and cards) with age badges, summary cards and inline collection.  
 **Acceptance Criteria:** Method splits and amount validation are clear on desktop/mobile.
 
 ### Task 6.4: Reporting UI and export [Frontend]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE]
 **Story Points:** 8  
-**Wireframe:** `04-module-previews.md`
+**Wireframe:** `10-finance-reporting.md`
 
-**Deliverables:** Owner reports, filters, chart/table fallback and Excel action.  
+**Deliverables:** Owner `/reports` page with month-to-date default, range validation mirroring the API, KPI cards, daily and employee tables with bars, aging block, client 14-column contract table and the "Xuất Excel" download link.  
 **Acceptance Criteria:** Accessibility, authorization and locale-aware values match BDD.
 
 ### Task 6.R: Sprint 6 code review [Code Review]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE — LGTM]
 **Story Points:** 3  
 **Wireframe:** -
 
-**Deliverables:** Ledger, query, authorization and export review.  
+**Deliverables:** `.project/reviews/sprint-6-code-review.md` — eight findings (CR-6-01 … CR-6-08), four blocking fixes verified.  
 **Acceptance Criteria:** LGTM after findings are fixed.
 
 ### Task 6.Q: Sprint 6 QA verification [QA]
-**Status:** [NOT STARTED]  
+**Status:** [COMPLETE — PASS]
 **Story Points:** 8  
 **Wireframe:** -
 
-**Deliverables:** Full reconciliation, regression and browser acceptance report.  
+**Deliverables:** `.project/state/specialists/google-qa-engineer-sprint-6.md` — scenario coverage, regression and browser acceptance.  
 **Acceptance Criteria:** BDD/build green and implemented logic coverage ≥80%.
 
 ## Sprint Backlog
 
 | ID | Task | Points | Status | Assignee | Wireframe |
 |----|------|--------|--------|----------|-----------|
-| 6.S | Finance/reporting BDD scenarios | 5 | | QA | `04-module-previews.md` |
-| 6.1 | Payment/receivable ledger | 8 | | Backend | - |
-| 6.2 | Reporting/Excel export | 8 | | Backend | - |
-| 6.3 | Payment/receivable UI | 8 | | Frontend | Expand before Gate 2 |
-| 6.4 | Reporting UI/export | 8 | | Frontend | `04-module-previews.md` |
-| 6.R | Sprint 6 code review | 3 | | Code Review | - |
-| 6.Q | Sprint 6 QA verification | 8 | | QA | - |
+| 6.S | Finance/reporting BDD scenarios | 5 | [COMPLETE] | QA | `10-finance-reporting.md` |
+| 6.1 | Payment/receivable ledger | 8 | [COMPLETE] | Backend | - |
+| 6.2 | Reporting/Excel export | 8 | [COMPLETE] | Backend | - |
+| 6.3 | Payment/receivable UI | 8 | [COMPLETE] | Frontend | `10-finance-reporting.md` |
+| 6.4 | Reporting UI/export | 8 | [COMPLETE] | Frontend | `10-finance-reporting.md` |
+| 6.R | Sprint 6 code review | 3 | [COMPLETE — LGTM] | Code Review | - |
+| 6.Q | Sprint 6 QA verification | 8 | [COMPLETE — PASS] | QA | - |
 
 ## Sprint Summary
 
-**Total:** 7 tasks · 48 points · planned after Sprint 5.
+**Total:** 7 tasks · 48 points · all complete on 2026-09-10.
+
+QA evidence: 192 unit/integration tests and 40 browser journeys passed. Coverage reached
+96.36% statements, 86.18% branches, 95.9% functions and 97.28% lines. Format, lint, strict typecheck, production build and Prisma schema validation passed.
 
 ## Definition of Done
 
-- [ ] Report/Excel sample and finance examples approved.
-- [ ] Ledger and reports reconcile to the golden dataset.
-- [ ] Review LGTM and QA reconciliation/browser acceptance approved.
+- [x] Report/Excel sample and finance examples approved (approved 14-column layout reproduced; PD-13 workbook writer applied while the Product Owner confirms).
+- [x] Ledger and reports reconcile to the golden dataset.
+- [x] Review LGTM and QA reconciliation/browser acceptance approved.
 
 ## Dependencies and Risks
 
-- Use the received private `daily-revenue-report-sample.xlsx` as the baseline; approve anonymized golden totals and final Excel layout in Batch 0.
-- Depends on Sprint 5 settlement and immutable financial adjustments.
-- Financial aggregate access is Owner-only at both API and UI boundaries.
+- Built on Sprint 5 settlement (frozen receivable) and Sprint 4 lifecycle events.
+- PD-13: the Excel export is generated by a minimal in-house OOXML writer (single sheet, inline
+  strings, numeric money cells, no styling or formulas) instead of a third-party library; the
+  approved column order and totals row are reproduced. Cell styling, column widths or a second
+  sheet would need a change request or a library decision.
+- Receivables are due once the rental ended or the vehicles came back; bookings are not debts.
+  Payments stay possible on every non-cancelled contract, and after settlement only while money
+  is still owed.
+- Migration `202609100002_payment_ledger` must be applied before deploying the API (after
+  `202609090001_contract_lifecycle` and `202609100001_return_settlement`).
+- The private `daily-revenue-report-sample.xlsx` informed the column list; all fixtures, seeds
+  and tests remain synthetic and the workbook stays outside Git.
+- Local toolchain: Node 24; `@rental/contracts` build and `prisma generate` must run before
+  lint/typecheck/tests; the Windows checkout is CRLF, so run Prettier with `--end-of-line auto`.

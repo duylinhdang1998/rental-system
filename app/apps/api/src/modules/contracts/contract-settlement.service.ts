@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type {
-  AuthenticatedUser,
-  ContractChargeInput,
-  ContractSettleInput,
-  RentalContract,
-  SettlementFigures,
-  SettlementStatement,
+import {
+  netPaid,
+  type AuthenticatedUser,
+  type ContractChargeInput,
+  type ContractSettleInput,
+  type RentalContract,
+  type SettlementFigures,
+  type SettlementStatement,
 } from '@rental/contracts';
 import { AuditService } from '../../common/audit/audit.service.js';
 import { DomainError } from '../../common/errors/domain.error.js';
@@ -19,9 +20,6 @@ import {
 import { requireContract } from './contract-view.js';
 import { CONTRACT_REPOSITORY } from './contract.tokens.js';
 import type { ChargeDraft, ContractRepository, SettlementDraft } from './contract.types.js';
-
-/** Sprint 6 introduces the payment ledger; until then nothing has been collected. */
-export const PAID_VND_PENDING_LEDGER = 0;
 
 function settlementMetadata(figures: SettlementFigures) {
   return {
@@ -41,7 +39,7 @@ export class ContractSettlementService {
 
   async statement(id: string): Promise<SettlementStatement> {
     const contract = await requireContract(this.repository, id);
-    return buildStatement(contract, { paidVnd: PAID_VND_PENDING_LEDGER });
+    return buildStatement(contract, { paidVnd: netPaid(contract.payments) });
   }
 
   /** US-017: manual surcharges need a reason; discounts are Owner-only (BR-06). */
@@ -133,7 +131,7 @@ export class ContractSettlementService {
   }
 
   private figures(contract: RentalContract, depositAppliedVnd: number | undefined) {
-    const preview = buildStatement(contract, { paidVnd: PAID_VND_PENDING_LEDGER });
+    const preview = buildStatement(contract, { paidVnd: netPaid(contract.payments) });
     const cap = maxDepositApplied(preview.depositVnd, preview.outstandingVnd);
     if (depositAppliedVnd !== undefined && depositAppliedVnd > cap) {
       throw new DomainError(
