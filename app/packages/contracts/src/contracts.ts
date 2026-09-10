@@ -1,5 +1,10 @@
 import { z } from 'zod';
 import { quoteInputSchema, quoteLineSchema, quoteSchema } from './pricing.js';
+import {
+  contractChargeSchema,
+  contractSettlementSchema,
+  vehicleInspectionSchema,
+} from './returns.js';
 
 const MAX_VND = 1_000_000_000;
 const MAX_PLACE = 240;
@@ -30,6 +35,9 @@ export const contractEventTypeSchema = z.enum([
   'OVERDUE',
   'CANCELLED',
   'COMPLETED',
+  'LINE_RETURNED',
+  'CHARGE_ADDED',
+  'SETTLED',
 ]);
 
 export const contractEventMetadataSchema = z.record(
@@ -49,6 +57,7 @@ export const contractEventSchema = z.object({
 export const contractLineSchema = quoteLineSchema.extend({
   endAt: z.iso.datetime(),
   id: z.string(),
+  inspection: vehicleInspectionSchema.nullable(),
   replacedByLineId: z.string().nullable(),
   replacesLineId: z.string().nullable(),
   startAt: z.iso.datetime(),
@@ -81,6 +90,7 @@ export const contractSchema = z.object({
   cancellationReason: z.string().nullable(),
   cancelledAt: z.iso.datetime().nullable(),
   cancelledById: z.string().nullable(),
+  charges: z.array(contractChargeSchema),
   code: z.string(),
   completedAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime(),
@@ -90,6 +100,8 @@ export const contractSchema = z.object({
   id: z.string(),
   overdueSince: z.iso.datetime().nullable(),
   quote: quoteSchema.extend({ lines: z.array(contractLineSchema) }),
+  settledAt: z.iso.datetime().nullable(),
+  settlement: contractSettlementSchema.nullable(),
   status: contractStatusSchema,
 });
 
@@ -99,6 +111,7 @@ export const contractSummarySchema = z.object({
   customerName: z.string(),
   endAt: z.iso.datetime(),
   id: z.string(),
+  settledAt: z.iso.datetime().nullable(),
   startAt: z.iso.datetime(),
   status: contractStatusSchema,
   totalVnd: vndSchema,

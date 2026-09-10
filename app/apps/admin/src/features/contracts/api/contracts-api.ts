@@ -3,16 +3,21 @@ import {
   contractListSchema,
   contractSchema,
   quoteSchema,
+  settlementStatementSchema,
   type AvailabilityInput,
   type ContractCancelInput,
+  type ContractChargeInput,
   type ContractCreateInput,
   type ContractExtendInput,
   type ContractListQuery,
+  type ContractReturnInput,
+  type ContractSettleInput,
   type ContractSummary,
   type ContractSwapInput,
   type Quote,
   type QuoteInput,
   type RentalContract,
+  type SettlementStatement,
 } from '@rental/contracts';
 import { apiRequest } from '@/shared/api/http';
 
@@ -52,6 +57,10 @@ export async function fetchContract(id: string): Promise<RentalContract> {
   return contractSchema.parse(await apiRequest(`/api/contracts/${id}`));
 }
 
+export async function fetchSettlement(id: string): Promise<SettlementStatement> {
+  return settlementStatementSchema.parse(await apiRequest(`/api/contracts/${id}/settlement`));
+}
+
 async function lifecycleRequest(id: string, action: string, body?: object) {
   return contractSchema.parse(
     await apiRequest(`/api/contracts/${id}/${action}`, {
@@ -65,10 +74,6 @@ export function activateContract(id: string): Promise<RentalContract> {
   return lifecycleRequest(id, 'activate');
 }
 
-export function completeContract(id: string): Promise<RentalContract> {
-  return lifecycleRequest(id, 'complete');
-}
-
 export function cancelContract(id: string, input: ContractCancelInput): Promise<RentalContract> {
   return lifecycleRequest(id, 'cancel', input);
 }
@@ -79,4 +84,21 @@ export function extendContract(id: string, input: ContractExtendInput): Promise<
 
 export function swapContract(id: string, input: ContractSwapInput): Promise<RentalContract> {
   return lifecycleRequest(id, 'swap', input);
+}
+
+/** Sprint 5: one vehicle at a time; the last open line completes the contract. */
+export function returnVehicle(
+  id: string,
+  lineId: string,
+  input: ContractReturnInput,
+): Promise<RentalContract> {
+  return lifecycleRequest(id, `lines/${lineId}/return`, input);
+}
+
+export function addContractCharge(id: string, input: ContractChargeInput): Promise<RentalContract> {
+  return lifecycleRequest(id, 'charges', input);
+}
+
+export function settleContract(id: string, input: ContractSettleInput): Promise<RentalContract> {
+  return lifecycleRequest(id, 'settle', input);
 }

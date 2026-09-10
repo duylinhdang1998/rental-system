@@ -49,6 +49,22 @@ enum ContractEventType {
   OVERDUE
   CANCELLED
   COMPLETED
+  LINE_RETURNED
+  CHARGE_ADDED
+  SETTLED
+}
+
+enum ReturnCondition {
+  GOOD
+  MAINTENANCE
+  DAMAGED
+}
+
+enum ChargeKind {
+  LATE_RETURN
+  DAMAGE
+  OTHER
+  DISCOUNT
 }
 
 model Account {
@@ -227,9 +243,12 @@ model Contract {
   cancelledAt          DateTime?             @db.Timestamptz
   cancelledById        String?
   cancellationReason   String?
+  settledAt            DateTime?             @db.Timestamptz
   lines                ContractVehicleLine[]
   handover             ContractHandover?
   events               ContractEvent[]
+  charges              ContractCharge[]
+  settlement           ContractSettlement?
   createdAt            DateTime              @default(now()) @db.Timestamptz
 
   @@index([customerId, createdAt])
@@ -259,6 +278,13 @@ model ContractVehicleLine {
   replacesLineId          String?              @unique
   replaces                ContractVehicleLine? @relation("LineReplacement", fields: [replacesLineId], references: [id])
   replacedBy              ContractVehicleLine? @relation("LineReplacement")
+  returnedAt              DateTime?            @db.Timestamptz
+  returnedById            String?
+  returnCondition         ReturnCondition?
+  returnFuelPercent       Int?
+  returnNotes             String?
+  returnImageObjectKeys   String[]             @default([])
+  charges                 ContractCharge[]
   createdAt               DateTime             @default(now()) @db.Timestamptz
 
   @@index([vehicleId, startAt, endAt])
@@ -277,6 +303,44 @@ model ContractEvent {
   createdAt  DateTime          @default(now()) @db.Timestamptz
 
   @@index([contractId, occurredAt])
+}
+
+model ContractCharge {
+  id          String               @id @default(uuid())
+  contractId  String
+  contract    Contract             @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  lineId      String?
+  line        ContractVehicleLine? @relation(fields: [lineId], references: [id])
+  vehicleCode String?
+  kind        ChargeKind
+  amountVnd   Int
+  description String
+  actorId     String
+  metadata    Json?
+  createdAt   DateTime             @default(now()) @db.Timestamptz
+
+  @@index([contractId, createdAt])
+}
+
+model ContractSettlement {
+  id                String   @id @default(uuid())
+  contractId        String   @unique
+  contract          Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  settledById       String
+  settledAt         DateTime @db.Timestamptz
+  chargesVnd        Int
+  discountsVnd      Int
+  totalDueVnd       Int
+  paidVnd           Int
+  outstandingVnd    Int
+  depositVnd        Int
+  depositAppliedVnd Int
+  refundVnd         Int
+  receivableVnd     Int
+  documentReturned  Boolean  @default(false)
+  depositRefunded   Boolean  @default(false)
+  notes             String   @default("")
+  createdAt         DateTime @default(now()) @db.Timestamptz
 }
 
 model ContractHandover {

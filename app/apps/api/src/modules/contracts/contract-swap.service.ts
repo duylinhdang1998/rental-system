@@ -14,7 +14,7 @@ import { DomainError } from '../../common/errors/domain.error.js';
 import { FLEET_REPOSITORY } from '../fleet/fleet.tokens.js';
 import type { FleetRepository } from '../fleet/fleet.types.js';
 import { conflictMessage } from './contract-extension.service.js';
-import { activeLines, isRentingContract } from './contract-lifecycle.policy.js';
+import { isRentingContract, openLines } from './contract-lifecycle.policy.js';
 import { requireContract } from './contract-view.js';
 import { CONTRACT_REPOSITORY } from './contract.tokens.js';
 import type { ContractRepository, SwapChange } from './contract.types.js';
@@ -42,6 +42,7 @@ function replacementLine(
     ...inherited,
     explanation: `${line.explanation} · thay cho ${line.vehicleCode}`,
     id: randomUUID(),
+    inspection: null,
     replacesLineId: line.id,
     startAt: swapAt,
     vehicleCode: replacement.code,
@@ -91,7 +92,7 @@ export class ContractSwapService {
     if (!isRentingContract(contract.status)) {
       throw new DomainError('INVALID_TRANSITION', 'Chỉ đổi xe khi hợp đồng đang thuê');
     }
-    const line = activeLines(contract.quote.lines).find((item) => item.id === lineId);
+    const line = openLines(contract.quote.lines).find((item) => item.id === lineId);
     if (!line) throw new DomainError('NOT_FOUND', 'Không tìm thấy dòng xe cần đổi');
     return line;
   }

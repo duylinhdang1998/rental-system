@@ -2,6 +2,7 @@ import { expect, type Page } from '@playwright/test';
 
 export interface ContractSeedOptions {
   activate?: boolean;
+  depositVnd?: number;
   endAt: string;
   startAt: string;
   vehicleIds: string[];
@@ -34,7 +35,7 @@ function contractPayload(options: ContractSeedOptions) {
     customerId: 'demo-customer',
     deliveryFeeVnd: 0,
     endAt: options.endAt,
-    handover: HANDOVER,
+    handover: { ...HANDOVER, depositVnd: options.depositVnd ?? HANDOVER.depositVnd },
     idempotencyKey: crypto.randomUUID(),
     overrides: [],
     startAt: options.startAt,

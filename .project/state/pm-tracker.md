@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Workstream:** Sprint 4 — contract lifecycle and daily operations delivered
-**Overall Progress:** Sprint 0–4 complete; Sprint 5–7 planned and awaiting authorization
-**Status:** SPRINT_4_COMPLETE
+**Current Workstream:** Sprint 5 — per-vehicle return, charges and settlement delivered
+**Overall Progress:** Sprint 0–5 complete; Sprint 6–7 planned and awaiting authorization
+**Status:** SPRINT_5_COMPLETE
 
 ## Project Timeline
 
@@ -14,7 +14,8 @@
 | Sprint 2   |                2 weeks | Fleet, customers, catalogs and availability calendar | COMPLETE — QA PASS |
 | Sprint 3   |                2 weeks | Pricing and contract creation                        | COMPLETE — QA PASS |
 | Sprint 4   |                2 weeks | Contract lifecycle, extension, swap and daily board   | COMPLETE — QA PASS |
-| Sprint 5–7 |           2 weeks each | Remaining MVP modules                                | PLANNED — DEFERRED |
+| Sprint 5   |                2 weeks | Per-vehicle return, charges and settlement           | COMPLETE — QA PASS |
+| Sprint 6–7 |           2 weeks each | Remaining MVP modules                                | PLANNED — DEFERRED |
 | Sprint 8   |            Remediation | shadcn/Radix, frontend structure, CreatedAt          | COMPLETE — QA PASS |
 | Sprint 9   |                Bug fix | Absolute frontend imports and enforcement gate       | COMPLETE — QA PASS |
 | UI review  |      Design foundation | Development-only component showroom                  | READY FOR REVIEW   |
@@ -51,6 +52,7 @@
 | Sprint 2 execution    | APPROVED; QA PASS                                                 | 2026-09-01 |
 | Sprint 3 execution    | AUTHORIZED; configurable late-return rule and system PDF approved | 2026-09-01 |
 | Sprint 4 execution    | AUTHORIZED; PD-06 whole-period repricing applied as working default | 2026-09-09 |
+| Sprint 5 execution    | AUTHORIZED; PD-12 deposit/discount/early-return defaults applied  | 2026-09-10 |
 
 ## Team Status
 
@@ -80,6 +82,9 @@
 | Backend / Frontend specialists | Lifecycle, overdue job, cancel/extend/swap, daily board | COMPLETE                  | 4      |
 | google-code-reviewer           | Sprint 4 state-machine, transaction and UI review      | COMPLETE — LGTM           | 4      |
 | google-qa-engineer             | Sprint 4 time-boundary, regression and browser acceptance | COMPLETE — PASS (111 + 36) | 4      |
+| Backend / Frontend specialists | Per-vehicle return, charges, settlement, return queue  | COMPLETE                  | 5      |
+| google-code-reviewer           | Sprint 5 money, transaction, security and UI review    | COMPLETE — LGTM           | 5      |
+| google-qa-engineer             | Sprint 5 money reconciliation, regression and browser acceptance | COMPLETE — PASS (151 + 37) | 5      |
 
 ## Activity Log
 
@@ -137,13 +142,26 @@
   status synchronization, contract list/detail pages and the today/overdue operations board.
 - 2026-09-09: Sprint 4 review LGTM after label, test-alias and e2e sign-in race fixes; QA PASS with
   111 unit/integration and 36 browser tests, all coverage dimensions above 80%.
+- 2026-09-10: Client asked to push Sprint 4 and execute Sprint 5; the push was refused by GitHub
+  (403, the local Git account has no write access to the client repository) and is pending.
+- 2026-09-10: 18 return/settlement BDD scenarios, the `09-return-settlement.md` wireframe and
+  the Sprint 5 file blueprint were drafted before implementation.
+- 2026-09-10: Sprint 5 delivered per-vehicle returns with late-fee snapshots and condition-driven
+  fleet status, derived contract completion, immutable late/damage/other/discount charges,
+  explicit receivable/refund settlement with deposit cap and release checklist, frozen
+  settlement figures, the live return queue and the detail-page return/charge/settle dialogs.
+- 2026-09-10: Sprint 5 review LGTM after component-split, test-timeout, demo-seed and currency
+  assertion fixes; QA PASS with 151 unit/integration and 37 browser tests, all
+  coverage dimensions above 80%.
 
 ## Blockers
 
 | Blocker                                       | Required action                          | Owner     |
 | --------------------------------------------- | ---------------------------------------- | --------- |
 | PD-06 extension repricing applied as default  | Product Owner confirms or changes the rule | Client/BA |
-| Later-sprint business assumptions remain open | Resolve before each dependent Sprint 5–6 | Client/BA |
+| PD-12 settlement defaults applied             | Product Owner confirms deposit cap, Owner-only discount, no early-return refund | Client/BA |
+| GitHub push refused (403)                     | Grant the delivery Git account write access or push from an authorized account | Client/DevOps |
+| Later-sprint business assumptions remain open | Resolve before Sprint 6 (payments ledger, reports) | Client/BA |
 
-**Last Updated:** 2026-09-09  
+**Last Updated:** 2026-09-10  
 **Updated By:** Project Manager

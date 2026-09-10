@@ -10,7 +10,7 @@ import { DomainError } from '../../common/errors/domain.error.js';
 import { PricingService } from '../pricing/pricing.service.js';
 import { calculateLateReturnFee } from '../pricing/pricing.policy.js';
 import { nextContractCode } from './contract-code.service.js';
-import { activeLines } from './contract-lifecycle.policy.js';
+import { openLines } from './contract-lifecycle.policy.js';
 import { requireContract } from './contract-view.js';
 import { CONTRACT_REPOSITORY } from './contract.tokens.js';
 import type { ContractRepository } from './contract.types.js';
@@ -60,9 +60,7 @@ export class ContractService {
 
   async lateReturnFee(id: string, input: LateReturnFeeInput) {
     const contract = await this.get(id);
-    const line = activeLines(contract.quote.lines).find(
-      (item) => item.vehicleId === input.vehicleId,
-    );
+    const line = openLines(contract.quote.lines).find((item) => item.vehicleId === input.vehicleId);
     if (!line) throw new DomainError('NOT_FOUND', 'Xe không thuộc hợp đồng này');
     try {
       return {

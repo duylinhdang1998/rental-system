@@ -2,6 +2,7 @@ import type { ContractSummary } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { ContractSettlementBadge } from '@/features/contracts/components/list/ContractSettlementBadge';
 import { ContractStatusBadge } from '@/features/contracts/components/list/ContractStatusBadge';
 import { formatCurrency, formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 
@@ -20,7 +21,10 @@ export function ContractCard({ contract }: ContractCardProps) {
           <h2 className="text-lg font-extrabold text-ink">{contract.code}</h2>
           <p className="text-ink-muted">{contract.customerName}</p>
         </div>
-        <ContractStatusBadge status={contract.status} />
+        <span className="grid justify-items-end gap-1.5">
+          <ContractStatusBadge status={contract.status} />
+          <ContractSettlementBadge contract={contract} />
+        </span>
       </div>
       <p className="text-sm text-ink-muted">
         {formatDateTime(contract.startAt, locale)} → {formatDateTime(contract.endAt, locale)}

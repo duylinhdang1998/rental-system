@@ -1,6 +1,7 @@
 import type { ContractSummary } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { ContractSettlementBadge } from '@/features/contracts/components/list/ContractSettlementBadge';
 import { ContractStatusBadge } from '@/features/contracts/components/list/ContractStatusBadge';
 import { TableCell } from '@/components/ui/table-cell';
 import { TableRow } from '@/components/ui/table-row';
@@ -30,7 +31,10 @@ export function ContractTableRow({ contract }: ContractTableRowProps) {
       </TableCell>
       <TableCell className="font-bold">{formatCurrency(contract.totalVnd, locale)}</TableCell>
       <TableCell>
-        <ContractStatusBadge status={contract.status} />
+        <span className="flex flex-wrap gap-1.5">
+          <ContractStatusBadge status={contract.status} />
+          <ContractSettlementBadge contract={contract} />
+        </span>
       </TableCell>
     </TableRow>
   );

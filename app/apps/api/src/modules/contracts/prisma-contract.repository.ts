@@ -14,13 +14,17 @@ import {
   type VehicleHold,
 } from './contract-lifecycle.policy.js';
 import { contractSummary } from './contract-view.js';
-import { CONTRACT_INCLUDE, lineData, mapRecord } from './prisma-contract.mapper.js';
+import { CONTRACT_INCLUDE, eventData, lineData, mapRecord } from './prisma-contract.mapper.js';
+import { writeCharge, writeReturn, writeSettlement } from './prisma-return.writes.js';
 import type {
+  ChargeDraft,
   ContractDraft,
   ContractRepository,
   ExtensionChange,
   LifecycleEventInput,
   LifecyclePatch,
+  ReturnChange,
+  SettlementDraft,
   SwapChange,
 } from './contract.types.js';
 
@@ -31,16 +35,6 @@ function isOverlapError(error: unknown): boolean {
   return (
     error instanceof Prisma.PrismaClientKnownRequestError || String(error).includes('no_overlap')
   );
-}
-
-function eventData(event: LifecycleEventInput) {
-  return {
-    actorId: event.actorId,
-    metadata: event.metadata ?? {},
-    occurredAt: new Date(event.occurredAt),
-    reason: event.reason ?? null,
-    type: event.type,
-  };
 }
 
 function toDate(value?: string): Date | undefined {
@@ -134,6 +128,29 @@ export class PrismaContractRepository implements ContractRepository {
       }, SERIALIZABLE);
       return mapRecord(record);
     });
+  }
+
+  async returnLine(id: string, change: ReturnChange, events: LifecycleEventInput[]) {
+    const record = await this.prisma.$transaction(
+      (transaction) => writeReturn(transaction, id, change, events),
+      SERIALIZABLE,
+    );
+    return mapRecord(record);
+  }
+
+  async addCharge(id: string, draft: ChargeDraft, event: LifecycleEventInput) {
+    const record = await this.prisma.$transaction((transaction) =>
+      writeCharge(transaction, id, draft, event),
+    );
+    return mapRecord(record);
+  }
+
+  async settle(id: string, draft: SettlementDraft, event: LifecycleEventInput) {
+    const record = await this.prisma.$transaction(
+      (transaction) => writeSettlement(transaction, id, draft, event),
+      SERIALIZABLE,
+    );
+    return mapRecord(record);
   }
 
   async findById(id: string): Promise<RentalContract | null> {

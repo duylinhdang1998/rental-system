@@ -2,11 +2,15 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { resolveInitialLocale } from '@/shared/i18n/locale';
 import { contractTranslations } from '@/features/contracts/lib/contract-translations';
+import { settlementTranslations } from '@/features/contracts/lib/settlement-translations';
+import { returnTranslations } from '@/features/returns/lib/return-translations';
 
 const translations = {
   en: {
     translation: {
       ...contractTranslations.en,
+      ...returnTranslations.en,
+      ...settlementTranslations.en,
       accessDeniedBody: 'Return to an area you can access or contact the Owner.',
       accessDeniedTitle: 'You do not have permission to view this page',
       activeRentals: 'Active rentals',
@@ -125,6 +129,8 @@ const translations = {
   vi: {
     translation: {
       ...contractTranslations.vi,
+      ...returnTranslations.vi,
+      ...settlementTranslations.vi,
       accessDeniedBody: 'Vui lòng quay lại khu vực được cấp quyền hoặc liên hệ Chủ cửa hàng.',
       accessDeniedTitle: 'Bạn không có quyền xem trang này',
       activeRentals: 'Đang cho thuê',

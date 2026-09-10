@@ -43,11 +43,6 @@ export class ContractLifecycleController {
     return this.lifecycle.cancel(id, input, request.authenticatedUser!);
   }
 
-  @Post(':id/complete')
-  complete(@Param('id') id: string, @Req() request: ContextRequest) {
-    return this.lifecycle.complete(id, request.authenticatedUser!);
-  }
-
   @Post(':id/extend')
   extend(
     @Param('id') id: string,

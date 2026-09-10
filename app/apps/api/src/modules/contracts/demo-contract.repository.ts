@@ -1,105 +1,47 @@
-import { randomUUID } from 'node:crypto';
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import type {
   AvailabilityConflict,
   AvailabilityInput,
-  ContractEvent,
   ContractListQuery,
   ContractSummary,
   RentalContract,
 } from '@rental/contracts';
 import { DomainError } from '../../common/errors/domain.error.js';
+import { ReservationRegistry } from '../../common/reservations/reservation-registry.js';
 import {
-  ReservationRegistry,
-  type ReservationEntry,
-} from '../../common/reservations/reservation-registry.js';
-import {
-  activeLines,
   holdFromStatuses,
   isOpenContract,
-  isRentingContract,
+  openLines,
   quoteBounds,
   type VehicleHold,
 } from './contract-lifecycle.policy.js';
 import { contractSummary, matchesContractQuery, sortNewestFirst } from './contract-view.js';
 import { DEMO_CONTRACT_SEEDS } from './contract.tokens.js';
 import type {
+  ChargeDraft,
   ContractDraft,
   ContractRepository,
   ExtensionChange,
   LifecycleEventInput,
   LifecyclePatch,
+  ReturnChange,
+  SettlementDraft,
   SwapChange,
 } from './contract.types.js';
+import {
+  buildCharge,
+  buildContract,
+  buildEvent,
+  buildSettlement,
+  reservationEntries,
+} from './demo-contract.builders.js';
 
 export interface StoredContract {
   contract: RentalContract;
   idempotencyKey: string;
   imageObjectKeys: string[];
-}
-
-function buildEvent(event: LifecycleEventInput): ContractEvent {
-  return {
-    actorId: event.actorId,
-    id: randomUUID(),
-    metadata: event.metadata ?? {},
-    occurredAt: event.occurredAt,
-    reason: event.reason ?? null,
-    type: event.type,
-  };
-}
-
-function buildLines(draft: ContractDraft): RentalContract['quote']['lines'] {
-  return draft.quote.lines.map((line) => ({
-    ...structuredClone(line),
-    endAt: draft.quote.endAt,
-    id: randomUUID(),
-    replacedByLineId: null,
-    replacesLineId: null,
-    startAt: draft.quote.startAt,
-  }));
-}
-
-function buildHandover(draft: ContractDraft): RentalContract['handover'] {
-  return {
-    deliveryPlace: draft.handover.deliveryPlace,
-    depositVnd: draft.handover.depositVnd,
-    fuelPercent: draft.handover.fuelPercent,
-    imageCount: draft.handover.imageObjectKeys.length,
-    notes: draft.handover.notes,
-    retainedDocument: draft.handover.retainedDocument,
-  };
-}
-
-function buildContract(draft: ContractDraft): RentalContract {
-  const createdAt = new Date().toISOString();
-  return {
-    activatedAt: null,
-    cancellationReason: null,
-    cancelledAt: null,
-    cancelledById: null,
-    code: draft.code,
-    completedAt: null,
-    createdAt,
-    customerId: draft.customerId,
-    events: [buildEvent({ actorId: draft.actorId, occurredAt: createdAt, type: 'CREATED' })],
-    handover: buildHandover(draft),
-    id: randomUUID(),
-    overdueSince: null,
-    quote: { ...structuredClone(draft.quote), lines: buildLines(draft) },
-    status: 'CONFIRMED',
-  };
-}
-
-function reservationEntries(contract: RentalContract): ReservationEntry[] {
-  if (!isOpenContract(contract.status)) return [];
-  const state = isRentingContract(contract.status) ? 'RENTED' : 'HELD';
-  return contract.quote.lines.map((line) => ({
-    endAt: line.endAt,
-    startAt: line.startAt,
-    state,
-    vehicleId: line.vehicleId,
-  }));
+  /** Private inspection image keys per line; only counted in API responses. */
+  returnImageObjectKeys?: Record<string, string[]>;
 }
 
 @Injectable()
@@ -134,7 +76,7 @@ export class DemoContractRepository implements ContractRepository {
   }
 
   applyLifecycle(id: string, patch: LifecyclePatch, event: LifecycleEventInput) {
-    const contract = this.require(id);
+    const contract = this.require(id).contract;
     Object.assign(contract, patch);
     contract.events.push(buildEvent(event));
     this.syncReservations(contract);
@@ -142,7 +84,7 @@ export class DemoContractRepository implements ContractRepository {
   }
 
   extend(id: string, change: ExtensionChange, event: LifecycleEventInput) {
-    const contract = this.require(id);
+    const contract = this.require(id).contract;
     change.lines.forEach((repriced) => {
       const line = contract.quote.lines.find((item) => item.id === repriced.id);
       if (!line) throw new DomainError('NOT_FOUND', 'Không tìm thấy dòng xe cần gia hạn');
@@ -158,7 +100,7 @@ export class DemoContractRepository implements ContractRepository {
   }
 
   swap(id: string, change: SwapChange, event: LifecycleEventInput) {
-    const contract = this.require(id);
+    const contract = this.require(id).contract;
     const closed = contract.quote.lines.find((item) => item.id === change.closedLineId);
     if (!closed) throw new DomainError('NOT_FOUND', 'Không tìm thấy dòng xe cần đổi');
     closed.endAt = change.swapAt;
@@ -167,6 +109,42 @@ export class DemoContractRepository implements ContractRepository {
     Object.assign(contract.quote, quoteBounds(contract.quote.lines));
     contract.events.push(buildEvent(event));
     this.syncReservations(contract);
+    return Promise.resolve(structuredClone(contract));
+  }
+
+  returnLine(id: string, change: ReturnChange, events: LifecycleEventInput[]) {
+    const stored = this.require(id);
+    const { contract } = stored;
+    const line = contract.quote.lines.find((item) => item.id === change.lineId);
+    const [first] = events;
+    if (!line || !first) throw new DomainError('NOT_FOUND', 'Không tìm thấy dòng xe cần trả');
+    const { imageObjectKeys, ...inspection } = change.inspection;
+    line.inspection = { ...inspection, imageCount: imageObjectKeys.length };
+    stored.returnImageObjectKeys = { ...stored.returnImageObjectKeys, [line.id]: imageObjectKeys };
+    change.charges.forEach((draft) =>
+      contract.charges.push(buildCharge(draft, first.actorId, first.occurredAt)),
+    );
+    if (change.completedAt) {
+      contract.completedAt = change.completedAt;
+      contract.status = 'COMPLETED';
+    }
+    events.forEach((event) => contract.events.push(buildEvent(event)));
+    this.syncReservations(contract);
+    return Promise.resolve(structuredClone(contract));
+  }
+
+  addCharge(id: string, draft: ChargeDraft, event: LifecycleEventInput) {
+    const contract = this.require(id).contract;
+    contract.charges.push(buildCharge(draft, event.actorId, event.occurredAt));
+    contract.events.push(buildEvent(event));
+    return Promise.resolve(structuredClone(contract));
+  }
+
+  settle(id: string, draft: SettlementDraft, event: LifecycleEventInput) {
+    const contract = this.require(id).contract;
+    contract.settlement = buildSettlement(draft);
+    contract.settledAt = draft.settledAt;
+    contract.events.push(buildEvent(event));
     return Promise.resolve(structuredClone(contract));
   }
 
@@ -210,16 +188,16 @@ export class DemoContractRepository implements ContractRepository {
       .filter(
         (item) =>
           isOpenContract(item.contract.status) &&
-          activeLines(item.contract.quote.lines).some((line) => line.vehicleId === vehicleId),
+          openLines(item.contract.quote.lines).some((line) => line.vehicleId === vehicleId),
       )
       .map((item) => item.contract.status);
     return Promise.resolve(holdFromStatuses(statuses));
   }
 
-  private require(id: string): RentalContract {
+  private require(id: string): StoredContract {
     const item = this.contracts.find((stored) => stored.contract.id === id);
     if (!item) throw new DomainError('NOT_FOUND', 'Không tìm thấy hợp đồng');
-    return item.contract;
+    return item;
   }
 
   private syncReservations(contract: RentalContract) {

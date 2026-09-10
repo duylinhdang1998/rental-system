@@ -37,19 +37,27 @@ describe('Feature: Contract lifecycle and daily operations', () => {
   });
 
   it('rejects forbidden transitions with 409 and leaves everything unchanged', async () => {
-    const created = await staff.createActiveContract(['vehicle-001']);
+    const created = await staff.createActiveContract(['vehicle-001'], PAST_INTERVAL);
     const cancelled = await staff
       .post(`/api/contracts/${created.id}/cancel`, { reason: 'Khách đổi lịch' })
       .expect(409);
     expect(cancelled.body.error.code).toBe('INVALID_TRANSITION');
     await staff.post(`/api/contracts/${created.id}/activate`).expect(409);
-    await staff.post(`/api/contracts/${created.id}/complete`).expect(201);
+    const [lineId] = await staff.openLineIds(created.id);
+    await staff
+      .post(`/api/contracts/${created.id}/lines/${lineId}/return`, {
+        actualReturnAt: PAST_INTERVAL.endAt,
+        condition: 'GOOD',
+        fuelPercent: 60,
+      })
+      .expect(201);
     await staff.post(`/api/contracts/${created.id}/cancel`, { reason: 'Quá muộn' }).expect(409);
     const stored = await staff.get(`/api/contracts/${created.id}`).expect(200);
     expect(stored.body.status).toBe('COMPLETED');
     expect(stored.body.events.map((event: { type: string }) => event.type)).toEqual([
       'CREATED',
       'ACTIVATED',
+      'LINE_RETURNED',
       'COMPLETED',
     ]);
     expect(await staff.vehicle('vehicle-001')).toMatchObject({ status: 'AVAILABLE' });

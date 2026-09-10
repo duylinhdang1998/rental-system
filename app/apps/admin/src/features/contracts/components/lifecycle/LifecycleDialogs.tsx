@@ -1,32 +1,35 @@
-import type { RentalContract } from '@rental/contracts';
+import type { RentalContract, SettlementStatement } from '@rental/contracts';
+import { ActivateContractDialog } from '@/features/contracts/components/lifecycle/ActivateContractDialog';
 import { CancelContractDialog } from '@/features/contracts/components/lifecycle/CancelContractDialog';
-import { ConfirmActionDialog } from '@/features/contracts/components/lifecycle/ConfirmActionDialog';
 import { ExtendContractDialog } from '@/features/contracts/components/lifecycle/ExtendContractDialog';
 import { SwapVehicleDialog } from '@/features/contracts/components/lifecycle/SwapVehicleDialog';
-import type { ContractMutations } from '@/features/contracts/hooks/use-contract-detail-page';
-import type { ContractAction } from '@/features/contracts/lib/contract-presentation';
+import { SettlementDialogs } from '@/features/contracts/components/settlement/SettlementDialogs';
+import type { DetailDialog } from '@/features/contracts/hooks/use-contract-detail-page';
+import type { ContractMutations } from '@/features/contracts/hooks/use-contract-mutations';
 
-interface LifecycleDialogsProps {
+export interface LifecycleDialogsProps {
   contract: RentalContract;
-  dialog: ContractAction | null;
+  dialog: DetailDialog | null;
+  isOwner: boolean;
   mutations: ContractMutations;
   onClose: () => void;
+  statement: SettlementStatement | undefined;
 }
 
-export function LifecycleDialogs({ contract, dialog, mutations, onClose }: LifecycleDialogsProps) {
-  if (dialog === 'activate' || dialog === 'complete') {
-    return <ConfirmActionDialog action={dialog} mutation={mutations[dialog]} onClose={onClose} />;
+export function LifecycleDialogs(props: LifecycleDialogsProps) {
+  const { contract, dialog, mutations, onClose } = props;
+  switch (dialog?.kind) {
+    case 'activate':
+      return <ActivateContractDialog mutation={mutations.activate} onClose={onClose} />;
+    case 'cancel':
+      return <CancelContractDialog mutation={mutations.cancel} onClose={onClose} />;
+    case 'extend':
+      return (
+        <ExtendContractDialog contract={contract} mutation={mutations.extend} onClose={onClose} />
+      );
+    case 'swap':
+      return <SwapVehicleDialog contract={contract} mutation={mutations.swap} onClose={onClose} />;
+    default:
+      return <SettlementDialogs {...props} />;
   }
-  if (dialog === 'cancel') {
-    return <CancelContractDialog mutation={mutations.cancel} onClose={onClose} />;
-  }
-  if (dialog === 'extend') {
-    return (
-      <ExtendContractDialog contract={contract} mutation={mutations.extend} onClose={onClose} />
-    );
-  }
-  if (dialog === 'swap') {
-    return <SwapVehicleDialog contract={contract} mutation={mutations.swap} onClose={onClose} />;
-  }
-  return null;
 }

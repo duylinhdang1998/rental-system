@@ -57,6 +57,16 @@ export function activeLines(lines: readonly ContractLine[]): ContractLine[] {
   return lines.filter((line) => line.replacedByLineId === null);
 }
 
+/** Active lines whose vehicle is still with the customer (not yet inspected back). */
+export function openLines(lines: readonly ContractLine[]): ContractLine[] {
+  return activeLines(lines).filter((line) => line.inspection === null);
+}
+
+/** BR-03: a contract can only complete once every active line has been returned. */
+export function isFullyReturned(lines: readonly ContractLine[]): boolean {
+  return openLines(lines).length === 0;
+}
+
 /** Start of the original rental period for a line, following the swap chain backwards. */
 export function chainStartAt(line: ContractLine, lines: readonly ContractLine[]): string {
   let current = line;

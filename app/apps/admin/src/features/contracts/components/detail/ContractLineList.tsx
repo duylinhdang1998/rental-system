@@ -4,9 +4,10 @@ import { ContractLineItem } from '@/features/contracts/components/detail/Contrac
 
 interface ContractLineListProps {
   lines: ContractLine[];
+  onReturn?: ((line: ContractLine) => void) | undefined;
 }
 
-export function ContractLineList({ lines }: ContractLineListProps) {
+export function ContractLineList({ lines, onReturn }: ContractLineListProps) {
   const { t } = useTranslation();
   return (
     <section className="surface-card p-5" data-mobile-card>
@@ -16,6 +17,7 @@ export function ContractLineList({ lines }: ContractLineListProps) {
           <ContractLineItem
             key={line.id}
             line={line}
+            onReturn={onReturn}
             replacedCode={lines.find((item) => item.id === line.replacedByLineId)?.vehicleCode}
             replacesCode={lines.find((item) => item.id === line.replacesLineId)?.vehicleCode}
           />

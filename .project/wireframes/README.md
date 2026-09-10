@@ -17,6 +17,7 @@
 | `screens/06-fleet-customer-management.md` | Fleet/customer CRUD and warnings                 |     Yes |    Yes | Draft — Sprint 2 approval       |
 | `screens/07-contract-creation.md`         | Five-step multi-vehicle contract flow            |     Yes |    Yes | Draft — Sprint 3 approval       |
 | `screens/08-ui-component-showroom.md`     | Development-only component review workspace      |     Yes |    Yes | Awaiting Product Owner approval |
+| `screens/09-return-settlement.md`         | Return queue, per-vehicle return and settlement  |     Yes |    Yes | Draft — Sprint 5 approval       |
 | `components.md`                           | Reusable UI patterns                             |     N/A |    N/A | Draft complete                  |
 
 ## Flow set

@@ -52,6 +52,7 @@ function seedLine(spec: SeedSpec): ContractLine {
     explanation: `${spec.days} ngày × ${SCOOTER_DAILY_RATE.toLocaleString('vi-VN')} ₫ · bảng giá v1`,
     finalSubtotalVnd: subtotal,
     id: `${spec.id}-line-1`,
+    inspection: null,
     lateReturnPolicy: DEFAULT_LATE_RETURN_POLICY,
     pricingVersionId: 'pricing-scooter-v1',
     pricingVersionNumber: 1,
@@ -79,22 +80,31 @@ function seedEvents(spec: SeedSpec, createdAt: string): ContractEvent[] {
   return events;
 }
 
+/** Demo contracts never carry cancellations, charges or settlements when seeded. */
+const UNTOUCHED_CONTRACT = {
+  cancellationReason: null,
+  cancelledAt: null,
+  cancelledById: null,
+  charges: [],
+  completedAt: null,
+  overdueSince: null,
+  settledAt: null,
+  settlement: null,
+} as const;
+
 function seedContract(spec: SeedSpec): StoredContract {
   const line = seedLine(spec);
   const createdAt = new Date(Date.parse(spec.startAt) - DAY_MS).toISOString();
   const contract: RentalContract = {
+    ...UNTOUCHED_CONTRACT,
     activatedAt: spec.status === 'ACTIVE' ? spec.startAt : null,
-    cancellationReason: null,
-    cancelledAt: null,
-    cancelledById: null,
+    charges: [],
     code: spec.code,
-    completedAt: null,
     createdAt,
     customerId: 'demo-customer',
     events: seedEvents(spec, createdAt),
     handover: DEMO_HANDOVER,
     id: spec.id,
-    overdueSince: null,
     quote: {
       customerName: spec.customerName,
       deliveryFeeVnd: 0,

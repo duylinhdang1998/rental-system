@@ -19,6 +19,7 @@ import {
   activeLines,
   chainStartAt,
   isOpenContract,
+  openLines,
   statusAfterEndChange,
 } from './contract-lifecycle.policy.js';
 import { requireContract } from './contract-view.js';
@@ -92,7 +93,7 @@ export class ContractExtensionService {
     if (Date.parse(input.newEndAt) <= Date.parse(contract.quote.endAt)) {
       throw new DomainError('INVALID_INPUT', 'Ngày trả mới phải sau ngày trả hiện tại');
     }
-    const lines = activeLines(contract.quote.lines);
+    const lines = openLines(contract.quote.lines);
     if (lines.some((line) => line.overrideReason) && actor.role !== 'OWNER') {
       throw new DomainError('FORBIDDEN', 'Chỉ Chủ cửa hàng được gia hạn hợp đồng có giá sửa tay');
     }
@@ -123,18 +124,22 @@ export class ContractExtensionService {
     };
   }
 
+  /** Returned lines keep their price (early return is not refunded); only open lines reprice. */
   private change(
     contract: RentalContract,
     newEndAt: string,
     lines: RepricedLine[],
   ): ExtensionChange {
+    const returnedVnd = activeLines(contract.quote.lines)
+      .filter((line) => line.inspection !== null)
+      .reduce((sum, line) => sum + line.finalSubtotalVnd, 0);
     return {
       endAt: newEndAt,
       lines,
       status: statusAfterEndChange(contract.status, newEndAt, new Date()),
       totalVnd: lines.reduce(
         (sum, line) => sum + line.finalSubtotalVnd,
-        contract.quote.deliveryFeeVnd,
+        contract.quote.deliveryFeeVnd + returnedVnd,
       ),
     };
   }

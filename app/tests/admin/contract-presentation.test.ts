@@ -53,8 +53,8 @@ describe('Feature: Contract lifecycle presentation', () => {
     expect(contractStatusTone('OVERDUE')).toBe('danger');
     expect(contractStatusTone('CANCELLED')).toBe('neutral');
     expect(contractActions('CONFIRMED')).toEqual(['activate', 'extend', 'cancel']);
-    expect(contractActions('OVERDUE')).toEqual(['complete', 'extend', 'swap']);
-    expect(contractActions('COMPLETED')).toEqual([]);
+    expect(contractActions('OVERDUE')).toEqual(['extend', 'swap', 'charge']);
+    expect(contractActions('CANCELLED')).toEqual([]);
   });
 
   it('keeps only lines that were not replaced by a swap', () => {

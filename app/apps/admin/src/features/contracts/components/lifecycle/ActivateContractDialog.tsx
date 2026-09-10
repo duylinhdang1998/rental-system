@@ -6,30 +6,19 @@ import { LifecycleDialogShell } from '@/features/contracts/components/lifecycle/
 import { MutationAlert } from '@/features/contracts/components/lifecycle/MutationAlert';
 import { LoadingButton } from '@/shared/ui/LoadingButton';
 
-interface ConfirmActionDialogProps {
-  action: 'activate' | 'complete';
+interface ActivateContractDialogProps {
   mutation: UseMutationResult<RentalContract, Error, void>;
   onClose: () => void;
 }
 
-const COPY = {
-  activate: {
-    body: 'contractActivateBody',
-    confirm: 'contractActivateConfirm',
-    title: 'contractActivate',
-  },
-  complete: {
-    body: 'contractCompleteBody',
-    confirm: 'contractCompleteConfirm',
-    title: 'contractComplete',
-  },
-};
-
-export function ConfirmActionDialog({ action, mutation, onClose }: ConfirmActionDialogProps) {
+export function ActivateContractDialog({ mutation, onClose }: ActivateContractDialogProps) {
   const { t } = useTranslation();
-  const copy = COPY[action];
   return (
-    <LifecycleDialogShell description={t(copy.body)} onClose={onClose} title={t(copy.title)}>
+    <LifecycleDialogShell
+      description={t('contractActivateBody')}
+      onClose={onClose}
+      title={t('contractActivate')}
+    >
       <MutationAlert error={mutation.error} />
       <div className="flex flex-wrap justify-end gap-3">
         <Button onClick={onClose} type="button" variant="outline">
@@ -41,7 +30,7 @@ export function ConfirmActionDialog({ action, mutation, onClose }: ConfirmAction
           onClick={() => mutation.mutate(undefined, { onSuccess: onClose })}
           type="button"
         >
-          {t(copy.confirm)}
+          {t('contractActivateConfirm')}
         </LoadingButton>
       </div>
     </LifecycleDialogShell>

@@ -120,7 +120,8 @@ sequenceDiagram
 > The development-only component review workspace is governed by
 > `.project/documentation/file-blueprint-sprint-10.md`; it does not enter production routes.
 > Sprint 4 contract lifecycle, extension/swap and operations-board files are governed by
-> `.project/documentation/file-blueprint-sprint-4.md`.
+> `.project/documentation/file-blueprint-sprint-4.md`. Sprint 5 per-vehicle return, charge
+> and settlement files are governed by `.project/documentation/file-blueprint-sprint-5.md`.
 
 ```text
 app/
@@ -236,6 +237,15 @@ use cases in dedicated services, and every transition is recorded as an immutabl
 event plus an audit entry. Vehicle RENTED/RESERVED status is derived from open contract
 lines and re-synchronized after each transition.
 
+### 6.4 Exact Sprint 5 source-file contract
+
+Per-vehicle returns, late/damage/other charges, the settlement statement and the return queue
+are defined in `.project/documentation/file-blueprint-sprint-5.md`. Money math and the
+late-fee formula live in `@rental/contracts` and are shared by the API snapshot and the admin
+preview. A contract completes only when its last open line is returned (BR-03); settlement
+freezes the figures on the contract (BR-07) and every write is one Serializable transaction
+plus immutable contract events and an audit entry.
+
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
@@ -289,4 +299,5 @@ MVP uses a static React admin, NestJS API instances and managed PostgreSQL. Admi
 **APPROVED BASELINE — GATE 1 (2026-08-31).** Sprint 1 is complete. Sprint 2–3 blueprint,
 BDD and wireframe extensions were approved on 2026-09-01. The exact Sprint 2 implementation
 paths were reconciled in `file-blueprint-sprint-2-3.md` after code review. Sprint 4 lifecycle
-files were reconciled in `file-blueprint-sprint-4.md` on 2026-09-09.
+files were reconciled in `file-blueprint-sprint-4.md` on 2026-09-09. Sprint 5 return and
+settlement files were reconciled in `file-blueprint-sprint-5.md` on 2026-09-10.

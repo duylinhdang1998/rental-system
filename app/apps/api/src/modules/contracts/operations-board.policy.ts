@@ -9,7 +9,7 @@ import {
   type RentalContract,
   type Vehicle,
 } from '@rental/contracts';
-import { activeLines, isPastScheduledEnd, isRentingContract } from './contract-lifecycle.policy.js';
+import { isPastScheduledEnd, isRentingContract, openLines } from './contract-lifecycle.policy.js';
 
 const KIND_ORDER: Readonly<Record<BoardItemKind, number>> = {
   DUE_TODAY: 1,
@@ -42,7 +42,7 @@ export function boardItem(contract: RentalContract, now: Date): BoardItem | null
     kind,
     status: contract.status,
     totalVnd: contract.quote.totalVnd,
-    vehicleCodes: activeLines(contract.quote.lines).map((line) => line.vehicleCode),
+    vehicleCodes: openLines(contract.quote.lines).map((line) => line.vehicleCode),
   };
 }
 

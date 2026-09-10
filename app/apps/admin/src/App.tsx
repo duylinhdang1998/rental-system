@@ -5,7 +5,7 @@ import { OperationsDashboard } from '@/features/dashboard';
 import { EmployeePreview } from '@/features/employees';
 import { VehicleListPage } from '@/features/fleet';
 import { ReportPreview } from '@/features/reporting';
-import { ReturnQueuePreview } from '@/features/returns';
+import { ReturnQueuePage } from '@/features/returns';
 import { SettingsPage } from '@/features/settings';
 import { UiKitPage } from '@/features/ui-kit';
 import { AuthenticatedRoute } from '@/routes/AuthenticatedRoute';
@@ -29,7 +29,7 @@ export function App() {
               <Route element={<ContractListPage />} path="contracts" />
               <Route element={<ContractWizardPage />} path="contracts/new" />
               <Route element={<ContractDetailPage />} path="contracts/:id" />
-              <Route element={<ReturnQueuePreview />} path="returns" />
+              <Route element={<ReturnQueuePage />} path="returns" />
               <Route element={<OwnerRoute />}>
                 <Route element={<ReportPreview />} path="reports" />
                 <Route element={<EmployeePreview />} path="employees" />

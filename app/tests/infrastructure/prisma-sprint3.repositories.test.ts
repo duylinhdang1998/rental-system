@@ -49,6 +49,7 @@ const CONTRACT = {
   cancellationReason: null,
   cancelledAt: null,
   cancelledById: null,
+  charges: [],
   code: 'HD-2026-TEST',
   completedAt: null,
   createdAt: CREATED_AT,

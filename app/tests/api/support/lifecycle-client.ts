@@ -8,10 +8,19 @@ export interface Interval {
   startAt: string;
 }
 
+export interface HandoverOverrides {
+  depositVnd?: number;
+  retainedDocument?: string;
+}
+
 interface CreatedContract {
   code: string;
   id: string;
   quote: { endAt: string; totalVnd: number };
+}
+
+interface StoredContract {
+  quote: { lines: { id: string; inspection: unknown }[] };
 }
 
 interface VehicleRow {
@@ -32,7 +41,11 @@ export const PAST_INTERVAL: Interval = {
   startAt: '2026-09-01T08:00:00.000Z',
 };
 
-export function contractInput(vehicleIds: string[], interval: Interval = OCTOBER_INTERVAL) {
+export function contractInput(
+  vehicleIds: string[],
+  interval: Interval = OCTOBER_INTERVAL,
+  handover: HandoverOverrides = {},
+) {
   return {
     confirmed: true,
     customerId: 'demo-customer',
@@ -45,6 +58,7 @@ export function contractInput(vehicleIds: string[], interval: Interval = OCTOBER
       imageObjectKeys: [],
       notes: '',
       retainedDocument: '',
+      ...handover,
     },
     idempotencyKey: crypto.randomUUID(),
     overrides: [],
@@ -80,17 +94,30 @@ export class LifecycleClient {
   async createContract(
     vehicleIds: string[],
     interval: Interval = OCTOBER_INTERVAL,
+    handover: HandoverOverrides = {},
   ): Promise<CreatedContract> {
-    const response = await this.post('/api/contracts', contractInput(vehicleIds, interval)).expect(
-      HTTP_CREATED,
-    );
+    const response = await this.post(
+      '/api/contracts',
+      contractInput(vehicleIds, interval, handover),
+    ).expect(HTTP_CREATED);
     return response.body as CreatedContract;
   }
 
-  async createActiveContract(vehicleIds: string[], interval: Interval = OCTOBER_INTERVAL) {
-    const created = await this.createContract(vehicleIds, interval);
+  async createActiveContract(
+    vehicleIds: string[],
+    interval: Interval = OCTOBER_INTERVAL,
+    handover: HandoverOverrides = {},
+  ) {
+    const created = await this.createContract(vehicleIds, interval, handover);
     await this.post(`/api/contracts/${created.id}/activate`).expect(HTTP_CREATED);
     return created;
+  }
+
+  /** Ids of the lines whose vehicle is still with the customer, in contract order. */
+  async openLineIds(id: string): Promise<string[]> {
+    const response = await this.get(`/api/contracts/${id}`).expect(HTTP_OK);
+    const body = response.body as StoredContract;
+    return body.quote.lines.filter((line) => line.inspection === null).map((line) => line.id);
   }
 
   async vehicle(id: string): Promise<VehicleRow | undefined> {

@@ -19,6 +19,7 @@ export function contractSummary(contract: RentalContract): ContractSummary {
     customerName: contract.quote.customerName,
     endAt: contract.quote.endAt,
     id: contract.id,
+    settledAt: contract.settledAt,
     startAt: contract.quote.startAt,
     status: contract.status,
     totalVnd: contract.quote.totalVnd,

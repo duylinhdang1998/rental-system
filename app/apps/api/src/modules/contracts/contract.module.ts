@@ -9,6 +9,9 @@ import { ContractSwapService } from './contract-swap.service.js';
 import { ContractLifecycleController } from './contract-lifecycle.controller.js';
 import { ContractLifecycleService } from './contract-lifecycle.service.js';
 import { ContractPdfService } from './contract-pdf.service.js';
+import { ContractReturnController } from './contract-return.controller.js';
+import { ContractReturnService } from './contract-return.service.js';
+import { ContractSettlementService } from './contract-settlement.service.js';
 import { ContractService } from './contract.service.js';
 import {
   CONTRACT_REPOSITORY,
@@ -36,7 +39,7 @@ function repositoryProviders(environment: Environment): Provider[] {
 export class ContractModule {
   static register(environment: Environment): DynamicModule {
     return {
-      controllers: [ContractController, ContractLifecycleController],
+      controllers: [ContractController, ContractLifecycleController, ContractReturnController],
       imports: [PricingModule.register(environment)],
       module: ContractModule,
       providers: [
@@ -49,6 +52,8 @@ export class ContractModule {
         ContractExtensionService,
         ContractSwapService,
         ContractBoardService,
+        ContractReturnService,
+        ContractSettlementService,
         OverdueScheduler,
       ],
     };

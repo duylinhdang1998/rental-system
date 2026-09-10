@@ -1,9 +1,7 @@
 import { ViewState } from '@/shared/ui/ViewState';
 import { ContractActions } from '@/features/contracts/components/detail/ContractActions';
+import { ContractDetailBody } from '@/features/contracts/components/detail/ContractDetailBody';
 import { ContractDetailHeader } from '@/features/contracts/components/detail/ContractDetailHeader';
-import { ContractLineList } from '@/features/contracts/components/detail/ContractLineList';
-import { ContractOverview } from '@/features/contracts/components/detail/ContractOverview';
-import { ContractTimeline } from '@/features/contracts/components/detail/ContractTimeline';
 import { LifecycleDialogs } from '@/features/contracts/components/lifecycle/LifecycleDialogs';
 import { useContractDetailPage } from '@/features/contracts/hooks/use-contract-detail-page';
 
@@ -16,19 +14,23 @@ export function ContractDetailPage() {
   return (
     <section className="grid gap-5">
       <ContractDetailHeader contract={contract} />
-      <ContractActions onAction={page.openDialog} status={contract.status} />
-      <div className="grid gap-5 xl:grid-cols-3">
-        <div className="grid gap-5 xl:col-span-2">
-          <ContractLineList lines={contract.quote.lines} />
-          <ContractTimeline events={contract.events} />
-        </div>
-        <ContractOverview contract={contract} />
-      </div>
+      <ContractActions
+        onAction={page.openDialog}
+        settled={contract.settledAt !== null}
+        status={contract.status}
+      />
+      <ContractDetailBody
+        contract={contract}
+        onReturn={page.renting ? page.openReturn : undefined}
+        statement={page.settlement}
+      />
       <LifecycleDialogs
         contract={contract}
         dialog={page.dialog}
+        isOwner={page.isOwner}
         mutations={page.mutations}
         onClose={page.closeDialog}
+        statement={page.settlement.data}
       />
     </section>
   );

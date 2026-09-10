@@ -48,11 +48,10 @@ Page title
 - Row/card: contract code, customer, vehicle count, rental range, balance summary, lifecycle status.
 - Direct overdue items lead with the overdue duration; staff only sees allowed demo assignments.
 
-## Return preview — Sprint 4/5
+## Return preview — replaced in Sprint 5
 
-- Two queues: “Trả hôm nay” and “Quá hạn”.
-- Row/card: deadline, contract, each vehicle still out, customer, expected settlement context.
-- “Nhận xe” stays disabled with “Có trong Sprint 5”.
+- The Sprint 1 preview was replaced by the live return queue; see
+  `09-return-settlement.md` for the queue, per-vehicle return and settlement screens.
 
 ## Report preview — Owner only, Sprint 6
 

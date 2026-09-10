@@ -9,7 +9,7 @@ export function useLifecycleForm<TForm extends object, TInput>(
   onDone: () => void,
 ) {
   const [form, setForm] = useState(initial);
-  const change = (field: keyof TForm, value: string) =>
+  const change = <TField extends keyof TForm>(field: TField, value: TForm[TField]) =>
     setForm((current) => ({ ...current, [field]: value }));
   const submit = (event: FormEvent) => {
     event.preventDefault();

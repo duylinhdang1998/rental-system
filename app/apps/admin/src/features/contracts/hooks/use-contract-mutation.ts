@@ -1,7 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { RentalContract } from '@rental/contracts';
 
-const INVALIDATED_KEYS = [['contracts'], ['fleet'], ['operations-board']];
+const INVALIDATED_KEYS = [
+  ['contracts'],
+  ['fleet'],
+  ['operations-board'],
+  ['return-queue'],
+  ['settlement'],
+];
 
 export function useContractMutation<TInput>(
   id: string,

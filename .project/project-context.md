@@ -140,6 +140,22 @@ Asia/Ho_Chi_Minh; 60 phút ân hạn chỉ ảnh hưởng phí, không ảnh hư
 buộc ghi lý do; dòng xe cũ kết thúc tại thời điểm đổi, dòng mới thừa kế kỳ còn lại và giá,
 tổng tiền không đổi. Hủy hợp đồng giữ nguyên bản ghi kèm người thao tác và lý do.
 
+### Session 16 — 2026-09-10
+
+**Yêu cầu:** Push mã nguồn Sprint 4 lên GitHub và thực hiện Sprint 5: trả riêng từng xe,
+ghi phụ phí và tất toán hợp đồng.
+
+**Quyết định:** Mỗi xe được nhận riêng với giờ trả thực tế, tình trạng, mức xăng và ảnh
+riêng tư; hợp đồng chỉ chuyển sang "Đã trả" khi xe cuối cùng được nhận (BR-03). Phí trả trễ
+tính theo PD-05 từ snapshot của dòng xe và ghi thành phụ phí bất biến ngay trong cùng giao
+dịch; trả sớm không hoàn tiền ngày chưa dùng. Phụ phí hư hỏng/khác do Nhân viên hoặc Chủ ghi,
+giảm trừ chỉ Chủ được ghi (BR-06). Tất toán tách rõ "Khách còn phải trả" và "Hoàn lại cho
+khách" (BR-04), cọc khấu trừ tối đa bằng min(cọc, còn phải thu), bắt buộc xác nhận trả giấy tờ
+giữ lại và hoàn cọc; sau tất toán mọi con số bị khóa (BR-07). Sổ thanh toán thuộc Sprint 6 nên
+"Đã thanh toán" luôn bằng 0 cho đến khi đó. Mở PD-12 để Product Owner xác nhận các mặc định
+này. Push GitHub bị từ chối (403) vì tài khoản Git hiện tại không có quyền ghi vào repository
+của khách; commit đã sẵn sàng trên nhánh `main` cục bộ.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -178,6 +194,7 @@ tổng tiền không đổi. Hủy hợp đồng giữ nguyên bản ghi kèm ng
 | PD-09 | Mẫu hợp đồng Việt–Anh | Template hệ thống Sprint 3, thay bằng mẫu khách hàng khi nhận | Approved for initial operation |
 | PD-10 | Mẫu báo cáo doanh thu ngày | Đã lưu `daily-revenue-report-sample.xlsx` | Received |
 | PD-11 | Mẫu lịch trả xe | Đã lưu `vehicle-return-schedule-sample.xlsx` | Received |
+| PD-12 | Xử lý cọc và phụ phí khi tất toán | Cọc khấu trừ tối đa min(cọc, còn phải thu); giảm trừ chỉ Chủ; công nợ còn lại chờ sổ thanh toán Sprint 6; trả sớm không hoàn tiền | Implemented in Sprint 5 as the working default; Product Owner confirmation pending |
 
 ## Design Decisions
 
@@ -208,4 +225,4 @@ tổng tiền không đổi. Hủy hợp đồng giữ nguyên bản ghi kèm ng
 - Design Direction = UI 3 selected; design system/wireframes approved
 - Tech Stack = React SPA + NestJS API approved
 - Team = 2 Backend + 2 Frontend approved; support roles retained
-- Roadmap = Sprint 0–7 approved; Sprint 0–4 complete, Sprint 5+ awaits authorization
+- Roadmap = Sprint 0–7 approved; Sprint 0–5 complete, Sprint 6+ awaits authorization

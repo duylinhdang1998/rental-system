@@ -1,11 +1,14 @@
 import type { ContractEvent } from '@rental/contracts';
 import {
   AlertCircle,
+  BadgeCheck,
   Ban,
   CalendarPlus,
   CheckCircle2,
   FilePlus2,
   KeyRound,
+  PackageCheck,
+  Receipt,
   Repeat,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -19,19 +22,25 @@ interface TimelineEventProps {
 const EVENT_ICONS = {
   ACTIVATED: KeyRound,
   CANCELLED: Ban,
+  CHARGE_ADDED: Receipt,
   COMPLETED: CheckCircle2,
   CREATED: FilePlus2,
   EXTENDED: CalendarPlus,
+  LINE_RETURNED: PackageCheck,
   OVERDUE: AlertCircle,
+  SETTLED: BadgeCheck,
   SWAPPED: Repeat,
 };
 const EVENT_TONES = {
   ACTIVATED: 'bg-information-soft text-information',
   CANCELLED: 'bg-panel-subtle text-ink-muted',
+  CHARGE_ADDED: 'bg-caution-soft text-caution',
   COMPLETED: 'bg-positive-soft text-positive',
   CREATED: 'bg-brand-soft text-brand',
   EXTENDED: 'bg-caution-soft text-caution',
+  LINE_RETURNED: 'bg-positive-soft text-positive',
   OVERDUE: 'bg-negative-soft text-negative',
+  SETTLED: 'bg-brand-soft text-brand',
   SWAPPED: 'bg-information-soft text-information',
 };
 

@@ -19,11 +19,13 @@ test.describe('Feature: Contract lifecycle and daily operations', () => {
     await expect(page).toHaveURL(/search=DEMO0001/);
   });
 
-  test('Scenario: Staff hands over, then marks the vehicle as returned', async ({ page }) => {
+  test('Scenario: Staff hands over, receives the vehicle late and settles the refund', async ({
+    page,
+  }) => {
     await signInAsStaff(page);
     const contract = await seedContract(page, {
-      endAt: '2027-03-03T08:00:00.000Z',
-      startAt: '2027-03-01T08:00:00.000Z',
+      endAt: '2026-07-03T08:00:00.000Z',
+      startAt: '2026-07-01T08:00:00.000Z',
       vehicleIds: ['vehicle-002'],
     });
     await page.goto(`/contracts/${contract.id}`);
@@ -39,12 +41,24 @@ test.describe('Feature: Contract lifecycle and daily operations', () => {
     await expect(page.locator('[data-timeline]')).toContainText('Bàn giao xe');
     await expect(page.getByRole('button', { name: 'Hủy hợp đồng' })).toHaveCount(0);
 
-    await page.getByRole('button', { name: 'Đánh dấu đã trả' }).click();
-    await page
-      .getByRole('dialog', { name: 'Đánh dấu đã trả' })
-      .getByRole('button', { name: 'Xác nhận đã trả' })
-      .click();
+    await page.getByRole('button', { name: 'Nhận xe' }).click();
+    const returnDialog = page.getByRole('dialog', { name: 'Nhận xe' });
+    await returnDialog.getByLabel('Giờ trả thực tế').fill('2026-07-03T17:30');
+    await expect(returnDialog.locator('[data-late-fee-preview]')).toContainText('40.000');
+    await returnDialog.getByRole('button', { name: 'Xác nhận nhận xe' }).click();
+    await expect(returnDialog).toBeHidden();
     await expect(page.getByText('Đã trả', { exact: true })).toBeVisible();
+    const settlement = page.locator('[data-settlement]');
+    await expect(settlement).toContainText('Cần hoàn cọc');
+    await expect(settlement).toContainText('160.000');
+
+    await page.getByRole('button', { name: 'Tất toán hợp đồng' }).click();
+    const settleDialog = page.getByRole('dialog', { name: 'Tất toán hợp đồng' });
+    await settleDialog.getByLabel('Đã trả giấy tờ giữ lại', { exact: false }).check();
+    await settleDialog.getByLabel('Đã hoàn cọc cho khách').check();
+    await settleDialog.getByRole('button', { name: 'Xác nhận tất toán' }).click();
+    await expect(settleDialog).toBeHidden();
+    await expect(page.getByText('Đã tất toán', { exact: true })).toBeVisible();
     await expect(page.getByText('Hợp đồng đã đóng', { exact: false })).toBeVisible();
   });
 

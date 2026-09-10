@@ -23,7 +23,7 @@ export const SYSTEM_ACTOR_ID = 'system';
 const TRANSITION_MESSAGE: Readonly<Record<LifecycleTransition, string>> = {
   ACTIVATE: 'Chỉ bàn giao xe cho hợp đồng đang đặt trước',
   CANCEL: 'Chỉ hủy được hợp đồng chưa bàn giao xe',
-  COMPLETE: 'Chỉ đóng được hợp đồng đang thuê hoặc quá hạn',
+  COMPLETE: 'Hợp đồng chỉ đóng khi nhận đủ xe (Sprint 5: trả từng xe)',
   OVERDUE: 'Chỉ hợp đồng đang thuê mới chuyển sang quá hạn',
 };
 
@@ -71,17 +71,6 @@ export class ContractLifecycleService {
         cancelledById: actor.id,
         status: 'CANCELLED',
       },
-    });
-  }
-
-  async complete(id: string, actor: AuthenticatedUser): Promise<RentalContract> {
-    const contract = await requireContract(this.repository, id);
-    assertTransition(contract.status, 'COMPLETE');
-    const now = new Date().toISOString();
-    return this.transition(contract, actor, {
-      action: 'CONTRACT_COMPLETED',
-      event: { actorId: actor.id, occurredAt: now, type: 'COMPLETED' },
-      patch: { completedAt: now, status: 'COMPLETED' },
     });
   }
 
