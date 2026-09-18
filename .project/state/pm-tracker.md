@@ -259,7 +259,7 @@
 | PD-12 settlement defaults applied             | Product Owner confirms deposit cap, Owner-only discount, no early-return refund | Client/BA |
 | PD-13 workbook writer applied                 | Product Owner confirms the unstyled single-sheet export or requests styling/library | Client/BA |
 | PD-14 employee management delivered in Sprint 7 | Product Owner confirms US-006 scope (create, lock, unlock, reset) | Client/BA |
-| Production host live without TLS (2026-09-18) | Add the DNS A record `rental.vfmtech.vn` → 51.79.255.102, run `sudo certbot --nginx -d rental.vfmtech.vn`, add the `DEPLOY_HOST` / `DEPLOY_USER` / `DEPLOY_SSH_KEY` GitHub secrets, change the seeded Owner password; WAF/edge, managed-Postgres drill and log shipping remain unevidenced on this single host | Client/DevOps |
+| Production host live without TLS (2026-09-18) | Add the DNS A record `rental.vfmtech.vn` → 51.79.255.102, run `sudo certbot --nginx -d rental.vfmtech.vn`, change the seeded Owner password; CD is verified end to end (run 35343611401); WAF/edge, managed-Postgres drill and log shipping remain unevidenced on this single host | Client/DevOps |
 | PD-08 legacy Excel import undecided           | Decide before go-live; if yes, supply the source workbook for a staging import | Client/BA |
 | PD-16 Phase 2 release and depreciation method  | Product Owner confirms Phase 2 ships as its own release and straight-line depreciation (or asks for another method) | Client/BA |
 | PD-17 deposit refund after settlement, disk file store | Product Owner confirms "Hoàn cọc" as a ledger step after "Tất toán" and the single-replica disk store (or asks for object storage before go-live) | Client/BA |

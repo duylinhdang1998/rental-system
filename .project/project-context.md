@@ -281,10 +281,14 @@ sao lưu hằng ngày 02:15 UTC qua `pg_dump` trong container, giữ 14 ngày. C
 `quality-gates` chuyển lên gốc repo (`.github/workflows/ci.yml`, trước đây nằm trong `app/.github`
 nên GitHub chưa từng chạy) và `deploy.yml` (push `main` → gates → build/push image lên GHCR →
 SSH kéo image, `docker compose up -d`, chờ `/api/health/ready`). Sửa kèm: `binaryTargets`
-Prisma thêm `debian-openssl-3.0.x`, `.gitattributes` ép LF cho script/Dockerfile. Chờ khách:
-trỏ DNS A `rental.vfmtech.vn` → 51.79.255.102 rồi chạy certbot (cookie Secure nên trình duyệt
-chỉ đăng nhập qua HTTPS); thêm 3 secret GitHub (`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`);
-đổi mật khẩu Owner sau lần đăng nhập đầu. Tài liệu: `app/deploy/README.md`.
+Prisma thêm `debian-openssl-3.0.x`, `.gitattributes` ép LF cho script/Dockerfile. Ba lần chạy
+CI đầu lộ ba lỗi, đều đã sửa: lint cần `npm run bootstrap` (build contracts + prisma generate)
+trước gates; host/user deploy đặt mặc định trong workflow, chỉ còn secret `DEPLOY_SSH_KEY` (đã
+thêm qua `gh`); package GHCR private nên job roll out đăng nhập bằng `GITHUB_TOKEN` trong
+`DOCKER_CONFIG` riêng. Run `35343611401` xanh toàn bộ: máy chủ đang chạy image `sha-cade012`
+kéo từ GHCR, readiness 200. Chờ khách: trỏ DNS A `rental.vfmtech.vn` → 51.79.255.102 rồi chạy
+certbot (cookie Secure nên trình duyệt chỉ đăng nhập qua HTTPS); đổi mật khẩu Owner sau lần
+đăng nhập đầu. Tài liệu: `app/deploy/README.md`.
 
 ## Client Preferences
 
