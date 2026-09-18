@@ -3,8 +3,9 @@ name: deploy
 # Continuous delivery for the production host.
 #   push to main  -> quality gates -> build + push images to GHCR -> SSH roll-out -> readiness
 #   workflow_dispatch -> same pipeline for any ref (manual re-deploy)
-# Required repository secrets: DEPLOY_HOST (51.79.255.102), DEPLOY_USER (ubuntu),
-# DEPLOY_SSH_KEY (private key whose public half is in ~/.ssh/authorized_keys on the host).
+# Required repository secret: DEPLOY_SSH_KEY (private key whose public half is in
+# ~/.ssh/authorized_keys on the host). Optional overrides: DEPLOY_HOST (default
+# 51.79.255.102) and DEPLOY_USER (default ubuntu).
 on:
   push:
     branches:
@@ -74,22 +75,36 @@ jobs:
     environment: production
     env:
       TAG: ${{ needs.images.outputs.tag }}
+      # Host and user are not secrets; the repository secrets only override them.
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST || '51.79.255.102' }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER || 'ubuntu' }}
     steps:
+      - name: check the deploy key secret
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          if [ -z "$DEPLOY_SSH_KEY" ]; then
+            echo "::error::Repository secret DEPLOY_SSH_KEY is missing. Add the private key whose public half is in ~/.ssh/authorized_keys on ${DEPLOY_HOST} (Settings > Secrets and variables > Actions > Repository secrets), then re-run this job."
+            exit 1
+          fi
       - name: configure ssh
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
-          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          echo '51.79.255.102 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIGB5cii3pKrd8fJPrcPnAK0oAmGRkhn2WB1kQbbBMsO' >> ~/.ssh/known_hosts
-          cat > ~/.ssh/config <<'EOF'
+          echo "${DEPLOY_HOST} ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIGB5cii3pKrd8fJPrcPnAK0oAmGRkhn2WB1kQbbBMsO" >> ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
           Host production
-            HostName ${{ secrets.DEPLOY_HOST }}
-            User ${{ secrets.DEPLOY_USER }}
+            HostName ${DEPLOY_HOST}
+            User ${DEPLOY_USER}
             IdentityFile ~/.ssh/deploy_key
             IdentitiesOnly yes
             BatchMode yes
             ConnectTimeout 20
           EOF
+          ssh production 'echo "ssh ok: $(hostname)"'
       - name: pull and restart
         run: |
           ssh production "set -eu; cd ~/rental-system \

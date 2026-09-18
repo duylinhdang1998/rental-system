@@ -60,11 +60,15 @@ manual dispatch:
 
 Secrets to configure once under **Settings → Secrets and variables → Actions**:
 
-| Secret           | Value                                                                                                  |
-| ---------------- | ------------------------------------------------------------------------------------------------------ |
-| `DEPLOY_HOST`    | `51.79.255.102`                                                                                        |
-| `DEPLOY_USER`    | `ubuntu`                                                                                               |
-| `DEPLOY_SSH_KEY` | private half of the `rental-system-github-deploy` key (public half is in the host's `authorized_keys`) |
+| Secret           | Value                                                                                                            |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `DEPLOY_SSH_KEY` | required: private half of the `rental-system-github-deploy` key (public half is in the host's `authorized_keys`) |
+| `DEPLOY_HOST`    | optional, defaults to `51.79.255.102`                                                                            |
+| `DEPLOY_USER`    | optional, defaults to `ubuntu`                                                                                   |
+
+Add them as **repository secrets**; the `roll out` job uses the `production` environment, so
+environment secrets of that environment work too. The job fails early with a clear message
+when `DEPLOY_SSH_KEY` is missing.
 
 The GHCR packages must be readable by the host: the host already holds a `ghcr.io` login in
 `~/.docker/config.json`; if the packages are private, that token needs `read:packages` for
