@@ -194,8 +194,9 @@ toàn bộ trang ở 360 px và 1280 px phát hiện lỗi tương phản và b�
 đã sửa bằng token màu `brand-ink` và vùng bảng focus được. Các hạng mục cần hạ tầng (WAF biên,
 diễn tập khôi phục trên Postgres thật, kho đếm dùng chung khi chạy nhiều bản sao, tải thử trên
 staging, BAT có Chủ chứng kiến) để mở trong `release-checklist.md` cho đến khi chọn nhà cung
-cấp. Push GitHub vẫn bị từ chối (403); mã nguồn nằm trên nhánh
-`feature/sprint-7-hardening-golive` cục bộ.
+cấp. Sau đó khách yêu cầu push: quyền GitHub đã được cấp, đã đẩy `main`,
+`feature/sprint-5-return-settlement`, `feature/sprint-6-payments-reporting` và
+`feature/sprint-7-hardening-golive` lên `duylinhdang1998/rental-system`.
 
 ## Client Preferences
 

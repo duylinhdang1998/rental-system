@@ -190,6 +190,9 @@
   keyboard and browser-timeout fixes; QA PASS with 239 unit/integration and 65 browser tests,
   all coverage dimensions above 80%. Provider-side gates (edge WAF, managed Postgres drill,
   shared throttle store, staging load run, witnessed BAT) stay open in `release-checklist.md`.
+- 2026-09-18: GitHub access restored; `main` (Sprint 4–5), `feature/sprint-5-return-settlement`,
+  `feature/sprint-6-payments-reporting` and `feature/sprint-7-hardening-golive` were pushed to
+  `duylinhdang1998/rental-system`.
 
 ## Blockers
 
@@ -197,7 +200,6 @@
 | --------------------------------------------- | ---------------------------------------- | --------- |
 | PD-06 extension repricing applied as default  | Product Owner confirms or changes the rule | Client/BA |
 | PD-12 settlement defaults applied             | Product Owner confirms deposit cap, Owner-only discount, no early-return refund | Client/BA |
-| GitHub push refused (403)                     | Grant the delivery Git account write access or push from an authorized account | Client/DevOps |
 | PD-13 workbook writer applied                 | Product Owner confirms the unstyled single-sheet export or requests styling/library | Client/BA |
 | PD-14 employee management delivered in Sprint 7 | Product Owner confirms US-006 scope (create, lock, unlock, reset) | Client/BA |
 | Hosting / edge provider not selected          | Select the provider so the WAF, managed Postgres drill, log shipping and staging load run can be evidenced | Client/DevOps |

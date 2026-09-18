@@ -71,9 +71,9 @@
 
 ## Next Actions
 
-1. Grant the delivery Git account write access (or push from an authorized account); the
-   Sprint 4–7 commits are ready on local `main`, `feature/sprint-5-return-settlement`,
-   `feature/sprint-6-payments-reporting` and `feature/sprint-7-hardening-golive`.
+1. Review and merge the pushed branches on GitHub: `feature/sprint-5-return-settlement`,
+   `feature/sprint-6-payments-reporting` and `feature/sprint-7-hardening-golive` (each builds
+   on the previous one; `main` already carries Sprint 4–5).
 2. Product Owner confirms PD-06 (extension repricing), PD-12 (deposit cap, Owner-only
    discount, no early-return refund) and PD-13 (unstyled single-sheet Excel export) or
    requests different rules.
