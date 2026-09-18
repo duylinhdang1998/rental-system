@@ -60,10 +60,10 @@ manual dispatch:
 
 Secrets to configure once under **Settings → Secrets and variables → Actions**:
 
-| Secret           | Value                                                                  |
-| ---------------- | ---------------------------------------------------------------------- |
-| `DEPLOY_HOST`    | `51.79.255.102`                                                        |
-| `DEPLOY_USER`    | `ubuntu`                                                               |
+| Secret           | Value                                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------------------------------ |
+| `DEPLOY_HOST`    | `51.79.255.102`                                                                                        |
+| `DEPLOY_USER`    | `ubuntu`                                                                                               |
 | `DEPLOY_SSH_KEY` | private half of the `rental-system-github-deploy` key (public half is in the host's `authorized_keys`) |
 
 The GHCR packages must be readable by the host: the host already holds a `ghcr.io` login in
