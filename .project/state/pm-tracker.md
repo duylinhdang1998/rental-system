@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Workstream:** Phase 2 complete (Sprint 11–13); MVP and Phase 2 go-live gates await the hosting provider and the Product Owner decisions
-**Overall Progress:** Sprint 0–7 (MVP) and Sprint 11–13 (Phase 2, 3/3) complete; infrastructure go-live gates await the hosting provider
-**Status:** SPRINT_13_COMPLETE
+**Current Workstream:** Deployed to the production host (51.79.255.102) with GitHub CD; remaining go-live gates are DNS/TLS, GitHub secrets and the Product Owner decisions
+**Overall Progress:** Sprint 0–7 (MVP) and Sprint 11–13 (Phase 2, 3/3) complete; first production deploy done 2026-09-18 (`app/deploy/README.md`)
+**Status:** DEPLOYED_PENDING_TLS
 
 ## Project Timeline
 
@@ -259,7 +259,7 @@
 | PD-12 settlement defaults applied             | Product Owner confirms deposit cap, Owner-only discount, no early-return refund | Client/BA |
 | PD-13 workbook writer applied                 | Product Owner confirms the unstyled single-sheet export or requests styling/library | Client/BA |
 | PD-14 employee management delivered in Sprint 7 | Product Owner confirms US-006 scope (create, lock, unlock, reset) | Client/BA |
-| Hosting / edge provider not selected          | Select the provider so the WAF, managed Postgres drill, log shipping and staging load run can be evidenced | Client/DevOps |
+| Production host live without TLS (2026-09-18) | Add the DNS A record `rental.vfmtech.vn` → 51.79.255.102, run `sudo certbot --nginx -d rental.vfmtech.vn`, add the `DEPLOY_HOST` / `DEPLOY_USER` / `DEPLOY_SSH_KEY` GitHub secrets, change the seeded Owner password; WAF/edge, managed-Postgres drill and log shipping remain unevidenced on this single host | Client/DevOps |
 | PD-08 legacy Excel import undecided           | Decide before go-live; if yes, supply the source workbook for a staging import | Client/BA |
 | PD-16 Phase 2 release and depreciation method  | Product Owner confirms Phase 2 ships as its own release and straight-line depreciation (or asks for another method) | Client/BA |
 | PD-17 deposit refund after settlement, disk file store | Product Owner confirms "Hoàn cọc" as a ledger step after "Tất toán" and the single-replica disk store (or asks for object storage before go-live) | Client/BA |

@@ -36,6 +36,14 @@ evidenced from the repository alone.
 
 ## B. Infrastructure gates (*infra*, to be evidenced on the chosen provider)
 
+Status 2026-09-18: the stack runs on the single shared host `51.79.255.102`
+(`app/deploy/README.md`): Postgres is the host's `global_postgres` container with the daily
+dump from `~/rental-system/backup.sh` (no managed snapshots, no off-site copy yet), the host
+nginx fronts the web container (`TRUST_PROXY_HOPS=2`), TLS waits for the `rental.vfmtech.vn`
+DNS record and certbot, secrets live in `~/rental-system/.env` (0600) rather than a secret
+manager, and the migration identity is the runtime role. Every box below stays open until
+evidenced.
+
 - [ ] Managed Postgres with encrypted volumes and automated snapshots in addition to the daily
       dump; off-site copy of dumps with its own retention.
 - [ ] Edge DDoS/WAF in front of the API; origin unreachable from the public Internet;

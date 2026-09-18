@@ -265,6 +265,27 @@ vị/tích hợp (61 file), 85 test trình duyệt, review LGTM (3 lỗi chặn 
 tạo đầu tháng 8/2026 nên kịch bản chuyển sang XE-003 tháng 8), QA PASS. Tiếp theo: PD-08 vẫn
 chờ; các cổng go-live hạ tầng (PD-15) và xác nhận PD-06/12/13/14/16/17.
 
+### Session 22 — 2026-09-18
+
+**Yêu cầu:** Deploy lên máy chủ `ubuntu@51.79.255.102` (SSH key), viết CI/CD, tạo schema mới
+trong Postgres tại `51.79.255.102:5432`.
+
+**Quyết định:** Đã triển khai theo đúng cách các dự án khác trên cùng máy chủ: hai image Docker
+(`ghcr.io/duylinhdang1998/rental-system-api`, `…-web`), Compose tại `~/rental-system/`, web
+container gắn `127.0.0.1:8180` sau nginx của máy chủ, API nối mạng `global_db_net` tới container
+`global_postgres`. Trong Postgres tạo role `rental` và database `rental_system` (schema `public`);
+10 migration Prisma chạy thành công trên DB thật, tài khoản Owner đã seed (`owner`, mật khẩu trong
+`~/rental-system/owner-credentials.txt` quyền 0600), đăng nhập qua API trả 201 kèm cookie, trang
+web trả 200 qua nginx máy chủ với `Host: rental.vfmtech.vn`. `.env` sinh trên máy chủ (0600),
+sao lưu hằng ngày 02:15 UTC qua `pg_dump` trong container, giữ 14 ngày. CI/CD: workflow
+`quality-gates` chuyển lên gốc repo (`.github/workflows/ci.yml`, trước đây nằm trong `app/.github`
+nên GitHub chưa từng chạy) và `deploy.yml` (push `main` → gates → build/push image lên GHCR →
+SSH kéo image, `docker compose up -d`, chờ `/api/health/ready`). Sửa kèm: `binaryTargets`
+Prisma thêm `debian-openssl-3.0.x`, `.gitattributes` ép LF cho script/Dockerfile. Chờ khách:
+trỏ DNS A `rental.vfmtech.vn` → 51.79.255.102 rồi chạy certbot (cookie Secure nên trình duyệt
+chỉ đăng nhập qua HTTPS); thêm 3 secret GitHub (`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`);
+đổi mật khẩu Owner sau lần đăng nhập đầu. Tài liệu: `app/deploy/README.md`.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
