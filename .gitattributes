@@ -1,0 +1,7 @@
+# Files executed or parsed inside Linux containers must stay LF on every checkout and in
+# `git archive` output, even when the workstation runs with core.autocrlf=true.
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.conf text eol=lf
+app/deploy/** text eol=lf
+.github/** text eol=lf
