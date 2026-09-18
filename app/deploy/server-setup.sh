@@ -29,7 +29,7 @@ if [ ! -f "$ENV_FILE" ]; then
       -e "s#^SESSION_SECRET=.*#SESSION_SECRET=${SESSION_SECRET}#" \
       -e "s#^CORS_ORIGINS=.*#CORS_ORIGINS=https://${DOMAIN}#" \
       -e "s#^WEB_PORT=.*#WEB_PORT=${WEB_PORT}#" \
-      "$SOURCE_DIR/.env.production.example" > "$ENV_FILE"
+      "$SOURCE_DIR/production.env.example" > "$ENV_FILE"
   chmod 600 "$ENV_FILE"
   echo '{"event":"env.created"}'
 else

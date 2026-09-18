@@ -47,7 +47,8 @@ COPY --from=api-build /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=api-build /app/apps/api/dist ./apps/api/dist
 COPY --from=api-build /app/apps/api/prisma ./apps/api/prisma
 COPY deploy/api-entrypoint.sh /usr/local/bin/api-entrypoint
-RUN chmod +x /usr/local/bin/api-entrypoint \
+RUN sed -i 's/\r$//' /usr/local/bin/api-entrypoint \
+ && chmod +x /usr/local/bin/api-entrypoint \
  && mkdir -p /data/private \
  && chown -R node:node /data
 USER node

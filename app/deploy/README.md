@@ -27,7 +27,8 @@ Postgres container (`global_postgres`, network `global_db_net`).
   host nginx site, backup cron). Secrets are generated once and never printed.
 - `host-nginx.conf` — template for the host nginx site (HTTP; certbot adds HTTPS).
 - `backup.sh` — `pg_dump` through the Postgres container, gzip + sha256 + retention.
-- `.env.production.example` — shape of the production `.env`.
+- `production.env.example` — shape of the production `.env` (named without the leading dot
+  because `.gitignore` excludes `.env.*`).
 
 ## First deploy (already performed once, kept for rebuilds)
 
