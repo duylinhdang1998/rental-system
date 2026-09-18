@@ -1,0 +1,14 @@
+# Override for building the images on the host itself (first deploy, or when GHCR is
+# unavailable). The source tree is expected under ~/rental-system/src (the `app/` directory).
+#   docker compose -f docker-compose.yml -f docker-compose.build.yml build
+services:
+  api:
+    build:
+      context: ./src
+      dockerfile: deploy/Dockerfile
+      target: api
+  web:
+    build:
+      context: ./src
+      dockerfile: deploy/Dockerfile
+      target: web

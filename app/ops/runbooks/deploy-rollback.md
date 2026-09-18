@@ -10,9 +10,20 @@
   `DEMO_MODE=false`, `RATE_LIMIT_ENABLED=true` and `TRUST_PROXY_HOPS` equal to the number of
   proxies in front of the API. Startup refuses anything else.
 
+## Production host (since 2026-09-18)
+
+The stack is described in `deploy/README.md`: two GHCR images (`rental-system-api`,
+`rental-system-web`), `~/rental-system/docker-compose.yml` on `51.79.255.102`, database
+`rental_system` in the shared `global_postgres` container, host nginx in front on
+`rental.vfmtech.vn`. Pushing `main` runs `.github/workflows/deploy.yml`: quality gates,
+image build, SSH roll-out, readiness wait, smoke. The API container applies
+`prisma migrate deploy` itself at start-up, so steps 2 and 3 below happen in one
+`docker compose up -d`. The daily dump is `~/rental-system/backup.sh` (cron 02:15 UTC).
+
 ## Deploy
 
-1. Take a backup (`ops/backup/backup.sh`) and note the file name in the release record.
+1. Take a backup (`ops/backup/backup.sh`, or `~/rental-system/backup.sh` on the host) and
+   note the file name in the release record.
 2. Apply migrations with the migration identity: `npx prisma migrate deploy` from `apps/api`.
    Migrations are forward-only and additive, so the previous API version keeps working during
    the rollout.

@@ -1,0 +1,113 @@
+name: deploy
+
+# Continuous delivery for the production host.
+#   push to main  -> quality gates -> build + push images to GHCR -> SSH roll-out -> readiness
+#   workflow_dispatch -> same pipeline for any ref (manual re-deploy)
+# Required repository secrets: DEPLOY_HOST (51.79.255.102), DEPLOY_USER (ubuntu),
+# DEPLOY_SSH_KEY (private key whose public half is in ~/.ssh/authorized_keys on the host).
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE_BASE: ghcr.io/${{ github.repository_owner }}/rental-system
+
+jobs:
+  gates:
+    uses: ./.github/workflows/ci.yml
+
+  images:
+    name: build images
+    needs: gates
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        run: echo "tag=sha-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: api image
+        uses: docker/build-push-action@v6
+        with:
+          context: app
+          file: app/deploy/Dockerfile
+          target: api
+          push: true
+          tags: |
+            ${{ env.IMAGE_BASE }}-api:${{ steps.meta.outputs.tag }}
+            ${{ env.IMAGE_BASE }}-api:latest
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+      - name: web image
+        uses: docker/build-push-action@v6
+        with:
+          context: app
+          file: app/deploy/Dockerfile
+          target: web
+          push: true
+          tags: |
+            ${{ env.IMAGE_BASE }}-web:${{ steps.meta.outputs.tag }}
+            ${{ env.IMAGE_BASE }}-web:latest
+          cache-from: type=gha,scope=web
+          cache-to: type=gha,scope=web,mode=max
+
+  deploy:
+    name: roll out
+    needs: images
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      TAG: ${{ needs.images.outputs.tag }}
+    steps:
+      - name: configure ssh
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo '51.79.255.102 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIGB5cii3pKrd8fJPrcPnAK0oAmGRkhn2WB1kQbbBMsO' >> ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<'EOF'
+          Host production
+            HostName ${{ secrets.DEPLOY_HOST }}
+            User ${{ secrets.DEPLOY_USER }}
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            BatchMode yes
+            ConnectTimeout 20
+          EOF
+      - name: pull and restart
+        run: |
+          ssh production "set -eu; cd ~/rental-system \
+            && sed -i -e 's/^TAG=.*/TAG=${TAG}/' -e 's/^APP_VERSION=.*/APP_VERSION=${TAG}/' .env \
+            && docker compose pull --quiet \
+            && docker compose up -d --remove-orphans \
+            && docker image prune -f > /dev/null"
+      - name: wait for readiness
+        run: |
+          ssh production 'set -u; cd ~/rental-system; port=$(sed -n "s/^WEB_PORT=//p" .env); port=${port:-8180};
+            for attempt in $(seq 1 30); do
+              if curl -fsS "http://127.0.0.1:${port}/api/health/ready" > /dev/null; then
+                echo "ready after ${attempt} attempts"; exit 0;
+              fi
+              sleep 5
+            done
+            echo "API not ready" >&2; docker compose logs --tail 100 api; exit 1'
+      - name: smoke
+        run: |
+          ssh production 'cd ~/rental-system; port=$(sed -n "s/^WEB_PORT=//p" .env); port=${port:-8180};
+            curl -fsS "http://127.0.0.1:${port}/api/health" && echo && curl -fsSI "http://127.0.0.1:${port}/" | head -1'

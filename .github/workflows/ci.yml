@@ -1,8 +1,13 @@
 name: quality-gates
 
+# Runs on pull requests and on every branch except main; the deploy workflow calls it for
+# main so a production release is gated by the same checks without running them twice.
 on:
   pull_request:
   push:
+    branches-ignore:
+      - main
+  workflow_call:
 
 jobs:
   verify:
