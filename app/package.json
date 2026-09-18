@@ -8,6 +8,7 @@
     "packages/*"
   ],
   "scripts": {
+    "bootstrap": "npm run build --workspace @rental/contracts && npm exec --workspace @rental/api -- prisma generate",
     "build": "npm run build --workspace @rental/contracts && npm run build --workspace @rental/api && npm run build --workspace @rental/admin",
     "dev": "concurrently \"npm run dev --workspace @rental/api\" \"npm run dev --workspace @rental/admin\"",
     "format:check": "prettier --check .",
