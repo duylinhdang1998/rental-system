@@ -13,6 +13,7 @@ describe('Feature: Secure responsive operations preview — navigation and local
       const paths = navigationForRole('STAFF').map((item) => item.path);
 
       expect(paths).toContain('/receivables');
+      expect(paths).toContain('/expenses');
       expect(paths).not.toContain('/reports');
       expect(paths).not.toContain('/employees');
       expect(paths).not.toContain('/settings');
@@ -31,6 +32,7 @@ describe('Feature: Secure responsive operations preview — navigation and local
           '/contracts',
           '/returns',
           '/receivables',
+          '/expenses',
           '/reports',
           '/employees',
           '/settings',

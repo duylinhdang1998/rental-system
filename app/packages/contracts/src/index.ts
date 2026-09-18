@@ -2,6 +2,7 @@ export * from './audit.js';
 export * from './auth.js';
 export * from './catalog.js';
 export * from './customers.js';
+export * from './economics.js';
 export * from './employees.js';
 export * from './contracts.js';
 export * from './finance.js';

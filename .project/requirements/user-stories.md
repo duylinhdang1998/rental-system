@@ -1,7 +1,7 @@
 # User Stories — Hệ thống quản lý cho thuê xe máy
 
 **Status:** Approved planning baseline  
-**Total:** 22 stories
+**Total:** 30 stories
 **Usage:** BDD, development and QA must read this index and every linked epic in scope.
 
 ## Epic Index
@@ -16,6 +16,7 @@
 | F — Reporting and Safety           | US-019–US-020 | Reporting, audit and recovery                            | [epic-f-reporting-safety.md](user-stories/epic-f-reporting-safety.md)               |
 | G — Frontend Architecture          | US-021        | Approved component stack and maintainable UI boundaries  | [epic-g-frontend-architecture.md](user-stories/epic-g-frontend-architecture.md)     |
 | H — UI Component Review            | US-022        | Standalone component showroom and staged visual approval | [epic-h-ui-component-review.md](user-stories/epic-h-ui-component-review.md)         |
+| I — Asset and Finance Optimisation | US-023–US-030 | Phase 2: vehicle cost, expenses, break-even, cash shift, advanced reports | [epic-i-asset-finance.md](user-stories/epic-i-asset-finance.md)                     |
 
 ## Traceability Summary
 
@@ -30,6 +31,9 @@
 | Sprint 7             | US-020 plus cross-story hardening and UAT                           |
 | Sprint 8             | US-021 frontend architecture remediation before later business work |
 | UI foundation review | US-022; business Sprint 4–7 remains paused                          |
+| Sprint 11            | US-023, US-024, US-025 (asset economics)                            |
+| Sprint 12            | US-026, US-027, US-028 (operations finance)                          |
+| Sprint 13            | US-029, US-030 (advanced reporting)                                  |
 
 ## Approval Contract
 

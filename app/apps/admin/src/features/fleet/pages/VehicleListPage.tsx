@@ -1,9 +1,8 @@
 import { ViewState } from '@/shared/ui/ViewState';
-import { AvailabilityCalendarDialog } from '@/features/fleet/components/calendar/AvailabilityCalendarDialog';
+import { FleetDialogs } from '@/features/fleet/components/list/FleetDialogs';
 import { FleetFilterBar } from '@/features/fleet/components/filters/FleetFilterBar';
 import { FleetPageHeader } from '@/features/fleet/components/list/FleetPageHeader';
 import { useFleetPage } from '@/features/fleet/hooks/use-fleet-page';
-import { VehicleCreateDialog } from '@/features/fleet/components/form/VehicleCreateDialog';
 import { VehicleList } from '@/features/fleet/components/list/VehicleList';
 
 export function VehicleListPage() {
@@ -14,20 +13,16 @@ export function VehicleListPage() {
   return (
     <section className="grid gap-5">
       <FleetPageHeader
-        onAdd={() => page.setFormOpen(true)}
-        onCalendar={() => page.setCalendarOpen(true)}
+        onAdd={() => page.dialogs.setFormOpen(true)}
+        onCalendar={() => page.dialogs.setCalendarOpen(true)}
       />
-      <VehicleCreateDialog onOpenChange={page.setFormOpen} open={page.formOpen} />
       <FleetFilterBar filters={page.filters} update={page.update} />
-      <AvailabilityCalendarDialog
-        from={page.calendarFrom}
-        onFromChange={page.setCalendarFrom}
-        onOpenChange={page.setCalendarOpen}
-        open={page.calendarOpen}
-        typeCode={page.filters.typeCode}
-      />
+      <FleetDialogs dialogs={page.dialogs} typeCode={page.filters.typeCode} />
       {page.fleet.data.items.length ? (
-        <VehicleList vehicles={page.fleet.data.items} />
+        <VehicleList
+          onAcquisition={page.dialogs.setAcquisitionTarget}
+          vehicles={page.fleet.data.items}
+        />
       ) : (
         <ViewState state="empty" />
       )}

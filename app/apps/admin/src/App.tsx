@@ -4,9 +4,10 @@ import { ContractDetailPage, ContractListPage, ContractWizardPage } from '@/feat
 import { CustomerListPage } from '@/features/customers';
 import { OperationsDashboard } from '@/features/dashboard';
 import { EmployeeListPage } from '@/features/employees';
+import { ExpenseListPage } from '@/features/expenses';
 import { ReceivableListPage } from '@/features/finance';
 import { VehicleListPage } from '@/features/fleet';
-import { ReportPage } from '@/features/reporting';
+import { FleetEconomicsPage, ReportPage } from '@/features/reporting';
 import { ReturnQueuePage } from '@/features/returns';
 import { SettingsPage } from '@/features/settings';
 import { UiKitPage } from '@/features/ui-kit';
@@ -15,6 +16,25 @@ import { BusinessProviders } from '@/routes/BusinessProviders';
 import { LoginRoute } from '@/routes/LoginRoute';
 import { OwnerRoute } from '@/routes/OwnerRoute';
 import { AppShell } from '@/shared/layout/AppShell';
+
+/** Pages every signed-in role can open; the Owner-only pages sit behind OwnerRoute below. */
+const SHARED_PAGES = [
+  { element: <VehicleListPage />, path: 'vehicles' },
+  { element: <CustomerListPage />, path: 'customers' },
+  { element: <ContractListPage />, path: 'contracts' },
+  { element: <ContractWizardPage />, path: 'contracts/new' },
+  { element: <ContractDetailPage />, path: 'contracts/:id' },
+  { element: <ReturnQueuePage />, path: 'returns' },
+  { element: <ReceivableListPage />, path: 'receivables' },
+  { element: <ExpenseListPage />, path: 'expenses' },
+];
+const OWNER_PAGES = [
+  { element: <ReportPage />, path: 'reports' },
+  { element: <FleetEconomicsPage />, path: 'reports/fleet' },
+  { element: <EmployeeListPage />, path: 'employees' },
+  { element: <AuditLogPage />, path: 'audit' },
+  { element: <SettingsPage />, path: 'settings' },
+];
 
 export function App() {
   return (
@@ -26,18 +46,13 @@ export function App() {
           <Route element={<AuthenticatedRoute />}>
             <Route element={<AppShell />}>
               <Route element={<OperationsDashboard />} index />
-              <Route element={<VehicleListPage />} path="vehicles" />
-              <Route element={<CustomerListPage />} path="customers" />
-              <Route element={<ContractListPage />} path="contracts" />
-              <Route element={<ContractWizardPage />} path="contracts/new" />
-              <Route element={<ContractDetailPage />} path="contracts/:id" />
-              <Route element={<ReturnQueuePage />} path="returns" />
-              <Route element={<ReceivableListPage />} path="receivables" />
+              {SHARED_PAGES.map((page) => (
+                <Route element={page.element} key={page.path} path={page.path} />
+              ))}
               <Route element={<OwnerRoute />}>
-                <Route element={<ReportPage />} path="reports" />
-                <Route element={<EmployeeListPage />} path="employees" />
-                <Route element={<AuditLogPage />} path="audit" />
-                <Route element={<SettingsPage />} path="settings" />
+                {OWNER_PAGES.map((page) => (
+                  <Route element={page.element} key={page.path} path={page.path} />
+                ))}
               </Route>
             </Route>
           </Route>

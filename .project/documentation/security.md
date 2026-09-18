@@ -151,3 +151,18 @@ Initial values are configuration defaults, not permanent truth. They are tuned f
   redaction, and rate-limit hits are `security.event` lines.
 - Readiness (`/api/health/ready`) probes the database with a 2 s timeout; liveness stays
   dependency-free.
+
+## Sprint 11 implementation notes (Phase 2)
+
+- Vehicle acquisition upsert, expense reversal, the fleet economics report and its export are
+  Owner-only at the API (`@Roles('OWNER')`); Staff receives 403 regardless of what the admin
+  renders. Every mutation keeps the CSRF requirement; the export uses the `export` throttle
+  policy.
+- The expense ledger has no update or delete route. A reversal is a new row linked by
+  `reversalOfId`; an expense can be reversed once and a reversal cannot be reversed (409).
+  Replaying a record with the same idempotency key returns the original row and writes no
+  second audit entry.
+- Audit entries `VEHICLE_ACQUISITION_SET` (before/after price, useful life),
+  `EXPENSE_RECORDED` and `EXPENSE_REVERSED` (amount, category or reason, method, vehicle code)
+  carry no free-text notes or references, so no customer or supplier identifiers reach the
+  audit log.

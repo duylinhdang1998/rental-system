@@ -1,4 +1,10 @@
-import { revenueReportSchema, type ReportRange, type RevenueReport } from '@rental/contracts';
+import {
+  fleetEconomicsReportSchema,
+  revenueReportSchema,
+  type FleetEconomicsReport,
+  type ReportRange,
+  type RevenueReport,
+} from '@rental/contracts';
 import { apiRequest } from '@/shared/api/http';
 
 function rangeQuery(range: ReportRange): string {
@@ -13,4 +19,19 @@ export async function fetchRevenueReport(range: ReportRange): Promise<RevenueRep
 /** Plain link target: the browser downloads the workbook with the session cookie attached. */
 export function revenueExportUrl(range: ReportRange): string {
   return `/api/reports/revenue/export?${rangeQuery(range)}`;
+}
+
+function asOfQuery(asOf: string): string {
+  return new URLSearchParams({ asOf }).toString();
+}
+
+/** Owner only at the API (BR-08); per-vehicle cost, revenue and break-even as of one day. */
+export async function fetchFleetEconomics(asOf: string): Promise<FleetEconomicsReport> {
+  return fleetEconomicsReportSchema.parse(
+    await apiRequest(`/api/reports/fleet-economics?${asOfQuery(asOf)}`),
+  );
+}
+
+export function fleetEconomicsExportUrl(asOf: string): string {
+  return `/api/reports/fleet-economics/export?${asOfQuery(asOf)}`;
 }

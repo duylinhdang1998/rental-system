@@ -4,13 +4,15 @@ import { StatusBadge } from '@/shared/ui/StatusBadge';
 import { vehicleStatusTone } from '@/features/fleet/lib/vehicle-status';
 import { Button } from '@/components/ui/button';
 import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
+import { VehicleAcquisitionButton } from '@/features/fleet/components/list/VehicleAcquisitionButton';
 import { VehicleCardMetadata } from '@/features/fleet/components/list/VehicleCardMetadata';
 
 interface VehicleCardProps {
+  onAcquisition: () => void;
   vehicle: Vehicle;
 }
 
-export function VehicleCard({ vehicle }: VehicleCardProps) {
+export function VehicleCard({ onAcquisition, vehicle }: VehicleCardProps) {
   const { i18n, t } = useTranslation();
   return (
     <article className="surface-card grid gap-3 p-4 sm:hidden" data-mobile-card>
@@ -29,9 +31,12 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         model={vehicle.model}
         typeCode={vehicle.typeCode}
       />
-      <Button type="button" variant="outline">
-        {t('viewDetails')}
-      </Button>
+      <div className="flex flex-wrap gap-2">
+        <Button type="button" variant="outline">
+          {t('viewDetails')}
+        </Button>
+        <VehicleAcquisitionButton code={vehicle.code} onOpen={onAcquisition} />
+      </div>
     </article>
   );
 }

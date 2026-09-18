@@ -3,7 +3,7 @@
 **Version:** 0.7
 **Last Updated:** 2026-09-01  
 **Architect:** CTO  
-**Status:** APPROVED BASELINE; Sprint 8 remediation blueprint added
+**Status:** APPROVED BASELINE; Sprint 8 remediation blueprint added; Sprint 11 (Phase 2) economics module added
 
 ## 1. High-Level Architecture
 
@@ -270,6 +270,19 @@ its sessions. Backup, restore-drill, restore verification, Owner seeding and the
 plain scripts under `app/ops/` and `apps/api/src/cli/`. The in-memory throttle store is approved
 for a single API replica; a shared store is a go-live gate before scaling out.
 
+### 6.7 Exact Sprint 11 source-file contract (Phase 2)
+
+Asset economics is defined in `.project/documentation/file-blueprint-sprint-11.md`. One NestJS
+module `economics` owns vehicle acquisition records, the append-only expense ledger (reversal
+entries are the only correction, BR-09) and the Owner-only fleet economics report and
+workbook, over the existing contract and fleet ports with demo and Prisma repositories.
+Depreciation, break-even and recovered-percent math live in `@rental/contracts` so the admin
+acquisition preview, the API report, the workbook and the tests share one implementation.
+Revenue is attributed to vehicles from the contract snapshots already persisted (accrual by
+contract line at the line start day, line charges included, delivery fees and contract-level
+charges reported as an explicit unallocated bucket); the payment ledger is not read. Owner-only
+rules are enforced at the API by role guards; the admin only hides affordances.
+
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
@@ -327,4 +340,5 @@ files were reconciled in `file-blueprint-sprint-4.md` on 2026-09-09. Sprint 5 re
 settlement files were reconciled in `file-blueprint-sprint-5.md` on 2026-09-10. Sprint 6 payment
 ledger, receivable and reporting files were reconciled in `file-blueprint-sprint-6.md` on
 2026-09-10. Sprint 7 hardening, audit, employee and operations files were reconciled in
-`file-blueprint-sprint-7.md` on 2026-09-18.
+`file-blueprint-sprint-7.md` on 2026-09-18. Sprint 11 (Phase 2) economics files were
+reconciled in `file-blueprint-sprint-11.md` on 2026-09-18.

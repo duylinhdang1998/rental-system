@@ -1,7 +1,7 @@
 # Hướng dẫn vận hành — Hệ thống quản lý cho thuê xe máy
 
 **Dành cho:** Chủ cửa hàng và Nhân viên.  
-**Phiên bản:** Sprint 7 (2026-09-18). Giao diện Việt–Anh, dùng được trên điện thoại và máy tính.
+**Phiên bản:** Sprint 11 (2026-09-18). Giao diện Việt–Anh, dùng được trên điện thoại và máy tính.
 
 ## 1. Đăng nhập và tài khoản
 
@@ -29,6 +29,10 @@
 7. **Thu tiền**: ghi từng lần thu (tiền mặt hoặc chuyển khoản), có thể thu nhiều lần; hoàn tiền
    cũng ghi thành một dòng riêng. Không sửa/xóa dòng đã ghi.
 8. **Công nợ**: danh sách hợp đồng còn phải thu, cũ nhất lên trước.
+9. **Chi phí → Ghi chi phí**: chọn nhóm (xăng, bảo dưỡng, bảo hiểm, đăng kiểm, lương, mặt
+   bằng, điện nước, khác), số tiền, tiền mặt hay chuyển khoản, ngày chi, nội dung; gắn xe nếu
+   khoản chi thuộc một xe cụ thể (để trống là chi chung). Khoản chi đã ghi không sửa/xóa; ghi
+   nhầm thì báo Chủ để đảo. Lọc theo ngày, nhóm và xe; bốn ô tổng ở đầu trang theo bộ lọc.
 
 ## 3. Việc của Chủ cửa hàng
 
@@ -38,6 +42,18 @@
   lý do, giá cũ và giá mới; khóa tài khoản và đặt lại mật khẩu cũng được ghi (không lưu mật khẩu).
 - **Cài đặt**: quy tắc trả trễ (số phút miễn phí, mức phí theo giờ) áp dụng cho hợp đồng mới.
 - **Nhân viên**: tạo, khóa, mở khóa, đặt lại mật khẩu.
+- **Giá vốn** (nút trên từng xe ở trang **Xe**): nhập giá mua, ngày mua, số tháng sử dụng
+  (mặc định 36) và giá trị thanh lý. Hệ thống xem trước khấu hao mỗi tháng, khấu hao lũy kế
+  và giá trị còn lại tính đến hôm nay trước khi lưu; mỗi lần đổi giá đều vào Nhật ký.
+- **Đảo khoản chi** (nút **Đảo** trên trang **Chi phí**): ghi lý do; hệ thống tạo một dòng đảo
+  cùng số tiền, khoản gốc hiện "Đã đảo". Không có cách nào sửa hay xóa dòng đã ghi.
+- **Báo cáo → Đội xe** (Hiệu quả đội xe): chọn ngày tính; mỗi xe hiện giá vốn, khấu hao/tháng,
+  giá trị còn lại, doanh thu, ngày cho thuê, chi phí, ròng, % thu hồi và dự báo hòa vốn
+  ("Đã hòa vốn", "Dự kiến <ngày>", "Chưa dự báo được" khi 90 ngày gần nhất lỗ, "Chưa có giá
+  vốn"). Dòng **Chưa phân bổ** gom phí giao xe, phụ phí chung và chi phí không gắn xe; dòng
+  **Tổng** khớp bốn ô đầu trang. **Xuất Excel** ra sheet "Đội xe". Doanh thu ở đây tính theo
+  từng xe trong hợp đồng (kể cả chưa thu tiền); muốn xem tiền đã thu theo ngày thì dùng tab
+  **Doanh thu**.
 
 ## 4. Khi có sự cố
 

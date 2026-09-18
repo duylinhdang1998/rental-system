@@ -8,10 +8,11 @@ import { Table } from '@/components/ui/table-root';
 import { TableRow } from '@/components/ui/table-row';
 
 interface VehicleTableProps {
+  onAcquisition: (vehicle: Vehicle) => void;
   vehicles: Vehicle[];
 }
 
-export function VehicleTable({ vehicles }: VehicleTableProps) {
+export function VehicleTable({ onAcquisition, vehicles }: VehicleTableProps) {
   const { t } = useTranslation();
   return (
     <div className="surface-card hidden overflow-hidden sm:block">
@@ -23,11 +24,18 @@ export function VehicleTable({ vehicles }: VehicleTableProps) {
             <TableHead>{t('vehicleModel')}</TableHead>
             <TableHead>{t('status')}</TableHead>
             <TableHead>{t('createdAt')}</TableHead>
+            <TableHead>
+              <span className="sr-only">{t('acquisitionAction')}</span>
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {vehicles.map((vehicle) => (
-            <VehicleTableRow key={vehicle.id} vehicle={vehicle} />
+            <VehicleTableRow
+              key={vehicle.id}
+              onAcquisition={() => onAcquisition(vehicle)}
+              vehicle={vehicle}
+            />
           ))}
         </TableBody>
       </Table>

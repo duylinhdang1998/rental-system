@@ -4,6 +4,9 @@ import { resolveInitialLocale } from '@/shared/i18n/locale';
 import { auditTranslations } from '@/features/audit/lib/audit-translations';
 import { contractTranslations } from '@/features/contracts/lib/contract-translations';
 import { employeeTranslations } from '@/features/employees/lib/employee-translations';
+import { expenseTranslations } from '@/features/expenses/lib/expense-translations';
+import { acquisitionTranslations } from '@/features/fleet/lib/acquisition-translations';
+import { economicsTranslations } from '@/features/reporting/lib/economics-translations';
 import { paymentTranslations } from '@/features/contracts/lib/payment-translations';
 import { settlementTranslations } from '@/features/contracts/lib/settlement-translations';
 import { financeTranslations } from '@/features/finance/lib/finance-translations';
@@ -13,9 +16,12 @@ import { returnTranslations } from '@/features/returns/lib/return-translations';
 const translations = {
   en: {
     translation: {
+      ...acquisitionTranslations.en,
       ...auditTranslations.en,
       ...contractTranslations.en,
+      ...economicsTranslations.en,
       ...employeeTranslations.en,
+      ...expenseTranslations.en,
       ...financeTranslations.en,
       ...paymentTranslations.en,
       ...reportTranslations.en,
@@ -135,9 +141,12 @@ const translations = {
   },
   vi: {
     translation: {
+      ...acquisitionTranslations.vi,
       ...auditTranslations.vi,
       ...contractTranslations.vi,
+      ...economicsTranslations.vi,
       ...employeeTranslations.vi,
+      ...expenseTranslations.vi,
       ...financeTranslations.vi,
       ...paymentTranslations.vi,
       ...reportTranslations.vi,

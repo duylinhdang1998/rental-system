@@ -10,7 +10,8 @@
 **Sprint 5:** COMPLETE — Code Review LGTM, QA PASS (2026-09-10)  
 **Sprint 6:** COMPLETE — Code Review LGTM, QA PASS (2026-09-10)  
 **Sprint 7:** COMPLETE — Code Review LGTM, QA PASS (2026-09-18)  
-**Development:** application scope of the MVP complete; go-live awaits the infrastructure gates and the Product Owner sign-off in `documentation/release-checklist.md`
+**Sprint 11 (Phase 2, asset economics):** COMPLETE — Code Review LGTM, QA PASS (2026-09-18)  
+**Development:** MVP application scope complete; Phase 2 in progress (Sprint 12 next); go-live of the MVP awaits the infrastructure gates and the Product Owner sign-off in `documentation/release-checklist.md`
 
 ## Sprint Progress
 
@@ -27,6 +28,9 @@
 | Sprint 5 | 7 | 7 | Complete |
 | Sprint 6 | 7 | 7 | Complete |
 | Sprint 7 | 7 | 7 | Complete |
+| Sprint 11 | 7 | 7 | Complete (Phase 2: asset economics) |
+| Sprint 12 | 0 | 7 | Planned (Phase 2: damage catalog, return photos, cash shift, refunds) |
+| Sprint 13 | 0 | 7 | Planned (Phase 2: advanced reporting) |
 
 ## Completed Artifacts
 
@@ -68,12 +72,25 @@
   dependency audit and Playwright job.
 - Sprint 7 review LGTM; 239 unit/integration and 65 browser tests pass with all
   coverage metrics above 80%.
+- Phase 2 roadmap, Epic I user stories (US-023–US-030), BR-09/BR-10, FR-12, the
+  `12-asset-economics.md` wireframe and the Sprint 11 blueprint.
+- Vehicle acquisition records with straight-line depreciation shared between API and admin,
+  append-only expense ledger with idempotent replay, filters, totals and Owner reversal
+  entries, per-vehicle revenue attribution, Owner-only fleet economics report with break-even
+  projection and "Đội xe" workbook, "Giá vốn" dialog, `/expenses` page, `/reports/fleet` page
+  with the report tab strip, three new audit actions.
+- Sprint 11 review LGTM; 292 unit/integration and 71 browser tests pass with all
+  coverage metrics above 80%.
 
 ## Next Actions
 
 1. Review and merge the pushed branches on GitHub: `feature/sprint-5-return-settlement`,
    `feature/sprint-6-payments-reporting` and `feature/sprint-7-hardening-golive` (each builds
-   on the previous one; `main` already carries Sprint 4–5).
+   on the previous one; `main` already carries Sprint 4–5); push and review
+   `feature/sprint-11-asset-economics` when asked.
+0. Continue Phase 2: Sprint 12 (damage catalog and price list, return photos, cash shift
+   close, deposit refund) then Sprint 13 (advanced reporting); apply migration
+   `202609180001_asset_economics` with the Phase 2 release. Product Owner confirms PD-16.
 2. Product Owner confirms PD-06 (extension repricing), PD-12 (deposit cap, Owner-only
    discount, no early-return refund) and PD-13 (unstyled single-sheet Excel export) or
    requests different rules.

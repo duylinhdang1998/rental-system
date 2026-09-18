@@ -14,6 +14,7 @@ import { ReservationModule } from './common/reservations/reservation.module.js';
 import { FinanceModule } from './modules/finance/finance.module.js';
 import { AuditQueryModule } from './modules/audit/audit-query.module.js';
 import { EmployeeModule } from './modules/employees/employee.module.js';
+import { EconomicsModule } from './modules/economics/economics.module.js';
 
 @Module({})
 export class AppModule {
@@ -36,6 +37,7 @@ export class AppModule {
         FinanceModule.register(contracts, customers),
         AuditQueryModule,
         EmployeeModule,
+        EconomicsModule.register(environment, contracts),
         ...optionalImports,
       ],
     };

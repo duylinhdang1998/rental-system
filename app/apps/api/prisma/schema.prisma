@@ -79,6 +79,53 @@ enum PaymentMethod {
   BANK_TRANSFER
 }
 
+enum ExpenseCategory {
+  MAINTENANCE
+  FUEL
+  INSURANCE
+  REGISTRATION
+  RENT
+  UTILITIES
+  SALARY
+  OTHER
+}
+
+/// Sprint 11: cost inputs for straight-line depreciation; one record per vehicle.
+model VehicleAcquisition {
+  vehicleId        String   @id
+  vehicle          Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  purchasePriceVnd Int
+  purchasedOn      DateTime @db.Date
+  usefulLifeMonths Int
+  salvageValueVnd  Int      @default(0)
+  updatedById      String
+  createdAt        DateTime @default(now()) @db.Timestamptz
+  updatedAt        DateTime @updatedAt @db.Timestamptz
+}
+
+/// Sprint 11: append-only expense ledger (BR-09); a reversal row points at the original.
+model Expense {
+  id             String          @id @default(uuid())
+  idempotencyKey String          @unique
+  category       ExpenseCategory
+  amountVnd      Int
+  method         PaymentMethod
+  paidOn         DateTime        @db.Date
+  description    String
+  reference      String          @default("")
+  notes          String          @default("")
+  vehicleId      String?
+  vehicle        Vehicle?        @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
+  recordedById   String
+  reversalOfId   String?         @unique
+  reversalOf     Expense?        @relation("ExpenseReversal", fields: [reversalOfId], references: [id], onDelete: SetNull)
+  reversal       Expense?        @relation("ExpenseReversal")
+  createdAt      DateTime        @default(now()) @db.Timestamptz
+
+  @@index([paidOn])
+  @@index([vehicleId, paidOn])
+}
+
 model Account {
   id           String    @id @default(uuid())
   username     String    @unique
@@ -127,6 +174,8 @@ model Vehicle {
   type            VehicleType            @relation(fields: [typeId], references: [id])
   statusHistory   VehicleStatusHistory[]
   contractLines   ContractVehicleLine[]
+  acquisition     VehicleAcquisition?
+  expenses        Expense[]
   createdAt       DateTime               @default(now()) @db.Timestamptz
   updatedAt       DateTime               @updatedAt @db.Timestamptz
 

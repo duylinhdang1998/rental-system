@@ -4,16 +4,18 @@ import { StatusBadge } from '@/shared/ui/StatusBadge';
 import { vehicleStatusTone } from '@/features/fleet/lib/vehicle-status';
 import { TableCell } from '@/components/ui/table-cell';
 import { TableRow } from '@/components/ui/table-row';
+import { VehicleAcquisitionButton } from '@/features/fleet/components/list/VehicleAcquisitionButton';
 import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 
 interface VehicleTableRowProps {
+  onAcquisition: () => void;
   vehicle: Vehicle;
 }
 
-export function VehicleTableRow({ vehicle }: VehicleTableRowProps) {
+export function VehicleTableRow({ onAcquisition, vehicle }: VehicleTableRowProps) {
   const { i18n, t } = useTranslation();
   return (
-    <TableRow>
+    <TableRow data-vehicle={vehicle.code}>
       <TableCell className="font-extrabold">
         {vehicle.plate}
         <span className="block text-xs font-semibold text-ink-muted">{vehicle.code}</span>
@@ -28,6 +30,9 @@ export function VehicleTableRow({ vehicle }: VehicleTableRowProps) {
       </TableCell>
       <TableCell>
         {formatDateTime(vehicle.createdAt, resolveInitialLocale(i18n.language))}
+      </TableCell>
+      <TableCell>
+        <VehicleAcquisitionButton code={vehicle.code} onOpen={onAcquisition} />
       </TableCell>
     </TableRow>
   );

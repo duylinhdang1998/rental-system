@@ -159,7 +159,9 @@ Mỗi sprint phát triển dài 2 tuần, tuân theo 4 lô: kịch bản BDD →
 | Sprint 5 — Trả xe & tất toán | 2 tuần | Hoàn tất chuyến thuê và kiểm soát số dư | Trả lẻ, phí trễ/phí khác, trả cọc/giấy tờ, tất toán, công nợ |
 | Sprint 6 — Thu tiền & báo cáo | 2 tuần | Chủ đối soát được dòng tiền và hiệu quả | Thu nhiều lần/kết hợp, tổng thu ngày, công nợ, báo cáo kỳ/nhân viên, xuất Excel |
 | Sprint 7 — Hardening & go-live | 2 tuần | Sẵn sàng dùng thật | Responsive đầy đủ, rà soát Việt–Anh, bảo mật, backup/restore, UAT, dữ liệu ban đầu, đào tạo, triển khai |
-| Giai đoạn 2 | 4–6 tuần | Tối ưu tài sản và tài chính | 12 mục ưu tiên 2, QA và phát hành riêng |
+| Sprint 11 — Giá vốn, chi phí & hòa vốn | 2 tuần | Biết mỗi xe tốn, thu, chi bao nhiêu và khi nào hòa vốn | Giá vốn/khấu hao từng xe, sổ chi bất biến có bút toán đảo, báo cáo hiệu quả đội xe, xuất Excel |
+| Sprint 12 — Hư hỏng, chốt ca & hoàn cọc | 2 tuần | Vận hành quầy kín kẽ về tiền mặt và hư hỏng | Danh mục/bảng giá hư hỏng, ảnh nhận xe, chốt ca tiền mặt, hoàn cọc một thao tác |
+| Sprint 13 — Báo cáo nâng cao | 2 tuần | Chủ nhìn được xu hướng và lãi/lỗ | Doanh thu đa chiều, tỷ lệ sử dụng, lãi/lỗ, phụ phí, biểu đồ 12 tháng |
 
 ### 6.1 Tiêu chí hoàn thành từng sprint
 
@@ -175,6 +177,7 @@ Mỗi sprint phát triển dài 2 tuần, tuân theo 4 lô: kịch bản BDD →
 ## Tài liệu kế hoạch chi tiết
 
 - [Chi tiết công việc Sprint 0–7](planning/roadmap-details.md)
+- [Roadmap Giai đoạn 2 — Sprint 11–13](planning/phase-2-roadmap.md)
 - [Kiểm thử, bảo mật, nhân sự, rủi ro và điều kiện phát hành](planning/quality-and-release.md)
 
 Hai tài liệu trên là một phần của kế hoạch này và phải được đọc cùng roadmap tổng quan.

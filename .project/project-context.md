@@ -198,6 +198,25 @@ cấp. Sau đó khách yêu cầu push: quyền GitHub đã được cấp, đã
 `feature/sprint-5-return-settlement`, `feature/sprint-6-payments-reporting` và
 `feature/sprint-7-hardening-golive` lên `duylinhdang1998/rental-system`.
 
+### Session 19 — 2026-09-18
+
+**Yêu cầu:** Làm tiếp các sprint tiếp theo sau khi MVP (Sprint 0–7) hoàn tất.
+
+**Quyết định:** Giai đoạn 2 được tách thành ba sprint (`planning/phase-2-roadmap.md`): Sprint 11
+kinh tế tài sản (giá vốn xe, khấu hao, sổ chi phí, hòa vốn), Sprint 12 danh mục hư hỏng và
+bảng giá, ảnh trả xe, chốt ca tiền mặt, hoàn cọc, Sprint 13 báo cáo nâng cao và biểu đồ xu
+hướng 12 tháng; PD-08 (nhập Excel cũ) vẫn chờ. Giai đoạn 2 phát hành thành bản riêng, sau
+MVP (PD-16). Sprint 11 đã xong: Chủ nhập **Giá vốn** cho từng xe (giá mua, ngày mua, số tháng
+sử dụng, giá trị thanh lý) với xem trước khấu hao đường thẳng; cả hai vai trò **Ghi chi phí**
+(8 nhóm, tiền mặt/chuyển khoản, gắn xe tùy chọn, mã idempotency chống ghi trùng); chi phí
+không sửa/xóa, chỉ Chủ **Đảo** bằng bút toán đảo có lý do (BR-09); trang **Hiệu quả đội xe**
+(chỉ Chủ) tính đến ngày chọn: giá vốn, khấu hao/tháng, giá trị còn lại, doanh thu quy theo
+dòng xe của hợp đồng, ngày cho thuê, chi phí, ròng, % thu hồi, dự báo hòa vốn theo tốc độ 90
+ngày gần nhất, dòng "Chưa phân bổ" và tổng, xuất Excel sheet "Đội xe". Ba thao tác mới có
+trong Nhật ký. Doanh thu ở báo cáo này tính theo dòng hợp đồng (dồn tích), khác báo cáo
+doanh thu theo tiền thu; hướng dẫn vận hành nêu rõ. Kết quả: 292 test đơn vị/tích hợp, 71
+test trình duyệt, review LGTM, QA PASS; nhánh `feature/sprint-11-asset-economics` (chưa push).
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -240,6 +259,7 @@ cấp. Sau đó khách yêu cầu push: quyền GitHub đã được cấp, đã
 | PD-13 | Cách xuất Excel báo cáo doanh thu | Bộ ghi OOXML tự viết: một sheet "Doanh thu", 14 cột theo mẫu, dòng tổng, số tiền dạng số, không định dạng/công thức; không thêm thư viện | Implemented in Sprint 6 as the working default; Product Owner confirmation pending |
 | PD-14 | Quản lý tài khoản nhân viên (US-006) chưa được xếp sprint | Đưa vào Sprint 7 như điều kiện go-live: Chủ tạo / khóa / mở khóa / đặt lại mật khẩu, khóa chấm dứt phiên ngay, lịch sử giữ nguyên tên | Implemented in Sprint 7 as the working default; Product Owner confirmation pending |
 | PD-15 | Nhà cung cấp hạ tầng và biên (hosting, WAF, Postgres quản lý) | Chọn nhà cung cấp để hoàn tất các cổng go-live phần B trong `release-checklist.md` | Pending |
+| PD-16 | Giai đoạn 2 và phương pháp khấu hao | Giai đoạn 2 (Sprint 11–13) phát hành thành bản riêng sau MVP; khấu hao đường thẳng theo tháng, làm tròn xuống, không vượt giá mua trừ thanh lý; doanh thu quy theo dòng hợp đồng | Implemented in Sprint 11 as the working default; Product Owner confirmation pending |
 
 ## Design Decisions
 

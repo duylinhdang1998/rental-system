@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Workstream:** Sprint 7 — hardening, observability, employee management and go-live preparation delivered
-**Overall Progress:** Sprint 0–7 complete (application scope); infrastructure go-live gates await the hosting provider
-**Status:** SPRINT_7_COMPLETE
+**Current Workstream:** Sprint 11 — Phase 2 asset economics (vehicle cost, depreciation, expense ledger, break-even) delivered; Sprint 12 next
+**Overall Progress:** Sprint 0–7 (MVP) and Sprint 11 (Phase 2, 1/3) complete; infrastructure go-live gates await the hosting provider
+**Status:** SPRINT_11_COMPLETE
 
 ## Project Timeline
 
@@ -20,7 +20,9 @@
 | Sprint 8   |            Remediation | shadcn/Radix, frontend structure, CreatedAt          | COMPLETE — QA PASS |
 | Sprint 9   |                Bug fix | Absolute frontend imports and enforcement gate       | COMPLETE — QA PASS |
 | UI review  |      Design foundation | Development-only component showroom                  | READY FOR REVIEW   |
-| Phase 2    |               Deferred | Priority 2 features                                  | DEFERRED           |
+| Sprint 11  |                2 weeks | Phase 2: vehicle cost, expenses, break-even          | COMPLETE — QA PASS |
+| Sprint 12  |                2 weeks | Phase 2: damage catalog, return photos, cash shift   | PLANNED            |
+| Sprint 13  |                2 weeks | Phase 2: advanced reporting and trend charts         | PLANNED            |
 
 ## Phase Completion
 
@@ -56,6 +58,7 @@
 | Sprint 5 execution    | AUTHORIZED; PD-12 deposit/discount/early-return defaults applied  | 2026-09-10 |
 | Sprint 6 execution    | AUTHORIZED; PD-13 dependency-free workbook writer applied         | 2026-09-10 |
 | Sprint 7 execution    | AUTHORIZED; PD-14 employee management (US-006) pulled into the sprint | 2026-09-18 |
+| Sprint 11 execution   | AUTHORIZED; PD-16 Phase 2 as its own release, straight-line depreciation as working default | 2026-09-18 |
 
 ## Team Status
 
@@ -94,6 +97,9 @@
 | Backend / Frontend / DevOps specialists | Throttling, logging, readiness, audit log, employees, backup/restore tooling, a11y sweep | COMPLETE | 7 |
 | google-code-reviewer           | Sprint 7 security, accessibility and release review    | COMPLETE — LGTM           | 7      |
 | google-qa-engineer             | Sprint 7 release scenarios, regression and browser acceptance | COMPLETE — PASS (239 + 65) | 7      |
+| Backend / Frontend specialists | Vehicle acquisition, expense ledger with reversals, fleet economics report and workbook, three new screens | COMPLETE | 11 |
+| google-code-reviewer           | Sprint 11 money/time, authorization, immutability and UI review | COMPLETE — LGTM           | 11     |
+| google-qa-engineer             | Sprint 11 golden-figure reconciliation, regression and browser acceptance | COMPLETE — PASS (292 + 71) | 11     |
 
 ## Activity Log
 
@@ -193,6 +199,19 @@
 - 2026-09-18: GitHub access restored; `main` (Sprint 4–5), `feature/sprint-5-return-settlement`,
   `feature/sprint-6-payments-reporting` and `feature/sprint-7-hardening-golive` were pushed to
   `duylinhdang1998/rental-system`.
+- 2026-09-18: Phase 2 split into Sprint 11 (asset economics), Sprint 12 (damage catalog,
+  return photos, cash shift close, deposit refund) and Sprint 13 (advanced reporting and trend
+  charts) in `planning/phase-2-roadmap.md`; Epic I user stories US-023–US-030, BR-09/BR-10 and
+  FR-12 added; PD-16 recorded.
+- 2026-09-18: Sprint 11 delivered vehicle acquisition records with straight-line depreciation
+  (shared math in `@rental/contracts`), an append-only expense ledger with idempotent replay,
+  filters and Owner reversal entries, per-vehicle revenue attribution from contract snapshots,
+  the Owner-only fleet economics report with break-even projection and the "Đội xe" workbook,
+  the "Giá vốn" dialog on the vehicle list, the `/expenses` page for both roles, the
+  `/reports/fleet` page with the shared report tab strip and three new audit actions.
+- 2026-09-18: Sprint 11 review LGTM after component/hook splits, test-file splits and a phone
+  KPI-grid overflow fix; QA PASS with 292 unit/integration and 71 browser tests, all coverage
+  dimensions above 80%. Branch `feature/sprint-11-asset-economics` builds on Sprint 7.
 
 ## Blockers
 
@@ -204,6 +223,7 @@
 | PD-14 employee management delivered in Sprint 7 | Product Owner confirms US-006 scope (create, lock, unlock, reset) | Client/BA |
 | Hosting / edge provider not selected          | Select the provider so the WAF, managed Postgres drill, log shipping and staging load run can be evidenced | Client/DevOps |
 | PD-08 legacy Excel import undecided           | Decide before go-live; if yes, supply the source workbook for a staging import | Client/BA |
+| PD-16 Phase 2 release and depreciation method  | Product Owner confirms Phase 2 ships as its own release and straight-line depreciation (or asks for another method) | Client/BA |
 
 **Last Updated:** 2026-09-18  
 **Updated By:** Project Manager

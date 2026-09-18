@@ -6,7 +6,7 @@ test.describe('Feature: Secure responsive operations preview — role navigation
     await signInAs(page, 'staff');
     await expect(page.getByRole('link', { name: 'Báo cáo' })).toHaveCount(0);
 
-    for (const route of ['/reports', '/employees', '/audit', '/settings']) {
+    for (const route of ['/reports', '/reports/fleet', '/employees', '/audit', '/settings']) {
       await page.goto(route);
       await expect(
         page.getByRole('heading', { name: 'Bạn không có quyền xem trang này' }),

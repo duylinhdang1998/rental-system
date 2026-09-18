@@ -18,8 +18,10 @@ export const AUDIT_ENTITY_TYPES = [
   'Contract',
   'Customer',
   'CustomerDocument',
+  'Expense',
   'PricingVersion',
   'Vehicle',
+  'VehicleAcquisition',
   'VehicleQuote',
   'VehicleType',
 ] as const;
@@ -41,8 +43,11 @@ export const AUDIT_ACTIONS = [
   'EMPLOYEE_LOCKED',
   'EMPLOYEE_PASSWORD_RESET',
   'EMPLOYEE_UNLOCKED',
+  'EXPENSE_RECORDED',
+  'EXPENSE_REVERSED',
   'PRICE_OVERRIDDEN',
   'PRICING_PUBLISHED',
+  'VEHICLE_ACQUISITION_SET',
   'VEHICLE_CREATED',
   'VEHICLE_STATUS_CHANGED',
   'VEHICLE_TYPE_CREATED',
@@ -50,8 +55,8 @@ export const AUDIT_ACTIONS = [
 
 const MONEY_KEY = /vnd|before|after|amount|price/i;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-const SENSITIVE_TONE = /PASSWORD|LOCKED|CANCELLED|OVERRIDDEN|DOCUMENT_ACCESSED/;
-const POSITIVE_TONE = /CREATED|COMPLETED|SETTLED|PUBLISHED|UNLOCKED|PAYMENT/;
+const SENSITIVE_TONE = /PASSWORD|LOCKED|CANCELLED|OVERRIDDEN|DOCUMENT_ACCESSED|REVERSED/;
+const POSITIVE_TONE = /CREATED|COMPLETED|SETTLED|PUBLISHED|UNLOCKED|PAYMENT|RECORDED|ACQUISITION/;
 
 /** Only well-formed dates reach the API; a half-typed field does not fire a query. */
 export function auditQueryFrom(filters: AuditFilters): AuditQueryInput {

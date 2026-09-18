@@ -136,6 +136,15 @@ Hệ thống thay thế quy trình rời rạc bằng Excel, giấy và trao đ�
 - Sao lưu tự động hằng ngày và có khả năng khôi phục đã kiểm thử.
 - Nhập dữ liệu Excel cũ khi được đưa vào phạm vi go-live.
 
+### FR-12 Asset Economics and Expenses (Giai đoạn 2 — Sprint 11)
+
+**Priority:** SHOULD
+
+- Chủ ghi giá mua, ngày mua, số tháng sử dụng và giá trị thanh lý cho từng xe; hệ thống tính khấu hao đường thẳng theo tháng và giá trị còn lại tại một ngày bất kỳ.
+- Chủ và Nhân viên ghi khoản chi theo loại (bảo dưỡng, xăng, bảo hiểm, đăng kiểm/giấy tờ, mặt bằng, điện nước, lương, khác), hình thức, ngày chi, xe (tuỳ chọn), diễn giải, tham chiếu; khoản chi là bất biến và idempotent theo khóa.
+- Chủ đảo khoản chi ghi sai bằng bút toán đảo có lý do (BR-09).
+- Báo cáo hiệu quả đội xe (chỉ Chủ): doanh thu phân bổ theo xe, chi phí, đóng góp ròng, khấu hao lũy kế, giá trị còn lại, tỷ lệ thu hồi và dự báo hòa vốn theo tốc độ 90 ngày gần nhất; xuất Excel.
+
 ### FR-11 Sprint 1 UI Preview
 
 **Priority:** MUST for Sprint 1
@@ -198,6 +207,8 @@ Hệ thống thay thế quy trình rời rạc bằng Excel, giấy và trao đ�
 - BR-06 Override tiền bắt buộc có lý do; Nhân viên không tự miễn/giảm phí trễ.
 - BR-07 Hủy không phải xóa; bản ghi tài chính và audit là bất biến.
 - BR-08 Nhân viên không xem hợp đồng người khác hoặc tổng doanh thu nếu không được phép.
+- BR-09 (Giai đoạn 2) Khoản chi là dòng bất biến; sửa sai bằng bút toán đảo do Chủ thực hiện, không sửa/xóa.
+- BR-10 (Giai đoạn 2) Giá vốn, khấu hao và chi phí không bao giờ trộn vào sổ thanh toán hợp đồng; doanh thu theo xe được phân bổ từ dòng xe và phụ phí gắn dòng xe.
 
 ## 6. Acceptance and Release Gates
 

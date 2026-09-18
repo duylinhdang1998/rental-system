@@ -1,9 +1,14 @@
 import {
   fleetCalendarSchema,
+  vehicleAcquisitionSchema,
+  vehicleAcquisitionViewSchema,
   vehicleListSchema,
   vehicleSchema,
   type FleetCalendar,
   type Vehicle,
+  type VehicleAcquisition,
+  type VehicleAcquisitionInput,
+  type VehicleAcquisitionView,
   type VehicleInput,
   type VehicleStatus,
 } from '@rental/contracts';
@@ -39,6 +44,25 @@ export async function createVehicle(input: VehicleInput): Promise<Vehicle> {
     method: 'POST',
   });
   return vehicleSchema.parse(payload);
+}
+
+export async function fetchAcquisition(vehicleId: string): Promise<VehicleAcquisitionView> {
+  return vehicleAcquisitionViewSchema.parse(
+    await apiRequest(`/api/fleet/vehicles/${vehicleId}/acquisition`),
+  );
+}
+
+/** Owner only at the API (BR-10); the dialog is only reachable as Owner. */
+export async function saveAcquisition(
+  vehicleId: string,
+  input: VehicleAcquisitionInput,
+): Promise<VehicleAcquisition> {
+  return vehicleAcquisitionSchema.parse(
+    await apiRequest(`/api/fleet/vehicles/${vehicleId}/acquisition`, {
+      body: JSON.stringify(input),
+      method: 'PUT',
+    }),
+  );
 }
 
 export type { FleetCalendar };
