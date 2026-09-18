@@ -70,16 +70,20 @@ Add them as **repository secrets**; the `roll out` job uses the `production` env
 environment secrets of that environment work too. The job fails early with a clear message
 when `DEPLOY_SSH_KEY` is missing.
 
-The GHCR packages must be readable by the host: the host already holds a `ghcr.io` login in
-`~/.docker/config.json`; if the packages are private, that token needs `read:packages` for
-the `rental-system-*` packages, or set the packages to public.
+The GHCR packages are private. The `roll out` job logs the host into `ghcr.io` with the
+workflow's own `GITHUB_TOKEN`, using `DOCKER_CONFIG=~/rental-system/.docker` so the host's
+existing `~/.docker/config.json` (other projects) is untouched, and logs out afterwards. A
+manual `docker compose pull` on the host therefore needs either a personal access token with
+`read:packages` (`DOCKER_CONFIG=~/rental-system/.docker docker login ghcr.io`) or the packages
+switched to public under the owner's package settings.
 
 ## Rollback
 
 ```bash
 cd ~/rental-system
 sed -i 's/^TAG=.*/TAG=sha-<previous>/' .env
-docker compose pull --quiet && docker compose up -d
+# the previous image is normally still on the host; pull only if it was pruned (see GHCR note)
+docker compose up -d
 ```
 
 Migrations are forward-only; restore a backup only when a migration must be undone

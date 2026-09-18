@@ -105,12 +105,24 @@ jobs:
             ConnectTimeout 20
           EOF
           ssh production 'echo "ssh ok: $(hostname)"'
+      # The packages are private; the host logs in with this job's token inside a dedicated
+      # Docker config directory so the host's own ghcr.io credentials stay untouched.
+      - name: log the host into GHCR
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+        run: |
+          printf '%s' "$GHCR_TOKEN" | ssh production "mkdir -p ~/rental-system/.docker \
+            && chmod 700 ~/rental-system/.docker \
+            && DOCKER_CONFIG=~/rental-system/.docker docker login ghcr.io -u '$GHCR_USER' --password-stdin"
       - name: pull and restart
         run: |
           ssh production "set -eu; cd ~/rental-system \
+            && export DOCKER_CONFIG=~/rental-system/.docker \
             && sed -i -e 's/^TAG=.*/TAG=${TAG}/' -e 's/^APP_VERSION=.*/APP_VERSION=${TAG}/' .env \
             && docker compose pull --quiet \
             && docker compose up -d --remove-orphans \
+            && docker logout ghcr.io > /dev/null \
             && docker image prune -f > /dev/null"
       - name: wait for readiness
         run: |
