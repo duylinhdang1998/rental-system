@@ -188,3 +188,19 @@ Initial values are configuration defaults, not permanent truth. They are tuned f
   post one through `POST /payments`. Audit entries `DAMAGE_ITEM_CREATED` / `UPDATED`,
   `CASH_SHIFT_OPENED` / `CLOSED` and `CONTRACT_DEPOSIT_REFUNDED` carry codes and figures only;
   notes, references and file keys stay out of the audit log and the request logs.
+
+## Sprint 13 implementation notes (Phase 2)
+
+- `GET /api/reports/analytics`, `GET /api/reports/pnl` and their `/export` routes are
+  Owner-only through class-level `AuthenticationGuard` + `OwnerAuthorizationGuard`, so the
+  role check runs before the query is parsed; Staff receives 403 on all four routes (API
+  tests and a browser journey). The module is read-only: no new mutation, no CSRF surface,
+  no schema change.
+- Query bounds are enforced at the API regardless of the admin guard: the analytics window is
+  at most 366 days and the profit and loss at most 24 months ending a valid `YYYY-MM`; anything
+  else answers 400 `INVALID_INPUT`. Both exports use the `export` throttle policy.
+- Workbooks carry aggregates only: vehicle codes, type names, nationality codes, month keys,
+  counts and integer VND. No customer name, phone, document number, note or reference reaches
+  a sheet, a file name, a log line or the audit log (the routes write no audit entries).
+- Reports are computed per request from the ledgers; nothing is cached or stored, so a
+  revoked Owner session cannot read a stale copy.

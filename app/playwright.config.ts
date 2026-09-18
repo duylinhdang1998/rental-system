@@ -6,6 +6,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   // Vite serves the admin unbundled in dev, so a cold first navigation can take well over 30s.
   timeout: 90_000,
+  // Four workers share one dev API; password hashing and first-paint queries can exceed the
+  // 5 s default while another worker uploads photos or exports a workbook.
+  expect: { timeout: 15_000 },
   reporter: [['html', { open: 'never' }]],
   use: {
     baseURL: 'http://127.0.0.1:5173',

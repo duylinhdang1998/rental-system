@@ -12,7 +12,8 @@
 **Sprint 7:** COMPLETE — Code Review LGTM, QA PASS (2026-09-18)  
 **Sprint 11 (Phase 2, asset economics):** COMPLETE — Code Review LGTM, QA PASS (2026-09-18)  
 **Sprint 12 (Phase 2, operations finance):** COMPLETE — Code Review LGTM, QA PASS (2026-09-18)  
-**Development:** MVP application scope complete; Phase 2 in progress (Sprint 13 next); go-live of the MVP awaits the infrastructure gates and the Product Owner sign-off in `documentation/release-checklist.md`
+**Sprint 13 (Phase 2, advanced reporting):** COMPLETE — Code Review LGTM, QA PASS (2026-09-18)  
+**Development:** MVP and Phase 2 application scope complete; go-live awaits the infrastructure gates and the Product Owner sign-off in `documentation/release-checklist.md`
 
 ## Sprint Progress
 
@@ -31,7 +32,7 @@
 | Sprint 7 | 7 | 7 | Complete |
 | Sprint 11 | 7 | 7 | Complete (Phase 2: asset economics) |
 | Sprint 12 | 9 | 9 | Complete (Phase 2: damage catalog, return photos, cash shift, deposit refund) |
-| Sprint 13 | 0 | 7 | Planned (Phase 2: advanced reporting) |
+| Sprint 13 | 9 | 9 | Complete (Phase 2: analytics, utilisation, profit and loss, trend charts) |
 
 ## Completed Artifacts
 
@@ -91,16 +92,25 @@
   `13-operations-finance.md` wireframe and the Sprint 12 blueprint.
 - Sprint 12 review LGTM; 338 unit/integration and 77 browser tests pass with all
   coverage metrics above 80%.
+- Read-only analytics module: revenue events grouped by vehicle type, vehicle, customer
+  nationality and month with one reconciled total, surcharges by kind, utilisation per
+  vehicle / type / fleet, monthly profit and loss with straight-line depreciation, six-sheet
+  "Phân tích" and one-sheet "Lãi lỗ" workbooks, `/reports/analytics` and `/reports/pnl`
+  Owner pages with the 366-day guard and pure inline-SVG trend charts, the
+  `14-advanced-reporting.md` wireframe and the Sprint 13 blueprint.
+- Sprint 13 review LGTM; 384 unit/integration and 85 browser tests pass with all
+  coverage metrics above 80%. Phase 2 (Sprint 11–13) complete.
 
 ## Next Actions
 
 1. Review and merge the pushed branches on GitHub: `feature/sprint-5-return-settlement`,
    `feature/sprint-6-payments-reporting` and `feature/sprint-7-hardening-golive` (each builds
    on the previous one; `main` already carries Sprint 4–5); push and review
-   `feature/sprint-11-asset-economics` and `feature/sprint-12-operations-finance` when asked.
-0. Continue Phase 2: Sprint 13 (advanced reporting and trend charts); apply migrations
-   `202609180001_asset_economics` and `202609180002_operations_finance` with the Phase 2
-   release and set `PRIVATE_FILE_DIR` on the API host. Product Owner confirms PD-16 and PD-17.
+   `feature/sprint-11-asset-economics`, `feature/sprint-12-operations-finance` and
+   `feature/sprint-13-advanced-reporting` when asked.
+0. Phase 2 release: apply migrations `202609180001_asset_economics` and
+   `202609180002_operations_finance` (Sprint 13 adds none) and set `PRIVATE_FILE_DIR` on the
+   API host. Product Owner confirms PD-16 and PD-17.
 2. Product Owner confirms PD-06 (extension repricing), PD-12 (deposit cap, Owner-only
    discount, no early-return refund) and PD-13 (unstyled single-sheet Excel export) or
    requests different rules.

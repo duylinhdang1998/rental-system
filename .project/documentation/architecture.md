@@ -3,7 +3,7 @@
 **Version:** 0.7
 **Last Updated:** 2026-09-01  
 **Architect:** CTO  
-**Status:** APPROVED BASELINE; Sprint 8 remediation blueprint added; Sprint 11 (Phase 2) economics module added; Sprint 12 (Phase 2) damage catalog, private file store and cash shift modules added
+**Status:** APPROVED BASELINE; Sprint 8 remediation blueprint added; Sprint 11 (Phase 2) economics module added; Sprint 12 (Phase 2) damage catalog, private file store and cash shift modules added; Sprint 13 (Phase 2) read-only analytics module added
 
 ## 1. High-Level Architecture
 
@@ -299,6 +299,27 @@ written once after settlement that is excluded from revenue, receivables and eve
 (PD-17). The disk store is a single-replica default; an S3-compatible adapter behind the same
 port is the scale-out gate, like the shared throttle store.
 
+### 6.9 Exact Sprint 13 source-file contract (Phase 2)
+
+Advanced reporting is defined in `.project/documentation/file-blueprint-sprint-13.md`. One
+read-only NestJS module, `analytics`, is registered over the contract, customer, economics
+and fleet module instances the application already holds; it adds no table, migration or
+write route. Revenue is accrued once into *revenue events* (line subtotal at the line start,
+charge at its creation with discounts negative, delivery fee at activation — the Sprint 11
+attribution rule) and the type, vehicle, nationality and month tables, the surcharge rows
+and the profit-and-loss revenue line all group the same events, so every table reconciles to
+one total and contract-level amounts stay visible as an unallocated bucket. Utilisation is
+the rounded occupied days of each vehicle inside the window (a returned or swapped line ends
+at the actual return or the replacement start) over the days the vehicle existed. The profit
+and loss subtracts expenses by paid day (reversals negative) and the monthly difference of
+the shared `depreciationAt` from the monthly revenue, with a 24-month cap; the analytics
+window reuses the Sprint 6 business-day `ReportWindow` with a 366-day cap. Month arithmetic
+lives in `@rental/contracts` so the API, the admin and the tests share it. The dependency-free
+workbook writer (PD-13) gained `encodeSheets` for N worksheets; the single-sheet exports
+delegate to it. Both report pages render trend charts as inline SVG from one pure geometry
+function with a table of the same figures; no chart library is introduced (US-030). Owner-only
+rules are enforced by class-level guards at the API; the admin only hides the tabs.
+
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
@@ -359,4 +380,6 @@ ledger, receivable and reporting files were reconciled in `file-blueprint-sprint
 `file-blueprint-sprint-7.md` on 2026-09-18. Sprint 11 (Phase 2) economics files were
 reconciled in `file-blueprint-sprint-11.md` on 2026-09-18. Sprint 12 (Phase 2) damage
 catalog, private file, deposit refund and cash shift files were reconciled in
-`file-blueprint-sprint-12.md` on 2026-09-18.
+`file-blueprint-sprint-12.md` on 2026-09-18. Sprint 13 (Phase 2) analytics, utilisation,
+profit-and-loss and trend-chart files were reconciled in `file-blueprint-sprint-13.md` on
+2026-09-18.

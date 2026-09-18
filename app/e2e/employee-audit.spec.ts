@@ -16,7 +16,8 @@ test.describe('Feature: Employee account management — Owner workspace', () => 
     await page.getByRole('button', { name: 'Tạo tài khoản' }).click();
 
     const row = page.locator(`[data-employee="${username}"]`).first();
-    await expect(row).toContainText('Đang làm');
+    // Creating an account hashes the password; under a full parallel run it can exceed 5 s.
+    await expect(row).toContainText('Đang làm', { timeout: 20_000 });
     await page
       .getByRole('button', { name: `Khóa ${username}` })
       .first()

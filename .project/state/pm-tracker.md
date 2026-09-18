@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Workstream:** Sprint 13 — Phase 2 advanced reporting and trend charts (next)
-**Overall Progress:** Sprint 0–7 (MVP) and Sprint 11–12 (Phase 2, 2/3) complete; infrastructure go-live gates await the hosting provider
-**Status:** SPRINT_12_COMPLETE
+**Current Workstream:** Phase 2 complete (Sprint 11–13); MVP and Phase 2 go-live gates await the hosting provider and the Product Owner decisions
+**Overall Progress:** Sprint 0–7 (MVP) and Sprint 11–13 (Phase 2, 3/3) complete; infrastructure go-live gates await the hosting provider
+**Status:** SPRINT_13_COMPLETE
 
 ## Project Timeline
 
@@ -22,7 +22,7 @@
 | UI review  |      Design foundation | Development-only component showroom                  | READY FOR REVIEW   |
 | Sprint 11  |                2 weeks | Phase 2: vehicle cost, expenses, break-even          | COMPLETE — QA PASS |
 | Sprint 12  |                2 weeks | Phase 2: damage catalog, return photos, cash shift   | COMPLETE — QA PASS |
-| Sprint 13  |                2 weeks | Phase 2: advanced reporting and trend charts         | PLANNED            |
+| Sprint 13  |                2 weeks | Phase 2: advanced reporting and trend charts         | COMPLETE — QA PASS |
 
 ## Phase Completion
 
@@ -60,6 +60,7 @@
 | Sprint 7 execution    | AUTHORIZED; PD-14 employee management (US-006) pulled into the sprint | 2026-09-18 |
 | Sprint 11 execution   | AUTHORIZED; PD-16 Phase 2 as its own release, straight-line depreciation as working default | 2026-09-18 |
 | Sprint 12 execution   | AUTHORIZED; PD-17 deposit refund as a ledger row after settlement, disk file store as working default | 2026-09-18 |
+| Sprint 13 execution   | AUTHORIZED; read-only analytics over the existing ledgers, no schema change, PD-13 writer extended to multi-sheet workbooks | 2026-09-18 |
 
 ## Team Status
 
@@ -104,6 +105,9 @@
 | Backend / Frontend specialists | Damage catalog, private return photos, deposit refund row, cash shift close, four new screens | COMPLETE | 12 |
 | google-code-reviewer           | Sprint 12 private-file, ledger, authorization and UI review | COMPLETE — LGTM           | 12     |
 | google-qa-engineer             | Sprint 12 golden-figure reconciliation, regression and browser acceptance | COMPLETE — PASS (338 + 77) | 12     |
+| Backend / Frontend specialists | Revenue by dimension, utilisation, monthly profit and loss, six-sheet and one-sheet workbooks, two new report screens with pure SVG trend charts | COMPLETE | 13 |
+| google-code-reviewer           | Sprint 13 reconciliation, authorization, time and UI review | COMPLETE — LGTM           | 13     |
+| google-qa-engineer             | Sprint 13 golden-figure reconciliation, regression and browser acceptance | COMPLETE — PASS (384 + 85) | 13     |
 
 ## Activity Log
 
@@ -231,6 +235,21 @@
   journeys realigned with PD-17; QA PASS with 338 unit/integration and 77 browser tests, all
   coverage dimensions above 80%. Branch `feature/sprint-12-operations-finance` builds on
   Sprint 11.
+- 2026-09-18: Client asked to continue with the next sprints; 14 advanced-reporting BDD
+  scenarios, the `14-advanced-reporting.md` wireframe and the Sprint 13 file blueprint were
+  drafted before implementation.
+- 2026-09-18: Sprint 13 delivered the read-only analytics module: revenue events accrued once
+  and grouped by vehicle type, vehicle, customer nationality and month (every table reconciles
+  to one total, unallocated revenue visible), surcharges by kind, utilisation per vehicle /
+  type / fleet, the monthly profit and loss (revenue − expenses − straight-line depreciation)
+  with a 24-month cap, the six-sheet "Phân tích" and one-sheet "Lãi lỗ" workbooks through
+  the extended dependency-free writer, the `/reports/analytics` and `/reports/pnl` Owner
+  pages with the 366-day range guard and pure inline-SVG trend charts (no chart library,
+  table fallback, accessible names).
+- 2026-09-18: Sprint 13 review LGTM after component splits, a shared KPI-card overflow fix
+  and browser journeys realigned with the demo fleet; QA PASS with 384 unit/integration and
+  85 browser tests, all coverage dimensions above 80%. Phase 2 (Sprint 11–13) is complete on
+  branch `feature/sprint-13-advanced-reporting`, which builds on Sprint 12.
 
 ## Blockers
 

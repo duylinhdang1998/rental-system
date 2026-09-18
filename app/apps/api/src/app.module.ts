@@ -18,6 +18,7 @@ import { EconomicsModule } from './modules/economics/economics.module.js';
 import { FileStoreModule } from './common/files/file-store.module.js';
 import { DamageCatalogModule } from './modules/damage-catalog/damage-catalog.module.js';
 import { CashShiftModule } from './modules/cash-shifts/cash-shift.module.js';
+import { AnalyticsModule } from './modules/analytics/analytics.module.js';
 
 @Module({})
 export class AppModule {
@@ -45,6 +46,7 @@ export class AppModule {
         EmployeeModule,
         economics,
         CashShiftModule.register(environment, contracts, economics),
+        AnalyticsModule.register(contracts, customers, economics),
         ...optionalImports,
       ],
     };

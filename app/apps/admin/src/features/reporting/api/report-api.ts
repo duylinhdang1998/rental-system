@@ -1,7 +1,11 @@
 import {
+  analyticsReportSchema,
   fleetEconomicsReportSchema,
+  pnlReportSchema,
   revenueReportSchema,
+  type AnalyticsReport,
   type FleetEconomicsReport,
+  type PnlReport,
   type ReportRange,
   type RevenueReport,
 } from '@rental/contracts';
@@ -34,4 +38,33 @@ export async function fetchFleetEconomics(asOf: string): Promise<FleetEconomicsR
 
 export function fleetEconomicsExportUrl(asOf: string): string {
   return `/api/reports/fleet-economics/export?${asOfQuery(asOf)}`;
+}
+
+/** Owner only (BR-08): revenue by type, vehicle, nationality and month, surcharges, utilisation. */
+export async function fetchAnalytics(range: ReportRange): Promise<AnalyticsReport> {
+  return analyticsReportSchema.parse(
+    await apiRequest(`/api/reports/analytics?${rangeQuery(range)}`),
+  );
+}
+
+export function analyticsExportUrl(range: ReportRange): string {
+  return `/api/reports/analytics/export?${rangeQuery(range)}`;
+}
+
+export interface PnlQueryState {
+  months: string;
+  to: string;
+}
+
+function pnlQuery(query: PnlQueryState): string {
+  return new URLSearchParams({ months: query.months, to: query.to }).toString();
+}
+
+/** Owner only (BR-08): revenue − expenses − depreciation per month. */
+export async function fetchPnl(query: PnlQueryState): Promise<PnlReport> {
+  return pnlReportSchema.parse(await apiRequest(`/api/reports/pnl?${pnlQuery(query)}`));
+}
+
+export function pnlExportUrl(query: PnlQueryState): string {
+  return `/api/reports/pnl/export?${pnlQuery(query)}`;
 }

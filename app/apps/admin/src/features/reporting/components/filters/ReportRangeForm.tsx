@@ -1,15 +1,18 @@
 import { MAX_REPORT_DAYS, type ReportRange } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
+import { RangeIssueAlert } from '@/features/reporting/components/filters/RangeIssueAlert';
 import type { RangeIssue } from '@/features/reporting/lib/report-presentation';
 import { TextField } from '@/shared/ui/TextField';
 
 interface ReportRangeFormProps {
   issue: RangeIssue;
+  /** The limit the message quotes; the revenue report keeps the 92-day default. */
+  maxDays?: number;
   onChange: (field: keyof ReportRange, value: string) => void;
   range: ReportRange;
 }
 
-export function ReportRangeForm({ issue, onChange, range }: ReportRangeFormProps) {
+export function ReportRangeForm({ issue, maxDays, onChange, range }: ReportRangeFormProps) {
   const { t } = useTranslation();
   return (
     <div className="grid gap-2">
@@ -29,11 +32,7 @@ export function ReportRangeForm({ issue, onChange, range }: ReportRangeFormProps
           value={range.to}
         />
       </div>
-      {issue ? (
-        <p className="text-sm font-semibold text-negative" role="alert">
-          {t(`reportRangeIssue.${issue}`, { days: MAX_REPORT_DAYS })}
-        </p>
-      ) : null}
+      <RangeIssueAlert issue={issue} maxDays={maxDays ?? MAX_REPORT_DAYS} />
     </div>
   );
 }

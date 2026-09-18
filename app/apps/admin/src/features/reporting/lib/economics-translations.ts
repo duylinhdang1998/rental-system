@@ -44,7 +44,12 @@ export const economicsTranslations = {
     economicsUnallocatedHelp:
       'Delivery fees and contract-level charges or expenses without a vehicle.',
     economicsGrandTotal: 'Total',
-    reportTabs: { fleet: 'Fleet', revenue: 'Revenue' },
+    reportTabs: {
+      analytics: 'Analytics',
+      fleet: 'Fleet',
+      pnl: 'Profit & loss',
+      revenue: 'Revenue',
+    },
     reportTabsLabel: 'Report sections',
   },
   vi: {
@@ -91,7 +96,7 @@ export const economicsTranslations = {
     economicsUnallocated: 'Chưa phân bổ',
     economicsUnallocatedHelp: 'Phí giao xe, phụ phí cấp hợp đồng và các khoản chi không gắn xe.',
     economicsGrandTotal: 'Tổng',
-    reportTabs: { fleet: 'Đội xe', revenue: 'Doanh thu' },
+    reportTabs: { analytics: 'Phân tích', fleet: 'Đội xe', pnl: 'Lãi lỗ', revenue: 'Doanh thu' },
     reportTabsLabel: 'Các mục báo cáo',
   },
 } as const;

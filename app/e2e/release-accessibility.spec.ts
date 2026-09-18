@@ -14,6 +14,8 @@ const ROUTES = [
   '/cash-shifts',
   '/reports',
   '/reports/fleet',
+  '/reports/analytics',
+  '/reports/pnl',
   '/employees',
   '/audit',
   '/settings',

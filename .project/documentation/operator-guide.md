@@ -1,7 +1,7 @@
 # Hướng dẫn vận hành — Hệ thống quản lý cho thuê xe máy
 
 **Dành cho:** Chủ cửa hàng và Nhân viên.  
-**Phiên bản:** Sprint 12 (2026-09-18). Giao diện Việt–Anh, dùng được trên điện thoại và máy tính.
+**Phiên bản:** Sprint 13 (2026-09-18). Giao diện Việt–Anh, dùng được trên điện thoại và máy tính.
 
 ## 1. Đăng nhập và tài khoản
 
@@ -72,6 +72,22 @@
   **Tổng** khớp bốn ô đầu trang. **Xuất Excel** ra sheet "Đội xe". Doanh thu ở đây tính theo
   từng xe trong hợp đồng (kể cả chưa thu tiền); muốn xem tiền đã thu theo ngày thì dùng tab
   **Doanh thu**.
+- **Báo cáo → Phân tích**: chọn **Từ ngày** / **Đến ngày** (tối đa 366 ngày; quá thì hệ thống
+  báo ngay và không tải). Bốn ô đầu trang: doanh thu, ngày thuê, số hợp đồng, phụ phí ròng.
+  Bên dưới là biểu đồ và bảng **Doanh thu theo tháng**, bảng **Theo loại xe**, **Theo xe**,
+  **Theo quốc tịch khách** (mỗi dòng có % tỷ trọng; dòng **Chưa phân bổ** gom phí giao xe và
+  phụ phí chung), bảng **Phụ phí** theo loại (trễ, hư hỏng, khác, giảm trừ) với tổng ròng, và
+  bảng **Tỷ lệ sử dụng xe**: ngày thuê / ngày sẵn có theo từng xe, theo loại xe và **Toàn
+  đội** (xe chỉ tính từ ngày được thêm vào hệ thống; xe trả sớm thì ngừng tính từ lúc nhận
+  xe). Mọi bảng cộng lại bằng đúng ô doanh thu đầu trang. **Xuất Excel** ra tệp 6 sheet
+  `phan-tich-<từ>-<đến>.xlsx`.
+- **Báo cáo → Lãi lỗ**: chọn **Tháng cuối** và **Số tháng** (6, 12 hoặc 24; mặc định 12 tháng
+  đến tháng hiện tại). Mỗi tháng: doanh thu − chi phí (theo ngày chi; khoản đã đảo không
+  tính) − khấu hao (đường thẳng theo **Giá vốn**; tháng đầu tính khi đủ tròn tháng kể từ ngày
+  mua) = lãi lỗ; dòng **Tổng cộng** ở cuối. Biểu đồ **Xu hướng** vẽ ba đường doanh thu, chi
+  phí, lãi lỗ; số âm hiện dấu trừ (−). Trên điện thoại bảng đổi thành thẻ theo tháng. **Xuất
+  Excel** ra sheet "Lãi lỗ" (`lai-lo-<tháng đầu>-<tháng cuối>.xlsx`). Doanh thu ở đây tính
+  theo hợp đồng (dồn tích), giống tab **Đội xe**.
 
 ## 4. Khi có sự cố
 
@@ -95,3 +111,5 @@
 | 7 | Chủ | Thêm hạng mục "Gương chiếu hậu" 150.000 vào Bảng giá hư hỏng | Hạng mục hiện "Đang dùng", Nhật ký có dòng thêm hạng mục |
 | 8 | Nhân viên | Nhận xe có hư hỏng, chọn hạng mục vừa thêm, đính kèm 1 ảnh, tất toán, bấm Hoàn cọc | Phụ phí 150.000 đúng tên, chi tiết hợp đồng hiện "Ảnh nhận xe: 1", nhãn "Đã hoàn cọc" |
 | 9 | Nhân viên | Mở ca 1.000.000, thu tiền mặt 200.000, đóng ca với 1.180.000 và ghi lý do | Lịch sử ca hiện "Thiếu" −20.000 ₫ kèm ghi chú |
+| 10 | Chủ | Mở **Báo cáo → Phân tích** cho tháng vừa rồi, đối chiếu bảng Theo xe với ô doanh thu, xuất Excel | Tổng các dòng Theo xe (kể cả Chưa phân bổ) bằng ô doanh thu; tệp `phan-tich-…xlsx` có 6 sheet |
+| 11 | Chủ | Mở **Báo cáo → Lãi lỗ**, chọn 6 tháng, tìm tháng có khoản chi lớn nhất | Dòng tháng đó hiện lãi lỗ âm với dấu −, biểu đồ có 6 điểm mỗi đường |

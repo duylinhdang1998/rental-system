@@ -8,7 +8,7 @@ import { EmployeeListPage } from '@/features/employees';
 import { ExpenseListPage } from '@/features/expenses';
 import { ReceivableListPage } from '@/features/finance';
 import { VehicleListPage } from '@/features/fleet';
-import { FleetEconomicsPage, ReportPage } from '@/features/reporting';
+import { AnalyticsPage, FleetEconomicsPage, PnlPage, ReportPage } from '@/features/reporting';
 import { ReturnQueuePage } from '@/features/returns';
 import { DamageItemsPage, SettingsPage } from '@/features/settings';
 import { UiKitPage } from '@/features/ui-kit';
@@ -33,6 +33,8 @@ const SHARED_PAGES = [
 const OWNER_PAGES = [
   { element: <ReportPage />, path: 'reports' },
   { element: <FleetEconomicsPage />, path: 'reports/fleet' },
+  { element: <AnalyticsPage />, path: 'reports/analytics' },
+  { element: <PnlPage />, path: 'reports/pnl' },
   { element: <EmployeeListPage />, path: 'employees' },
   { element: <AuditLogPage />, path: 'audit' },
   { element: <SettingsPage />, path: 'settings' },

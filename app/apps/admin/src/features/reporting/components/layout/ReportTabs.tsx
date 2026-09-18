@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
-type ReportTab = 'fleet' | 'revenue';
+type ReportTab = 'analytics' | 'fleet' | 'pnl' | 'revenue';
 
 interface ReportTabsProps {
   active: ReportTab;
@@ -11,6 +11,8 @@ interface ReportTabsProps {
 const TABS: { key: ReportTab; path: string }[] = [
   { key: 'revenue', path: '/reports' },
   { key: 'fleet', path: '/reports/fleet' },
+  { key: 'analytics', path: '/reports/analytics' },
+  { key: 'pnl', path: '/reports/pnl' },
 ];
 
 /** Plain links styled as tabs: each report keeps its own URL and its own Owner-only route. */

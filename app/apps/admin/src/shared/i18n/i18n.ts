@@ -7,6 +7,7 @@ import { contractTranslations } from '@/features/contracts/lib/contract-translat
 import { employeeTranslations } from '@/features/employees/lib/employee-translations';
 import { expenseTranslations } from '@/features/expenses/lib/expense-translations';
 import { acquisitionTranslations } from '@/features/fleet/lib/acquisition-translations';
+import { analyticsTranslations } from '@/features/reporting/lib/analytics-translations';
 import { economicsTranslations } from '@/features/reporting/lib/economics-translations';
 import { paymentTranslations } from '@/features/contracts/lib/payment-translations';
 import { settlementTranslations } from '@/features/contracts/lib/settlement-translations';
@@ -19,6 +20,7 @@ const translations = {
   en: {
     translation: {
       ...acquisitionTranslations.en,
+      ...analyticsTranslations.en,
       ...auditTranslations.en,
       ...cashShiftTranslations.en,
       ...contractTranslations.en,
@@ -146,6 +148,7 @@ const translations = {
   vi: {
     translation: {
       ...acquisitionTranslations.vi,
+      ...analyticsTranslations.vi,
       ...auditTranslations.vi,
       ...cashShiftTranslations.vi,
       ...contractTranslations.vi,

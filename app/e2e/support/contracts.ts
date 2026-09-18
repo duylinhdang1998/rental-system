@@ -22,7 +22,7 @@ const HANDOVER = {
   retainedDocument: 'CCCD e2e',
 };
 
-async function csrfToken(page: Page): Promise<string> {
+export async function csrfToken(page: Page): Promise<string> {
   const cookies = await page.context().cookies();
   const token = cookies.find((cookie) => cookie.name === 'rental_csrf')?.value;
   expect(token).toBeTruthy();
@@ -59,6 +59,25 @@ export async function seedContract(page: Page, options: ContractSeedOptions) {
     expect(activated.ok()).toBe(true);
   }
   return contract;
+}
+
+interface StoredLines {
+  quote: { lines: { id: string; inspection: unknown }[] };
+}
+
+/** Returns every open line at `actualReturnAt` so the seeded vehicles are available again. */
+export async function returnContract(page: Page, contractId: string, actualReturnAt: string) {
+  const headers = { 'x-csrf-token': await csrfToken(page) };
+  const detail = await page.request.get(`/api/contracts/${contractId}`);
+  expect(detail.ok()).toBe(true);
+  const contract = (await detail.json()) as StoredLines;
+  for (const line of contract.quote.lines.filter((item) => item.inspection === null)) {
+    const returned = await page.request.post(
+      `/api/contracts/${contractId}/lines/${line.id}/return`,
+      { data: { actualReturnAt, condition: 'GOOD', fuelPercent: 70 }, headers },
+    );
+    expect(returned.ok()).toBe(true);
+  }
 }
 
 export interface PaymentSeedOptions {

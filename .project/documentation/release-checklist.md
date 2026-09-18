@@ -62,8 +62,8 @@ evidenced from the repository alone.
 - [ ] Decision on PD-08 (import of the legacy Excel data) recorded; if yes, the import runs on
       staging first and is verified against the workbook totals.
 - [ ] First Owner created with `seed:owner`; the Owner changed the password on first sign-in.
-- [ ] Staff accounts created from `/employees`; each person completed the six training
-      exercises in `operator-guide.md`.
+- [ ] Staff accounts created from `/employees`; each person completed the training exercises
+      for their role in `operator-guide.md` (eleven in the Sprint 13 version).
 - [ ] Incident owner, alert channel and business contact named in the private operations sheet.
 
 ## D. Sign-off

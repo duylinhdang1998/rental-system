@@ -240,6 +240,31 @@ duyệt theo PD-17), QA PASS. Lưu ý go-live: kho tệp trên đĩa chỉ cho m
 S3-compatible sau cùng port khi mở rộng. Tiếp theo: Sprint 13 (báo cáo nâng cao, biểu đồ xu
 hướng 12 tháng); PD-08 vẫn chờ.
 
+### Session 21 — 2026-09-18
+
+**Yêu cầu:** Làm tiếp các sprint tiếp theo (Sprint 13 sau Sprint 12).
+
+**Quyết định:** Sprint 13 đã xong (nhánh `feature/sprint-13-advanced-reporting`, chưa push);
+Giai đoạn 2 (Sprint 11–13) hoàn tất. Hai trang báo cáo mới, chỉ Chủ xem: **Báo cáo → Phân
+tích** và **Báo cáo → Lãi lỗ**. *Phân tích* chọn khoảng ngày (tối đa 366 ngày, quá thì báo
+ngay và không gửi yêu cầu): bốn ô tổng (doanh thu, ngày thuê, hợp đồng, phụ phí ròng), biểu
+đồ và bảng doanh thu theo tháng, bảng theo loại xe, theo xe, theo quốc tịch khách (có % tỷ
+trọng), bảng phụ phí theo loại (trễ, hư hỏng, khác, giảm trừ) với tổng ròng, bảng tỷ lệ sử
+dụng xe (ngày thuê / ngày sẵn có, theo xe, loại xe và toàn đội; xe chỉ tính từ ngày tạo; dòng
+trả xe kết thúc lúc nhận xe thực tế), xuất Excel 6 sheet. Doanh thu ghi nhận một lần theo
+dòng hợp đồng (tiền thuê tại ngày bắt đầu, phụ phí tại ngày ghi, giảm trừ âm, phí giao xe
+tại ngày bàn giao) nên mọi bảng đều khớp một tổng; phí giao xe và phụ phí chung nằm ở dòng
+"Chưa phân bổ". *Lãi lỗ* chọn tháng cuối và số tháng (6/12/24, mặc định 12 tháng đến tháng
+hiện tại): mỗi tháng = doanh thu − chi phí (theo ngày chi, bút toán đảo trừ đi) − khấu hao
+đường thẳng (tháng đầu tính khi đủ ngày mua), dòng tổng, biểu đồ xu hướng ba đường (doanh
+thu, chi phí, lãi lỗ) vẽ bằng SVG thuần không thư viện, có tên trợ năng và bảng thay thế,
+số âm dùng dấu trừ thật, xuất Excel sheet "Lãi lỗ". Không đổi schema, không có route ghi;
+cả hai báo cáo đọc trực tiếp sổ hợp đồng, sổ chi phí và giá vốn. Kết quả: 384 test đơn
+vị/tích hợp (61 file), 85 test trình duyệt, review LGTM (3 lỗi chặn đã sửa: tách component,
+ô KPI tràn màn hình 360 px với số 8 chữ số, kịch bản trình duyệt lệch dữ liệu demo — xe demo
+tạo đầu tháng 8/2026 nên kịch bản chuyển sang XE-003 tháng 8), QA PASS. Tiếp theo: PD-08 vẫn
+chờ; các cổng go-live hạ tầng (PD-15) và xác nhận PD-06/12/13/14/16/17.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.

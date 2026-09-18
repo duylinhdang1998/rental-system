@@ -9,6 +9,8 @@ test.describe('Feature: Secure responsive operations preview — role navigation
     for (const route of [
       '/reports',
       '/reports/fleet',
+      '/reports/analytics',
+      '/reports/pnl',
       '/employees',
       '/audit',
       '/settings',

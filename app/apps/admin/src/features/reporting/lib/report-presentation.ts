@@ -29,12 +29,12 @@ export function defaultReportRange(now: Date): ReportRange {
 }
 
 /** Mirrors the API rule so the export link is never offered for a range the API rejects. */
-export function rangeIssue(range: ReportRange): RangeIssue {
+export function rangeIssue(range: ReportRange, maxDays = MAX_REPORT_DAYS): RangeIssue {
   const from = dayInstant(range.from);
   const to = dayInstant(range.to);
   if (Number.isNaN(from) || Number.isNaN(to)) return 'invalid';
   if (to < from) return 'order';
-  return Math.round((to - from) / MILLISECONDS_PER_DAY) >= MAX_REPORT_DAYS ? 'span' : null;
+  return Math.round((to - from) / MILLISECONDS_PER_DAY) >= maxDays ? 'span' : null;
 }
 
 /** Share of gross receipts (cash + transfer) for one method, as a whole percentage. */
