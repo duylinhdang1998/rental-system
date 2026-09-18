@@ -28,6 +28,7 @@ export class EconomicsModule {
   static register(environment: Environment, contracts: DynamicModule): DynamicModule {
     return {
       controllers: [ExpenseController, VehicleAcquisitionController, FleetEconomicsController],
+      exports: [ECONOMICS_REPOSITORY],
       imports: [contracts],
       module: EconomicsModule,
       providers: [

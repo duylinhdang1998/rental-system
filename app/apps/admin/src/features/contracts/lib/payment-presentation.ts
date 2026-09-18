@@ -1,6 +1,8 @@
 import type {
   ContractLedger,
   ContractPaymentInput,
+  DepositRefundInput,
+  ManualPaymentKind,
   PaymentBalance,
   PaymentKind,
   PaymentMethod,
@@ -9,7 +11,13 @@ import { formatCurrency, type Locale } from '@/shared/i18n/locale';
 
 export interface PaymentFormValues {
   amount: string;
-  kind: PaymentKind;
+  kind: ManualPaymentKind;
+  method: PaymentMethod;
+  notes: string;
+  reference: string;
+}
+
+export interface DepositRefundFormValues {
   method: PaymentMethod;
   notes: string;
   reference: string;
@@ -28,12 +36,19 @@ export interface BalanceRow {
   value: string;
 }
 
-export const PAYMENT_KINDS: PaymentKind[] = ['PAYMENT', 'REFUND'];
+/** Staff pick a collection or a refund; the deposit refund has its own action (US-028). */
+export const PAYMENT_KINDS: ManualPaymentKind[] = ['PAYMENT', 'REFUND'];
 export const PAYMENT_METHODS: PaymentMethod[] = ['CASH', 'BANK_TRANSFER'];
 
 export const INITIAL_PAYMENT_FORM: PaymentFormValues = {
   amount: '',
   kind: 'PAYMENT',
+  method: 'CASH',
+  notes: '',
+  reference: '',
+};
+
+export const INITIAL_DEPOSIT_REFUND_FORM: DepositRefundFormValues = {
   method: 'CASH',
   notes: '',
   reference: '',
@@ -49,13 +64,13 @@ export function paymentMethodLabel(method: string, locale: Locale): string {
   return labels?.[locale] ?? '';
 }
 
-/** BR-04: the direction is always visible; refunds carry a leading minus. */
+/** BR-04: the direction is always visible; money going back to the customer carries a minus. */
 export function signedAmount(kind: PaymentKind, amountVnd: number, locale: Locale): string {
-  return `${kind === 'REFUND' ? '−' : '+'}${formatCurrency(amountVnd, locale)}`;
+  return `${kind === 'PAYMENT' ? '+' : '−'}${formatCurrency(amountVnd, locale)}`;
 }
 
 /** Mirrors the API cap: collect up to the receivable, refund up to the net collected. */
-export function paymentCapFor(balance: PaymentCaps, kind: PaymentKind): number {
+export function paymentCapFor(balance: PaymentCaps, kind: ManualPaymentKind): number {
   return kind === 'REFUND' ? balance.paidVnd : balance.remainingVnd;
 }
 
@@ -83,6 +98,18 @@ export function toPaymentInput(
   };
 }
 
+export function toDepositRefundInput(
+  form: DepositRefundFormValues,
+  idempotencyKey: string,
+): DepositRefundInput {
+  return {
+    idempotencyKey,
+    method: form.method,
+    notes: form.notes.trim(),
+    reference: form.reference.trim(),
+  };
+}
+
 export function balanceRows(balance: PaymentBalance, locale: Locale): BalanceRow[] {
   const money = (value: number) => formatCurrency(value, locale);
   const rows: BalanceRow[] = [
@@ -98,6 +125,13 @@ export function balanceRows(balance: PaymentBalance, locale: Locale): BalanceRow
     });
   }
   rows.push({ emphasis: true, labelKey: 'ledgerPaid', value: money(balance.paidVnd) });
+  if (balance.depositRefundedVnd > 0) {
+    rows.push({
+      emphasis: false,
+      labelKey: 'ledgerDepositRefunded',
+      value: `−${money(balance.depositRefundedVnd)}`,
+    });
+  }
   rows.push({
     emphasis: balance.remainingVnd > 0,
     labelKey: 'ledgerRemaining',

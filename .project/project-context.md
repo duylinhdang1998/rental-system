@@ -217,6 +217,29 @@ trong Nhật ký. Doanh thu ở báo cáo này tính theo dòng hợp đồng (d
 doanh thu theo tiền thu; hướng dẫn vận hành nêu rõ. Kết quả: 292 test đơn vị/tích hợp, 71
 test trình duyệt, review LGTM, QA PASS; nhánh `feature/sprint-11-asset-economics` (chưa push).
 
+### Session 20 — 2026-09-18
+
+**Yêu cầu:** Làm tiếp các sprint tiếp theo (Sprint 12 sau Sprint 11).
+
+**Quyết định:** Sprint 12 đã xong (nhánh `feature/sprint-12-operations-finance`, chưa push).
+Chủ quản lý **Hạng mục hư hỏng** (Cài đặt → tab mới): mã, tên, giá, ngừng dùng/dùng lại,
+có Nhật ký; khi nhận xe hoặc ghi phụ phí, Nhân viên chọn hạng mục và hệ thống chép giá + tên
+tại thời điểm ghi (đổi giá sau không ảnh hưởng hợp đồng cũ), vẫn cho phép tự nhập. **Ảnh nhận
+xe** (tối đa 5 ảnh, 2 MB, JPEG/PNG/WebP kiểm tra theo byte đầu) lưu riêng tư (bộ nhớ ở demo/test,
+thư mục `PRIVATE_FILE_DIR` khi chạy thật), chỉ xem qua liên kết ký HMAC hiệu lực 300 giây,
+không cache; API không bao giờ trả khóa tệp hay tên tệp gốc. **Hoàn cọc** tách khỏi bước tất
+toán (PD-17): sau khi tất toán, nút "Hoàn cọc" ghi một dòng `DEPOSIT_REFUND` vào sổ (đúng số
+tiền hoàn đã chốt, một lần duy nhất, không tính doanh thu/công nợ/hạn mức) và đổi nhãn "Chưa
+hoàn cọc" → "Đã hoàn cọc". **Ca tiền mặt** (cả hai vai trò): Mở ca với tiền đầu ca; tiền mặt
+phải có = đầu ca + thu tiền mặt − hoàn tiền mặt − hoàn cọc tiền mặt − chi phí tiền mặt trong
+ca (đọc từ hai sổ, không lưu trùng — BR-10); Đóng ca với tiền đếm được, chênh lệch chốt cứng,
+bắt buộc ghi chú khi lệch; mỗi lúc một ca; Nhân viên xem ca của mình, Chủ xem tất cả. Sáu
+thao tác mới trong Nhật ký. Kết quả: 338 test đơn vị/tích hợp (55 file), 77 test trình duyệt,
+review LGTM (3 lỗi chặn đã sửa: tách component, tách file test, cập nhật hai kịch bản trình
+duyệt theo PD-17), QA PASS. Lưu ý go-live: kho tệp trên đĩa chỉ cho một bản sao API; cần
+S3-compatible sau cùng port khi mở rộng. Tiếp theo: Sprint 13 (báo cáo nâng cao, biểu đồ xu
+hướng 12 tháng); PD-08 vẫn chờ.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -260,6 +283,7 @@ test trình duyệt, review LGTM, QA PASS; nhánh `feature/sprint-11-asset-econo
 | PD-14 | Quản lý tài khoản nhân viên (US-006) chưa được xếp sprint | Đưa vào Sprint 7 như điều kiện go-live: Chủ tạo / khóa / mở khóa / đặt lại mật khẩu, khóa chấm dứt phiên ngay, lịch sử giữ nguyên tên | Implemented in Sprint 7 as the working default; Product Owner confirmation pending |
 | PD-15 | Nhà cung cấp hạ tầng và biên (hosting, WAF, Postgres quản lý) | Chọn nhà cung cấp để hoàn tất các cổng go-live phần B trong `release-checklist.md` | Pending |
 | PD-16 | Giai đoạn 2 và phương pháp khấu hao | Giai đoạn 2 (Sprint 11–13) phát hành thành bản riêng sau MVP; khấu hao đường thẳng theo tháng, làm tròn xuống, không vượt giá mua trừ thanh lý; doanh thu quy theo dòng hợp đồng | Implemented in Sprint 11 as the working default; Product Owner confirmation pending |
+| PD-17 | Hoàn cọc và kho ảnh nhận xe | Hoàn cọc là một dòng sổ riêng ("Hoàn cọc") sau khi tất toán, một lần, đúng số đã chốt, không tính doanh thu; bước tất toán chỉ còn xác nhận trả giấy tờ. Ảnh nhận xe lưu trên đĩa máy chủ API (`PRIVATE_FILE_DIR`), xem qua liên kết ký 300 giây; đổi sang S3-compatible khi chạy nhiều bản sao | Implemented in Sprint 12 as the working default; Product Owner confirmation pending |
 
 ## Design Decisions
 

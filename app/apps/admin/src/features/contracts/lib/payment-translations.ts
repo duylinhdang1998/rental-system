@@ -1,6 +1,14 @@
 export const paymentTranslations = {
   en: {
+    depositRefund: 'Refund deposit',
+    depositRefundAmount: 'Refund {{amount}} of the deposit to the customer as settled.',
+    depositRefundBody:
+      'The amount is fixed by the settlement. The refund becomes a permanent ledger row and does not change the revenue figures.',
+    depositRefundConfirm: 'Confirm deposit refund',
+    depositRefundPendingBadge: 'Deposit not refunded',
+    depositRefundedBadge: 'Deposit refunded',
     ledgerCash: 'Cash received',
+    ledgerDepositRefunded: 'Deposit refunded',
     ledgerEmpty: 'No payment recorded yet.',
     ledgerPaid: 'Net collected',
     ledgerReceivedBy: 'by {{name}}',
@@ -15,7 +23,11 @@ export const paymentTranslations = {
     paymentCap: 'Up to {{amount}}',
     paymentConfirm: 'Save payment',
     paymentKind: 'Transaction',
-    paymentKindOption: { PAYMENT: 'Collection', REFUND: 'Refund' },
+    paymentKindOption: {
+      DEPOSIT_REFUND: 'Deposit refund',
+      PAYMENT: 'Collection',
+      REFUND: 'Refund',
+    },
     paymentMethod: 'Method',
     paymentMethodOption: { BANK_TRANSFER: 'Bank transfer', CASH: 'Cash' },
     paymentNotes: 'Notes',
@@ -23,7 +35,15 @@ export const paymentTranslations = {
     paymentReference: 'Reference (transfer code, receipt number)',
   },
   vi: {
+    depositRefund: 'Hoàn cọc',
+    depositRefundAmount: 'Hoàn {{amount}} tiền cọc cho khách theo tất toán.',
+    depositRefundBody:
+      'Số tiền cố định theo tất toán. Khoản hoàn cọc là một dòng sổ không thể sửa và không làm thay đổi doanh thu.',
+    depositRefundConfirm: 'Xác nhận hoàn cọc',
+    depositRefundPendingBadge: 'Chưa hoàn cọc',
+    depositRefundedBadge: 'Đã hoàn cọc',
     ledgerCash: 'Đã thu tiền mặt',
+    ledgerDepositRefunded: 'Đã hoàn cọc',
     ledgerEmpty: 'Chưa ghi nhận khoản thu nào.',
     ledgerPaid: 'Thực thu',
     ledgerReceivedBy: 'do {{name}}',
@@ -38,7 +58,7 @@ export const paymentTranslations = {
     paymentCap: 'Tối đa {{amount}}',
     paymentConfirm: 'Xác nhận thu tiền',
     paymentKind: 'Loại giao dịch',
-    paymentKindOption: { PAYMENT: 'Khoản thu', REFUND: 'Khoản hoàn' },
+    paymentKindOption: { DEPOSIT_REFUND: 'Hoàn cọc', PAYMENT: 'Khoản thu', REFUND: 'Khoản hoàn' },
     paymentMethod: 'Hình thức',
     paymentMethodOption: { BANK_TRANSFER: 'Chuyển khoản', CASH: 'Tiền mặt' },
     paymentNotes: 'Ghi chú',

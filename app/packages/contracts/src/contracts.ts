@@ -41,6 +41,7 @@ export const contractEventTypeSchema = z.enum([
   'SETTLED',
   'PAYMENT_RECORDED',
   'REFUND_RECORDED',
+  'DEPOSIT_REFUNDED',
 ]);
 
 export const contractEventMetadataSchema = z.record(

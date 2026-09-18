@@ -20,7 +20,8 @@
 | `screens/09-return-settlement.md`         | Return queue, per-vehicle return and settlement  |     Yes |    Yes | Draft — Sprint 5 approval       |
 | `screens/10-finance-reporting.md`         | Payments, receivables and revenue report         |     Yes |    Yes | Approved — implemented Sprint 6 |
 | `screens/11-employees-audit.md`           | Employees, audit log and accessibility sweep     |     Yes |    Yes | Approved — implemented Sprint 7 |
-| `screens/12-asset-economics.md`           | Vehicle cost, expenses and fleet economics       |     Yes |    Yes | Draft — Sprint 11 approval      |
+| `screens/12-asset-economics.md`           | Vehicle cost, expenses and fleet economics       |     Yes |    Yes | Approved — implemented Sprint 11 |
+| `screens/13-operations-finance.md`        | Damage catalog, return photos, deposit refund, cash shift | Yes | Yes | Draft — Sprint 12 approval      |
 | `components.md`                           | Reusable UI patterns                             |     N/A |    N/A | Draft complete                  |
 
 ## Flow set

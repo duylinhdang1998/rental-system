@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Workstream:** Sprint 11 — Phase 2 asset economics (vehicle cost, depreciation, expense ledger, break-even) delivered; Sprint 12 next
-**Overall Progress:** Sprint 0–7 (MVP) and Sprint 11 (Phase 2, 1/3) complete; infrastructure go-live gates await the hosting provider
-**Status:** SPRINT_11_COMPLETE
+**Current Workstream:** Sprint 13 — Phase 2 advanced reporting and trend charts (next)
+**Overall Progress:** Sprint 0–7 (MVP) and Sprint 11–12 (Phase 2, 2/3) complete; infrastructure go-live gates await the hosting provider
+**Status:** SPRINT_12_COMPLETE
 
 ## Project Timeline
 
@@ -21,7 +21,7 @@
 | Sprint 9   |                Bug fix | Absolute frontend imports and enforcement gate       | COMPLETE — QA PASS |
 | UI review  |      Design foundation | Development-only component showroom                  | READY FOR REVIEW   |
 | Sprint 11  |                2 weeks | Phase 2: vehicle cost, expenses, break-even          | COMPLETE — QA PASS |
-| Sprint 12  |                2 weeks | Phase 2: damage catalog, return photos, cash shift   | PLANNED            |
+| Sprint 12  |                2 weeks | Phase 2: damage catalog, return photos, cash shift   | COMPLETE — QA PASS |
 | Sprint 13  |                2 weeks | Phase 2: advanced reporting and trend charts         | PLANNED            |
 
 ## Phase Completion
@@ -59,6 +59,7 @@
 | Sprint 6 execution    | AUTHORIZED; PD-13 dependency-free workbook writer applied         | 2026-09-10 |
 | Sprint 7 execution    | AUTHORIZED; PD-14 employee management (US-006) pulled into the sprint | 2026-09-18 |
 | Sprint 11 execution   | AUTHORIZED; PD-16 Phase 2 as its own release, straight-line depreciation as working default | 2026-09-18 |
+| Sprint 12 execution   | AUTHORIZED; PD-17 deposit refund as a ledger row after settlement, disk file store as working default | 2026-09-18 |
 
 ## Team Status
 
@@ -100,6 +101,9 @@
 | Backend / Frontend specialists | Vehicle acquisition, expense ledger with reversals, fleet economics report and workbook, three new screens | COMPLETE | 11 |
 | google-code-reviewer           | Sprint 11 money/time, authorization, immutability and UI review | COMPLETE — LGTM           | 11     |
 | google-qa-engineer             | Sprint 11 golden-figure reconciliation, regression and browser acceptance | COMPLETE — PASS (292 + 71) | 11     |
+| Backend / Frontend specialists | Damage catalog, private return photos, deposit refund row, cash shift close, four new screens | COMPLETE | 12 |
+| google-code-reviewer           | Sprint 12 private-file, ledger, authorization and UI review | COMPLETE — LGTM           | 12     |
+| google-qa-engineer             | Sprint 12 golden-figure reconciliation, regression and browser acceptance | COMPLETE — PASS (338 + 77) | 12     |
 
 ## Activity Log
 
@@ -212,6 +216,21 @@
 - 2026-09-18: Sprint 11 review LGTM after component/hook splits, test-file splits and a phone
   KPI-grid overflow fix; QA PASS with 292 unit/integration and 71 browser tests, all coverage
   dimensions above 80%. Branch `feature/sprint-11-asset-economics` builds on Sprint 7.
+- 2026-09-18: Client asked to continue with the next sprints; 14 operations-finance BDD
+  scenarios, the `13-operations-finance.md` wireframe and the Sprint 12 file blueprint were
+  drafted before implementation. PD-17 (deposit refund moves out of the settlement checklist
+  into its own ledger row) recorded.
+- 2026-09-18: Sprint 12 delivered the Owner damage catalog with catalog-priced return and
+  manual charges (price and name copied at charge time), private return-photo uploads behind
+  a file-store port with HMAC signed links (300 s, no-store), the `DEPOSIT_REFUND` ledger row
+  with the "Hoàn cọc" action after settlement (PD-17), cash shifts with expected cash from the
+  payment and expense ledgers, counted close, frozen variance and note rule, the
+  `/settings/damage-items` and `/cash-shifts` pages, the catalog select and photo field in the
+  return and charge dialogs, the photo gallery on the contract detail and six new audit actions.
+- 2026-09-18: Sprint 12 review LGTM after component splits, a test-file split and two browser
+  journeys realigned with PD-17; QA PASS with 338 unit/integration and 77 browser tests, all
+  coverage dimensions above 80%. Branch `feature/sprint-12-operations-finance` builds on
+  Sprint 11.
 
 ## Blockers
 
@@ -224,6 +243,7 @@
 | Hosting / edge provider not selected          | Select the provider so the WAF, managed Postgres drill, log shipping and staging load run can be evidenced | Client/DevOps |
 | PD-08 legacy Excel import undecided           | Decide before go-live; if yes, supply the source workbook for a staging import | Client/BA |
 | PD-16 Phase 2 release and depreciation method  | Product Owner confirms Phase 2 ships as its own release and straight-line depreciation (or asks for another method) | Client/BA |
+| PD-17 deposit refund after settlement, disk file store | Product Owner confirms "Hoàn cọc" as a ledger step after "Tất toán" and the single-replica disk store (or asks for object storage before go-live) | Client/BA |
 
 **Last Updated:** 2026-09-18  
 **Updated By:** Project Manager

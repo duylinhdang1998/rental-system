@@ -149,6 +149,22 @@ export class DemoContractRepository implements ContractRepository {
     return Promise.resolve(structuredClone(contract));
   }
 
+  refundDeposit(id: string, draft: PaymentDraft, event: LifecycleEventInput) {
+    const contract = this.require(id).contract;
+    contract.payments.push(buildPayment(draft));
+    if (contract.settlement) contract.settlement.depositRefunded = true;
+    contract.events.push(buildEvent(event));
+    return Promise.resolve(structuredClone(contract));
+  }
+
+  returnImageObjectKeys(id: string, lineId: string): Promise<string[]> {
+    const stored = this.require(id);
+    if (!stored.contract.quote.lines.some((line) => line.id === lineId)) {
+      throw new DomainError('NOT_FOUND', 'Không tìm thấy dòng xe trên hợp đồng này');
+    }
+    return Promise.resolve([...(stored.returnImageObjectKeys?.[lineId] ?? [])]);
+  }
+
   settle(id: string, draft: SettlementDraft, event: LifecycleEventInput) {
     const contract = this.require(id).contract;
     contract.settlement = buildSettlement(draft);

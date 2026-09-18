@@ -1,0 +1,1 @@
+export const PRIVATE_FILE_STORE = Symbol('PRIVATE_FILE_STORE');

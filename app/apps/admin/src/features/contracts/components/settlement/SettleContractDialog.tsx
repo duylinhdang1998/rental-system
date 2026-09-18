@@ -31,7 +31,7 @@ export function SettleContractDialog(props: SettleContractDialogProps) {
       mutation={mutation}
       onClose={onClose}
       onSubmit={form.submit}
-      submitDisabled={settleBlocked(form.form, preview, retainedDocument)}
+      submitDisabled={settleBlocked(form.form, retainedDocument)}
     >
       <SettleDepositField
         onChange={form.change}
@@ -40,7 +40,6 @@ export function SettleContractDialog(props: SettleContractDialogProps) {
       />
       <SettleChecklistFields
         onChange={form.change}
-        preview={preview}
         retainedDocument={retainedDocument}
         values={form.form}
       />

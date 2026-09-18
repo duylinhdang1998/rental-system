@@ -127,6 +127,10 @@ describe('Feature: Return and settlement — receiving vehicles', () => {
       ...RETURN_INPUT,
       imageObjectKeys: ['public/returns/a.jpg'],
     }).expect(400);
+    await returnLine(created.id, lineId!, {
+      ...RETURN_INPUT,
+      imageObjectKeys: ['private/returns/other-contract/a.jpg'],
+    }).expect(400);
     await returnLine(created.id, 'missing-line').expect(404);
     const reserved = await staff.createContract(['vehicle-003']);
     const [reservedLine] = await staff.openLineIds(reserved.id);
@@ -135,7 +139,10 @@ describe('Feature: Return and settlement — receiving vehicles', () => {
 
     const returned = await returnLine(created.id, lineId!, {
       ...RETURN_INPUT,
-      imageObjectKeys: ['private/returns/a.jpg', 'private/returns/b.jpg'],
+      imageObjectKeys: [
+        `private/returns/${created.id}/a.jpg`,
+        `private/returns/${created.id}/b.jpg`,
+      ],
     }).expect(201);
     expect(returned.body.quote.lines[0].inspection).toMatchObject({ imageCount: 2 });
     expect(JSON.stringify(returned.body)).not.toContain('private/returns');

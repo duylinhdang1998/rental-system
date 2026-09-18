@@ -1,7 +1,7 @@
 # Hướng dẫn vận hành — Hệ thống quản lý cho thuê xe máy
 
 **Dành cho:** Chủ cửa hàng và Nhân viên.  
-**Phiên bản:** Sprint 11 (2026-09-18). Giao diện Việt–Anh, dùng được trên điện thoại và máy tính.
+**Phiên bản:** Sprint 12 (2026-09-18). Giao diện Việt–Anh, dùng được trên điện thoại và máy tính.
 
 ## 1. Đăng nhập và tài khoản
 
@@ -24,12 +24,23 @@
    và giấy tờ, ảnh bàn giao, xác nhận. Giá tính tự động theo bậc ngày; chỉ Chủ được sửa giá và
    phải ghi lý do.
 5. **Bàn giao xe** khi khách nhận; **Gia hạn** hoặc **Đổi xe** khi cần.
-6. **Trả xe**: nhận từng xe, ghi tình trạng và phí trễ (tự tính theo quy tắc đã cấu hình);
-   thêm phụ phí hỏng hóc nếu có; **Tất toán** khi trả hết xe.
-7. **Thu tiền**: ghi từng lần thu (tiền mặt hoặc chuyển khoản), có thể thu nhiều lần; hoàn tiền
+6. **Trả xe**: nhận từng xe, ghi tình trạng và phí trễ (tự tính theo quy tắc đã cấu hình).
+   Phụ phí hư hỏng: chọn **Hạng mục hư hỏng** trong bảng giá (số tiền và nội dung tự điền,
+   không sửa được) hoặc chọn "Tự nhập" để ghi tay. Chụp/chọn **Ảnh nhận xe** (tối đa 5 ảnh,
+   mỗi ảnh ≤ 2 MB, JPEG/PNG/WebP); ảnh chỉ xem được trong hệ thống qua liên kết ngắn hạn.
+   **Tất toán** khi trả hết xe: xác nhận đã trả giấy tờ giữ lại.
+7. **Hoàn cọc** (nút hiện sau khi tất toán, nếu còn tiền cọc phải trả khách): chọn tiền mặt hay
+   chuyển khoản, ghi mã tham chiếu; hệ thống ghi một dòng "Hoàn cọc" vào sổ và đổi nhãn
+   "Chưa hoàn cọc" thành "Đã hoàn cọc". Chỉ hoàn được một lần; tiền hoàn cọc không tính vào
+   doanh thu.
+8. **Thu tiền**: ghi từng lần thu (tiền mặt hoặc chuyển khoản), có thể thu nhiều lần; hoàn tiền
    cũng ghi thành một dòng riêng. Không sửa/xóa dòng đã ghi.
-8. **Công nợ**: danh sách hợp đồng còn phải thu, cũ nhất lên trước.
-9. **Chi phí → Ghi chi phí**: chọn nhóm (xăng, bảo dưỡng, bảo hiểm, đăng kiểm, lương, mặt
+9. **Ca tiền mặt**: đầu ca bấm **Mở ca** và nhập tiền đầu ca. Trong ca, ô **Tiền mặt phải có**
+   tự cộng tiền mặt thu vào, trừ tiền mặt hoàn, hoàn cọc và chi phí tiền mặt kể từ lúc mở ca.
+   Cuối ca bấm **Đóng ca**, nhập **Tiền đếm được**; nếu lệch (Thiếu/Thừa) phải ghi lý do.
+   Mỗi lúc chỉ có một ca đang mở cho cả cửa hàng; ai mở thì người đó (hoặc Chủ) đóng.
+10. **Công nợ**: danh sách hợp đồng còn phải thu, cũ nhất lên trước.
+11. **Chi phí → Ghi chi phí**: chọn nhóm (xăng, bảo dưỡng, bảo hiểm, đăng kiểm, lương, mặt
    bằng, điện nước, khác), số tiền, tiền mặt hay chuyển khoản, ngày chi, nội dung; gắn xe nếu
    khoản chi thuộc một xe cụ thể (để trống là chi chung). Khoản chi đã ghi không sửa/xóa; ghi
    nhầm thì báo Chủ để đảo. Lọc theo ngày, nhóm và xe; bốn ô tổng ở đầu trang theo bộ lọc.
@@ -40,7 +51,14 @@
   theo mẫu 14 cột. Chỉ Chủ xem được.
 - **Nhật ký**: ai đã làm gì, lúc nào. Lọc theo loại bản ghi, thao tác và ngày. Sửa giá hiển thị
   lý do, giá cũ và giá mới; khóa tài khoản và đặt lại mật khẩu cũng được ghi (không lưu mật khẩu).
-- **Cài đặt**: quy tắc trả trễ (số phút miễn phí, mức phí theo giờ) áp dụng cho hợp đồng mới.
+- **Cài đặt → Bảng giá**: quy tắc trả trễ (số phút miễn phí, mức phí theo giờ) áp dụng cho
+  hợp đồng mới.
+- **Cài đặt → Hạng mục hư hỏng**: bảng giá đền bù để Nhân viên chọn khi nhận xe. **Thêm hạng
+  mục** với mã (viết hoa, không dấu, không trùng), tên và giá; **Sửa** đổi tên/giá (mã giữ
+  nguyên); **Ngừng dùng** để ẩn khỏi danh sách chọn mà không mất lịch sử, **Dùng lại** khi cần.
+  Đổi giá không ảnh hưởng phụ phí đã ghi trên hợp đồng cũ; mọi thay đổi vào Nhật ký.
+- **Ca tiền mặt**: Chủ xem mọi ca đã đóng (người mở, tiền phải có, tiền đếm, chênh lệch, ghi
+  chú) và có thể đóng ca của bất kỳ ai; Nhân viên chỉ xem ca của mình.
 - **Nhân viên**: tạo, khóa, mở khóa, đặt lại mật khẩu.
 - **Giá vốn** (nút trên từng xe ở trang **Xe**): nhập giá mua, ngày mua, số tháng sử dụng
   (mặc định 36) và giá trị thanh lý. Hệ thống xem trước khấu hao mỗi tháng, khấu hao lũy kế
@@ -74,3 +92,6 @@
 | 4 | Chủ | Sửa giá một xe với lý do, xem Nhật ký | Nhật ký ghi lý do, giá cũ, giá mới |
 | 5 | Chủ | Tạo tài khoản nhân viên mới, khóa rồi mở khóa | Nhân viên đăng nhập được sau khi mở khóa |
 | 6 | Chủ | Xuất Excel doanh thu của ngày | File `doanh-thu-<từ>-<đến>.xlsx` mở được, 14 cột, có dòng tổng |
+| 7 | Chủ | Thêm hạng mục "Gương chiếu hậu" 150.000 vào Bảng giá hư hỏng | Hạng mục hiện "Đang dùng", Nhật ký có dòng thêm hạng mục |
+| 8 | Nhân viên | Nhận xe có hư hỏng, chọn hạng mục vừa thêm, đính kèm 1 ảnh, tất toán, bấm Hoàn cọc | Phụ phí 150.000 đúng tên, chi tiết hợp đồng hiện "Ảnh nhận xe: 1", nhãn "Đã hoàn cọc" |
+| 9 | Nhân viên | Mở ca 1.000.000, thu tiền mặt 200.000, đóng ca với 1.180.000 và ghi lý do | Lịch sử ca hiện "Thiếu" −20.000 ₫ kèm ghi chú |

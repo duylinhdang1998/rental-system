@@ -22,6 +22,7 @@ export default defineConfig({
         RATE_LIMIT_LOGIN_PER_MINUTE: '100000',
         RATE_LIMIT_MUTATION_PER_MINUTE: '100000',
         RATE_LIMIT_READ_PER_MINUTE: '100000',
+        RATE_LIMIT_UPLOAD_PER_TEN_MINUTES: '100000',
       },
       port: 3000,
       reuseExistingServer: !process.env.CI,

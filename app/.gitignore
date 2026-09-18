@@ -5,6 +5,7 @@ playwright-report/
 test-results/
 .playwright-cli/
 output/
+storage/
 .env
 .env.*
 !.env.example

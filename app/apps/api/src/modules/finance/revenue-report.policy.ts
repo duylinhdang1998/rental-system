@@ -35,7 +35,10 @@ function within(window: Window, at: string): boolean {
   return time >= window.startAt.getTime() && time < window.endAt.getTime();
 }
 
-/** Every ledger row received inside the window, tagged with its Asia/Ho_Chi_Minh business day. */
+/**
+ * Every revenue row received inside the window, tagged with its Asia/Ho_Chi_Minh business day.
+ * Deposit refunds hand back the customer's own money and never appear in revenue (BR-11).
+ */
 export function paymentsInWindow(
   contracts: readonly RentalContract[],
   window: Window,
@@ -43,7 +46,9 @@ export function paymentsInWindow(
   return contracts
     .flatMap((contract) =>
       contract.payments
-        .filter((payment) => within(window, payment.receivedAt))
+        .filter(
+          (payment) => payment.kind !== 'DEPOSIT_REFUND' && within(window, payment.receivedAt),
+        )
         .map((payment) => ({ contract, day: businessDayKey(payment.receivedAt), payment })),
     )
     .sort(

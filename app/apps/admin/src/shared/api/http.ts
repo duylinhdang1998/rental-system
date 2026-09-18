@@ -16,7 +16,9 @@ export async function apiRequest(path: string, init: RequestInit = {}): Promise<
     ...init,
     credentials: 'same-origin',
     headers: {
-      ...(init.body ? { 'content-type': 'application/json' } : {}),
+      ...(init.body && !(init.body instanceof FormData)
+        ? { 'content-type': 'application/json' }
+        : {}),
       ...(token ? { 'x-csrf-token': token } : {}),
       ...init.headers,
     },
@@ -27,4 +29,9 @@ export async function apiRequest(path: string, init: RequestInit = {}): Promise<
   }
   const payload: unknown = await response.json();
   return payload;
+}
+
+/** Multipart upload: the browser sets the boundary, so no content-type is forced here. */
+export function apiUpload(path: string, body: FormData): Promise<unknown> {
+  return apiRequest(path, { body, method: 'POST' });
 }

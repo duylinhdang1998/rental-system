@@ -15,6 +15,9 @@ import { FinanceModule } from './modules/finance/finance.module.js';
 import { AuditQueryModule } from './modules/audit/audit-query.module.js';
 import { EmployeeModule } from './modules/employees/employee.module.js';
 import { EconomicsModule } from './modules/economics/economics.module.js';
+import { FileStoreModule } from './common/files/file-store.module.js';
+import { DamageCatalogModule } from './modules/damage-catalog/damage-catalog.module.js';
+import { CashShiftModule } from './modules/cash-shifts/cash-shift.module.js';
 
 @Module({})
 export class AppModule {
@@ -22,6 +25,7 @@ export class AppModule {
     const optionalImports = environment.DEMO_MODE ? [DemoModule] : [];
     const customers = CustomerModule.register(environment);
     const contracts = ContractModule.register(environment);
+    const economics = EconomicsModule.register(environment, contracts);
     return {
       module: AppModule,
       imports: [
@@ -31,13 +35,16 @@ export class AppModule {
         ReservationModule,
         HealthModule.register(environment),
         AuthModule.register(environment),
+        FileStoreModule.register(environment),
+        DamageCatalogModule.register(environment),
         customers,
         FleetModule.register(environment),
         contracts,
         FinanceModule.register(contracts, customers),
         AuditQueryModule,
         EmployeeModule,
-        EconomicsModule.register(environment, contracts),
+        economics,
+        CashShiftModule.register(environment, contracts, economics),
         ...optionalImports,
       ],
     };

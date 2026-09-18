@@ -8,6 +8,7 @@ import {
   paymentCapFor,
   paymentMethodLabel,
   signedAmount,
+  toDepositRefundInput,
   toPaymentInput,
 } from '../../apps/admin/src/features/contracts/lib/payment-presentation';
 import {
@@ -21,6 +22,7 @@ const vnd = (value: number) => formatCurrency(value, 'vi');
 
 const BALANCE: PaymentBalance = {
   cashVnd: 100_000,
+  depositRefundedVnd: 0,
   paidVnd: 250_000,
   refundedVnd: 0,
   remainingVnd: 270_000,
@@ -83,6 +85,10 @@ describe('Feature: Payment entry — caps and form', () => {
   it('shows the money direction on every figure (BR-04)', () => {
     expect(signedAmount('PAYMENT', 100_000, 'vi')).toBe(`+${vnd(100_000)}`);
     expect(signedAmount('REFUND', 50_000, 'vi')).toBe(`−${vnd(50_000)}`);
+    expect(signedAmount('DEPOSIT_REFUND', 160_000, 'vi')).toBe(`−${vnd(160_000)}`);
+    expect(
+      toDepositRefundInput({ method: 'CASH', notes: ' ok ', reference: ' PT1 ' }, KEY),
+    ).toEqual({ idempotencyKey: KEY, method: 'CASH', notes: 'ok', reference: 'PT1' });
     expect(paymentMethodLabel('CASH', 'vi')).toBe('Tiền mặt');
     expect(paymentMethodLabel('BANK_TRANSFER', 'en')).toBe('Bank transfer');
     expect(paymentMethodLabel('CRYPTO', 'vi')).toBe('');
@@ -105,6 +111,11 @@ describe('Feature: Ledger balance and receivables', () => {
       value: `−${vnd(50_000)}`,
     });
     expect(refunded.at(-1)).toMatchObject({ emphasis: true, labelKey: 'ledgerRemaining' });
+    const depositBack = balanceRows({ ...BALANCE, depositRefundedVnd: 160_000 }, 'vi');
+    expect(depositBack.map((row) => row.labelKey)).toContain('ledgerDepositRefunded');
+    expect(depositBack.find((row) => row.labelKey === 'ledgerDepositRefunded')).toMatchObject({
+      value: `−${vnd(160_000)}`,
+    });
     expect(balanceRows({ ...BALANCE, remainingVnd: 0 }, 'vi').at(-1)).toMatchObject({
       emphasis: false,
     });

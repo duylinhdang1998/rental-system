@@ -11,7 +11,7 @@ import { formatCurrency, formatDateTime, type Locale } from '@/shared/i18n/local
 
 export type BadgeTone = 'danger' | 'info' | 'neutral' | 'success' | 'warning';
 export type ContractAction =
-  'activate' | 'cancel' | 'charge' | 'extend' | 'payment' | 'settle' | 'swap';
+  'activate' | 'cancel' | 'charge' | 'extend' | 'payment' | 'refundDeposit' | 'settle' | 'swap';
 
 const STATUS_TONES: Record<ContractStatus, BadgeTone> = {
   ACTIVE: 'info',
@@ -42,15 +42,26 @@ export function contractStatusTone(status: ContractStatus): BadgeTone {
 }
 
 /**
- * BR-07: a settled contract is frozen, so only the receivable it froze can still be collected.
+ * BR-07: a settled contract is frozen, so only the receivable it froze can still be collected,
+ * and the deposit it owes back can be refunded once (US-028).
  */
 export function contractActions(
   status: ContractStatus,
   settled = false,
   openReceivable = false,
+  depositRefundDue = false,
 ): ContractAction[] {
-  if (settled) return openReceivable ? ['payment'] : [];
-  return STATUS_ACTIONS[status];
+  if (!settled) return STATUS_ACTIONS[status];
+  return [
+    ...(depositRefundDue ? (['refundDeposit'] as const) : []),
+    ...(openReceivable ? (['payment'] as const) : []),
+  ];
+}
+
+/** The refund action shows only while the settled refund figure is still owed to the customer. */
+export function depositRefundDue(contract: RentalContract | undefined): boolean {
+  const settlement = contract?.settlement ?? null;
+  return settlement !== null && settlement.refundVnd > 0 && !settlement.depositRefunded;
 }
 
 export function showsLedger(status: ContractStatus): boolean {
@@ -145,12 +156,13 @@ const describeSwap: EventDescriber = (event) => [
 /** BR-04: a refund row carries its own minus sign, never a negative payment. */
 const describePayment: EventDescriber = (event, locale) => {
   const amount = money(event, 'amountVnd', locale);
-  const sign = event.type === 'REFUND_RECORDED' ? '−' : '+';
+  const sign = event.type === 'PAYMENT_RECORDED' ? '+' : '−';
   return [amount ? `${sign}${amount}` : '', paymentMethodLabel(text(event, 'method'), locale)];
 };
 
 const DESCRIBERS: Partial<Record<ContractEventType, EventDescriber>> = {
   CHARGE_ADDED: describeCharge,
+  DEPOSIT_REFUNDED: describePayment,
   EXTENDED: describeExtension,
   LINE_RETURNED: describeReturn,
   OVERDUE: describeOverdue,

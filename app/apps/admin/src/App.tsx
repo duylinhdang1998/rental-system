@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuditLogPage } from '@/features/audit';
+import { CashShiftPage } from '@/features/cash-shifts';
 import { ContractDetailPage, ContractListPage, ContractWizardPage } from '@/features/contracts';
 import { CustomerListPage } from '@/features/customers';
 import { OperationsDashboard } from '@/features/dashboard';
@@ -9,7 +10,7 @@ import { ReceivableListPage } from '@/features/finance';
 import { VehicleListPage } from '@/features/fleet';
 import { FleetEconomicsPage, ReportPage } from '@/features/reporting';
 import { ReturnQueuePage } from '@/features/returns';
-import { SettingsPage } from '@/features/settings';
+import { DamageItemsPage, SettingsPage } from '@/features/settings';
 import { UiKitPage } from '@/features/ui-kit';
 import { AuthenticatedRoute } from '@/routes/AuthenticatedRoute';
 import { BusinessProviders } from '@/routes/BusinessProviders';
@@ -27,6 +28,7 @@ const SHARED_PAGES = [
   { element: <ReturnQueuePage />, path: 'returns' },
   { element: <ReceivableListPage />, path: 'receivables' },
   { element: <ExpenseListPage />, path: 'expenses' },
+  { element: <CashShiftPage />, path: 'cash-shifts' },
 ];
 const OWNER_PAGES = [
   { element: <ReportPage />, path: 'reports' },
@@ -34,6 +36,7 @@ const OWNER_PAGES = [
   { element: <EmployeeListPage />, path: 'employees' },
   { element: <AuditLogPage />, path: 'audit' },
   { element: <SettingsPage />, path: 'settings' },
+  { element: <DamageItemsPage />, path: 'settings/damage-items' },
 ];
 
 export function App() {

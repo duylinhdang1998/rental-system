@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { resolveInitialLocale } from '@/shared/i18n/locale';
 import { auditTranslations } from '@/features/audit/lib/audit-translations';
+import { cashShiftTranslations } from '@/features/cash-shifts/lib/cash-shift-translations';
 import { contractTranslations } from '@/features/contracts/lib/contract-translations';
 import { employeeTranslations } from '@/features/employees/lib/employee-translations';
 import { expenseTranslations } from '@/features/expenses/lib/expense-translations';
@@ -12,12 +13,14 @@ import { settlementTranslations } from '@/features/contracts/lib/settlement-tran
 import { financeTranslations } from '@/features/finance/lib/finance-translations';
 import { reportTranslations } from '@/features/reporting/lib/report-translations';
 import { returnTranslations } from '@/features/returns/lib/return-translations';
+import { settingsTranslations } from '@/features/settings/lib/settings-translations';
 
 const translations = {
   en: {
     translation: {
       ...acquisitionTranslations.en,
       ...auditTranslations.en,
+      ...cashShiftTranslations.en,
       ...contractTranslations.en,
       ...economicsTranslations.en,
       ...employeeTranslations.en,
@@ -26,6 +29,7 @@ const translations = {
       ...paymentTranslations.en,
       ...reportTranslations.en,
       ...returnTranslations.en,
+      ...settingsTranslations.en,
       ...settlementTranslations.en,
       accessDeniedBody: 'Return to an area you can access or contact the Owner.',
       accessDeniedTitle: 'You do not have permission to view this page',
@@ -143,6 +147,7 @@ const translations = {
     translation: {
       ...acquisitionTranslations.vi,
       ...auditTranslations.vi,
+      ...cashShiftTranslations.vi,
       ...contractTranslations.vi,
       ...economicsTranslations.vi,
       ...employeeTranslations.vi,
@@ -151,6 +156,7 @@ const translations = {
       ...paymentTranslations.vi,
       ...reportTranslations.vi,
       ...returnTranslations.vi,
+      ...settingsTranslations.vi,
       ...settlementTranslations.vi,
       accessDeniedBody: 'Vui lòng quay lại khu vực được cấp quyền hoặc liên hệ Chủ cửa hàng.',
       accessDeniedTitle: 'Bạn không có quyền xem trang này',

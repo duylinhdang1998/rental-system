@@ -52,8 +52,9 @@ when it pays for itself.
 - Cash shift close: a Staff member opens a shift, the system computes expected cash from CASH
   payments minus CASH refunds minus CASH expenses since the shift opened, the cashier enters
   the counted amount, the variance is frozen with a note and the Owner reviews closed shifts.
-- Deposit refund: a one-click "Hoàn cọc" action that records the settlement refund figure as
-  a REFUND ledger entry and marks `depositRefunded`, if the Sprint 5–6 flow still needs it.
+- Deposit refund: a one-click "Hoàn cọc" action after settlement that records the frozen
+  refund figure as a `DEPOSIT_REFUND` ledger row (neither revenue nor a revenue refund) and
+  marks `depositRefunded`; the settlement checklist no longer asks for it up front (PD-17).
 
 ## Sprint 13 — Advanced reporting
 

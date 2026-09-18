@@ -166,3 +166,25 @@ Initial values are configuration defaults, not permanent truth. They are tuned f
   `EXPENSE_RECORDED` and `EXPENSE_REVERSED` (amount, category or reason, method, vehicle code)
   carry no free-text notes or references, so no customer or supplier identifiers reach the
   audit log.
+
+## Sprint 12 implementation notes (Phase 2)
+
+- Return photos are private files. Uploads go through `POST /api/contracts/:id/return-photos`
+  (session + CSRF, the `upload` throttle policy, `RATE_LIMIT_UPLOAD_PER_TEN_MINUTES`), are
+  limited to 5 files of 2 MB and are accepted only when the magic bytes say JPEG, PNG or
+  WebP; a refused request writes nothing. Keys are `private/returns/<contractId>/<uuid>.<ext>`;
+  the original file name is discarded and the API never returns a key or a store path.
+- Photos are read only through signed links: HMAC-SHA256 over `objectKey|exp` with the session
+  secret, base64url, verified with a constant-time compare, valid for 300 s, served by
+  `GET /api/private-files/:token` with `Cache-Control: private, no-store`; an expired,
+  tampered or unknown token answers 404 with no detail. The disk store resolves every key
+  under `PRIVATE_FILE_DIR` and rejects anything that escapes the root; the demo / test store is
+  in memory and never touches disk.
+- Catalog writes are Owner-only at the API (`@Roles('OWNER')`); Staff reads active items only.
+  A shift can be closed by its opener or the Owner (403 otherwise); Staff lists are scoped to
+  the actor at the service. Every new mutation keeps the CSRF requirement.
+- `DEPOSIT_REFUND` rows are written once per contract, only after settlement and only for the
+  frozen refund figure; the manual payment schema does not accept the kind, so a client cannot
+  post one through `POST /payments`. Audit entries `DAMAGE_ITEM_CREATED` / `UPDATED`,
+  `CASH_SHIFT_OPENED` / `CLOSED` and `CONTRACT_DEPOSIT_REFUNDED` carry codes and figures only;
+  notes, references and file keys stay out of the audit log and the request logs.

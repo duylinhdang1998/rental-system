@@ -76,6 +76,15 @@ Scenario: Báo cáo hiệu quả đội xe
 **I want to** cấu hình danh mục hư hỏng kèm giá đền bù  
 **So that** Nhân viên chọn đúng mục khi nhận xe thay vì tự gõ giá.
 
+```gherkin
+Scenario: Chủ tạo hạng mục và Nhân viên dùng khi nhận xe
+  Given Chủ tạo hạng mục "GUONG" tên "Gương chiếu hậu" giá 150000
+  When Nhân viên nhận xe với tình trạng HƯ HỎNG và chọn hạng mục "GUONG"
+  Then hợp đồng có một phụ phí HƯ HỎNG 150000 nội dung "Gương chiếu hậu"
+  And đổi giá hạng mục sau đó không ảnh hưởng hợp đồng đã ghi
+  And hạng mục ngừng dùng bị từ chối 409, hạng mục không tồn tại 404, nhập tay vẫn được
+```
+
 **Priority:** SHOULD · **Target:** Sprint 12 · **Points:** 5
 
 ### US-027 — Chốt ca tiền mặt
@@ -84,6 +93,16 @@ Scenario: Báo cáo hiệu quả đội xe
 **I want to** mở ca, xem tiền mặt phải có và nhập tiền đếm được khi đóng ca  
 **So that** chênh lệch tiền mặt được ghi nhận ngay và Chủ kiểm tra được từng ca.
 
+```gherkin
+Scenario: Mở ca, xem tiền phải có và đóng ca
+  Given Nhân viên mở ca với tiền đầu ca 1000000
+  And trong ca có thu tiền mặt 300000, hoàn tiền mặt 50000, hoàn cọc tiền mặt 200000, chi tiền mặt 100000
+  Then tiền mặt phải có là 950000
+  When Nhân viên đóng ca với số đếm 930000 và ghi chú "Thiếu tiền lẻ"
+  Then ca CLOSED với chênh lệch -20000 và Chủ thấy ca này trong danh sách
+  And đóng ca lệch tiền mà không ghi chú bị từ chối 400
+```
+
 **Priority:** SHOULD · **Target:** Sprint 12 · **Points:** 8
 
 ### US-028 — Ảnh nhận xe và hoàn cọc
@@ -91,6 +110,16 @@ Scenario: Báo cáo hiệu quả đội xe
 **As a** Nhân viên  
 **I want to** tải ảnh xe lúc nhận về và hoàn cọc bằng một thao tác  
 **So that** tranh chấp có bằng chứng và tiền cọc trả lại được ghi vào sổ.
+
+```gherkin
+Scenario: Tải ảnh và hoàn cọc
+  Given hợp đồng đang thuê trên xe "XE-001"
+  When Nhân viên tải 2 ảnh PNG rồi nhận xe với các khóa ảnh đó
+  Then dòng xe ghi imageCount 2 và ảnh xem qua liên kết ký hết hạn sau 300 giây
+  When hợp đồng đã tất toán với số hoàn 200000 và Nhân viên bấm "Hoàn cọc" bằng tiền mặt
+  Then sổ có dòng DEPOSIT_REFUND 200000, tất toán ghi đã hoàn cọc và doanh thu không đổi
+  And bấm "Hoàn cọc" lần nữa bị từ chối 409
+```
 
 **Priority:** SHOULD · **Target:** Sprint 12 · **Points:** 5
 

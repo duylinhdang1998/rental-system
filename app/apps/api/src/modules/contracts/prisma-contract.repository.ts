@@ -14,8 +14,15 @@ import {
   type VehicleHold,
 } from './contract-lifecycle.policy.js';
 import { contractSummary } from './contract-view.js';
-import { CONTRACT_INCLUDE, eventData, lineData, mapRecord } from './prisma-contract.mapper.js';
-import { writePayment } from './prisma-payment.writes.js';
+import {
+  CONTRACT_INCLUDE,
+  eventData,
+  lineData,
+  mapRecord,
+  type ContractRecord,
+} from './prisma-contract.mapper.js';
+import { contractCreateData, contractListWhere } from './prisma-contract.queries.js';
+import { writeDepositRefund, writePayment } from './prisma-payment.writes.js';
 import { writeCharge, writeReturn, writeSettlement } from './prisma-return.writes.js';
 import type {
   ChargeDraft,
@@ -153,21 +160,25 @@ export class PrismaContractRepository implements ContractRepository {
     return mapRecord(record);
   }
 
-  /** Serializable ledger write; a concurrent replay of the same key returns the stored row. */
-  async addPayment(id: string, draft: PaymentDraft, event: LifecycleEventInput) {
-    try {
-      const record = await this.prisma.$transaction(
-        (transaction) => writePayment(transaction, id, draft, event),
-        SERIALIZABLE,
-      );
-      return mapRecord(record);
-    } catch (error) {
-      if (isUniqueViolation(error)) {
-        const stored = await this.findByPaymentKey(draft.idempotencyKey);
-        if (stored) return stored;
-      }
-      throw error;
-    }
+  addPayment(id: string, draft: PaymentDraft, event: LifecycleEventInput) {
+    return this.ledgerWrite(draft.idempotencyKey, (transaction) =>
+      writePayment(transaction, id, draft, event),
+    );
+  }
+
+  refundDeposit(id: string, draft: PaymentDraft, event: LifecycleEventInput) {
+    return this.ledgerWrite(draft.idempotencyKey, (transaction) =>
+      writeDepositRefund(transaction, id, draft, event),
+    );
+  }
+
+  async returnImageObjectKeys(id: string, lineId: string): Promise<string[]> {
+    const line = await this.prisma.contractVehicleLine.findFirst({
+      select: { returnImageObjectKeys: true },
+      where: { contractId: id, id: lineId },
+    });
+    if (!line) throw new DomainError('NOT_FOUND', 'Không tìm thấy dòng xe trên hợp đồng này');
+    return line.returnImageObjectKeys;
   }
 
   async settle(id: string, draft: SettlementDraft, event: LifecycleEventInput) {
@@ -227,24 +238,10 @@ export class PrismaContractRepository implements ContractRepository {
   }
 
   async list(query: ContractListQuery): Promise<ContractSummary[]> {
-    const search = query.search?.trim();
     const items = await this.prisma.contract.findMany({
       include: CONTRACT_INCLUDE,
       orderBy: { createdAt: 'desc' },
-      where: {
-        ...(query.status ? { status: query.status } : {}),
-        ...(search
-          ? {
-              OR: [
-                { code: { contains: search, mode: 'insensitive' } },
-                { customerNameSnapshot: { contains: search, mode: 'insensitive' } },
-                {
-                  lines: { some: { vehicle: { code: { contains: search, mode: 'insensitive' } } } },
-                },
-              ],
-            }
-          : {}),
-      },
+      where: contractListWhere(query),
     });
     return items.map((item) => contractSummary(mapRecord(item)));
   }
@@ -280,6 +277,22 @@ export class PrismaContractRepository implements ContractRepository {
     return holdFromStatuses(lines.map((line) => line.contract.status));
   }
 
+  /** Serializable ledger write; a concurrent replay of the same key returns the stored row. */
+  private async ledgerWrite(
+    key: string,
+    work: (transaction: Prisma.TransactionClient) => Promise<ContractRecord>,
+  ): Promise<RentalContract> {
+    try {
+      return mapRecord(await this.prisma.$transaction(work, SERIALIZABLE));
+    } catch (error) {
+      if (isUniqueViolation(error)) {
+        const stored = await this.findByPaymentKey(key);
+        if (stored) return stored;
+      }
+      throw error;
+    }
+  }
+
   private async guarded<T>(work: () => Promise<T>): Promise<T> {
     try {
       return await work();
@@ -298,18 +311,7 @@ export class PrismaContractRepository implements ContractRepository {
     });
     if (existing) return existing;
     return transaction.contract.create({
-      data: {
-        code: draft.code,
-        createdById: draft.actorId,
-        customerId: draft.customerId,
-        customerNameSnapshot: draft.quote.customerName,
-        deliveryFeeVnd: draft.quote.deliveryFeeVnd,
-        events: { create: { actorId: draft.actorId, occurredAt: new Date(), type: 'CREATED' } },
-        handover: { create: draft.handover },
-        idempotencyKey: draft.idempotencyKey,
-        lines: { create: draft.quote.lines.map((line) => lineData(line, draft.quote)) },
-        totalVnd: draft.quote.totalVnd,
-      },
+      data: contractCreateData(draft),
       include: CONTRACT_INCLUDE,
     });
   }

@@ -1,12 +1,14 @@
 import type { VehicleInspection } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
+import { ReturnPhotoGallery } from '@/features/contracts/components/detail/ReturnPhotoGallery';
 import { formatCurrency, formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 
 interface ContractLineInspectionProps {
   inspection: VehicleInspection;
+  lineId: string;
 }
 
-export function ContractLineInspection({ inspection }: ContractLineInspectionProps) {
+export function ContractLineInspection({ inspection, lineId }: ContractLineInspectionProps) {
   const { i18n, t } = useTranslation();
   const locale = resolveInitialLocale(i18n.language);
   return (
@@ -27,6 +29,7 @@ export function ContractLineInspection({ inspection }: ContractLineInspectionPro
         </p>
       ) : null}
       {inspection.notes ? <p className="text-ink-muted">{inspection.notes}</p> : null}
+      <ReturnPhotoGallery count={inspection.imageCount} lineId={lineId} />
     </div>
   );
 }

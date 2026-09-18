@@ -4,6 +4,7 @@ import {
   cancelContract,
   extendContract,
   recordPayment,
+  refundDeposit,
   settleContract,
   swapContract,
 } from '@/features/contracts/api/contracts-api';
@@ -16,6 +17,7 @@ export function useContractMutations(id: string) {
     charge: useContractMutation(id, addContractCharge),
     extend: useContractMutation(id, extendContract),
     payment: useContractMutation(id, recordPayment),
+    refundDeposit: useContractMutation(id, refundDeposit),
     settle: useContractMutation(id, settleContract),
     swap: useContractMutation(id, swapContract),
   };

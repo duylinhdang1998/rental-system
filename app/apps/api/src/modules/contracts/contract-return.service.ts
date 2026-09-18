@@ -13,9 +13,7 @@ import {
 } from '@rental/contracts';
 import { AuditService } from '../../common/audit/audit.service.js';
 import { DomainError } from '../../common/errors/domain.error.js';
-import { FLEET_REPOSITORY } from '../fleet/fleet.tokens.js';
-import type { FleetRepository } from '../fleet/fleet.types.js';
-import { canTransitionVehicle } from '../fleet/vehicle-transition.policy.js';
+import { ChargePricingService } from './contract-charge.pricing.js';
 import { isRentingContract, openLines } from './contract-lifecycle.policy.js';
 import { requireContract } from './contract-view.js';
 import { CONTRACT_REPOSITORY } from './contract.tokens.js';
@@ -39,6 +37,11 @@ const CONDITION_STATUS: Readonly<Record<ReturnCondition, VehicleStatus | null>> 
   MAINTENANCE: 'MAINTENANCE',
 };
 
+/** Photo keys belong to this contract's private folder, exactly as the upload route issued them. */
+export function returnPhotoPrefix(contractId: string): string {
+  return `${PRIVATE_RETURN_PREFIX}${contractId}/`;
+}
+
 function lateFeeCharge(line: ContractLine, fee: LateReturnFee): ChargeDraft[] {
   if (fee.feeVnd === 0) return [];
   return [
@@ -55,16 +58,6 @@ function lateFeeCharge(line: ContractLine, fee: LateReturnFee): ChargeDraft[] {
       vehicleCode: line.vehicleCode,
     },
   ];
-}
-
-function inspectionCharges(line: ContractLine, input: ContractReturnInput): ChargeDraft[] {
-  return input.charges.map((charge) => ({
-    amountVnd: charge.amountVnd,
-    description: charge.description,
-    kind: charge.kind,
-    lineId: line.id,
-    vehicleCode: line.vehicleCode,
-  }));
 }
 
 function chargeEvent(charge: ChargeDraft, actorId: string, occurredAt: string) {
@@ -86,15 +79,16 @@ interface ReturnContext {
 
 interface ReturnDraft {
   actualReturnAt: string;
+  charges: ChargeDraft[];
   contract: RentalContract;
   input: ContractReturnInput;
 }
 
 function buildChange(draft: ReturnDraft, context: ReturnContext): ReturnChange {
-  const { actualReturnAt, contract, input } = draft;
+  const { actualReturnAt, charges, contract, input } = draft;
   const { fee, line } = context;
   return {
-    charges: [...lateFeeCharge(line, fee), ...inspectionCharges(line, input)],
+    charges,
     completedAt: openLines(contract.quote.lines).length === 1 ? actualReturnAt : null,
     inspection: {
       actualReturnAt,
@@ -142,9 +136,9 @@ function returnEvents(change: ReturnChange, context: ReturnContext): LifecycleEv
 export class ContractReturnService {
   constructor(
     @Inject(CONTRACT_REPOSITORY) private readonly repository: ContractRepository,
-    @Inject(FLEET_REPOSITORY) private readonly fleet: FleetRepository,
     private readonly vehicles: VehicleSyncService,
     private readonly audit: AuditService,
+    private readonly pricing: ChargePricingService,
   ) {}
 
   /** US-016: each vehicle is received on its own; the last one completes the contract (BR-03). */
@@ -156,18 +150,24 @@ export class ContractReturnService {
   ): Promise<RentalContract> {
     const contract = await requireContract(this.repository, id);
     const line = this.openLine(contract, lineId);
-    this.assertPrivateKeys(input.imageObjectKeys);
+    this.assertPrivateKeys(contract.id, input.imageObjectKeys);
     const now = new Date();
     const actualReturnAt = this.returnMoment(line, input.actualReturnAt, now);
     const fee = calculateLateReturnFee(line.endAt, actualReturnAt, line.lateReturnPolicy);
     const context = { actorId: actor.id, fee, line, recordedAt: now.toISOString() };
-    const change = buildChange({ actualReturnAt, contract, input }, context);
+    const charges = [...lateFeeCharge(line, fee), ...(await this.inspectionCharges(line, input))];
+    const change = buildChange({ actualReturnAt, charges, contract, input }, context);
     const updated = await this.repository.returnLine(
       contract.id,
       change,
       returnEvents(change, context),
     );
-    await this.settleVehicleStatus(updated, line, input.condition, actor.id);
+    await this.vehicles.parkAfterReturn(
+      updated,
+      line.vehicleId,
+      CONDITION_STATUS[input.condition],
+      actor.id,
+    );
     await this.recordAudit(updated, change, fee, actor.id);
     return updated;
   }
@@ -175,6 +175,18 @@ export class ContractReturnService {
   /** Read-only queue of vehicles still out, evaluated in business time. */
   async queue(now = new Date()): Promise<ReturnQueue> {
     return buildReturnQueue(await this.repository.listOpen(), now);
+  }
+
+  /** US-026: catalog items are priced by the catalog, free text by the person receiving the vehicle. */
+  private inspectionCharges(line: ContractLine, input: ContractReturnInput) {
+    return Promise.all(
+      input.charges.map(async (charge) => ({
+        ...(await this.pricing.price(charge)),
+        kind: charge.kind,
+        lineId: line.id,
+        vehicleCode: line.vehicleCode,
+      })),
+    );
   }
 
   private openLine(contract: RentalContract, lineId: string): ContractLine {
@@ -200,27 +212,14 @@ export class ContractReturnService {
     return new Date(actual).toISOString();
   }
 
-  private assertPrivateKeys(keys: string[]) {
-    if (keys.some((key) => !key.startsWith(PRIVATE_RETURN_PREFIX))) {
-      throw new DomainError('INVALID_INPUT', 'Ảnh nhận xe phải nằm trong kho riêng tư');
+  private assertPrivateKeys(contractId: string, keys: string[]) {
+    const prefix = returnPhotoPrefix(contractId);
+    if (keys.some((key) => !key.startsWith(prefix))) {
+      throw new DomainError(
+        'INVALID_INPUT',
+        'Ảnh nhận xe phải nằm trong kho riêng tư của hợp đồng',
+      );
     }
-  }
-
-  /** BR-02: a damaged or worn vehicle leaves the rental flow before the schedule sync runs. */
-  private async settleVehicleStatus(
-    contract: RentalContract,
-    line: ContractLine,
-    condition: ReturnCondition,
-    actorId: string,
-  ) {
-    const target = CONDITION_STATUS[condition];
-    if (target) {
-      const vehicle = await this.fleet.findById(line.vehicleId);
-      if (vehicle && canTransitionVehicle(vehicle.status, target)) {
-        await this.fleet.transition(line.vehicleId, target, actorId, `Hợp đồng ${contract.code}`);
-      }
-    }
-    await this.vehicles.sync(contract, actorId, [line.vehicleId]);
   }
 
   private async recordAudit(

@@ -121,6 +121,14 @@ export interface ContractRepository {
   /** Every contract that can carry money (all but CANCELLED), oldest first. */
   listFinancial(): Promise<RentalContract[]>;
   listOpen(): Promise<RentalContract[]>;
+  /** US-028: the DEPOSIT_REFUND row, its event and the settlement flag, atomically. */
+  refundDeposit(
+    id: string,
+    draft: PaymentDraft,
+    event: LifecycleEventInput,
+  ): Promise<RentalContract>;
+  /** Private inspection photo keys of one line; never returned to clients, only signed. */
+  returnImageObjectKeys(id: string, lineId: string): Promise<string[]>;
   returnLine(
     id: string,
     change: ReturnChange,

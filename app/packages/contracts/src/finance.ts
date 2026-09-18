@@ -8,6 +8,7 @@ const vndSchema = z.number().int().min(0).max(MAX_VND);
 /** BR-04: every figure has one direction; nothing here is a signed balance. */
 export const paymentBalanceSchema = z.object({
   cashVnd: vndSchema,
+  depositRefundedVnd: vndSchema,
   paidVnd: vndSchema,
   refundedVnd: vndSchema,
   remainingVnd: vndSchema,

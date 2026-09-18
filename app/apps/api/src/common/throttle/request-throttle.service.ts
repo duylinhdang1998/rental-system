@@ -29,6 +29,7 @@ export class RequestThrottleService {
       loginPerMinute: environment.RATE_LIMIT_LOGIN_PER_MINUTE,
       mutationPerMinute: environment.RATE_LIMIT_MUTATION_PER_MINUTE,
       readPerMinute: environment.RATE_LIMIT_READ_PER_MINUTE,
+      uploadPerTenMinutes: environment.RATE_LIMIT_UPLOAD_PER_TEN_MINUTES,
     });
   }
 

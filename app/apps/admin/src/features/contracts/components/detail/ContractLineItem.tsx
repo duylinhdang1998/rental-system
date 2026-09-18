@@ -38,6 +38,7 @@ export function ContractLineItem({
       />
       <ContractLineReturn
         inspection={line.inspection}
+        lineId={line.id}
         onReturn={onReturn && status === 'active' ? () => onReturn(line) : undefined}
       />
     </li>

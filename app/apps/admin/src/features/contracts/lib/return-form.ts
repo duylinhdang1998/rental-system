@@ -1,7 +1,10 @@
 import {
+  RETURN_PHOTO_LIMITS,
   calculateLateReturnFee,
   type ContractLine,
   type ContractReturnInput,
+  type DamageItem,
+  type InspectionChargeInput,
   type InspectionChargeKind,
   type LateReturnFee,
   type LateReturnPolicy,
@@ -23,8 +26,30 @@ export interface ReturnFormValues {
   chargeDescription: string;
   chargeKind: InspectionChargeKind;
   condition: ReturnCondition;
+  damageItemId: string;
   fuelPercent: string;
   notes: string;
+  photos: File[];
+}
+
+/** Photos travel with the return: uploaded first, then the keys are posted with the input. */
+export interface ReturnSubmission {
+  input: ContractReturnInput;
+  photos: File[];
+}
+
+export type PhotoIssue = 'tooLarge' | 'tooMany';
+
+export type ReturnFieldChange = <TField extends keyof ReturnFormValues>(
+  field: TField,
+  value: ReturnFormValues[TField],
+) => void;
+
+/** Picking a catalog item copies its price and name into the form; "free text" clears them. */
+export function applyDamageItem(change: ReturnFieldChange, item: DamageItem | null): void {
+  change('damageItemId', item?.id ?? '');
+  change('chargeAmount', item ? String(item.priceVnd) : '');
+  change('chargeDescription', item?.name ?? '');
 }
 
 export const RETURN_CONDITIONS: ReturnCondition[] = ['GOOD', 'MAINTENANCE', 'DAMAGED'];
@@ -47,8 +72,10 @@ export function initialReturnForm(now = new Date()): ReturnFormValues {
     chargeDescription: '',
     chargeKind: 'DAMAGE',
     condition: 'GOOD',
+    damageItemId: '',
     fuelPercent: DEFAULT_FUEL,
     notes: '',
+    photos: [],
   };
 }
 
@@ -57,19 +84,38 @@ function parseAmount(value: string): number {
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
-export function toReturnInput(form: ReturnFormValues): ContractReturnInput {
+/** US-026: a catalog item is sent by id (the API copies its price); free text needs both fields. */
+export function inspectionCharges(form: ReturnFormValues): InspectionChargeInput[] {
+  if (form.chargeKind === 'DAMAGE' && form.damageItemId) {
+    return [{ damageItemId: form.damageItemId, kind: 'DAMAGE' }];
+  }
   const amount = parseAmount(form.chargeAmount);
+  if (amount <= 0) return [];
+  return [{ amountVnd: amount, description: form.chargeDescription.trim(), kind: form.chargeKind }];
+}
+
+export function toReturnInput(
+  form: ReturnFormValues,
+  imageObjectKeys: string[] = [],
+): ContractReturnInput {
   return {
     actualReturnAt: localInputToIso(form.actualLocal),
-    charges:
-      amount > 0
-        ? [{ amountVnd: amount, description: form.chargeDescription.trim(), kind: form.chargeKind }]
-        : [],
+    charges: inspectionCharges(form),
     condition: form.condition,
     fuelPercent: parseAmount(form.fuelPercent),
-    imageObjectKeys: [],
+    imageObjectKeys,
     notes: form.notes.trim(),
   };
+}
+
+export function toReturnSubmission(form: ReturnFormValues): ReturnSubmission {
+  return { input: toReturnInput(form), photos: form.photos };
+}
+
+/** Mirrors the API limits so an oversized selection is refused before any upload starts. */
+export function photoIssue(photos: readonly File[]): PhotoIssue | null {
+  if (photos.length > RETURN_PHOTO_LIMITS.maxFiles) return 'tooMany';
+  return photos.some((file) => file.size > RETURN_PHOTO_LIMITS.maxBytes) ? 'tooLarge' : null;
 }
 
 /** Client-side preview using the same shared formula the API snapshots (no drift). */

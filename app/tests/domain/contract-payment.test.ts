@@ -64,6 +64,7 @@ describe('Feature: Payment ledger — shared balance math (BR-04)', () => {
     expect(paymentCap(source, 'REFUND')).toBe(70_000);
     expect(paymentBalance(source)).toEqual({
       cashVnd: 100_000,
+      depositRefundedVnd: 0,
       paidVnd: 70_000,
       refundedVnd: 30_000,
       remainingVnd: 80_000,

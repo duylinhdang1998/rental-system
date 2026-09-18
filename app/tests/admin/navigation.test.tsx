@@ -14,6 +14,7 @@ describe('Feature: Secure responsive operations preview — navigation and local
 
       expect(paths).toContain('/receivables');
       expect(paths).toContain('/expenses');
+      expect(paths).toContain('/cash-shifts');
       expect(paths).not.toContain('/reports');
       expect(paths).not.toContain('/employees');
       expect(paths).not.toContain('/settings');
@@ -33,6 +34,7 @@ describe('Feature: Secure responsive operations preview — navigation and local
           '/returns',
           '/receivables',
           '/expenses',
+          '/cash-shifts',
           '/reports',
           '/employees',
           '/settings',

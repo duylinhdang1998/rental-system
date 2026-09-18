@@ -1,5 +1,5 @@
 import type { PaymentBalance } from './finance.js';
-import type { ContractPayment, PaymentKind } from './payments.js';
+import type { ContractPayment, ManualPaymentKind } from './payments.js';
 import type { ContractSettlement } from './returns.js';
 
 export interface BalanceSource {
@@ -12,7 +12,10 @@ function sum(payments: readonly ContractPayment[], pick: (payment: ContractPayme
   return payments.filter(pick).reduce((total, payment) => total + payment.amountVnd, 0);
 }
 
-/** Money collected minus money handed back; never negative once the refund cap is enforced. */
+/**
+ * Money collected minus money handed back; never negative once the refund cap is enforced.
+ * Deposit refunds return the customer's own money and never touch this figure (BR-11).
+ */
 export function netPaid(payments: readonly ContractPayment[]): number {
   const paid = sum(payments, (payment) => payment.kind === 'PAYMENT');
   const refunded = sum(payments, (payment) => payment.kind === 'REFUND');
@@ -33,7 +36,7 @@ export function remainingReceivable(source: BalanceSource): number {
 }
 
 /** Payments are capped by the remaining receivable, refunds by the net amount collected. */
-export function paymentCap(source: BalanceSource, kind: PaymentKind): number {
+export function paymentCap(source: BalanceSource, kind: ManualPaymentKind): number {
   return kind === 'REFUND' ? netPaid(source.payments) : remainingReceivable(source);
 }
 
@@ -41,6 +44,7 @@ export function paymentBalance(source: BalanceSource): PaymentBalance {
   const { payments } = source;
   return {
     cashVnd: sum(payments, (payment) => payment.kind === 'PAYMENT' && payment.method === 'CASH'),
+    depositRefundedVnd: sum(payments, (payment) => payment.kind === 'DEPOSIT_REFUND'),
     paidVnd: netPaid(payments),
     refundedVnd: sum(payments, (payment) => payment.kind === 'REFUND'),
     remainingVnd: remainingReceivable(source),

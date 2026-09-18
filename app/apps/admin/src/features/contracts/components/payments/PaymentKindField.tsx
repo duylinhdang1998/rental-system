@@ -1,11 +1,11 @@
-import type { PaymentKind } from '@rental/contracts';
+import type { ManualPaymentKind } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
 import { PAYMENT_KINDS } from '@/features/contracts/lib/payment-presentation';
 import { SelectField } from '@/shared/ui/SelectField';
 
 interface PaymentKindFieldProps {
-  onChange: (kind: PaymentKind) => void;
-  value: PaymentKind;
+  onChange: (kind: ManualPaymentKind) => void;
+  value: ManualPaymentKind;
 }
 
 /** Collection or refund is chosen explicitly, never inferred from a sign (BR-04). */
@@ -15,7 +15,7 @@ export function PaymentKindField({ onChange, value }: PaymentKindFieldProps) {
     <SelectField
       id="payment-kind"
       label={t('paymentKind')}
-      onChange={(next) => onChange(next as PaymentKind)}
+      onChange={(next) => onChange(next as ManualPaymentKind)}
       options={PAYMENT_KINDS.map((kind) => ({
         label: t(`paymentKindOption.${kind}`),
         value: kind,

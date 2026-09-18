@@ -1,6 +1,7 @@
 import type { UserRole } from '@rental/contracts';
 import {
   ClipboardList,
+  Coins,
   FileText,
   Gauge,
   History,
@@ -29,6 +30,7 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
   { icon: RotateCcw, key: 'returns', path: '/returns' },
   { icon: Wallet, key: 'receivables', path: '/receivables' },
   { icon: Receipt, key: 'expenses', path: '/expenses' },
+  { icon: Coins, key: 'cashShifts', path: '/cash-shifts' },
   { icon: ClipboardList, key: 'reports', ownerOnly: true, path: '/reports' },
   { icon: UserRound, key: 'employees', ownerOnly: true, path: '/employees' },
   { icon: History, key: 'audit', ownerOnly: true, path: '/audit' },

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { formatCurrency } from '../../apps/admin/src/shared/i18n/locale';
 import {
   contractActions,
+  depositRefundDue,
   describeEvent,
   isRentingStatus,
   lifecycleRows,
@@ -17,6 +18,7 @@ import {
   toReturnInput,
 } from '../../apps/admin/src/features/contracts/lib/return-form';
 import {
+  catalogLocked,
   chargeKinds,
   depositCap,
   figureRows,
@@ -72,6 +74,37 @@ describe('Feature: Contract actions after Sprint 5', () => {
     expect(contractActions('COMPLETED')).toEqual(['settle', 'payment', 'charge']);
     expect(contractActions('COMPLETED', true)).toEqual([]);
     expect(contractActions('COMPLETED', true, true)).toEqual(['payment']);
+    expect(contractActions('COMPLETED', true, true, true)).toEqual(['refundDeposit', 'payment']);
+    expect(contractActions('COMPLETED', false, false, true)).toEqual([
+      'settle',
+      'payment',
+      'charge',
+    ]);
+  });
+
+  it('offers the deposit refund only while the settled refund is still owed (US-028)', () => {
+    const settlement = settlementFixture({ depositRefunded: false, refundVnd: 160_000 });
+    expect(depositRefundDue(contractFixture({ settlement, status: 'COMPLETED' }))).toBe(true);
+    expect(
+      depositRefundDue(
+        contractFixture({
+          settlement: { ...settlement, depositRefunded: true },
+          status: 'COMPLETED',
+        }),
+      ),
+    ).toBe(false);
+    expect(
+      depositRefundDue(
+        contractFixture({ settlement: { ...settlement, refundVnd: 0 }, status: 'COMPLETED' }),
+      ),
+    ).toBe(false);
+    expect(depositRefundDue(contractFixture({ status: 'COMPLETED' }))).toBe(false);
+    expect(depositRefundDue(undefined)).toBe(false);
+    const refunded = event({
+      metadata: { amountVnd: 160_000, method: 'CASH' },
+      type: 'DEPOSIT_REFUNDED',
+    });
+    expect(describeEvent(refunded, 'vi')).toBe(`−${vnd(160_000)} · Tiền mặt`);
     expect(isRentingStatus('OVERDUE')).toBe(true);
     expect(isRentingStatus('COMPLETED')).toBe(false);
     expect(showsSettlement('COMPLETED')).toBe(true);
@@ -188,12 +221,7 @@ describe('Feature: Settlement presentation', () => {
 
   it('previews deposit changes locally, mirrors the checklist and builds the settle input', () => {
     const form = initialSettleForm(STATEMENT);
-    expect(form).toEqual({
-      depositApplied: '340000',
-      depositRefunded: false,
-      documentReturned: false,
-      notes: '',
-    });
+    expect(form).toEqual({ depositApplied: '340000', documentReturned: false, notes: '' });
     const preview = previewSettlement(STATEMENT, '100000');
     expect(preview).toMatchObject({
       depositAppliedVnd: 100_000,
@@ -201,14 +229,10 @@ describe('Feature: Settlement presentation', () => {
       refundVnd: 400_000,
     });
     expect(depositCap(preview)).toBe(340_000);
-    expect(settleBlocked(form, preview, 'CCCD')).toBe(true);
-    expect(settleBlocked({ ...form, documentReturned: true }, preview, 'CCCD')).toBe(true);
-    expect(
-      settleBlocked({ ...form, depositRefunded: true, documentReturned: true }, preview, 'CCCD'),
-    ).toBe(false);
-    expect(settleBlocked(form, { ...preview, refundVnd: 0 }, '')).toBe(false);
+    expect(settleBlocked(form, 'CCCD')).toBe(true);
+    expect(settleBlocked({ ...form, documentReturned: true }, 'CCCD')).toBe(false);
+    expect(settleBlocked(form, '')).toBe(false);
     expect(toSettleInput({ ...form, depositApplied: '', notes: ' xong ' })).toEqual({
-      depositRefunded: false,
       documentReturned: false,
       notes: 'xong',
     });
@@ -222,6 +246,7 @@ describe('Feature: Settlement presentation', () => {
     expect(chargeKinds(false)).toEqual(['DAMAGE', 'OTHER']);
     const form = {
       amount: '100000',
+      damageItemId: '',
       description: ' Trầy yếm ',
       kind: 'DAMAGE' as const,
       lineId: '',
@@ -235,5 +260,18 @@ describe('Feature: Settlement presentation', () => {
       amountVnd: 0,
       lineId: 'line-1',
     });
+    expect(toChargeInput({ ...form, damageItemId: 'item-1', lineId: 'line-1' })).toEqual({
+      damageItemId: 'item-1',
+      kind: 'DAMAGE',
+      lineId: 'line-1',
+    });
+    expect(toChargeInput({ ...form, damageItemId: 'item-1', kind: 'OTHER' })).toEqual({
+      amountVnd: 100_000,
+      description: 'Trầy yếm',
+      kind: 'OTHER',
+    });
+    expect(catalogLocked('DAMAGE', 'item-1')).toBe(true);
+    expect(catalogLocked('OTHER', 'item-1')).toBe(false);
+    expect(catalogLocked('DAMAGE', '')).toBe(false);
   });
 });

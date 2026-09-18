@@ -3,6 +3,7 @@ import {
   settlementFigures,
   type ContractChargeInput,
   type ContractSettleInput,
+  type DamageItem,
   type ManualChargeKind,
   type SettlementFigures,
   type SettlementStatement,
@@ -18,18 +19,31 @@ export interface FigureRow {
   value: string;
 }
 
+/** PD-17: the deposit refund left the checklist; it is its own ledger action after settlement. */
 export interface SettleFormValues {
   depositApplied: string;
-  depositRefunded: boolean;
   documentReturned: boolean;
   notes: string;
 }
 
 export interface ChargeFormValues {
   amount: string;
+  damageItemId: string;
   description: string;
   kind: ManualChargeKind;
   lineId: string;
+}
+
+export type ChargeFieldChange = <TField extends keyof ChargeFormValues>(
+  field: TField,
+  value: ChargeFormValues[TField],
+) => void;
+
+/** Picking a catalog item copies its price and name into the form; "free text" clears them. */
+export function applyChargeItem(change: ChargeFieldChange, item: DamageItem | null): void {
+  change('damageItemId', item?.id ?? '');
+  change('amount', item ? String(item.priceVnd) : '');
+  change('description', item?.name ?? '');
 }
 
 export const OUTCOME_LABEL_KEYS: Record<SettlementOutcome, string> = {
@@ -46,6 +60,7 @@ export const OUTCOME_TONES: Record<SettlementOutcome, BadgeTone> = {
 
 export const INITIAL_CHARGE_FORM: ChargeFormValues = {
   amount: '',
+  damageItemId: '',
   description: '',
   kind: 'OTHER',
   lineId: '',
@@ -117,7 +132,6 @@ function parseVnd(value: string): number | undefined {
 export function initialSettleForm(statement: SettlementStatement): SettleFormValues {
   return {
     depositApplied: String(statement.depositAppliedVnd),
-    depositRefunded: false,
     documentReturned: false,
     notes: '',
   };
@@ -145,20 +159,14 @@ export function toSettleInput(form: SettleFormValues): ContractSettleInput {
   const requested = parseVnd(form.depositApplied);
   return {
     ...(requested === undefined ? {} : { depositAppliedVnd: requested }),
-    depositRefunded: form.depositRefunded,
     documentReturned: form.documentReturned,
     notes: form.notes.trim(),
   };
 }
 
-/** Mirrors the API checklist so the button only enables once the physical hand-backs are confirmed. */
-export function settleBlocked(
-  form: SettleFormValues,
-  preview: SettlementFigures,
-  retainedDocument: string,
-): boolean {
-  if (retainedDocument !== '' && !form.documentReturned) return true;
-  return preview.refundVnd > 0 && !form.depositRefunded;
+/** Mirrors the API checklist: a retained document must be handed back before settling. */
+export function settleBlocked(form: SettleFormValues, retainedDocument: string): boolean {
+  return retainedDocument !== '' && !form.documentReturned;
 }
 
 /** BR-06: only the Owner may record a discount. */
@@ -166,11 +174,20 @@ export function chargeKinds(isOwner: boolean): ManualChargeKind[] {
   return isOwner ? ['DAMAGE', 'OTHER', 'DISCOUNT'] : ['DAMAGE', 'OTHER'];
 }
 
+/** A catalog item only prices a DAMAGE charge; other kinds keep the free-text fields. */
+export function catalogLocked(kind: string, damageItemId: string): boolean {
+  return kind === 'DAMAGE' && damageItemId !== '';
+}
+
 export function toChargeInput(form: ChargeFormValues): ContractChargeInput {
+  const line = form.lineId ? { lineId: form.lineId } : {};
+  if (catalogLocked(form.kind, form.damageItemId)) {
+    return { damageItemId: form.damageItemId, kind: form.kind, ...line };
+  }
   return {
     amountVnd: parseVnd(form.amount) ?? 0,
     description: form.description.trim(),
     kind: form.kind,
-    ...(form.lineId ? { lineId: form.lineId } : {}),
+    ...line,
   };
 }

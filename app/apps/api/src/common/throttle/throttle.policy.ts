@@ -1,6 +1,6 @@
 import { MILLISECONDS_PER_MINUTE } from '../time.js';
 
-export type ThrottlePolicyName = 'export' | 'login' | 'mutation' | 'read';
+export type ThrottlePolicyName = 'export' | 'login' | 'mutation' | 'read' | 'upload';
 
 export interface ThrottlePolicy {
   limit: number;
@@ -19,6 +19,7 @@ export interface ThrottleLimits {
   loginPerMinute: number;
   mutationPerMinute: number;
   readPerMinute: number;
+  uploadPerTenMinutes: number;
 }
 
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
@@ -40,6 +41,10 @@ export function buildPolicies(limits: ThrottleLimits): Record<ThrottlePolicyName
     login: { limit: limits.loginPerMinute, windowMs: MILLISECONDS_PER_MINUTE },
     mutation: { limit: limits.mutationPerMinute, windowMs: MILLISECONDS_PER_MINUTE },
     read: { limit: limits.readPerMinute, windowMs: MILLISECONDS_PER_MINUTE },
+    upload: {
+      limit: limits.uploadPerTenMinutes,
+      windowMs: EXPORT_WINDOW_MINUTES * MILLISECONDS_PER_MINUTE,
+    },
   };
 }
 

@@ -4,6 +4,7 @@ import { CancelContractDialog } from '@/features/contracts/components/lifecycle/
 import { ExtendContractDialog } from '@/features/contracts/components/lifecycle/ExtendContractDialog';
 import { SwapVehicleDialog } from '@/features/contracts/components/lifecycle/SwapVehicleDialog';
 import { PaymentDialog } from '@/features/contracts/components/payments/PaymentDialog';
+import { DepositRefundDialog } from '@/features/contracts/components/settlement/DepositRefundDialog';
 import { SettlementDialogs } from '@/features/contracts/components/settlement/SettlementDialogs';
 import type { DetailDialog } from '@/features/contracts/hooks/use-contract-detail-page';
 import type { ContractMutations } from '@/features/contracts/hooks/use-contract-mutations';
@@ -35,6 +36,14 @@ export function LifecycleDialogs(props: LifecycleDialogsProps) {
       return ledger ? (
         <PaymentDialog balance={ledger.balance} mutation={mutations.payment} onClose={onClose} />
       ) : null;
+    case 'refundDeposit':
+      return (
+        <DepositRefundDialog
+          contract={contract}
+          mutation={mutations.refundDeposit}
+          onClose={onClose}
+        />
+      );
     default:
       return <SettlementDialogs {...props} />;
   }

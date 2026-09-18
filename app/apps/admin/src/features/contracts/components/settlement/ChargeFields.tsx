@@ -1,13 +1,16 @@
 import type { ContractLine, ManualChargeKind } from '@rental/contracts';
 import { useTranslation } from 'react-i18next';
-import type { ChargeFormValues } from '@/features/contracts/lib/settlement-presentation';
+import { DamageItemSelect } from '@/features/contracts/components/returns/DamageItemSelect';
+import { ChargeLineField } from '@/features/contracts/components/settlement/ChargeLineField';
+import {
+  applyChargeItem,
+  type ChargeFieldChange,
+  type ChargeFormValues,
+} from '@/features/contracts/lib/settlement-presentation';
 import { SelectField } from '@/shared/ui/SelectField';
 
 export interface ChargeFieldsProps {
-  onChange: <TField extends keyof ChargeFormValues>(
-    field: TField,
-    value: ChargeFormValues[TField],
-  ) => void;
+  onChange: ChargeFieldChange;
   values: ChargeFormValues;
 }
 
@@ -18,23 +21,29 @@ interface ChargeKindFieldsProps extends ChargeFieldsProps {
 
 export function ChargeFields({ kinds, lines, onChange, values }: ChargeKindFieldsProps) {
   const { t } = useTranslation();
+  const changeKind = (kind: ManualChargeKind) => {
+    onChange('kind', kind);
+    if (kind !== 'DAMAGE') applyChargeItem(onChange, null);
+  };
   return (
     <div className="grid gap-4">
       <SelectField
         id="charge-kind"
         label={t('chargeKind')}
-        onChange={(value) => onChange('kind', value as ManualChargeKind)}
+        onChange={(value) => changeKind(value as ManualChargeKind)}
         options={kinds.map((kind) => ({ label: t(`settlementKind.${kind}`), value: kind }))}
         value={values.kind}
       />
-      <SelectField
-        id="charge-line"
-        label={t('chargeLine')}
-        onChange={(value) => onChange('lineId', value)}
-        options={[
-          { label: t('chargeWholeContract'), value: '' },
-          ...lines.map((line) => ({ label: line.vehicleCode, value: line.id })),
-        ]}
+      {values.kind === 'DAMAGE' ? (
+        <DamageItemSelect
+          id="charge-damage-item"
+          onSelect={(item) => applyChargeItem(onChange, item)}
+          value={values.damageItemId}
+        />
+      ) : null}
+      <ChargeLineField
+        lines={lines}
+        onChange={(lineId) => onChange('lineId', lineId)}
         value={values.lineId}
       />
     </div>

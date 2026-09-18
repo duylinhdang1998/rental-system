@@ -3,7 +3,7 @@
 **Version:** 0.7
 **Last Updated:** 2026-09-01  
 **Architect:** CTO  
-**Status:** APPROVED BASELINE; Sprint 8 remediation blueprint added; Sprint 11 (Phase 2) economics module added
+**Status:** APPROVED BASELINE; Sprint 8 remediation blueprint added; Sprint 11 (Phase 2) economics module added; Sprint 12 (Phase 2) damage catalog, private file store and cash shift modules added
 
 ## 1. High-Level Architecture
 
@@ -283,6 +283,22 @@ contract line at the line start day, line charges included, delivery fees and co
 charges reported as an explicit unallocated bucket); the payment ledger is not read. Owner-only
 rules are enforced at the API by role guards; the admin only hides affordances.
 
+### 6.8 Exact Sprint 12 source-file contract (Phase 2)
+
+Operations finance is defined in `.project/documentation/file-blueprint-sprint-12.md`. Two
+small NestJS modules are added over the existing ports: `damage-catalog` (Owner price list,
+exported repository so `ChargePricingService` in the contract module can copy an item's price
+and name into a charge at write time) and `cash-shifts` (open / close records; the expected
+cash of a shift is computed on read from the contract payment ledger and the expense ledger
+through their repository tokens, never stored twice — BR-10). A global `FileStoreModule`
+provides the `PrivateFileStore` port (in-memory in demo / test, local disk under
+`PRIVATE_FILE_DIR` otherwise), HMAC signed links over the session secret (300 s) and the
+public streaming route; the contract module uploads return photos through it and lists
+per-line links, never object keys. `DEPOSIT_REFUND` is a third payment kind: a ledger row
+written once after settlement that is excluded from revenue, receivables and every cap
+(PD-17). The disk store is a single-replica default; an S3-compatible adapter behind the same
+port is the scale-out gate, like the shared throttle store.
+
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
@@ -341,4 +357,6 @@ settlement files were reconciled in `file-blueprint-sprint-5.md` on 2026-09-10. 
 ledger, receivable and reporting files were reconciled in `file-blueprint-sprint-6.md` on
 2026-09-10. Sprint 7 hardening, audit, employee and operations files were reconciled in
 `file-blueprint-sprint-7.md` on 2026-09-18. Sprint 11 (Phase 2) economics files were
-reconciled in `file-blueprint-sprint-11.md` on 2026-09-18.
+reconciled in `file-blueprint-sprint-11.md` on 2026-09-18. Sprint 12 (Phase 2) damage
+catalog, private file, deposit refund and cash shift files were reconciled in
+`file-blueprint-sprint-12.md` on 2026-09-18.

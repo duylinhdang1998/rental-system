@@ -29,13 +29,13 @@ export function AddChargeDialog({ contract, isOwner, mutation, onClose }: AddCha
       onClose={onClose}
       onSubmit={form.submit}
     >
-      <ChargeAmountFields onChange={form.change} values={form.form} />
       <ChargeFields
         kinds={chargeKinds(isOwner)}
         lines={activeContractLines(contract.quote.lines)}
         onChange={form.change}
         values={form.form}
       />
+      <ChargeAmountFields onChange={form.change} values={form.form} />
     </LifecycleFormDialog>
   );
 }

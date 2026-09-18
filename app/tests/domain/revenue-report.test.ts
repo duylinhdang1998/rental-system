@@ -71,6 +71,12 @@ const first = contractFixture({
       receivedAt: '2026-09-11T02:00:00.000Z',
     }),
     paymentFixture({ amountVnd: 10_000, id: 'p-outside', receivedAt: '2026-09-12T02:00:00.000Z' }),
+    paymentFixture({
+      amountVnd: 350_000,
+      id: 'p-deposit',
+      kind: 'DEPOSIT_REFUND',
+      receivedAt: '2026-09-11T03:00:00.000Z',
+    }),
   ],
   retainedDocument: 'CCCD 0000',
   startAt: FIRST_START,
@@ -121,7 +127,7 @@ describe('Feature: Revenue report — range and grouping', () => {
     expect(() => reportWindow({ from: '2026-06-02', to: '2026-09-01' })).not.toThrow();
   });
 
-  it('groups money by business day in Asia/Ho_Chi_Minh and totals the period', () => {
+  it('groups money by business day, totals the period and ignores deposit refunds (BR-11)', () => {
     const rows = paymentsInWindow([first, second, untouched], reportWindow(RANGE));
     expect(rows.map((row) => row.payment.id)).toEqual(['p1', 'p2', 'p3', 'p4']);
     expect(revenueTotals(rows)).toEqual({

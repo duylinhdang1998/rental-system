@@ -6,7 +6,7 @@ import { LifecycleClient, PAST_INTERVAL, type HandoverOverrides } from './suppor
 
 const RETURN_INPUT = { actualReturnAt: PAST_INTERVAL.endAt, condition: 'GOOD', fuelPercent: 60 };
 const DAMAGE = { amountVnd: 100_000, description: 'Trầy yếm trước', kind: 'DAMAGE' };
-const CHECKLIST = { depositRefunded: true, documentReturned: true };
+const CHECKLIST = { documentReturned: true };
 
 describe('Feature: Return and settlement — charges and settlement', () => {
   let app: INestApplication;
@@ -81,7 +81,7 @@ describe('Feature: Return and settlement — charges and settlement', () => {
     expect(blocked.body.error.code).toBe('INVALID_TRANSITION');
   });
 
-  it('settles with an explicit refund after the checklist and the deposit cap (BR-04)', async () => {
+  it('settles with an explicit refund after the document gate and the deposit cap (BR-04)', async () => {
     const { created } = await returnedContract({
       depositVnd: 500_000,
       retainedDocument: 'CCCD 0000',
@@ -97,9 +97,7 @@ describe('Feature: Return and settlement — charges and settlement', () => {
     });
     const settle = (input: object) => staff.post(`/api/contracts/${created.id}/settle`, input);
     expect((await settle({}).expect(400)).body.message).toContain('giấy tờ');
-    expect((await settle({ documentReturned: true }).expect(400)).body.message).toContain(
-      'hoàn cọc',
-    );
+    await settle({ ...CHECKLIST, depositRefunded: true }).expect(400);
     const overCap = await settle({ ...CHECKLIST, depositAppliedVnd: 200_000 }).expect(400);
     expect(overCap.body.message).toContain('150.000');
 
@@ -108,6 +106,7 @@ describe('Feature: Return and settlement — charges and settlement', () => {
     expect(settled.body.settlement).toMatchObject({
       ...CHECKLIST,
       depositAppliedVnd: 150_000,
+      depositRefunded: false,
       notes: 'Hoàn cọc tiền mặt',
       receivableVnd: 0,
       refundVnd: 350_000,
@@ -152,10 +151,7 @@ describe('Feature: Return and settlement — charges and settlement', () => {
       .post(`/api/contracts/${created.id}/charges`, { ...DAMAGE, amountVnd: 200_000 })
       .expect(201);
     const settled = await staff
-      .post(`/api/contracts/${created.id}/settle`, {
-        depositAppliedVnd: 50_000,
-        depositRefunded: true,
-      })
+      .post(`/api/contracts/${created.id}/settle`, { depositAppliedVnd: 50_000 })
       .expect(201);
     expect(settled.body.settlement).toMatchObject({
       chargesVnd: 350_000,

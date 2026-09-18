@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
-import { contractPaymentInputSchema, type ContractPaymentInput } from '@rental/contracts';
+import {
+  contractPaymentInputSchema,
+  depositRefundInputSchema,
+  type ContractPaymentInput,
+  type DepositRefundInput,
+} from '@rental/contracts';
 import { AuthenticationGuard } from '../../common/guards/authentication.guard.js';
 import type { ContextRequest } from '../../common/http/request-context.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
@@ -25,5 +30,16 @@ export class ContractPaymentController {
     @Req() request: ContextRequest,
   ) {
     return this.payments.record(id, input, request.authenticatedUser!);
+  }
+
+  /** US-028: one-shot deposit refund after settlement; the amount is the frozen refund figure. */
+  @Post(':id/deposit-refund')
+  @UseGuards(CsrfGuard)
+  refundDeposit(
+    @Param('id') id: string,
+    @Body(new ZodValidationPipe(depositRefundInputSchema)) input: DepositRefundInput,
+    @Req() request: ContextRequest,
+  ) {
+    return this.payments.refundDeposit(id, input, request.authenticatedUser!);
   }
 }

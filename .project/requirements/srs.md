@@ -145,6 +145,15 @@ Hệ thống thay thế quy trình rời rạc bằng Excel, giấy và trao đ�
 - Chủ đảo khoản chi ghi sai bằng bút toán đảo có lý do (BR-09).
 - Báo cáo hiệu quả đội xe (chỉ Chủ): doanh thu phân bổ theo xe, chi phí, đóng góp ròng, khấu hao lũy kế, giá trị còn lại, tỷ lệ thu hồi và dự báo hòa vốn theo tốc độ 90 ngày gần nhất; xuất Excel.
 
+### FR-13 Operations Finance (Giai đoạn 2 — Sprint 12)
+
+**Priority:** SHOULD
+
+- Chủ quản lý bảng giá hư hỏng (mã, tên, giá đền bù, đang dùng/ngừng dùng); Nhân viên chọn hạng mục khi nhận xe hoặc thêm phụ phí, hệ thống chép tên và giá tại thời điểm chọn; vẫn cho phép nhập tay.
+- Ảnh nhận xe (JPEG/PNG/WebP, tối đa 5 ảnh × 2 MB mỗi lần) lưu trong kho riêng tư, xem qua liên kết ký có hạn 300 giây, không có URL công khai vĩnh viễn.
+- Hoàn cọc là một dòng sổ riêng (`DEPOSIT_REFUND`) đúng bằng số hoàn theo tất toán, ghi một lần sau khi tất toán, không tính vào doanh thu, công nợ hay hạn mức hoàn tiền.
+- Ca tiền mặt: mở ca với tiền đầu ca; tiền mặt phải có = đầu ca + thu tiền mặt − hoàn tiền mặt − hoàn cọc tiền mặt − chi tiền mặt trong ca; đóng ca với số đếm được, chênh lệch được đóng băng, ghi chú bắt buộc khi lệch; Nhân viên xem ca của mình, Chủ xem mọi ca.
+
 ### FR-11 Sprint 1 UI Preview
 
 **Priority:** MUST for Sprint 1
@@ -209,6 +218,7 @@ Hệ thống thay thế quy trình rời rạc bằng Excel, giấy và trao đ�
 - BR-08 Nhân viên không xem hợp đồng người khác hoặc tổng doanh thu nếu không được phép.
 - BR-09 (Giai đoạn 2) Khoản chi là dòng bất biến; sửa sai bằng bút toán đảo do Chủ thực hiện, không sửa/xóa.
 - BR-10 (Giai đoạn 2) Giá vốn, khấu hao và chi phí không bao giờ trộn vào sổ thanh toán hợp đồng; doanh thu theo xe được phân bổ từ dòng xe và phụ phí gắn dòng xe.
+- BR-11 (Giai đoạn 2) Tiền cọc hoàn lại không phải doanh thu và không phải hoàn doanh thu; phụ phí lấy từ bảng giá chép giá tại thời điểm chọn; mỗi ca tiền mặt chỉ có một ca mở tại một thời điểm.
 
 ## 6. Acceptance and Release Gates
 

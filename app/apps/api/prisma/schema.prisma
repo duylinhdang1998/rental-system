@@ -54,6 +54,7 @@ enum ContractEventType {
   SETTLED
   PAYMENT_RECORDED
   REFUND_RECORDED
+  DEPOSIT_REFUNDED
 }
 
 enum ReturnCondition {
@@ -72,6 +73,7 @@ enum ChargeKind {
 enum PaymentKind {
   PAYMENT
   REFUND
+  DEPOSIT_REFUND
 }
 
 enum PaymentMethod {
@@ -124,6 +126,40 @@ model Expense {
 
   @@index([paidOn])
   @@index([vehicleId, paidOn])
+}
+
+enum CashShiftStatus {
+  OPEN
+  CLOSED
+}
+
+/// Sprint 12: Owner-maintained damage price list; charges copy the price at the time of the charge.
+model DamageItem {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  name      String
+  priceVnd  Int
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @db.Timestamptz
+  updatedAt DateTime @updatedAt @db.Timestamptz
+}
+
+/// Sprint 12: one cash shift at a time (partial unique index in the migration); close figures are frozen.
+model CashShift {
+  id              String          @id @default(uuid())
+  openedById      String
+  openedAt        DateTime        @default(now()) @db.Timestamptz
+  openingFloatVnd Int
+  status          CashShiftStatus @default(OPEN)
+  closedById      String?
+  closedAt        DateTime?       @db.Timestamptz
+  expectedCashVnd Int?
+  countedCashVnd  Int?
+  varianceVnd     Int?
+  note            String          @default("")
+
+  @@index([openedAt])
+  @@index([openedById, openedAt])
 }
 
 model Account {

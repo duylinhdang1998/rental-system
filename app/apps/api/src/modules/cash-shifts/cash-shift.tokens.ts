@@ -1,0 +1,1 @@
+export const CASH_SHIFT_REPOSITORY = Symbol('CASH_SHIFT_REPOSITORY');

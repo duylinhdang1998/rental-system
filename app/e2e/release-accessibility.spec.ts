@@ -11,11 +11,13 @@ const ROUTES = [
   '/returns',
   '/receivables',
   '/expenses',
+  '/cash-shifts',
   '/reports',
   '/reports/fleet',
   '/employees',
   '/audit',
   '/settings',
+  '/settings/damage-items',
 ];
 const VIEWPORTS = { desktop: { height: 900, width: 1280 }, phone: { height: 800, width: 360 } };
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];

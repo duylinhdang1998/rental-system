@@ -3,6 +3,9 @@ import type { Environment } from '../../config/environment.js';
 import { PrismaService } from '../../database/prisma.service.js';
 import { PricingModule } from '../pricing/pricing.module.js';
 import { ContractBoardService } from './contract-board.service.js';
+import { ChargePricingService } from './contract-charge.pricing.js';
+import { ContractPhotoController } from './contract-photo.controller.js';
+import { ContractPhotoService } from './contract-photo.service.js';
 import { ContractController } from './contract.controller.js';
 import { ContractExtensionService } from './contract-extension.service.js';
 import { ContractSwapService } from './contract-swap.service.js';
@@ -37,16 +40,19 @@ function repositoryProviders(environment: Environment): Provider[] {
   return [PrismaService, { provide: CONTRACT_REPOSITORY, useClass: PrismaContractRepository }];
 }
 
+const CONTROLLERS = [
+  ContractController,
+  ContractLifecycleController,
+  ContractReturnController,
+  ContractPaymentController,
+  ContractPhotoController,
+];
+
 @Module({})
 export class ContractModule {
   static register(environment: Environment): DynamicModule {
     return {
-      controllers: [
-        ContractController,
-        ContractLifecycleController,
-        ContractReturnController,
-        ContractPaymentController,
-      ],
+      controllers: CONTROLLERS,
       exports: [CONTRACT_REPOSITORY],
       imports: [PricingModule.register(environment)],
       module: ContractModule,
@@ -63,6 +69,8 @@ export class ContractModule {
         ContractReturnService,
         ContractSettlementService,
         ContractPaymentService,
+        ChargePricingService,
+        ContractPhotoService,
         OverdueScheduler,
       ],
     };

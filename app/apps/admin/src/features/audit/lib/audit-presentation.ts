@@ -15,9 +15,11 @@ export interface MetadataRow {
 
 export const AUDIT_ENTITY_TYPES = [
   'Account',
+  'CashShift',
   'Contract',
   'Customer',
   'CustomerDocument',
+  'DamageItem',
   'Expense',
   'PricingVersion',
   'Vehicle',
@@ -27,18 +29,24 @@ export const AUDIT_ENTITY_TYPES = [
 ] as const;
 
 export const AUDIT_ACTIONS = [
+  'CASH_SHIFT_CLOSED',
+  'CASH_SHIFT_OPENED',
   'CONTRACT_ACTIVATED',
   'CONTRACT_CANCELLED',
   'CONTRACT_CHARGE_ADDED',
   'CONTRACT_COMPLETED',
   'CONTRACT_CREATED',
+  'CONTRACT_DEPOSIT_REFUNDED',
   'CONTRACT_EXTENDED',
   'CONTRACT_PAYMENT_RECORDED',
+  'CONTRACT_REFUND_RECORDED',
   'CONTRACT_SETTLED',
   'CONTRACT_VEHICLE_RETURNED',
   'CONTRACT_VEHICLE_SWAPPED',
   'CUSTOMER_CREATED',
   'CUSTOMER_DOCUMENT_ACCESSED',
+  'DAMAGE_ITEM_CREATED',
+  'DAMAGE_ITEM_UPDATED',
   'EMPLOYEE_CREATED',
   'EMPLOYEE_LOCKED',
   'EMPLOYEE_PASSWORD_RESET',
@@ -56,7 +64,8 @@ export const AUDIT_ACTIONS = [
 const MONEY_KEY = /vnd|before|after|amount|price/i;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const SENSITIVE_TONE = /PASSWORD|LOCKED|CANCELLED|OVERRIDDEN|DOCUMENT_ACCESSED|REVERSED/;
-const POSITIVE_TONE = /CREATED|COMPLETED|SETTLED|PUBLISHED|UNLOCKED|PAYMENT|RECORDED|ACQUISITION/;
+const POSITIVE_TONE =
+  /CREATED|COMPLETED|SETTLED|PUBLISHED|UNLOCKED|PAYMENT|RECORDED|ACQUISITION|SHIFT_CLOSED/;
 
 /** Only well-formed dates reach the API; a half-typed field does not fire a query. */
 export function auditQueryFrom(filters: AuditFilters): AuditQueryInput {

@@ -4,6 +4,8 @@ import {
   contractListSchema,
   contractSchema,
   quoteSchema,
+  returnPhotoListSchema,
+  returnPhotoUploadSchema,
   settlementStatementSchema,
   type AvailabilityInput,
   type ContractCancelInput,
@@ -17,12 +19,15 @@ import {
   type ContractSettleInput,
   type ContractSummary,
   type ContractSwapInput,
+  type DepositRefundInput,
   type Quote,
   type QuoteInput,
   type RentalContract,
+  type ReturnPhotoList,
+  type ReturnPhotoUpload,
   type SettlementStatement,
 } from '@rental/contracts';
-import { apiRequest } from '@/shared/api/http';
+import { apiRequest, apiUpload } from '@/shared/api/http';
 
 export interface ContractList {
   items: ContractSummary[];
@@ -113,4 +118,22 @@ export async function fetchLedger(id: string): Promise<ContractLedger> {
 
 export function recordPayment(id: string, input: ContractPaymentInput): Promise<RentalContract> {
   return lifecycleRequest(id, 'payments', input);
+}
+
+/** Sprint 12 (US-028): the amount is the frozen settlement refund; the API never takes it. */
+export function refundDeposit(id: string, input: DepositRefundInput): Promise<RentalContract> {
+  return lifecycleRequest(id, 'deposit-refund', input);
+}
+
+/** Sprint 12 (US-026): photos land in the private store first; the return carries the keys. */
+export async function uploadReturnPhotos(id: string, files: File[]): Promise<ReturnPhotoUpload> {
+  const body = new FormData();
+  files.forEach((file) => body.append('photos', file, file.name));
+  return returnPhotoUploadSchema.parse(await apiUpload(`/api/contracts/${id}/return-photos`, body));
+}
+
+export async function fetchReturnPhotos(id: string, lineId: string): Promise<ReturnPhotoList> {
+  return returnPhotoListSchema.parse(
+    await apiRequest(`/api/contracts/${id}/lines/${lineId}/return-photos`),
+  );
 }

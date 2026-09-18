@@ -16,6 +16,24 @@ function paymentData(draft: PaymentDraft) {
   };
 }
 
+/** US-028: the deposit-refund row, its event and the settlement flag in one transaction. */
+export function writeDepositRefund(
+  transaction: Prisma.TransactionClient,
+  id: string,
+  draft: PaymentDraft,
+  event: LifecycleEventInput,
+) {
+  return transaction.contract.update({
+    data: {
+      events: { create: eventData(event) },
+      payments: { create: paymentData(draft) },
+      settlement: { update: { depositRefunded: true } },
+    },
+    include: CONTRACT_INCLUDE,
+    where: { id },
+  });
+}
+
 /** Ledger row and contract event in one transaction; the row id is the idempotency key. */
 export function writePayment(
   transaction: Prisma.TransactionClient,

@@ -6,13 +6,14 @@ import { ContractLineInspection } from '@/features/contracts/components/detail/C
 
 interface ContractLineReturnProps {
   inspection: VehicleInspection | null;
+  lineId: string;
   onReturn?: (() => void) | undefined;
 }
 
 /** Either the recorded inspection or, while the vehicle is still out, the per-line return action. */
-export function ContractLineReturn({ inspection, onReturn }: ContractLineReturnProps) {
+export function ContractLineReturn({ inspection, lineId, onReturn }: ContractLineReturnProps) {
   const { t } = useTranslation();
-  if (inspection) return <ContractLineInspection inspection={inspection} />;
+  if (inspection) return <ContractLineInspection inspection={inspection} lineId={lineId} />;
   if (!onReturn) return null;
   return (
     <Button className="mt-3" onClick={onReturn} size="sm" type="button">

@@ -43,6 +43,9 @@ evidenced from the repository alone.
 - [ ] TLS certificates and HSTS preload decision.
 - [ ] Shared throttle store (Redis) before running more than one API replica; a single replica
       is approved for MVP with the in-memory counter.
+- [ ] Phase 2: `PRIVATE_FILE_DIR` on a persistent volume outside the web root, included in the
+      daily backup and the restore drill; an S3-compatible adapter behind the same
+      `PrivateFileStore` port before running more than one API replica (PD-17).
 - [ ] Log shipping and the alert rules in `ops/runbooks/monitoring-alerts.md` configured;
       backup-age and restore-drill alerts observed firing once on purpose.
 - [ ] Restore drill executed on the provider with the production-sized dump within the
@@ -54,7 +57,8 @@ evidenced from the repository alone.
 
 ## C. Data and people
 
-- [ ] Product Owner confirms PD-06, PD-12, PD-13 and PD-14 (see `project-context.md`).
+- [ ] Product Owner confirms PD-06, PD-12, PD-13 and PD-14 (see `project-context.md`); for
+      the Phase 2 release also PD-16 and PD-17.
 - [ ] Decision on PD-08 (import of the legacy Excel data) recorded; if yes, the import runs on
       staging first and is verified against the workbook totals.
 - [ ] First Owner created with `seed:owner`; the Owner changed the password on first sign-in.

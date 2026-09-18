@@ -72,8 +72,13 @@ describe('Feature: Security hardening, observability and go-live readiness', () 
           loginPerMinute: 20,
           mutationPerMinute: 30,
           readPerMinute: 120,
+          uploadPerTenMinutes: 10,
         }),
-      ).toMatchObject({ export: { limit: 5, windowMs: 10 * MINUTE }, read: { limit: 120 } });
+      ).toMatchObject({
+        export: { limit: 5, windowMs: 10 * MINUTE },
+        read: { limit: 120 },
+        upload: { limit: 10, windowMs: 10 * MINUTE },
+      });
     });
 
     it('refuses to start production with rate limiting disabled', () => {

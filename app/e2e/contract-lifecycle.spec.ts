@@ -55,10 +55,19 @@ test.describe('Feature: Contract lifecycle and daily operations', () => {
     await page.getByRole('button', { name: 'Tất toán hợp đồng' }).click();
     const settleDialog = page.getByRole('dialog', { name: 'Tất toán hợp đồng' });
     await settleDialog.getByLabel('Đã trả giấy tờ giữ lại', { exact: false }).check();
-    await settleDialog.getByLabel('Đã hoàn cọc cho khách').check();
+    await expect(settleDialog.getByLabel('Đã hoàn cọc cho khách')).toHaveCount(0);
     await settleDialog.getByRole('button', { name: 'Xác nhận tất toán' }).click();
     await expect(settleDialog).toBeHidden();
     await expect(page.getByText('Đã tất toán', { exact: true })).toBeVisible();
+    await expect(page.locator('[data-deposit-refund-state="pending"]')).toBeVisible();
+
+    await page.getByRole('button', { name: 'Hoàn cọc' }).click();
+    const refundDialog = page.getByRole('dialog', { name: 'Hoàn cọc' });
+    await refundDialog.getByLabel('Hình thức').click();
+    await page.getByRole('option', { name: 'Chuyển khoản' }).click();
+    await refundDialog.getByRole('button', { name: 'Xác nhận hoàn cọc' }).click();
+    await expect(refundDialog).toBeHidden();
+    await expect(page.locator('[data-deposit-refund-state="done"]')).toBeVisible();
     await expect(page.getByText('Hợp đồng đã đóng', { exact: false })).toBeVisible();
   });
 

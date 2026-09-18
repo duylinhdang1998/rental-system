@@ -15,6 +15,7 @@ export function ContractDetailContent({ contract, page }: ContractDetailContentP
     <section className="grid gap-5">
       <ContractDetailHeader contract={contract} />
       <ContractActions
+        depositRefundDue={page.depositRefundDue}
         onAction={page.openDialog}
         openReceivable={page.openReceivable}
         settled={contract.settledAt !== null}

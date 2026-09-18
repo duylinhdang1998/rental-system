@@ -43,3 +43,8 @@ release record.
   and the first Owner comes from `seed:owner`, never from the demo namespace.
 - Dumps contain customer documents and payment references. Treat them as confidential; the
   retention window is 30 days locally and per the storage policy off-site.
+- Phase 2 (Sprint 12): return photos are files under `PRIVATE_FILE_DIR` (default
+  `./storage/private`), not database rows. Back the directory up together with the dump
+  (same schedule, same retention, same confidentiality) and restore it alongside the
+  database; a database restore without the directory leaves `imageCount` pointing at
+  missing files, which the API reports as 404 links rather than an error.

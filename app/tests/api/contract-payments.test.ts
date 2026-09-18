@@ -39,6 +39,7 @@ describe('Feature: Payments — multi-method ledger with caps and idempotency (F
     expect(ledger.body).toMatchObject({
       balance: {
         cashVnd: 100_000,
+        depositRefundedVnd: 0,
         paidVnd: 150_000,
         refundedVnd: 0,
         remainingVnd: 0,

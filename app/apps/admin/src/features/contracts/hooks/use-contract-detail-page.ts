@@ -7,6 +7,7 @@ import { useLedger } from '@/features/contracts/hooks/use-ledger';
 import { useContractMutations } from '@/features/contracts/hooks/use-contract-mutations';
 import { useSettlement } from '@/features/contracts/hooks/use-settlement';
 import {
+  depositRefundDue,
   isRentingStatus,
   showsLedger,
   showsSettlement,
@@ -33,6 +34,7 @@ export function useContractDetailPage() {
   return {
     closeDialog,
     contract,
+    depositRefundDue: depositRefundDue(contract.data),
     dialog,
     isOwner: user?.role === 'OWNER',
     ledger,

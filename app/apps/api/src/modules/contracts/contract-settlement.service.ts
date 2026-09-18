@@ -10,6 +10,7 @@ import {
 } from '@rental/contracts';
 import { AuditService } from '../../common/audit/audit.service.js';
 import { DomainError } from '../../common/errors/domain.error.js';
+import { ChargePricingService } from './contract-charge.pricing.js';
 import { activeLines, openLines } from './contract-lifecycle.policy.js';
 import {
   buildStatement,
@@ -35,6 +36,7 @@ export class ContractSettlementService {
   constructor(
     @Inject(CONTRACT_REPOSITORY) private readonly repository: ContractRepository,
     private readonly audit: AuditService,
+    private readonly pricing: ChargePricingService,
   ) {}
 
   async statement(id: string): Promise<SettlementStatement> {
@@ -51,7 +53,7 @@ export class ContractSettlementService {
     if (!chargeAllowed(contract)) {
       throw new DomainError('INVALID_TRANSITION', 'Chỉ ghi phụ phí cho hợp đồng chưa tất toán');
     }
-    const draft = this.chargeDraft(contract, input);
+    const draft = await this.chargeDraft(contract, input);
     const now = new Date().toISOString();
     const updated = await this.repository.addCharge(contract.id, draft, {
       actorId: actor.id,
@@ -70,16 +72,19 @@ export class ContractSettlementService {
     return updated;
   }
 
-  /** US-017: settlement freezes the figures and confirms deposit and document release. */
+  /**
+   * US-017: settlement freezes the figures and confirms the document release. The deposit
+   * refund is recorded afterwards through its own ledger action (US-028, PD-17).
+   */
   async settle(id: string, input: ContractSettleInput, actor: AuthenticatedUser) {
     const contract = await requireContract(this.repository, id);
     this.assertSettleable(contract);
     const figures = this.figures(contract, input.depositAppliedVnd);
-    this.assertChecklist(contract, figures, input);
+    this.assertChecklist(contract, input);
     const now = new Date().toISOString();
     const draft: SettlementDraft = {
       ...figures,
-      depositRefunded: input.depositRefunded,
+      depositRefunded: false,
       documentReturned: input.documentReturned,
       notes: input.notes,
       settledAt: now,
@@ -102,16 +107,19 @@ export class ContractSettlementService {
     return updated;
   }
 
-  private chargeDraft(contract: RentalContract, input: ContractChargeInput): ChargeDraft {
+  private async chargeDraft(
+    contract: RentalContract,
+    input: ContractChargeInput,
+  ): Promise<ChargeDraft> {
     const line = input.lineId
       ? activeLines(contract.quote.lines).find((item) => item.id === input.lineId)
       : undefined;
     if (input.lineId && !line) {
       throw new DomainError('NOT_FOUND', 'Không tìm thấy dòng xe trên hợp đồng này');
     }
+    const priced = await this.pricing.price(input);
     return {
-      amountVnd: input.amountVnd,
-      description: input.description,
+      ...priced,
       kind: input.kind,
       lineId: line?.id ?? null,
       vehicleCode: line?.vehicleCode ?? null,
@@ -148,16 +156,9 @@ export class ContractSettlementService {
     });
   }
 
-  private assertChecklist(
-    contract: RentalContract,
-    figures: SettlementFigures,
-    input: ContractSettleInput,
-  ) {
+  private assertChecklist(contract: RentalContract, input: ContractSettleInput) {
     if (contract.handover.retainedDocument && !input.documentReturned) {
       throw new DomainError('INVALID_INPUT', 'Xác nhận đã trả giấy tờ giữ lại cho khách');
-    }
-    if (figures.refundVnd > 0 && !input.depositRefunded) {
-      throw new DomainError('INVALID_INPUT', 'Xác nhận đã hoàn cọc cho khách');
     }
   }
 }

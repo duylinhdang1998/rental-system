@@ -1,5 +1,14 @@
 import type { ContractStatus } from '@rental/contracts';
-import { BadgeCheck, Ban, CalendarPlus, KeyRound, Receipt, Repeat, Wallet } from 'lucide-react';
+import {
+  BadgeCheck,
+  Ban,
+  CalendarPlus,
+  HandCoins,
+  KeyRound,
+  Receipt,
+  Repeat,
+  Wallet,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,6 +17,7 @@ import {
 } from '@/features/contracts/lib/contract-presentation';
 
 interface ContractActionsProps {
+  depositRefundDue: boolean;
   onAction: (action: ContractAction) => void;
   openReceivable: boolean;
   settled: boolean;
@@ -20,14 +30,15 @@ const ACTION_CONFIG = {
   charge: { icon: Receipt, labelKey: 'chargeAdd', variant: 'outline' },
   extend: { icon: CalendarPlus, labelKey: 'contractExtend', variant: 'outline' },
   payment: { icon: Wallet, labelKey: 'paymentRecord', variant: 'outline' },
+  refundDeposit: { icon: HandCoins, labelKey: 'depositRefund', variant: 'default' },
   settle: { icon: BadgeCheck, labelKey: 'settle', variant: 'default' },
   swap: { icon: Repeat, labelKey: 'contractSwap', variant: 'outline' },
 } as const;
 
 export function ContractActions(props: ContractActionsProps) {
-  const { onAction, openReceivable, settled, status } = props;
+  const { depositRefundDue, onAction, openReceivable, settled, status } = props;
   const { t } = useTranslation();
-  const actions = contractActions(status, settled, openReceivable);
+  const actions = contractActions(status, settled, openReceivable, depositRefundDue);
   if (!actions.length) {
     return <p className="surface-card p-4 font-semibold text-ink-muted">{t('contractClosed')}</p>;
   }
