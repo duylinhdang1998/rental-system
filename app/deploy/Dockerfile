@@ -23,6 +23,11 @@ RUN npm run build --workspace @rental/contracts
 
 # ---------------------------------------------------------------- API build
 FROM contracts AS api-build
+# openssl here lets `prisma generate` pick the debian-openssl-3.0.x engine that the runtime
+# image (bookworm, libssl3) can load; without it Prisma falls back to openssl-1.1.x.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends openssl \
+ && rm -rf /var/lib/apt/lists/*
 COPY apps/api apps/api
 RUN cd apps/api && npx prisma generate \
  && cd /app && npm run build --workspace @rental/api \
