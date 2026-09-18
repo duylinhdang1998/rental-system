@@ -3,6 +3,10 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nes
 import type { Observable } from 'rxjs';
 import type { ContextRequest } from '../http/request-context.js';
 
+/**
+ * Guarantees a request identifier for handlers even when the logging middleware is not mounted
+ * (unit harnesses); when it is, the identifier assigned there is kept.
+ */
 @Injectable()
 export class RequestContextInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
@@ -10,9 +14,8 @@ export class RequestContextInterceptor implements NestInterceptor {
     const response = context
       .switchToHttp()
       .getResponse<{ setHeader(name: string, value: string): void }>();
-    const requestId = `req_${randomUUID()}`;
-    request.requestId = requestId;
-    response.setHeader('x-request-id', requestId);
+    request.requestId ??= `req_${randomUUID()}`;
+    response.setHeader('x-request-id', request.requestId);
     return next.handle();
   }
 }

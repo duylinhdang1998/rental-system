@@ -1,9 +1,9 @@
 # PM Progress Tracker — Hệ thống quản lý cho thuê xe máy
 
 **Started:** 2026-08-31  
-**Current Workstream:** Sprint 6 — payment ledger, receivables and revenue reporting delivered
-**Overall Progress:** Sprint 0–6 complete; Sprint 7 planned and awaiting authorization
-**Status:** SPRINT_6_COMPLETE
+**Current Workstream:** Sprint 7 — hardening, observability, employee management and go-live preparation delivered
+**Overall Progress:** Sprint 0–7 complete (application scope); infrastructure go-live gates await the hosting provider
+**Status:** SPRINT_7_COMPLETE
 
 ## Project Timeline
 
@@ -16,7 +16,7 @@
 | Sprint 4   |                2 weeks | Contract lifecycle, extension, swap and daily board   | COMPLETE — QA PASS |
 | Sprint 5   |                2 weeks | Per-vehicle return, charges and settlement           | COMPLETE — QA PASS |
 | Sprint 6   |                2 weeks | Payment ledger, receivables and revenue reporting    | COMPLETE — QA PASS |
-| Sprint 7   |                2 weeks | Remaining MVP modules                                | PLANNED — DEFERRED |
+| Sprint 7   |                2 weeks | Hardening, UAT and go-live preparation                | COMPLETE — QA PASS |
 | Sprint 8   |            Remediation | shadcn/Radix, frontend structure, CreatedAt          | COMPLETE — QA PASS |
 | Sprint 9   |                Bug fix | Absolute frontend imports and enforcement gate       | COMPLETE — QA PASS |
 | UI review  |      Design foundation | Development-only component showroom                  | READY FOR REVIEW   |
@@ -55,6 +55,7 @@
 | Sprint 4 execution    | AUTHORIZED; PD-06 whole-period repricing applied as working default | 2026-09-09 |
 | Sprint 5 execution    | AUTHORIZED; PD-12 deposit/discount/early-return defaults applied  | 2026-09-10 |
 | Sprint 6 execution    | AUTHORIZED; PD-13 dependency-free workbook writer applied         | 2026-09-10 |
+| Sprint 7 execution    | AUTHORIZED; PD-14 employee management (US-006) pulled into the sprint | 2026-09-18 |
 
 ## Team Status
 
@@ -90,6 +91,9 @@
 | Backend / Frontend specialists | Payment ledger, receivables, revenue report, Excel export | COMPLETE                  | 6      |
 | google-code-reviewer           | Sprint 6 money, idempotency, authorization and UI review | COMPLETE — LGTM           | 6      |
 | google-qa-engineer             | Sprint 6 ledger reconciliation, regression and browser acceptance | COMPLETE — PASS (192 + 40) | 6      |
+| Backend / Frontend / DevOps specialists | Throttling, logging, readiness, audit log, employees, backup/restore tooling, a11y sweep | COMPLETE | 7 |
+| google-code-reviewer           | Sprint 7 security, accessibility and release review    | COMPLETE — LGTM           | 7      |
+| google-qa-engineer             | Sprint 7 release scenarios, regression and browser acceptance | COMPLETE — PASS (239 + 65) | 7      |
 
 ## Activity Log
 
@@ -170,6 +174,22 @@
 - 2026-09-10: Sprint 6 review LGTM after component-split, ZIP-writer readability, e2e race and
   golden-tier fixes; QA PASS with 192 unit/integration and 40 browser tests, all coverage
   dimensions above 80%. GitHub push still refused (403); commits are ready on local branches.
+- 2026-09-18: Client asked to continue with the next sprints; 13 release-hardening and 8
+  employee-management BDD scenarios, the `11-employees-audit.md` wireframe and the Sprint 7
+  file blueprint were drafted before implementation. US-006 (never assigned to a sprint) was
+  pulled in as PD-14.
+- 2026-09-18: Sprint 7 delivered global sliding-window throttling with 429/Retry-After and
+  security events, body limits, hardened headers, trusted proxy, request ids, structured JSON
+  logs with redaction, readiness probe, the Owner audit log API and page, employee
+  create/lock/unlock/reset with session revocation, the idempotent Owner seed, backup /
+  restore / restore-drill / backup-age scripts with `verify:restore`, a read-only load smoke,
+  four runbooks, the Vietnamese operator guide, the release checklist, an i18n parity gate and
+  an axe WCAG 2.2 AA sweep of every route at 360 px and 1280 px; CI gained the dependency
+  audit, format check and a Playwright job.
+- 2026-09-18: Sprint 7 review LGTM after component-split, complexity, guard-wiring, contrast /
+  keyboard and browser-timeout fixes; QA PASS with 239 unit/integration and 65 browser tests,
+  all coverage dimensions above 80%. Provider-side gates (edge WAF, managed Postgres drill,
+  shared throttle store, staging load run, witnessed BAT) stay open in `release-checklist.md`.
 
 ## Blockers
 
@@ -179,7 +199,9 @@
 | PD-12 settlement defaults applied             | Product Owner confirms deposit cap, Owner-only discount, no early-return refund | Client/BA |
 | GitHub push refused (403)                     | Grant the delivery Git account write access or push from an authorized account | Client/DevOps |
 | PD-13 workbook writer applied                 | Product Owner confirms the unstyled single-sheet export or requests styling/library | Client/BA |
-| Later-sprint business assumptions remain open | Resolve before Sprint 7 (remaining MVP modules) | Client/BA |
+| PD-14 employee management delivered in Sprint 7 | Product Owner confirms US-006 scope (create, lock, unlock, reset) | Client/BA |
+| Hosting / edge provider not selected          | Select the provider so the WAF, managed Postgres drill, log shipping and staging load run can be evidenced | Client/DevOps |
+| PD-08 legacy Excel import undecided           | Decide before go-live; if yes, supply the source workbook for a staging import | Client/BA |
 
-**Last Updated:** 2026-09-10  
+**Last Updated:** 2026-09-18  
 **Updated By:** Project Manager

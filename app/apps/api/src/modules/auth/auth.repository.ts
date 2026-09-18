@@ -15,6 +15,10 @@ export class AuthRepository {
     @Inject(SESSION_REPOSITORY) private readonly sessions: SessionRepository,
   ) {}
 
+  createAccount(record: AccountRecord): Promise<void> {
+    return this.accounts.create(record);
+  }
+
   findAccount(username: string): Promise<AccountRecord | null> {
     return this.accounts.findByUsername(username);
   }
@@ -23,8 +27,16 @@ export class AuthRepository {
     return this.accounts.findById(id);
   }
 
+  listAccounts(): Promise<AccountRecord[]> {
+    return this.accounts.list();
+  }
+
   setAccountActive(id: string, active: boolean): Promise<void> {
     return this.accounts.setActive(id, active);
+  }
+
+  updatePasswordHash(id: string, passwordHash: string): Promise<void> {
+    return this.accounts.updatePasswordHash(id, passwordHash);
   }
 
   createSession(input: CreateSessionInput): Promise<void> {
@@ -33,6 +45,10 @@ export class AuthRepository {
 
   deleteSession(tokenHash: string): Promise<void> {
     return this.sessions.deleteByTokenHash(tokenHash);
+  }
+
+  deleteSessionsForAccount(accountId: string): Promise<void> {
+    return this.sessions.deleteByAccountId(accountId);
   }
 
   findSession(tokenHash: string): Promise<SessionRecord | null> {

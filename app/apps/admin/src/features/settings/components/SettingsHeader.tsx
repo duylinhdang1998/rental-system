@@ -9,7 +9,7 @@ export function SettingsHeader() {
         <Settings2 aria-hidden className="size-5" />
       </span>
       <div>
-        <p className="text-sm font-bold text-brand">{t('operationsWorkspace')}</p>
+        <p className="text-sm font-bold text-brand-ink">{t('operationsWorkspace')}</p>
         <h1 className="text-2xl font-extrabold text-ink md:text-3xl">{t('settings')}</h1>
         <p className="mt-1 text-ink-muted">{t('settingsSubtitle')}</p>
       </div>

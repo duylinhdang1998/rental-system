@@ -14,7 +14,7 @@ export function ReturnQueueItemHeading({ item }: ReturnQueueItemHeadingProps) {
     <div className="flex flex-wrap items-start justify-between gap-2">
       <div>
         <Link
-          className="text-lg font-extrabold text-brand hover:underline"
+          className="text-lg font-extrabold text-brand-ink hover:underline"
           to={`/contracts/${item.contractId}`}
         >
           {item.code}

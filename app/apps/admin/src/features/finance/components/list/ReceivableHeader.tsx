@@ -9,7 +9,7 @@ export function ReceivableHeader({ generatedAt }: ReceivableHeaderProps) {
   const { i18n, t } = useTranslation();
   return (
     <header>
-      <p className="text-sm font-bold uppercase tracking-wide text-brand">
+      <p className="text-sm font-bold uppercase tracking-wide text-brand-ink">
         {t('receivableUpdated', {
           time: formatTime(generatedAt, resolveInitialLocale(i18n.language)),
         })}

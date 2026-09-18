@@ -6,7 +6,7 @@ export function LateReturnSettingsHeader({ createdAt }: { createdAt: string }) {
   const { i18n, t } = useTranslation();
   return (
     <div className="flex items-start gap-3">
-      <span className="grid size-touch shrink-0 place-items-center rounded-control bg-brand-soft text-brand">
+      <span className="grid size-touch shrink-0 place-items-center rounded-control bg-brand-soft text-brand-ink">
         <Clock3 aria-hidden className="size-5" />
       </span>
       <div>

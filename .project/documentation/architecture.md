@@ -123,7 +123,9 @@ sequenceDiagram
 > `.project/documentation/file-blueprint-sprint-4.md`. Sprint 5 per-vehicle return, charge
 > and settlement files are governed by `.project/documentation/file-blueprint-sprint-5.md`.
 > Sprint 6 payment ledger, receivable and revenue report files are governed by
-> `.project/documentation/file-blueprint-sprint-6.md`.
+> `.project/documentation/file-blueprint-sprint-6.md`. Sprint 7 hardening, observability,
+> audit query, employee management and operations tooling files are governed by
+> `.project/documentation/file-blueprint-sprint-7.md`.
 
 ```text
 app/
@@ -257,6 +259,17 @@ same rows; balance math is shared through `@rental/contracts`. Reporting is a re
 module guarded by `OwnerAuthorizationGuard` (BR-08); the workbook encoder has no third-party
 dependency.
 
+### 6.6 Exact Sprint 7 source-file contract
+
+Release hardening is defined in `.project/documentation/file-blueprint-sprint-7.md`. Abuse
+control (sliding-window policies for read, mutation, login and export keyed by session hash or
+client IP), structured JSON logging with redaction, readiness probing and the Owner audit query
+are cross-cutting NestJS modules under `common/`; employee management (US-006, PD-14) is an
+Owner-only module over the existing account and session ports, and locking an account revokes
+its sessions. Backup, restore-drill, restore verification, Owner seeding and the load smoke are
+plain scripts under `app/ops/` and `apps/api/src/cli/`. The in-memory throttle store is approved
+for a single API replica; a shared store is a go-live gate before scaling out.
+
 ## 7. Import Boundary Rules
 
 - Admin pages import only public `features/*/index.ts` and `shared/*`.
@@ -313,4 +326,5 @@ paths were reconciled in `file-blueprint-sprint-2-3.md` after code review. Sprin
 files were reconciled in `file-blueprint-sprint-4.md` on 2026-09-09. Sprint 5 return and
 settlement files were reconciled in `file-blueprint-sprint-5.md` on 2026-09-10. Sprint 6 payment
 ledger, receivable and reporting files were reconciled in `file-blueprint-sprint-6.md` on
-2026-09-10.
+2026-09-10. Sprint 7 hardening, audit, employee and operations files were reconciled in
+`file-blueprint-sprint-7.md` on 2026-09-18.

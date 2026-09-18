@@ -24,7 +24,7 @@ const STATE_ICONS = { empty: CheckCircle2, error: AlertTriangle, loading: Loader
 const ICON_CLASSES = {
   empty: 'text-positive',
   error: 'text-negative',
-  loading: 'animate-spin text-brand',
+  loading: 'animate-spin text-brand-ink',
 };
 const VIEW_STATE_CLASS =
   'surface-card flex min-h-64 flex-col items-center justify-center p-8 text-center';

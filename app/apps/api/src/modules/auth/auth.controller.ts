@@ -14,6 +14,7 @@ import { loginInputSchema, type LoginInput, type SessionResponse } from '@rental
 import type { Request, Response } from 'express';
 import { readCookie } from '../../common/http/cookies.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
+import { ThrottlePolicy } from '../../common/throttle/throttle.decorator.js';
 import { AuthCookieService } from './auth-cookie.service.js';
 import { AuthService } from './auth.service.js';
 import { CsrfGuard } from './csrf.guard.js';
@@ -26,6 +27,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
+  @ThrottlePolicy('login')
   async login(
     @Body(new ZodValidationPipe(loginInputSchema)) input: LoginInput,
     @Req() request: Request,

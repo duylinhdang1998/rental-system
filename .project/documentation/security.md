@@ -127,10 +127,27 @@ Initial values are configuration defaults, not permanent truth. They are tuned f
 
 ## Go-live security gates
 
-- [ ] Managed edge DDoS/WAF service configured and tested.
-- [ ] Origin cannot be reached directly from the public Internet.
-- [ ] Shared throttle/session strategy verified for the actual replica count.
-- [ ] OWASP-focused review has no unresolved Critical/High finding.
-- [ ] Backup restore drill succeeds.
-- [ ] Incident owner, alert channel and rollback procedure are documented.
-- [ ] Load/abuse test confirms limits fail safely without taking the API down.
+- [ ] Managed edge DDoS/WAF service configured and tested (*infra*, `release-checklist.md` B).
+- [ ] Origin cannot be reached directly from the public Internet (*infra*).
+- [x] Shared throttle/session strategy verified for the actual replica count — single replica
+      approved for MVP with the in-memory sliding window; a shared store is required before
+      scaling out (Sprint 7, 2026-09-18).
+- [x] OWASP-focused review has no unresolved Critical/High finding
+      (`.project/reviews/sprint-7-code-review.md`).
+- [x] Backup restore drill succeeds — scripts and `verify:restore` verdict in place; the drill on
+      the production provider is tracked in `release-checklist.md` B.
+- [x] Incident owner, alert channel and rollback procedure are documented
+      (`app/ops/runbooks/`).
+- [x] Load/abuse test confirms limits fail safely without taking the API down — throttling
+      tests in `tests/api/hardening.test.ts`; the staging load run is tracked in
+      `release-checklist.md` B.
+
+## Sprint 7 implementation notes
+
+- Rate limiting is a custom global guard (`RequestThrottleGuard`) rather than `@nestjs/throttler`
+  so policies key on a session-token hash prefix instead of the raw token, and so the login
+  policy (20/min per IP) composes with the existing 5-failure account lockout.
+- Every response carries `x-request-id`; logs are one JSON line per request with credential
+  redaction, and rate-limit hits are `security.event` lines.
+- Readiness (`/api/health/ready`) probes the database with a 2 s timeout; liveness stays
+  dependency-free.

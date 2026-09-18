@@ -12,7 +12,7 @@ export function ReportHeader({ generatedAt }: ReportHeaderProps) {
     : t('reports');
   return (
     <header>
-      <p className="text-sm font-bold uppercase tracking-wide text-brand">{eyebrow}</p>
+      <p className="text-sm font-bold uppercase tracking-wide text-brand-ink">{eyebrow}</p>
       <h1 className="mt-1 text-3xl font-extrabold text-ink">{t('reportTitle')}</h1>
       <p className="mt-2 text-ink-muted">{t('reportSubtitle')}</p>
     </header>

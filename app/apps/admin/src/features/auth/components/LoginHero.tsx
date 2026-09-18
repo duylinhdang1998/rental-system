@@ -5,7 +5,7 @@ const BENEFITS = ['Theo dõi xe hôm nay', 'Kiểm soát hợp đồng', 'Đối
 export function LoginHero() {
   return (
     <section className="hidden bg-brand-soft p-12 lg:flex lg:flex-col lg:justify-between">
-      <div className="flex items-center gap-3 text-xl font-extrabold text-brand">
+      <div className="flex items-center gap-3 text-xl font-extrabold text-brand-ink">
         <Bike aria-hidden /> MotoRental
       </div>
       <div className="max-w-lg">

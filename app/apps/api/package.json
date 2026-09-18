@@ -6,8 +6,10 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "npm run build && node dist/bootstrap.js",
+    "seed:owner": "node dist/cli/seed-owner.main.js",
     "start": "node dist/bootstrap.js",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "verify:restore": "node dist/cli/verify-restore.main.js"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",

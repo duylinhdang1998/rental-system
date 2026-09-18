@@ -8,10 +8,10 @@ export function LoginPage() {
       <LoginHero />
       <section className="flex items-center justify-center p-4 sm:p-8">
         <div className="surface-card w-full max-w-md rounded-panel p-6 sm:p-8">
-          <div className="mb-8 flex items-center gap-2 text-lg font-extrabold text-brand lg:hidden">
+          <div className="mb-8 flex items-center gap-2 text-lg font-extrabold text-brand-ink lg:hidden">
             <Bike aria-hidden /> MotoRental
           </div>
-          <p className="mb-2 text-sm font-bold uppercase tracking-wide text-brand">
+          <p className="mb-2 text-sm font-bold uppercase tracking-wide text-brand-ink">
             Không gian vận hành
           </p>
           <h1 className="text-3xl font-extrabold text-ink">Chào mừng trở lại</h1>

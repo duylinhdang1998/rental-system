@@ -18,7 +18,7 @@ export function ReceivableTableRow({ item, onCollect }: ReceivableTableRowProps)
   return (
     <TableRow data-receivable={item.code}>
       <TableCell className="font-extrabold">
-        <Link className="text-brand hover:underline" to={`/contracts/${item.contractId}`}>
+        <Link className="text-brand-ink hover:underline" to={`/contracts/${item.contractId}`}>
           {item.code}
         </Link>
         <span className="block text-xs font-semibold text-ink-muted">{item.customerName}</span>

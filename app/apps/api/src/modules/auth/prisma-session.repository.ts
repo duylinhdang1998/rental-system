@@ -18,6 +18,10 @@ export class PrismaSessionRepository implements SessionRepository {
     });
   }
 
+  async deleteByAccountId(accountId: string): Promise<void> {
+    await this.prisma.session.deleteMany({ where: { accountId } });
+  }
+
   async deleteByTokenHash(tokenHash: string): Promise<void> {
     await this.prisma.session.deleteMany({ where: { tokenHash } });
   }

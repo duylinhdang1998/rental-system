@@ -17,7 +17,7 @@ export function ContractTableRow({ contract }: ContractTableRowProps) {
   return (
     <TableRow>
       <TableCell className="font-extrabold">
-        <Link className="text-brand hover:underline" to={`/contracts/${contract.id}`}>
+        <Link className="text-brand-ink hover:underline" to={`/contracts/${contract.id}`}>
           {contract.code}
         </Link>
         <span className="block text-xs font-semibold text-ink-muted">{contract.customerName}</span>

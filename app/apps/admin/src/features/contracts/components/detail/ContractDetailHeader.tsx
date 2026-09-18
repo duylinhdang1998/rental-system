@@ -16,7 +16,7 @@ export function ContractDetailHeader({ contract }: ContractDetailHeaderProps) {
     <header className="flex flex-wrap items-end justify-between gap-4">
       <div>
         <Link
-          className="inline-flex items-center gap-1 text-sm font-bold text-brand"
+          className="inline-flex items-center gap-1 text-sm font-bold text-brand-ink"
           to="/contracts"
         >
           <ArrowLeft aria-hidden className="size-4" />

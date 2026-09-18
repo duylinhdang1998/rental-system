@@ -13,7 +13,7 @@ export function CustomerCard({ customer }: CustomerCardProps) {
   return (
     <article className="surface-card grid gap-4 p-5" data-mobile-card>
       <div>
-        <p className="text-xs font-bold uppercase tracking-wide text-brand">
+        <p className="text-xs font-bold uppercase tracking-wide text-brand-ink">
           {customer.nationality}
         </p>
         <h2 className="mt-1 text-xl font-extrabold">{customer.name}</h2>

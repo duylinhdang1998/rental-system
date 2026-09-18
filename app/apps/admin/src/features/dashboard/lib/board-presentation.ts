@@ -10,7 +10,7 @@ const PERCENT = 100;
 export const KIND_TONES: Record<BoardItemKind, string> = {
   DUE_TODAY: 'bg-caution-soft text-caution',
   OVERDUE: 'bg-negative-soft text-negative',
-  PICKUP_TODAY: 'bg-brand-soft text-brand',
+  PICKUP_TODAY: 'bg-brand-soft text-brand-ink',
 };
 
 export const KIND_LABEL_KEYS: Record<BoardItemKind, string> = {

@@ -9,7 +9,19 @@ export interface AuditEvent {
 
 export type AuditEventInput = Omit<AuditEvent, 'at'>;
 
+/** Owner audit view filters; `from`/`to` are absolute instants resolved from business days. */
+export interface AuditFilter {
+  action?: string;
+  actorId?: string;
+  entityId?: string;
+  entityType?: string;
+  from?: Date;
+  limit: number;
+  to?: Date;
+}
+
 export interface AuditRepository {
   list(): Promise<readonly AuditEvent[]>;
+  query(filter: AuditFilter): Promise<readonly AuditEvent[]>;
   record(event: AuditEventInput): Promise<void>;
 }

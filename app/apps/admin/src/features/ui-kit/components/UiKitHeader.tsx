@@ -6,7 +6,7 @@ export function UiKitHeader() {
     <header className="border-b border-line bg-panel">
       <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
-          <span className="flex size-11 items-center justify-center rounded-control bg-brand-soft text-brand">
+          <span className="flex size-11 items-center justify-center rounded-control bg-brand-soft text-brand-ink">
             <FlaskConical aria-hidden className="size-5" />
           </span>
           <StatusBadge label="Bản nháp để duyệt" tone="info" />

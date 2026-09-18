@@ -9,7 +9,8 @@
 **Sprint 4:** COMPLETE — Code Review LGTM, QA PASS (2026-09-09)  
 **Sprint 5:** COMPLETE — Code Review LGTM, QA PASS (2026-09-10)  
 **Sprint 6:** COMPLETE — Code Review LGTM, QA PASS (2026-09-10)  
-**Development:** Sprint 7 planned; execution awaits Product Owner authorization
+**Sprint 7:** COMPLETE — Code Review LGTM, QA PASS (2026-09-18)  
+**Development:** application scope of the MVP complete; go-live awaits the infrastructure gates and the Product Owner sign-off in `documentation/release-checklist.md`
 
 ## Sprint Progress
 
@@ -25,7 +26,7 @@
 | Sprint 4 | 7 | 7 | Complete |
 | Sprint 5 | 7 | 7 | Complete |
 | Sprint 6 | 7 | 7 | Complete |
-| Sprint 7 | 0 | 7 | Planned; execution deferred |
+| Sprint 7 | 7 | 7 | Complete |
 
 ## Completed Artifacts
 
@@ -58,15 +59,30 @@
   `/receivables` and live `/reports` pages.
 - Sprint 6 review LGTM; 192 unit/integration and 40 browser tests pass with all
   coverage metrics above 80%.
+- Global request throttling with 429/Retry-After and security events, body limits, hardened
+  headers, trusted proxy, request ids, structured JSON logs with redaction, readiness probe,
+  Owner audit log API and page, employee create/lock/unlock/reset (US-006, PD-14), idempotent
+  Owner seed, backup/restore/drill/backup-age scripts with restore verification, read-only
+  load smoke, four runbooks, Vietnamese operator guide with training exercises, release
+  checklist, i18n parity gate, axe WCAG 2.2 AA sweep of every route at 360/1280 px, CI
+  dependency audit and Playwright job.
+- Sprint 7 review LGTM; 239 unit/integration and 65 browser tests pass with all
+  coverage metrics above 80%.
 
 ## Next Actions
 
 1. Grant the delivery Git account write access (or push from an authorized account); the
-   Sprint 4–6 commits are ready on local `main`, `feature/sprint-5-return-settlement` and
-   `feature/sprint-6-payments-reporting`.
+   Sprint 4–7 commits are ready on local `main`, `feature/sprint-5-return-settlement`,
+   `feature/sprint-6-payments-reporting` and `feature/sprint-7-hardening-golive`.
 2. Product Owner confirms PD-06 (extension repricing), PD-12 (deposit cap, Owner-only
    discount, no early-return refund) and PD-13 (unstyled single-sheet Excel export) or
    requests different rules.
 3. Apply migrations `202609090001_contract_lifecycle`, `202609100001_return_settlement` and
    `202609100002_payment_ledger` in staging before the next API deploy.
-4. Authorize Sprint 7 (remaining MVP modules) → implementation → review → QA.
+4. Product Owner confirms PD-14 (employee management scope) and decides PD-08 (legacy
+   Excel import).
+5. Select the hosting/edge provider (PD-15), then evidence the *infra* gates in
+   `documentation/release-checklist.md` B: WAF, managed Postgres restore drill, log shipping
+   and alerts, staging load run, shared throttle store if more than one replica.
+6. Create the first Owner with `seed:owner`, train Staff with `operator-guide.md`, run the
+   witnessed Browser Acceptance Test and sign the release checklist.

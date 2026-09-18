@@ -11,6 +11,13 @@ export class MemorySessionRepository implements SessionRepository {
     return Promise.resolve();
   }
 
+  deleteByAccountId(accountId: string): Promise<void> {
+    for (const [tokenHash, session] of this.sessions) {
+      if (session.user.id === accountId) this.sessions.delete(tokenHash);
+    }
+    return Promise.resolve();
+  }
+
   deleteByTokenHash(tokenHash: string): Promise<void> {
     this.sessions.delete(tokenHash);
     return Promise.resolve();

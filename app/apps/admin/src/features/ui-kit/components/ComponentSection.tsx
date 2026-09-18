@@ -11,7 +11,7 @@ export function ComponentSection({ children, description, id, title }: Component
   return (
     <section aria-labelledby={`${id}-title`} className="scroll-mt-6" id={id}>
       <div className="mb-5">
-        <p className="mb-1 text-xs font-bold tracking-widest text-brand uppercase">Component</p>
+        <p className="mb-1 text-xs font-bold tracking-widest text-brand-ink uppercase">Component</p>
         <h2 className="type-h2 tracking-tight text-ink" id={`${id}-title`}>
           {title}
         </h2>

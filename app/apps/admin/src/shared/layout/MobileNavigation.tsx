@@ -18,7 +18,7 @@ export function MobileNavigation() {
       {items.map(({ icon: Icon, key, path }) => (
         <NavLink
           className={({ isActive }) =>
-            `flex min-h-touch flex-col items-center justify-center gap-1 rounded-control text-xs font-bold ${isActive ? 'bg-brand-soft text-brand' : 'text-ink-muted'}`
+            `flex min-h-touch flex-col items-center justify-center gap-1 rounded-control text-xs font-bold ${isActive ? 'bg-brand-soft text-brand-ink' : 'text-ink-muted'}`
           }
           end={path === '/'}
           key={path}

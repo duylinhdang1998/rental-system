@@ -58,10 +58,9 @@ Page title
 - The Sprint 1 preview was replaced by the live Owner-only revenue report with Excel export;
   see `10-finance-reporting.md` for the ledger panel, payment dialog, receivable list and report.
 
-## Employees preview — Owner only, later Sprint 1 business expansion
+## Employees preview — superseded
 
-- Read-only list of demo Owner/Staff accounts, work status and last login.
-- Lock/reset/create actions are visually represented but disabled in the UI preview except real session lock enforcement tested by API fixtures.
+- Replaced in Sprint 7 by the live employee management screen in `11-employees-audit.md` (create, lock, unlock, reset password).
 
 ## Settings preview — Owner only, later sprints
 

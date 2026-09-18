@@ -19,7 +19,7 @@ export function CustomerContacts({ contacts }: CustomerContactsProps) {
           )}
           <span>{contact.value}</span>
           {contact.primary ? (
-            <span className="rounded-full bg-brand-soft px-2 py-0.5 text-xs font-bold text-brand">
+            <span className="rounded-full bg-brand-soft px-2 py-0.5 text-xs font-bold text-brand-ink">
               {t('primary')}
             </span>
           ) : null}

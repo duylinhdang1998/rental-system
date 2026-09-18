@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AUDIT_REPOSITORY } from './audit.tokens.js';
-import type { AuditEventInput, AuditRepository } from './audit.types.js';
+import type { AuditEvent, AuditEventInput, AuditFilter, AuditRepository } from './audit.types.js';
 
 @Injectable()
 export class AuditService {
@@ -12,5 +12,9 @@ export class AuditService {
 
   list() {
     return this.repository.list();
+  }
+
+  query(filter: AuditFilter): Promise<readonly AuditEvent[]> {
+    return this.repository.query(filter);
   }
 }

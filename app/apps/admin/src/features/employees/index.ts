@@ -1,1 +1,1 @@
-export { EmployeePreview } from '@/features/employees/pages/EmployeePreview';
+export { EmployeeListPage } from '@/features/employees/pages/EmployeeListPage';

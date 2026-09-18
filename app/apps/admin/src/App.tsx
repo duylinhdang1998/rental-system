@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AuditLogPage } from '@/features/audit';
 import { ContractDetailPage, ContractListPage, ContractWizardPage } from '@/features/contracts';
 import { CustomerListPage } from '@/features/customers';
 import { OperationsDashboard } from '@/features/dashboard';
-import { EmployeePreview } from '@/features/employees';
+import { EmployeeListPage } from '@/features/employees';
 import { ReceivableListPage } from '@/features/finance';
 import { VehicleListPage } from '@/features/fleet';
 import { ReportPage } from '@/features/reporting';
@@ -34,7 +35,8 @@ export function App() {
               <Route element={<ReceivableListPage />} path="receivables" />
               <Route element={<OwnerRoute />}>
                 <Route element={<ReportPage />} path="reports" />
-                <Route element={<EmployeePreview />} path="employees" />
+                <Route element={<EmployeeListPage />} path="employees" />
+                <Route element={<AuditLogPage />} path="audit" />
                 <Route element={<SettingsPage />} path="settings" />
               </Route>
             </Route>

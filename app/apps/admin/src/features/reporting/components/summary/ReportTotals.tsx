@@ -18,7 +18,7 @@ const CARDS: { icon: LucideIcon; key: TotalKey; labelKey: string; tone: string }
     labelKey: 'reportNet',
     tone: 'bg-positive-soft text-positive',
   },
-  { icon: Banknote, key: 'cashVnd', labelKey: 'reportCash', tone: 'bg-brand-soft text-brand' },
+  { icon: Banknote, key: 'cashVnd', labelKey: 'reportCash', tone: 'bg-brand-soft text-brand-ink' },
   {
     icon: Landmark,
     key: 'transferVnd',

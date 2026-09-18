@@ -12,7 +12,7 @@ export function FleetPageHeader({ onAdd, onCalendar }: FleetPageHeaderProps) {
   return (
     <header className="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p className="text-sm font-bold uppercase tracking-wide text-brand">
+        <p className="text-sm font-bold uppercase tracking-wide text-brand-ink">
           {t('fleetWorkspace')}
         </p>
         <h1 className="mt-1 text-3xl font-extrabold">{t('vehicles')}</h1>

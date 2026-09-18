@@ -173,6 +173,30 @@ cột của mẫu cửa hàng bằng bộ ghi OOXML tự viết, không thêm th
 xác nhận file một sheet không định dạng. Push GitHub vẫn bị từ chối (403); mã nguồn nằm trên
 nhánh `feature/sprint-6-payments-reporting` cục bộ.
 
+### Session 18 — 2026-09-18
+
+**Yêu cầu:** Thực hiện tiếp các sprint còn lại theo kế hoạch (Sprint 7: gia cố bảo mật, UAT
+và chuẩn bị go-live).
+
+**Quyết định:** Giới hạn tần suất toàn cục theo cửa sổ trượt (đọc 120/phút, ghi 30/phút, đăng
+nhập 20/phút theo IP kết hợp khóa tài khoản sau 5 lần sai, xuất báo cáo 5/10 phút) trả về 429
+kèm `Retry-After` và sự kiện bảo mật; giới hạn kích thước body (413), header bảo vệ, tin cậy
+proxy theo cấu hình, mã yêu cầu `x-request-id` trên mọi phản hồi; log JSON có che thông tin
+nhạy cảm; endpoint sẵn sàng `/api/health/ready` kiểm tra cơ sở dữ liệu. Chủ có trang **Nhật
+ký** (lọc theo loại bản ghi, thao tác, ngày; sửa giá hiển thị lý do, giá cũ, giá mới). US-006
+chưa từng được xếp vào sprint nào nên được đưa vào Sprint 7 như điều kiện go-live (PD-14):
+Chủ tạo, khóa (chấm dứt phiên ngay), mở khóa và đặt lại mật khẩu nhân viên; không thể tự khóa.
+Công cụ vận hành: seed tài khoản Chủ đầu tiên (idempotent), script sao lưu / khôi phục / diễn
+tập khôi phục / cảnh báo sao lưu cũ, lệnh `verify:restore` đối chiếu số hợp đồng, thanh toán,
+tài khoản, sổ thanh toán và migration; script tải thử chỉ đọc; bốn runbook; hướng dẫn vận hành
+tiếng Việt kèm 6 bài tập đào tạo; checklist phát hành. Quét accessibility (axe, WCAG 2.2 AA)
+toàn bộ trang ở 360 px và 1280 px phát hiện lỗi tương phản và bảng cuộn không focus được,
+đã sửa bằng token màu `brand-ink` và vùng bảng focus được. Các hạng mục cần hạ tầng (WAF biên,
+diễn tập khôi phục trên Postgres thật, kho đếm dùng chung khi chạy nhiều bản sao, tải thử trên
+staging, BAT có Chủ chứng kiến) để mở trong `release-checklist.md` cho đến khi chọn nhà cung
+cấp. Push GitHub vẫn bị từ chối (403); mã nguồn nằm trên nhánh
+`feature/sprint-7-hardening-golive` cục bộ.
+
 ## Client Preferences
 
 - Ngôn ngữ trao đổi: Tiếng Việt.
@@ -213,6 +237,8 @@ nhánh `feature/sprint-6-payments-reporting` cục bộ.
 | PD-11 | Mẫu lịch trả xe | Đã lưu `vehicle-return-schedule-sample.xlsx` | Received |
 | PD-12 | Xử lý cọc và phụ phí khi tất toán | Cọc khấu trừ tối đa min(cọc, còn phải thu); giảm trừ chỉ Chủ; công nợ còn lại chờ sổ thanh toán Sprint 6; trả sớm không hoàn tiền | Implemented in Sprint 5 as the working default; Product Owner confirmation pending |
 | PD-13 | Cách xuất Excel báo cáo doanh thu | Bộ ghi OOXML tự viết: một sheet "Doanh thu", 14 cột theo mẫu, dòng tổng, số tiền dạng số, không định dạng/công thức; không thêm thư viện | Implemented in Sprint 6 as the working default; Product Owner confirmation pending |
+| PD-14 | Quản lý tài khoản nhân viên (US-006) chưa được xếp sprint | Đưa vào Sprint 7 như điều kiện go-live: Chủ tạo / khóa / mở khóa / đặt lại mật khẩu, khóa chấm dứt phiên ngay, lịch sử giữ nguyên tên | Implemented in Sprint 7 as the working default; Product Owner confirmation pending |
+| PD-15 | Nhà cung cấp hạ tầng và biên (hosting, WAF, Postgres quản lý) | Chọn nhà cung cấp để hoàn tất các cổng go-live phần B trong `release-checklist.md` | Pending |
 
 ## Design Decisions
 
@@ -243,4 +269,4 @@ nhánh `feature/sprint-6-payments-reporting` cục bộ.
 - Design Direction = UI 3 selected; design system/wireframes approved
 - Tech Stack = React SPA + NestJS API approved
 - Team = 2 Backend + 2 Frontend approved; support roles retained
-- Roadmap = Sprint 0–7 approved; Sprint 0–5 complete, Sprint 6+ awaits authorization
+- Roadmap = Sprint 0–7 approved; Sprint 0–7 complete in application scope; go-live awaits the infrastructure gates

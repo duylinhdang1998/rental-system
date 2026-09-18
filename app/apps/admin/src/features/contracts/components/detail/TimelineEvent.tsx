@@ -40,13 +40,13 @@ const EVENT_TONES = {
   CANCELLED: 'bg-panel-subtle text-ink-muted',
   CHARGE_ADDED: 'bg-caution-soft text-caution',
   COMPLETED: 'bg-positive-soft text-positive',
-  CREATED: 'bg-brand-soft text-brand',
+  CREATED: 'bg-brand-soft text-brand-ink',
   EXTENDED: 'bg-caution-soft text-caution',
   LINE_RETURNED: 'bg-positive-soft text-positive',
   OVERDUE: 'bg-negative-soft text-negative',
   PAYMENT_RECORDED: 'bg-positive-soft text-positive',
   REFUND_RECORDED: 'bg-caution-soft text-caution',
-  SETTLED: 'bg-brand-soft text-brand',
+  SETTLED: 'bg-brand-soft text-brand-ink',
   SWAPPED: 'bg-information-soft text-information',
 };
 

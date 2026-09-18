@@ -13,7 +13,7 @@ export function DashboardHeader({ generatedAt }: DashboardHeaderProps) {
   return (
     <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p className="text-sm font-bold uppercase tracking-wide text-brand">
+        <p className="text-sm font-bold uppercase tracking-wide text-brand-ink">
           {formatDate(new Date(generatedAt), resolveInitialLocale(i18n.language))}
         </p>
         <h1 className="mt-1 text-3xl font-extrabold text-ink">{t('dashboardTitle')}</h1>

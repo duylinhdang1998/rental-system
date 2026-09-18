@@ -4,6 +4,7 @@ import type { Response } from 'express';
 import { AuthenticationGuard } from '../../common/guards/authentication.guard.js';
 import { OwnerAuthorizationGuard } from '../../common/guards/authorization.guard.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
+import { ThrottlePolicy } from '../../common/throttle/throttle.decorator.js';
 import { RevenueExportService, exportFileName } from './revenue-export.service.js';
 import { RevenueReportService } from './revenue-report.service.js';
 
@@ -24,6 +25,7 @@ export class ReportController {
   }
 
   @Get('revenue/export')
+  @ThrottlePolicy('export')
   async exportRevenue(
     @Query(new ZodValidationPipe(reportRangeSchema)) range: ReportRange,
     @Res() response: Response,

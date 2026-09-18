@@ -89,6 +89,7 @@
   --color-brand-hover: var(--color-primary-hover);
   --color-brand-pressed: var(--color-primary-pressed);
   --color-brand-soft: var(--color-primary-soft);
+  --color-brand-ink: var(--color-primary-pressed);
   --color-ink: var(--color-text);
   --color-ink-muted: var(--color-text-muted);
   --color-line: var(--color-border);
@@ -210,7 +211,7 @@ a {
 }
 .nav-link.active {
   background: var(--color-primary-soft);
-  color: var(--color-primary);
+  color: var(--color-primary-pressed);
 }
 .surface-card {
   background: var(--color-surface);

@@ -12,7 +12,7 @@ export function DesktopNavigation() {
   if (!user) return null;
   return (
     <aside className="sticky top-0 hidden h-screen border-r border-line bg-panel p-4 lg:flex lg:flex-col">
-      <div className="mb-8 flex min-h-touch items-center gap-3 px-3 text-xl font-extrabold text-brand">
+      <div className="mb-8 flex min-h-touch items-center gap-3 px-3 text-xl font-extrabold text-brand-ink">
         <Bike aria-hidden /> MotoRental
       </div>
       <nav aria-label="Điều hướng chính" className="grid gap-1">

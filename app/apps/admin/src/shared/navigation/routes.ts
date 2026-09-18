@@ -3,6 +3,7 @@ import {
   ClipboardList,
   FileText,
   Gauge,
+  History,
   RotateCcw,
   Settings,
   UserRound,
@@ -28,6 +29,7 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
   { icon: Wallet, key: 'receivables', path: '/receivables' },
   { icon: ClipboardList, key: 'reports', ownerOnly: true, path: '/reports' },
   { icon: UserRound, key: 'employees', ownerOnly: true, path: '/employees' },
+  { icon: History, key: 'audit', ownerOnly: true, path: '/audit' },
   { icon: Settings, key: 'settings', ownerOnly: true, path: '/settings' },
 ];
 

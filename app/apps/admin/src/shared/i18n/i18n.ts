@@ -1,7 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { resolveInitialLocale } from '@/shared/i18n/locale';
+import { auditTranslations } from '@/features/audit/lib/audit-translations';
 import { contractTranslations } from '@/features/contracts/lib/contract-translations';
+import { employeeTranslations } from '@/features/employees/lib/employee-translations';
 import { paymentTranslations } from '@/features/contracts/lib/payment-translations';
 import { settlementTranslations } from '@/features/contracts/lib/settlement-translations';
 import { financeTranslations } from '@/features/finance/lib/finance-translations';
@@ -11,7 +13,9 @@ import { returnTranslations } from '@/features/returns/lib/return-translations';
 const translations = {
   en: {
     translation: {
+      ...auditTranslations.en,
       ...contractTranslations.en,
+      ...employeeTranslations.en,
       ...financeTranslations.en,
       ...paymentTranslations.en,
       ...reportTranslations.en,
@@ -80,10 +84,6 @@ const translations = {
       nationality: 'Nationality',
       nextWeek: 'Next week',
       overdue: 'Overdue',
-      previewBody:
-        '{{message}} contains {{records}} demo records. Data writes arrive in Sprint {{sprint}}.',
-      previewReady: 'Ready for the next workflow',
-      previewTitle: 'Sprint 1 preview',
       priorityAll: 'View all tasks',
       priorityDueSoon: 'Due soon',
       priorityOverdue: '{{hours}} hours late',
@@ -135,7 +135,9 @@ const translations = {
   },
   vi: {
     translation: {
+      ...auditTranslations.vi,
       ...contractTranslations.vi,
+      ...employeeTranslations.vi,
       ...financeTranslations.vi,
       ...paymentTranslations.vi,
       ...reportTranslations.vi,
@@ -204,10 +206,6 @@ const translations = {
       nationality: 'Quốc tịch',
       nextWeek: 'Tuần sau',
       overdue: 'Quá hạn',
-      previewBody:
-        '{{message}} gồm {{records}} bản ghi minh họa. Chức năng ghi dữ liệu có trong Sprint {{sprint}}.',
-      previewReady: 'Sẵn sàng cho quy trình tiếp theo',
-      previewTitle: 'Bản xem trước Sprint 1',
       priorityAll: 'Xem tất cả công việc',
       priorityDueSoon: 'Sắp trả',
       priorityOverdue: 'Trễ {{hours}} giờ',

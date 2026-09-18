@@ -29,7 +29,9 @@ export function ContractCard({ contract }: ContractCardProps) {
       <p className="text-sm text-ink-muted">
         {formatDateTime(contract.startAt, locale)} → {formatDateTime(contract.endAt, locale)}
       </p>
-      <p className="text-xl font-black text-brand">{formatCurrency(contract.totalVnd, locale)}</p>
+      <p className="text-xl font-black text-brand-ink">
+        {formatCurrency(contract.totalVnd, locale)}
+      </p>
       <Button asChild variant="outline">
         <Link to={`/contracts/${contract.id}`}>{t('viewDetails')}</Link>
       </Button>

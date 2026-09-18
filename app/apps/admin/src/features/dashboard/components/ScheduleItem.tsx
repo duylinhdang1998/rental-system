@@ -17,7 +17,7 @@ export function ScheduleItem({ item }: ScheduleItemProps) {
       className="grid gap-3 rounded-card border border-line p-4 sm:grid-cols-5 sm:items-center"
       data-mobile-card
     >
-      <p className="flex items-center gap-2 font-extrabold text-brand">
+      <p className="flex items-center gap-2 font-extrabold text-brand-ink">
         <Clock3 aria-hidden className="size-4" />
         {formatTime(item.dueAt, locale)}
       </p>

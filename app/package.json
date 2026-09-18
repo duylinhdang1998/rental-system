@@ -19,6 +19,7 @@
     "typecheck": "npm run typecheck --workspace @rental/contracts && npm run typecheck --workspace @rental/api && npm run typecheck --workspace @rental/admin"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^9.39.5",
     "@playwright/test": "^1.62.1",
     "@vitest/coverage-v8": "^4.1.11",

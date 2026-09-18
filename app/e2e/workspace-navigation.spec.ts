@@ -6,7 +6,7 @@ test.describe('Feature: Secure responsive operations preview — role navigation
     await signInAs(page, 'staff');
     await expect(page.getByRole('link', { name: 'Báo cáo' })).toHaveCount(0);
 
-    for (const route of ['/reports', '/employees', '/settings']) {
+    for (const route of ['/reports', '/employees', '/audit', '/settings']) {
       await page.goto(route);
       await expect(
         page.getByRole('heading', { name: 'Bạn không có quyền xem trang này' }),
@@ -18,12 +18,13 @@ test.describe('Feature: Secure responsive operations preview — role navigation
     await signInAs(page, 'owner');
 
     await page.goto('/employees');
-    await expect(page.getByText('Dữ liệu minh họa', { exact: false })).toBeVisible();
-    await expect(page.getByText(/Có trong Sprint|Bản xem trước/).first()).toBeVisible();
+    await expect(page.getByRole('heading', { exact: true, name: 'Nhân viên' })).toBeVisible();
+    await page.goto('/audit');
+    await expect(page.getByRole('heading', { exact: true, name: 'Nhật ký' })).toBeVisible();
     await page.goto('/reports');
     await expect(page.getByRole('heading', { name: 'Báo cáo doanh thu' })).toBeVisible();
     await page.goto('/receivables');
-    await expect(page.getByRole('heading', { name: 'Công nợ' })).toBeVisible();
+    await expect(page.getByRole('heading', { exact: true, name: 'Công nợ' })).toBeVisible();
     await page.goto('/returns');
     await expect(page.getByRole('heading', { name: 'Trả xe' })).toBeVisible();
     await page.goto('/contracts');

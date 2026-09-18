@@ -11,7 +11,7 @@ export function ContractSummary({ quote }: { quote?: Quote }) {
           ? `${quote.lines.length} xe · ${quote.startAt.slice(0, ISO_DATE_LENGTH)} → ${quote.endAt.slice(0, ISO_DATE_LENGTH)}`
           : '—'}
       </p>
-      <p className="mt-4 text-2xl font-black text-brand">
+      <p className="mt-4 text-2xl font-black text-brand-ink">
         {quote ? `${quote.totalVnd.toLocaleString()} ₫` : '0 ₫'}
       </p>
     </aside>

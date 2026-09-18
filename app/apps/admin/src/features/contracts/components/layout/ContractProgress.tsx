@@ -15,7 +15,7 @@ export function ContractProgress({ step }: { step: number }) {
       aria-label={t('contractStep', { current: step + 1, total: 5 })}
       className="surface-card p-3"
     >
-      <p className="mb-2 text-sm font-bold text-brand sm:hidden">
+      <p className="mb-2 text-sm font-bold text-brand-ink sm:hidden">
         {t('contractStep', { current: step + 1, total: 5 })}
       </p>
       <ol className="grid grid-cols-5 gap-1">
