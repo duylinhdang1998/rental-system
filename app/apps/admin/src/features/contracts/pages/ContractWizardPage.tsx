@@ -13,7 +13,7 @@ export function ContractWizardPage() {
         <p className="text-sm font-bold uppercase tracking-wide text-brand-ink">
           {t('contractWorkspace')}
         </p>
-        <h1 className="text-3xl font-black">{t('contractTitle')}</h1>
+        <h1 className="type-h1">{t('contractTitle')}</h1>
       </header>
       <ContractProgress step={wizard.state.step} />
       {wizard.error ? (
@@ -21,13 +21,13 @@ export function ContractWizardPage() {
           className="rounded-control border border-negative bg-negative-soft p-3 font-bold text-negative"
           role="alert"
         >
-          ⛔ {wizard.error}
+          {wizard.error}
         </div>
       ) : null}
       <div className="grid min-w-0 gap-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
-        <main className="surface-card min-w-0 p-4 sm:p-6" data-mobile-card>
+        <div className="surface-card min-w-0 p-4 sm:p-6" data-mobile-card>
           <ContractWizardContent wizard={wizard} />
-        </main>
+        </div>
         <ContractSummary quote={wizard.state.quote} />
       </div>
     </section>

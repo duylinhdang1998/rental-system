@@ -9,15 +9,25 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-export function TextField({ error, id, label, ...props }: TextFieldProps) {
+export function TextField({ error, id, label, required, ...props }: TextFieldProps) {
   const errorId = `${id}-error`;
   return (
     <Field data-invalid={Boolean(error)}>
-      <FieldLabel htmlFor={id}>{label}</FieldLabel>
+      <FieldLabel htmlFor={id}>
+        {label}
+        {required ? (
+          <span aria-hidden className="text-negative">
+            {' '}
+            *
+          </span>
+        ) : null}
+      </FieldLabel>
       <Input
+        aria-label={label}
         aria-describedby={error ? errorId : undefined}
         aria-invalid={Boolean(error)}
         id={id}
+        required={required}
         {...props}
       />
       <FieldError id={errorId}>{error}</FieldError>

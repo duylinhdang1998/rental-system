@@ -15,7 +15,7 @@ export function FleetPageHeader({ onAdd, onCalendar }: FleetPageHeaderProps) {
         <p className="text-sm font-bold uppercase tracking-wide text-brand-ink">
           {t('fleetWorkspace')}
         </p>
-        <h1 className="mt-1 text-3xl font-extrabold">{t('vehicles')}</h1>
+        <h1 className="mt-1 type-h1">{t('vehicles')}</h1>
         <p className="mt-1 text-ink-muted">{t('fleetSubtitle')}</p>
       </div>
       <div className="flex flex-nowrap gap-2">

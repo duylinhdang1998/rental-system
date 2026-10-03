@@ -9,10 +9,11 @@ import { TableRow } from '@/components/ui/table-row';
 
 interface VehicleTableProps {
   onAcquisition: (vehicle: Vehicle) => void;
+  onDetails: (vehicle: Vehicle) => void;
   vehicles: Vehicle[];
 }
 
-export function VehicleTable({ onAcquisition, vehicles }: VehicleTableProps) {
+export function VehicleTable({ onAcquisition, onDetails, vehicles }: VehicleTableProps) {
   const { t } = useTranslation();
   return (
     <div className="surface-card hidden overflow-hidden sm:block">
@@ -24,9 +25,7 @@ export function VehicleTable({ onAcquisition, vehicles }: VehicleTableProps) {
             <TableHead>{t('vehicleModel')}</TableHead>
             <TableHead>{t('status')}</TableHead>
             <TableHead>{t('createdAt')}</TableHead>
-            <TableHead>
-              <span className="sr-only">{t('acquisitionAction')}</span>
-            </TableHead>
+            <TableHead className="text-right">{t('viewDetails')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -34,6 +33,7 @@ export function VehicleTable({ onAcquisition, vehicles }: VehicleTableProps) {
             <VehicleTableRow
               key={vehicle.id}
               onAcquisition={() => onAcquisition(vehicle)}
+              onDetails={() => onDetails(vehicle)}
               vehicle={vehicle}
             />
           ))}

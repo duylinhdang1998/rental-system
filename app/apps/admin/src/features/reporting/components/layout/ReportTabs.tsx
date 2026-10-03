@@ -19,7 +19,11 @@ const TABS: { key: ReportTab; path: string }[] = [
 export function ReportTabs({ active }: ReportTabsProps) {
   const { t } = useTranslation();
   return (
-    <nav aria-label={t('reportTabsLabel')} className="flex flex-wrap gap-2" data-report-tabs>
+    <nav
+      aria-label={t('reportTabsLabel')}
+      className="flex min-w-0 gap-2 overflow-x-auto pb-1"
+      data-report-tabs
+    >
       {TABS.map((tab) => (
         <Button asChild key={tab.key} variant={tab.key === active ? 'default' : 'outline'}>
           <Link aria-current={tab.key === active ? 'page' : undefined} to={tab.path}>

@@ -1,9 +1,11 @@
 import { LoadingButton } from '@/shared/ui/LoadingButton';
 import { LoginFields } from '@/features/auth/components/LoginFields';
 import { useLoginForm } from '@/features/auth/hooks/use-login-form';
+import { useTranslation } from 'react-i18next';
 
 export function LoginForm() {
   const form = useLoginForm();
+  const { t } = useTranslation();
   return (
     <form className="grid gap-5" onSubmit={(event) => void form.submit(event)}>
       {form.error ? (
@@ -16,7 +18,7 @@ export function LoginForm() {
       ) : null}
       <LoginFields {...form} />
       <LoadingButton className="w-full" loading={form.submitting} type="submit">
-        Đăng nhập
+        {t('loginAction')}
       </LoadingButton>
     </form>
   );

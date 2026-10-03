@@ -1,4 +1,6 @@
 import { TextField } from '@/shared/ui/TextField';
+import { LoginPasswordField } from '@/features/auth/components/LoginPasswordField';
+import { useTranslation } from 'react-i18next';
 
 interface LoginFieldsProps {
   password: string;
@@ -8,25 +10,20 @@ interface LoginFieldsProps {
 }
 
 export function LoginFields(props: LoginFieldsProps) {
+  const { t } = useTranslation();
   return (
     <>
       <TextField
         autoComplete="username"
+        autoCapitalize="none"
+        spellCheck={false}
         id="username"
-        label="Tên đăng nhập"
+        label={t('username')}
         onChange={(event) => props.setUsername(event.target.value)}
         required
         value={props.username}
       />
-      <TextField
-        autoComplete="current-password"
-        id="password"
-        label="Mật khẩu"
-        onChange={(event) => props.setPassword(event.target.value)}
-        required
-        type="password"
-        value={props.password}
-      />
+      <LoginPasswordField password={props.password} setPassword={props.setPassword} />
     </>
   );
 }

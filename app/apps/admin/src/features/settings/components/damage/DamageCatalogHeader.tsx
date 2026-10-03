@@ -19,7 +19,7 @@ export function DamageCatalogHeader({
     <header className="grid gap-4">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink md:text-3xl">{t('damageItemTitle')}</h1>
+          <h1 className="type-h1 text-ink">{t('damageItemTitle')}</h1>
           <p className="mt-1 text-ink-muted">{t('damageItemSubtitle')}</p>
         </div>
         <Button onClick={onCreate} type="button">

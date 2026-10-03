@@ -4,15 +4,17 @@ import { StatusBadge } from '@/shared/ui/StatusBadge';
 import { vehicleStatusTone } from '@/features/fleet/lib/vehicle-status';
 import { TableCell } from '@/components/ui/table-cell';
 import { TableRow } from '@/components/ui/table-row';
+import { Button } from '@/components/ui/button';
 import { VehicleAcquisitionButton } from '@/features/fleet/components/list/VehicleAcquisitionButton';
 import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 
 interface VehicleTableRowProps {
   onAcquisition: () => void;
+  onDetails: () => void;
   vehicle: Vehicle;
 }
 
-export function VehicleTableRow({ onAcquisition, vehicle }: VehicleTableRowProps) {
+export function VehicleTableRow({ onAcquisition, onDetails, vehicle }: VehicleTableRowProps) {
   const { i18n, t } = useTranslation();
   return (
     <TableRow data-vehicle={vehicle.code}>
@@ -32,7 +34,12 @@ export function VehicleTableRow({ onAcquisition, vehicle }: VehicleTableRowProps
         {formatDateTime(vehicle.createdAt, resolveInitialLocale(i18n.language))}
       </TableCell>
       <TableCell>
-        <VehicleAcquisitionButton code={vehicle.code} onOpen={onAcquisition} />
+        <div className="flex justify-end gap-2">
+          <Button onClick={onDetails} size="sm" type="button" variant="outline">
+            {t('viewDetails')}
+          </Button>
+          <VehicleAcquisitionButton code={vehicle.code} onOpen={onAcquisition} />
+        </div>
       </TableCell>
     </TableRow>
   );

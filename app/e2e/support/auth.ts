@@ -11,7 +11,7 @@ const PASSWORDS: Record<DemoRole, string> = {
 export async function signInAs(page: Page, role: DemoRole) {
   await page.goto('/login');
   await page.getByLabel('Tên đăng nhập').fill(role);
-  await page.getByLabel('Mật khẩu').fill(PASSWORDS[role]);
+  await page.getByLabel('Mật khẩu', { exact: true }).fill(PASSWORDS[role]);
   const login = page.waitForResponse((response) => response.url().includes('/api/auth/login'));
   await page.getByRole('button', { name: 'Đăng nhập' }).click();
   const response = await login;

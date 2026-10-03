@@ -1,3 +1,4 @@
+import { CustomerEmptyState } from '@/features/customers/components/list/CustomerEmptyState';
 import { ViewState } from '@/shared/ui/ViewState';
 import { CustomerCreateDialog } from '@/features/customers/components/form/CustomerCreateDialog';
 import { CustomerList } from '@/features/customers/components/list/CustomerList';
@@ -18,7 +19,7 @@ export function CustomerListPage() {
       {page.customers.data.items.length ? (
         <CustomerList customers={page.customers.data.items} />
       ) : (
-        <ViewState state="empty" />
+        <CustomerEmptyState page={page} />
       )}
     </section>
   );

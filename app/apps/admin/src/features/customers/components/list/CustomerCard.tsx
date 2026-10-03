@@ -6,9 +6,10 @@ import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 
 interface CustomerCardProps {
   customer: CustomerSummary;
+  onDetails: () => void;
 }
 
-export function CustomerCard({ customer }: CustomerCardProps) {
+export function CustomerCard({ customer, onDetails }: CustomerCardProps) {
   const { i18n, t } = useTranslation();
   return (
     <article className="surface-card grid gap-4 p-5" data-mobile-card>
@@ -16,7 +17,7 @@ export function CustomerCard({ customer }: CustomerCardProps) {
         <p className="text-xs font-bold uppercase tracking-wide text-brand-ink">
           {customer.nationality}
         </p>
-        <h2 className="mt-1 text-xl font-extrabold">{customer.name}</h2>
+        <h2 className="mt-1 break-words text-base font-semibold">{customer.name}</h2>
       </div>
       <CustomerContacts contacts={customer.contacts} />
       <div>
@@ -25,7 +26,7 @@ export function CustomerCard({ customer }: CustomerCardProps) {
           {formatDateTime(customer.createdAt, resolveInitialLocale(i18n.language))}
         </p>
       </div>
-      <Button type="button" variant="outline">
+      <Button onClick={onDetails} type="button" variant="outline">
         {t('viewCustomer')}
       </Button>
     </article>

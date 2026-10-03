@@ -25,7 +25,11 @@ export function LoadingButton({
       variant={variant}
       {...props}
     >
-      <span className={loading ? 'opacity-0' : undefined}>{children}</span>
+      <span
+        className={`inline-flex items-center justify-center gap-2 ${loading ? 'opacity-0' : ''}`}
+      >
+        {children}
+      </span>
       {loading ? <LoaderCircle aria-hidden className="absolute animate-spin" /> : null}
     </ShadcnButton>
   );

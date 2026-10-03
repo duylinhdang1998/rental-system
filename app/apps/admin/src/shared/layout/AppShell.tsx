@@ -15,7 +15,7 @@ export function AppShell() {
         <AppHeader />
         <DemoBanner />
         <main
-          className="mx-auto max-w-screen-2xl px-4 py-6 pb-20 sm:px-5 lg:px-6 lg:pb-8"
+          className="mx-auto max-w-screen-2xl px-4 py-6 pb-[calc(5rem+env(safe-area-inset-bottom))] sm:px-5 lg:px-6 lg:pb-8"
           id="main-content"
           tabIndex={-1}
         >

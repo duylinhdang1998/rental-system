@@ -14,7 +14,7 @@ export function CustomerPageHeader({ onAdd }: CustomerPageHeaderProps) {
         <p className="text-sm font-bold uppercase tracking-wide text-brand-ink">
           {t('customerWorkspace')}
         </p>
-        <h1 className="mt-1 text-3xl font-extrabold">{t('customers')}</h1>
+        <h1 className="mt-1 type-h1">{t('customers')}</h1>
         <p className="mt-1 text-ink-muted">{t('customerSubtitle')}</p>
       </div>
       <LoadingButton onClick={onAdd} type="button">

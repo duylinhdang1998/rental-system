@@ -13,17 +13,17 @@ interface ContractDetailHeaderProps {
 export function ContractDetailHeader({ contract }: ContractDetailHeaderProps) {
   const { i18n, t } = useTranslation();
   return (
-    <header className="flex flex-wrap items-end justify-between gap-4">
+    <header className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
       <div>
         <Link
-          className="inline-flex items-center gap-1 text-sm font-bold text-brand-ink"
+          className="inline-flex min-h-8 items-center gap-1 text-sm font-medium text-brand-ink"
           to="/contracts"
         >
           <ArrowLeft aria-hidden className="size-4" />
           {t('contractBackToList')}
         </Link>
         <div className="mt-2 flex flex-wrap items-center gap-3">
-          <h1 className="text-3xl font-extrabold text-ink">{contract.code}</h1>
+          <h1 className="type-h1 text-ink">{contract.code}</h1>
           <ContractStatusBadge status={contract.status} />
         </div>
         <p className="mt-1 text-ink-muted">

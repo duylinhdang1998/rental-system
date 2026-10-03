@@ -11,7 +11,7 @@ export function ContractPageHeader() {
         <p className="text-sm font-bold uppercase tracking-wide text-brand-ink">
           {t('contractWorkspace')}
         </p>
-        <h1 className="mt-1 text-3xl font-extrabold">{t('contracts')}</h1>
+        <h1 className="mt-1 type-h1">{t('contracts')}</h1>
         <p className="mt-1 text-ink-muted">{t('contractListSubtitle')}</p>
       </div>
       <Button asChild>

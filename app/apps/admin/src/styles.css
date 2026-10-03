@@ -2,6 +2,7 @@
 @import 'tw-animate-css';
 
 :root {
+  --font-family-app: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --color-bg: #fcfbff;
   --color-surface: #ffffff;
   --color-surface-subtle: #f7f5fc;
@@ -40,9 +41,9 @@
   --motion-base: 180ms ease-out;
   --motion-slow: 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
   --font-size-display: 2rem;
-  --font-size-h1-mobile: 1.5rem;
-  --font-size-h1: 1.75rem;
-  --font-size-h2: 1.375rem;
+  --font-size-h1-mobile: 1.25rem;
+  --font-size-h1: 1.25rem;
+  --font-size-h2: 1.125rem;
   --font-size-h3: 1.125rem;
   --font-size-body-lg: 1rem;
   --font-size-body: 0.875rem;
@@ -120,7 +121,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-family-app);
   --radius-control: var(--radius-md);
   --radius-compact: var(--radius-sm);
   --radius-card: var(--radius-lg);
@@ -136,9 +137,12 @@
 html {
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-sans);
+  font-family: var(--font-family-app);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 body {
+  font-size: var(--font-size-body);
   margin: 0;
   min-width: 20rem;
   min-height: 100vh;
@@ -146,7 +150,7 @@ body {
 }
 button,
 input {
-  font: inherit;
+  font-family: inherit;
 }
 button:not(:disabled),
 [role='button']:not(:disabled) {
@@ -163,17 +167,17 @@ a {
 
 .type-display {
   font-size: var(--font-size-display);
-  font-weight: 700;
+  font-weight: 600;
   line-height: var(--line-height-display);
 }
 .type-h1 {
   font-size: var(--font-size-h1-mobile);
-  font-weight: 700;
+  font-weight: 600;
   line-height: var(--line-height-h1-mobile);
 }
 .type-h2 {
   font-size: var(--font-size-h2);
-  font-weight: 700;
+  font-weight: 600;
   line-height: var(--line-height-h2);
 }
 .type-body {
@@ -183,7 +187,7 @@ a {
 }
 .type-label {
   font-size: var(--font-size-label);
-  font-weight: 650;
+  font-weight: 500;
   line-height: var(--line-height-compact);
 }
 
@@ -196,7 +200,7 @@ a {
   border-radius: var(--radius-md);
   color: var(--color-text-muted);
   display: flex;
-  font-weight: 650;
+  font-weight: 400;
   gap: 0.75rem;
   min-height: 2.75rem;
   padding: 0 0.75rem;
@@ -212,12 +216,12 @@ a {
 .nav-link.active {
   background: var(--color-primary-soft);
   color: var(--color-primary-pressed);
+  font-weight: 600;
 }
 .surface-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
 }
 .progress-track {
   appearance: none;
@@ -242,11 +246,11 @@ a {
   border-radius: 999px;
 }
 .form-dialog-content {
-  max-height: var(--dialog-max-height);
+  max-height: min(var(--dialog-max-height), calc(100dvh - 2rem));
   overflow-y: auto;
 }
 .calendar-dialog-content {
-  max-height: var(--calendar-dialog-max-height);
+  max-height: min(var(--calendar-dialog-max-height), calc(100dvh - 2rem));
   overflow-y: auto;
 }
 

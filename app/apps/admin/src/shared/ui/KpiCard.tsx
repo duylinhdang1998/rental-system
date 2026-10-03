@@ -16,16 +16,14 @@ export function KpiCard({ context, icon: Icon, label, tone, value }: KpiCardProp
       data-priority-item={label === 'Quá hạn' ? true : undefined}
     >
       <div className="mb-4 flex items-center justify-between gap-2">
-        <p className="text-sm font-bold text-ink-muted">{label}</p>
+        <p className="text-sm font-medium text-ink-muted">{label}</p>
         <span className={`shrink-0 rounded-control p-2 ${tone}`}>
           <Icon aria-hidden className="size-5" />
         </span>
       </div>
       {/* Eight-digit amounts share a 360 px row with a sibling card, so the value may shrink and break. */}
-      <p className="break-words text-2xl font-extrabold tabular-nums text-ink sm:text-3xl">
-        {value}
-      </p>
-      <p className="mt-2 text-sm font-semibold text-ink-muted">{context}</p>
+      <p className="break-words text-xl font-semibold tabular-nums text-ink sm:text-2xl">{value}</p>
+      <p className="mt-2 text-sm text-ink-muted">{context}</p>
     </article>
   );
 }
