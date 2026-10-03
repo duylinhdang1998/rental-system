@@ -45,7 +45,7 @@ export function ContractActions(props: ContractActionsProps) {
   return (
     <div
       aria-label={t('contractActions')}
-      className="surface-card flex flex-wrap gap-2 p-4"
+      className="surface-card grid grid-cols-2 gap-2 p-4 sm:flex sm:flex-wrap"
       role="group"
     >
       {actions.map((action) => {

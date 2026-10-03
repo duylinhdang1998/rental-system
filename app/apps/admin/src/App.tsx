@@ -17,6 +17,7 @@ import { BusinessProviders } from '@/routes/BusinessProviders';
 import { LoginRoute } from '@/routes/LoginRoute';
 import { OwnerRoute } from '@/routes/OwnerRoute';
 import { AppShell } from '@/shared/layout/AppShell';
+import { NotFoundPage } from '@/shared/pages/NotFoundPage';
 
 /** Pages every signed-in role can open; the Owner-only pages sit behind OwnerRoute below. */
 const SHARED_PAGES = [
@@ -51,6 +52,7 @@ export function App() {
           <Route element={<AuthenticatedRoute />}>
             <Route element={<AppShell />}>
               <Route element={<OperationsDashboard />} index />
+              <Route element={<NotFoundPage />} path="*" />
               {SHARED_PAGES.map((page) => (
                 <Route element={page.element} key={page.path} path={page.path} />
               ))}

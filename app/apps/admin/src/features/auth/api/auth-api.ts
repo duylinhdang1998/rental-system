@@ -40,6 +40,18 @@ export async function sessionRequest(): Promise<SessionResponse | null> {
   return response.status === UNAUTHORIZED_STATUS ? null : parseResponse(response);
 }
 
+export async function logoutRequest(): Promise<void> {
+  const token = document.cookie
+    .split('; ')
+    .find((cookie) => cookie.startsWith('rental_csrf='))
+    ?.split('=')[1];
+  const response = await fetch('/api/auth/logout', {
+    method: 'POST',
+    headers: token ? { 'x-csrf-token': token } : {},
+  });
+  if (!response.ok && response.status !== UNAUTHORIZED_STATUS) throw new Error('Logout failed');
+}
+
 export async function restoreSessionRequest(): Promise<SessionResponse | null> {
   for (let attempt = 0; attempt < RESTORE_ATTEMPTS; attempt += 1) {
     const session = await sessionRequest();

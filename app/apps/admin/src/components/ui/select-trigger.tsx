@@ -8,7 +8,7 @@ export function SelectTrigger(props: ComponentProps<typeof SelectPrimitive.Trigg
     <SelectPrimitive.Trigger
       {...props}
       className={cn(
-        "flex h-11 w-fit items-center justify-between gap-2 rounded-lg border border-input bg-background px-3 py-2 text-sm whitespace-nowrap outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/20 disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground *:data-[slot=select-value]:line-clamp-1 [&_svg:not([class*='size-'])]:size-4",
+        "flex h-11 md:h-10 w-fit min-w-0 items-center justify-between gap-2 rounded-control border border-input bg-panel px-3 py-2 text-base md:text-sm whitespace-nowrap outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground *:data-[slot=select-value]:line-clamp-1 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         props.className,
       )}
       data-slot="select-trigger"

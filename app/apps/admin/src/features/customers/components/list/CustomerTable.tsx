@@ -7,7 +7,12 @@ import { Table } from '@/components/ui/table-root';
 import { TableRow } from '@/components/ui/table-row';
 import { CustomerTableRow } from '@/features/customers/components/list/CustomerTableRow';
 
-export function CustomerTable({ customers }: { customers: CustomerSummary[] }) {
+interface CustomerTableProps {
+  customers: CustomerSummary[];
+  onDetails: (customer: CustomerSummary) => void;
+}
+
+export function CustomerTable({ customers, onDetails }: CustomerTableProps) {
   const { t } = useTranslation();
   return (
     <div className="surface-card hidden overflow-hidden sm:block">
@@ -23,7 +28,11 @@ export function CustomerTable({ customers }: { customers: CustomerSummary[] }) {
         </TableHeader>
         <TableBody>
           {customers.map((customer) => (
-            <CustomerTableRow customer={customer} key={customer.id} />
+            <CustomerTableRow
+              customer={customer}
+              key={customer.id}
+              onDetails={() => onDetails(customer)}
+            />
           ))}
         </TableBody>
       </Table>

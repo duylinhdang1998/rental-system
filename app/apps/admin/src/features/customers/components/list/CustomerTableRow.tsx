@@ -5,7 +5,13 @@ import { TableCell } from '@/components/ui/table-cell';
 import { TableRow } from '@/components/ui/table-row';
 import { formatDateTime, resolveInitialLocale } from '@/shared/i18n/locale';
 
-export function CustomerTableRow({ customer }: { customer: CustomerSummary }) {
+export function CustomerTableRow({
+  customer,
+  onDetails,
+}: {
+  customer: CustomerSummary;
+  onDetails: () => void;
+}) {
   const { i18n, t } = useTranslation();
   const phone = customer.contacts.find((contact) => contact.type === 'PHONE')?.value ?? '—';
   return (
@@ -17,7 +23,7 @@ export function CustomerTableRow({ customer }: { customer: CustomerSummary }) {
         {formatDateTime(customer.createdAt, resolveInitialLocale(i18n.language))}
       </TableCell>
       <TableCell className="text-right">
-        <Button size="sm" type="button" variant="outline">
+        <Button onClick={onDetails} size="sm" type="button" variant="outline">
           {t('viewCustomer')}
         </Button>
       </TableCell>

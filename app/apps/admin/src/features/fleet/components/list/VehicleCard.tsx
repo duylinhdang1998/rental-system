@@ -9,17 +9,18 @@ import { VehicleCardMetadata } from '@/features/fleet/components/list/VehicleCar
 
 interface VehicleCardProps {
   onAcquisition: () => void;
+  onDetails: () => void;
   vehicle: Vehicle;
 }
 
-export function VehicleCard({ onAcquisition, vehicle }: VehicleCardProps) {
+export function VehicleCard({ onAcquisition, onDetails, vehicle }: VehicleCardProps) {
   const { i18n, t } = useTranslation();
   return (
     <article className="surface-card grid gap-3 p-4 sm:hidden" data-mobile-card>
       <div className="flex items-start justify-between gap-3">
-        <div>
+        <div className="min-w-0">
           <p className="text-xs font-bold text-ink-muted">{vehicle.code}</p>
-          <h2 className="text-lg font-extrabold text-ink">{vehicle.plate}</h2>
+          <h2 className="break-words text-base font-semibold text-ink">{vehicle.plate}</h2>
         </div>
         <StatusBadge
           label={t(`vehicleStatus.${vehicle.status}`)}
@@ -32,7 +33,7 @@ export function VehicleCard({ onAcquisition, vehicle }: VehicleCardProps) {
         typeCode={vehicle.typeCode}
       />
       <div className="flex flex-wrap gap-2">
-        <Button type="button" variant="outline">
+        <Button onClick={onDetails} type="button" variant="outline">
           {t('viewDetails')}
         </Button>
         <VehicleAcquisitionButton code={vehicle.code} onOpen={onAcquisition} />

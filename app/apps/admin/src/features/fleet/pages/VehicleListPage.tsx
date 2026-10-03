@@ -1,3 +1,4 @@
+import { FleetEmptyState } from '@/features/fleet/components/list/FleetEmptyState';
 import { ViewState } from '@/shared/ui/ViewState';
 import { FleetDialogs } from '@/features/fleet/components/list/FleetDialogs';
 import { FleetFilterBar } from '@/features/fleet/components/filters/FleetFilterBar';
@@ -7,6 +8,7 @@ import { VehicleList } from '@/features/fleet/components/list/VehicleList';
 
 export function VehicleListPage() {
   const page = useFleetPage();
+  const filtered = Boolean(page.filters.search || page.filters.status || page.filters.typeCode);
   if (page.fleet.isPending) return <ViewState state="loading" />;
   if (page.fleet.isError)
     return <ViewState onRetry={() => void page.fleet.refetch()} state="error" />;
@@ -24,7 +26,7 @@ export function VehicleListPage() {
           vehicles={page.fleet.data.items}
         />
       ) : (
-        <ViewState state="empty" />
+        <FleetEmptyState filtered={filtered} onAdd={() => page.dialogs.setFormOpen(true)} />
       )}
     </section>
   );

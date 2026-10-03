@@ -10,7 +10,7 @@ export function SettingsHeader() {
       </span>
       <div>
         <p className="text-sm font-bold text-brand-ink">{t('operationsWorkspace')}</p>
-        <h1 className="text-2xl font-extrabold text-ink md:text-3xl">{t('settings')}</h1>
+        <h1 className="type-h1 text-ink">{t('settings')}</h1>
         <p className="mt-1 text-ink-muted">{t('settingsSubtitle')}</p>
       </div>
     </header>

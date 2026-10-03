@@ -12,9 +12,8 @@ export function useLoginForm() {
     event.preventDefault();
     setSubmitting(true);
     try {
-      const loginPromise = login({ password, username });
+      await login({ password, username });
       void navigate('/');
-      await loginPromise;
     } catch {
       void navigate('/login', { replace: true });
     } finally {

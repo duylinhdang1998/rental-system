@@ -31,7 +31,9 @@ describe('Feature: Approved frontend architecture and operational interaction pa
       expect(
         dependencies.some((name) => name === 'radix-ui' || name.startsWith('@radix-ui/')),
       ).toBe(true);
-      expect(source(join(SRC_ROOT, 'styles.css'))).toMatch(/--font-sans:\s*Inter\b/);
+      const styles = source(join(SRC_ROOT, 'styles.css'));
+      expect(styles).toMatch(/--font-family-app:\s*'Inter Variable'/);
+      expect(styles).toMatch(/--font-sans:\s*var\(--font-family-app\)/);
     });
 
     it('keeps native form-control tags inside the shadcn registry only', () => {

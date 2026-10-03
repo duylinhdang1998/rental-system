@@ -3,11 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { CheckboxField } from '@/shared/ui/CheckboxField';
 
 interface BlacklistWarningProps {
+  customerName?: string;
   acknowledgementId: string;
   reason: string;
 }
 
-export function BlacklistWarning({ acknowledgementId, reason }: BlacklistWarningProps) {
+export function BlacklistWarning({
+  acknowledgementId,
+  customerName,
+  reason,
+}: BlacklistWarningProps) {
   const { t } = useTranslation();
   return (
     <div
@@ -18,7 +23,8 @@ export function BlacklistWarning({ acknowledgementId, reason }: BlacklistWarning
         <ShieldAlert aria-hidden className="size-5" />
         {t('blacklistTitle')}
       </div>
-      <p className="mt-1 text-sm font-semibold">{reason}</p>
+      {customerName ? <p className="mt-2 break-words font-medium">{customerName}</p> : null}
+      <p className="mt-1 break-words text-sm">{reason}</p>
       <CheckboxField
         className="mt-3 min-h-touch"
         id={acknowledgementId}

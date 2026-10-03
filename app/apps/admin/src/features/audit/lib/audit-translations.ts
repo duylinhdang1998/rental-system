@@ -11,6 +11,7 @@ export const auditTranslations = {
       CONTRACT_CREATED: 'Contract created',
       CONTRACT_DEPOSIT_REFUNDED: 'Deposit refunded',
       CONTRACT_EXTENDED: 'Contract extended',
+      CONTRACT_OVERDUE: 'Contract overdue',
       CONTRACT_PAYMENT_RECORDED: 'Payment recorded',
       CONTRACT_REFUND_RECORDED: 'Refund recorded',
       CONTRACT_SETTLED: 'Contract settled',
@@ -87,6 +88,7 @@ export const auditTranslations = {
   vi: {
     audit: 'Nhật ký',
     auditActions: {
+      CONTRACT_OVERDUE: 'Hợp đồng quá hạn',
       CASH_SHIFT_CLOSED: 'Đóng ca tiền mặt',
       CASH_SHIFT_OPENED: 'Mở ca tiền mặt',
       CONTRACT_ACTIVATED: 'Giao xe',

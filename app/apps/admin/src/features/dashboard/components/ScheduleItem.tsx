@@ -14,14 +14,17 @@ export function ScheduleItem({ item }: ScheduleItemProps) {
   const locale = resolveInitialLocale(i18n.language);
   return (
     <article
-      className="grid gap-3 rounded-card border border-line p-4 sm:grid-cols-5 sm:items-center"
+      className="grid gap-3 rounded-card border border-line p-4 sm:grid-cols-[4rem_minmax(0,1.5fr)_minmax(0,1fr)_5rem_auto] sm:items-center"
       data-mobile-card
     >
       <p className="flex items-center gap-2 font-extrabold text-brand-ink">
         <Clock3 aria-hidden className="size-4" />
         {formatTime(item.dueAt, locale)}
       </p>
-      <Link className="font-bold text-ink hover:underline" to={`/contracts/${item.contractId}`}>
+      <Link
+        className="inline-flex min-h-8 items-center break-words font-semibold text-ink hover:underline"
+        to={`/contracts/${item.contractId}`}
+      >
         {item.code}
       </Link>
       <p className="text-ink-muted">{item.customerName}</p>

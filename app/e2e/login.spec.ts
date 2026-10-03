@@ -4,7 +4,7 @@ test.describe('Feature: Secure responsive operations preview — login', () => {
   test('Scenario: Active Owner signs in successfully', async ({ page }) => {
     await page.goto('/login');
     await page.getByLabel('Tên đăng nhập').fill('owner');
-    await page.getByLabel('Mật khẩu').fill('OwnerDemo!2026');
+    await page.getByLabel('Mật khẩu', { exact: true }).fill('OwnerDemo!2026');
     await page.getByRole('button', { name: 'Đăng nhập' }).click();
 
     await expect(page).toHaveURL('/');
@@ -17,7 +17,7 @@ test.describe('Feature: Secure responsive operations preview — login', () => {
   }) => {
     await page.goto('/login');
     await page.getByLabel('Tên đăng nhập').fill('unknown');
-    await page.getByLabel('Mật khẩu').fill('incorrect');
+    await page.getByLabel('Mật khẩu', { exact: true }).fill('incorrect');
     await page.getByRole('button', { name: 'Đăng nhập' }).click();
 
     await expect(page.getByRole('alert')).toHaveText('Thông tin đăng nhập không hợp lệ');

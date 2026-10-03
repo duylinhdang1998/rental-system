@@ -12,13 +12,13 @@ export function MobileNavigation() {
   const items = navigationForRole(user.role).slice(0, MOBILE_ITEM_COUNT);
   return (
     <nav
-      aria-label="Điều hướng di động"
-      className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-5 border-t border-line bg-panel px-1 pb-1 lg:hidden"
+      aria-label={t('quickNavigation')}
+      className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-5 border-t border-line bg-panel px-1 pb-[max(0.25rem,env(safe-area-inset-bottom))] lg:hidden"
     >
       {items.map(({ icon: Icon, key, path }) => (
         <NavLink
           className={({ isActive }) =>
-            `flex min-h-touch flex-col items-center justify-center gap-1 rounded-control text-xs font-bold ${isActive ? 'bg-brand-soft text-brand-ink' : 'text-ink-muted'}`
+            `flex min-h-14 min-w-0 flex-col items-center justify-center gap-1 rounded-control text-xs font-medium ${isActive ? 'bg-brand-soft text-brand-ink' : 'text-ink-muted'}`
           }
           end={path === '/'}
           key={path}

@@ -12,8 +12,12 @@ export function ShiftHistoryList({ items }: ShiftHistoryListProps) {
   const { t } = useTranslation();
   return (
     <section className="grid gap-3">
-      <h2 className="text-xl font-extrabold text-ink">{t('cashShiftHistory')}</h2>
-      <ShiftHistoryTable items={items} />
+      <h2 className="type-h2 text-ink">{t('cashShiftHistory')}</h2>
+      {!items.length ? (
+        <p className="surface-card p-4 text-ink-muted">{t('cashHistoryEmpty')}</p>
+      ) : (
+        <ShiftHistoryTable items={items} />
+      )}
       <ul className="grid gap-3 sm:hidden">
         {items.map((item) => (
           <ShiftHistoryCard key={item.id} shift={item} />

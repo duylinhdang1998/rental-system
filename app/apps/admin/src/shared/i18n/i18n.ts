@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { uiTranslations } from '@/shared/i18n/ui-translations';
 import { resolveInitialLocale } from '@/shared/i18n/locale';
 import { auditTranslations } from '@/features/audit/lib/audit-translations';
 import { cashShiftTranslations } from '@/features/cash-shifts/lib/cash-shift-translations';
@@ -19,6 +20,7 @@ import { settingsTranslations } from '@/features/settings/lib/settings-translati
 const translations = {
   en: {
     translation: {
+      ...uiTranslations.en,
       ...acquisitionTranslations.en,
       ...analyticsTranslations.en,
       ...auditTranslations.en,
@@ -147,6 +149,7 @@ const translations = {
   },
   vi: {
     translation: {
+      ...uiTranslations.vi,
       ...acquisitionTranslations.vi,
       ...analyticsTranslations.vi,
       ...auditTranslations.vi,
