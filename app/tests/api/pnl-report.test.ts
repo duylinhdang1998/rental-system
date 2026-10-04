@@ -1,6 +1,6 @@
 import type { INestApplication } from '@nestjs/common';
 import type { IncomingMessage } from 'node:http';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createApiApp } from '../../apps/api/src/main';
 import { readZipEntries } from '../domain/support/xlsx-reader';
 import { LifecycleClient, contractInput, type Interval } from './support/lifecycle-client';
@@ -17,6 +17,8 @@ const ACQUISITION = {
 };
 const MONTHLY_DEPRECIATION = 750_000;
 const QUERY = 'to=2026-09&months=12';
+/** Charges are booked on the day they are recorded, so the books are written inside September. */
+const RECORDED_AT = new Date('2026-09-18T03:00:00.000Z');
 
 function expenseBody(amountVnd: number, paidOn: string) {
   return {
@@ -45,12 +47,16 @@ describe('Feature: Monthly profit and loss (US-029, BR-08)', () => {
   let owner: LifecycleClient;
 
   beforeEach(async () => {
+    vi.useFakeTimers({ now: RECORDED_AT, toFake: ['Date'] });
     app = await createApiApp({ demoMode: true, nodeEnv: 'test' });
     staff = await new LifecycleClient(app).login();
     owner = await new LifecycleClient(app).login('owner', 'OwnerDemo!2026');
   });
 
-  afterEach(async () => app.close());
+  afterEach(async () => {
+    await app.close();
+    vi.useRealTimers();
+  });
 
   async function seedBooks() {
     const body = { ...contractInput(['vehicle-001'], GOLDEN), deliveryFeeVnd: 30_000 };

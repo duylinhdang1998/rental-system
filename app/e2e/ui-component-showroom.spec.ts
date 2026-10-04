@@ -25,10 +25,10 @@ test('compares action, field, data and feedback states', async ({ page }) => {
   await expect(page.getByLabel('Không thể chỉnh sửa')).toBeDisabled();
   await expect(page.getByLabel('Trạng thái lỗi')).toHaveAttribute('aria-invalid', 'true');
   await expect(page.getByText('CreatedAt', { exact: true })).toBeVisible();
-  await expect(page.getByText('Không thể tải tổng quan')).toBeVisible();
+  await expect(page.getByText('Không thể tải dữ liệu')).toBeVisible();
   await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
   await expect(
-    page.getByRole('heading', { level: 3, name: 'Không thể tải tổng quan' }),
+    page.getByRole('heading', { level: 3, name: 'Không thể tải dữ liệu' }),
   ).toBeVisible();
   const readyBox = await page.getByTestId('ready-save').boundingBox();
   const loadingBox = await page.getByTestId('loading-save').boundingBox();

@@ -1,6 +1,6 @@
 import type { INestApplication } from '@nestjs/common';
 import type { IncomingMessage } from 'node:http';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createApiApp } from '../../apps/api/src/main';
 import { readZipEntries } from '../domain/support/xlsx-reader';
 import { LifecycleClient, type Interval } from './support/lifecycle-client';
@@ -17,6 +17,8 @@ const ACQUISITION = {
   usefulLifeMonths: 36,
 };
 const AS_OF = 'asOf=2026-09-18';
+/** Charges are booked on the day they are recorded, so the books are written on the as-of day. */
+const RECORDED_AT = new Date('2026-09-18T03:00:00.000Z');
 
 function expenseBody(overrides: object = {}) {
   return {
@@ -46,12 +48,16 @@ describe('Feature: Fleet economics report and workbook (US-025, BR-08)', () => {
   let owner: LifecycleClient;
 
   beforeEach(async () => {
+    vi.useFakeTimers({ now: RECORDED_AT, toFake: ['Date'] });
     app = await createApiApp({ demoMode: true, nodeEnv: 'test' });
     staff = await new LifecycleClient(app).login();
     owner = await new LifecycleClient(app).login('owner', 'OwnerDemo!2026');
   });
 
-  afterEach(async () => app.close());
+  afterEach(async () => {
+    await app.close();
+    vi.useRealTimers();
+  });
 
   describe('Scenario: The fleet economics report reconciles vehicles, expenses and depreciation', () => {
     async function seedFleet() {

@@ -70,6 +70,8 @@ test('The loaded Inter face is used for Vietnamese and mobile inputs remain 16px
 }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('/login');
+  // The login form renders after the bundle boots; measuring earlier finds no input.
+  await expect(page.getByLabel('Mật khẩu', { exact: true })).toBeVisible();
   const font = await page.evaluate(async () => {
     await document.fonts.ready;
     return {

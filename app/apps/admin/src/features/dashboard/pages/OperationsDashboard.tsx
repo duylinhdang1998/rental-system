@@ -6,11 +6,14 @@ import { TodaySchedule } from '@/features/dashboard/components/TodaySchedule';
 import { ViewState } from '@/shared/ui/ViewState';
 import { useDashboard } from '@/features/dashboard/hooks/use-dashboard';
 
+const LOADING_COPY = { description: 'loadingBody', title: 'loadingTitle' };
+const ERROR_COPY = { description: 'errorBody', title: 'errorTitle' };
+
 export function OperationsDashboard() {
   const dashboard = useDashboard();
-  if (dashboard.isPending) return <ViewState state="loading" />;
+  if (dashboard.isPending) return <ViewState copy={LOADING_COPY} state="loading" />;
   if (dashboard.isError)
-    return <ViewState onRetry={() => void dashboard.refetch()} state="error" />;
+    return <ViewState copy={ERROR_COPY} onRetry={() => void dashboard.refetch()} state="error" />;
   const board = dashboard.data;
   return (
     <div className="grid gap-5 lg:gap-6">

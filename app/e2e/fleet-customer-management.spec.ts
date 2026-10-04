@@ -43,7 +43,7 @@ test.describe('Feature: Fleet, customer and catalog foundations', () => {
     await page.getByRole('button', { name: 'English' }).click();
     await expect(page.getByRole('heading', { name: 'Customers' })).toBeVisible();
     await page
-      .getByRole('navigation', { name: 'Điều hướng chính' })
+      .getByRole('navigation', { name: 'Main navigation' })
       .getByRole('link', { name: 'Vehicles' })
       .click();
     await expect(page.getByRole('heading', { name: 'Vehicles' })).toBeVisible();
