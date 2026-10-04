@@ -14,7 +14,7 @@ test.describe('Feature: Secure responsive operations preview — responsive work
     }
 
     const navTarget = page
-      .getByRole('navigation', { name: 'Điều hướng di động' })
+      .getByRole('navigation', { name: 'Điều hướng nhanh' })
       .getByRole('link')
       .first();
     const box = await navTarget.boundingBox();
