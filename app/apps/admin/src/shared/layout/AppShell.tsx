@@ -3,10 +3,12 @@ import { AppHeader } from '@/shared/layout/AppHeader';
 import { DemoBanner } from '@/shared/layout/DemoBanner';
 import { DesktopNavigation } from '@/shared/layout/DesktopNavigation';
 import { MobileNavigation } from '@/shared/layout/MobileNavigation';
+import { usePageMotion } from '@/shared/hooks/use-page-motion';
 
 export function AppShell() {
+  const motion = usePageMotion();
   return (
-    <div className="app-grid bg-app">
+    <div className="app-grid bg-app" onClickCapture={motion.onClickCapture}>
       <a className="sr-only focus:not-sr-only" href="#main-content">
         Bỏ qua tới nội dung
       </a>
@@ -19,7 +21,12 @@ export function AppShell() {
           id="main-content"
           tabIndex={-1}
         >
-          <Outlet />
+          <div
+            className={motion.animate ? 'page-content page-content-enter' : 'page-content'}
+            key={motion.pathname}
+          >
+            <Outlet />
+          </div>
         </main>
       </div>
       <MobileNavigation />

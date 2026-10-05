@@ -2,34 +2,25 @@ import { ExpenseFilterBar } from '@/features/expenses/components/filters/Expense
 import { ExpenseCreateDialog } from '@/features/expenses/components/form/ExpenseCreateDialog';
 import { ExpenseReverseDialog } from '@/features/expenses/components/form/ExpenseReverseDialog';
 import { ExpenseHeader } from '@/features/expenses/components/list/ExpenseHeader';
-import { ExpenseList } from '@/features/expenses/components/list/ExpenseList';
-import { ExpenseSummary } from '@/features/expenses/components/list/ExpenseSummary';
+import { ExpenseResults } from '@/features/expenses/components/list/ExpenseResults';
 import { useExpensePage } from '@/features/expenses/hooks/use-expense-page';
-import { ViewState } from '@/shared/ui/ViewState';
-
-const EMPTY_COPY = { description: 'expenseEmptyBody', title: 'expenseEmptyTitle' };
+import { QueryRegion } from '@/shared/ui/QueryRegion';
 
 export function ExpenseListPage() {
   const page = useExpensePage();
-  if (page.expenses.isPending) return <ViewState state="loading" />;
-  if (page.expenses.isError)
-    return <ViewState onRetry={() => void page.expenses.refetch()} state="error" />;
   const list = page.expenses.data;
   return (
     <section className="grid gap-5">
-      <ExpenseHeader count={list.count} onRecord={() => page.setFormOpen(true)} />
-      <ExpenseSummary list={list} />
+      <ExpenseHeader count={list?.count ?? 0} onRecord={() => page.setFormOpen(true)} />
       <ExpenseFilterBar
         filters={page.filters}
         onReset={page.reset}
         update={page.update}
         vehicles={page.vehicles}
       />
-      {list.items.length ? (
-        <ExpenseList items={list.items} onReverse={page.setReversal} />
-      ) : (
-        <ViewState copy={EMPTY_COPY} heading="section" state="empty" />
-      )}
+      <QueryRegion query={page.expenses}>
+        {(data) => <ExpenseResults data={data} onReverse={page.setReversal} />}
+      </QueryRegion>
       {page.formOpen ? (
         <ExpenseCreateDialog onClose={() => page.setFormOpen(false)} vehicles={page.vehicles} />
       ) : null}

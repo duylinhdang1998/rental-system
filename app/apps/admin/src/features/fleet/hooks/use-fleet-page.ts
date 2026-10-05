@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { useStableSearchParams } from '@/shared/hooks/use-stable-search-params';
 import { vehicleStatusSchema, type VehicleStatus } from '@rental/contracts';
 import { useFleetDialogs } from '@/features/fleet/hooks/use-fleet-dialogs';
 import { useFleet } from '@/features/fleet/hooks/use-fleet';
@@ -9,7 +9,7 @@ function parsedStatus(value: string | null): VehicleStatus | undefined {
 }
 
 export function useFleetPage() {
-  const [params, setParams] = useSearchParams();
+  const [params, setParams] = useStableSearchParams();
   const dialogs = useFleetDialogs();
   const filters = {
     search: params.get('search') ?? undefined,

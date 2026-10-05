@@ -2,8 +2,10 @@ import { AlertTriangle, Inbox, LoaderCircle, RotateCw } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
+import { PageSkeleton } from '@/shared/ui/PageSkeleton';
+import { ResultsSkeleton } from '@/shared/ui/ResultsSkeleton';
 
-interface ViewStateCopy {
+export interface ViewStateCopy {
   description: string;
   title: string;
 }
@@ -36,8 +38,10 @@ export function ViewState(props: ViewStateProps) {
   const copy = props.copy ?? COPY_KEYS[state];
   const Heading = props.heading === 'section' ? 'h3' : 'h1';
   const Icon = STATE_ICONS[state];
+  if (state === 'loading')
+    return props.heading === 'section' ? <ResultsSkeleton /> : <PageSkeleton />;
   return (
-    <section aria-busy={state === 'loading'} className={VIEW_STATE_CLASS} data-mobile-card>
+    <section className={VIEW_STATE_CLASS} data-mobile-card>
       <Icon aria-hidden className={`mb-4 size-10 ${ICON_CLASSES[state]}`} />
       <Heading className="text-lg font-semibold text-ink">{t(copy.title)}</Heading>
       <p className="mt-2 max-w-lg text-pretty text-ink-muted">{t(copy.description)}</p>

@@ -3,7 +3,11 @@ import type { CustomerInput } from '@rental/contracts';
 import { createCustomer, fetchCustomers } from '@/features/customers/api/customers-api';
 
 export function useCustomers(search?: string) {
-  return useQuery({ queryFn: () => fetchCustomers(search), queryKey: ['customers', search] });
+  return useQuery({
+    queryFn: () => fetchCustomers(search),
+    queryKey: ['customers', search],
+    placeholderData: (previous) => previous,
+  });
 }
 
 export function useCreateCustomer() {

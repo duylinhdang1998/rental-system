@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useStableSearchParams } from '@/shared/hooks/use-stable-search-params';
 import type { Expense } from '@rental/contracts';
 import { useExpenses } from '@/features/expenses/hooks/use-expenses';
 import {
@@ -19,7 +19,7 @@ function filtersFrom(params: URLSearchParams): ExpenseFilters {
 
 /** Filters live in the URL so a reload or a shared link keeps the same ledger view. */
 export function useExpensePage() {
-  const [params, setParams] = useSearchParams();
+  const [params, setParams] = useStableSearchParams();
   const [formOpen, setFormOpen] = useState(false);
   const [reversal, setReversal] = useState<Expense | null>(null);
   const filters = filtersFrom(params);
