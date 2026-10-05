@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { useStableSearchParams } from '@/shared/hooks/use-stable-search-params';
 import { contractStatusSchema, type ContractListQuery } from '@rental/contracts';
 import { useContracts } from '@/features/contracts/hooks/use-contracts';
 
@@ -8,7 +8,7 @@ function parsedStatus(value: string | null): ContractListQuery['status'] {
 }
 
 export function useContractListPage() {
-  const [params, setParams] = useSearchParams();
+  const [params, setParams] = useStableSearchParams();
   const filters: ContractListQuery = {
     search: params.get('search') ?? undefined,
     status: parsedStatus(params.get('status')),

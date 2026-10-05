@@ -11,7 +11,11 @@ import { fetchExpenses, recordExpense, reverseExpense } from '@/features/expense
 const INVALIDATED_KEYS = [['expenses'], ['fleet-economics']];
 
 export function useExpenses(query: ExpenseListQuery): UseQueryResult<ExpenseList, Error> {
-  return useQuery({ queryFn: () => fetchExpenses(query), queryKey: ['expenses', query] });
+  return useQuery({
+    queryFn: () => fetchExpenses(query),
+    queryKey: ['expenses', query],
+    placeholderData: (previous) => previous,
+  });
 }
 
 function useExpenseInvalidation() {

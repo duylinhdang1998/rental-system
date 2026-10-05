@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useStableSearchParams } from '@/shared/hooks/use-stable-search-params';
 import { useCustomers } from '@/features/customers/hooks/use-customers';
 
 export function useCustomerPage() {
-  const [params, setParams] = useSearchParams();
+  const [params, setParams] = useStableSearchParams();
   const [formOpen, setFormOpen] = useState(false);
   const search = params.get('search') ?? '';
   const customers = useCustomers(search || undefined);

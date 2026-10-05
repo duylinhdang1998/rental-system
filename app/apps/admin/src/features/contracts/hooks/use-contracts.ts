@@ -3,7 +3,11 @@ import type { ContractListQuery } from '@rental/contracts';
 import { fetchContract, fetchContracts } from '@/features/contracts/api/contracts-api';
 
 export function useContracts(query: ContractListQuery) {
-  return useQuery({ queryFn: () => fetchContracts(query), queryKey: ['contracts', query] });
+  return useQuery({
+    queryFn: () => fetchContracts(query),
+    queryKey: ['contracts', query],
+    placeholderData: (previous) => previous,
+  });
 }
 
 export function useContract(id: string) {

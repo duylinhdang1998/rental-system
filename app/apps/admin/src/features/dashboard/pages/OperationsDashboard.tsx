@@ -1,33 +1,17 @@
 import { DashboardHeader } from '@/features/dashboard/components/DashboardHeader';
-import { FleetStatus } from '@/features/dashboard/components/FleetStatus';
-import { KpiGrid } from '@/features/dashboard/components/KpiGrid';
-import { PriorityWorkList } from '@/features/dashboard/components/PriorityWorkList';
-import { TodaySchedule } from '@/features/dashboard/components/TodaySchedule';
-import { ViewState } from '@/shared/ui/ViewState';
+import { DashboardContent } from '@/features/dashboard/components/DashboardContent';
+import { DashboardSkeleton } from '@/features/dashboard/components/DashboardSkeleton';
+import { QueryRegion } from '@/shared/ui/QueryRegion';
 import { useDashboard } from '@/features/dashboard/hooks/use-dashboard';
-
-const LOADING_COPY = { description: 'loadingBody', title: 'loadingTitle' };
-const ERROR_COPY = { description: 'errorBody', title: 'errorTitle' };
 
 export function OperationsDashboard() {
   const dashboard = useDashboard();
-  if (dashboard.isPending) return <ViewState copy={LOADING_COPY} state="loading" />;
-  if (dashboard.isError)
-    return <ViewState copy={ERROR_COPY} onRetry={() => void dashboard.refetch()} state="error" />;
-  const board = dashboard.data;
   return (
     <div className="grid gap-5 lg:gap-6">
-      <DashboardHeader generatedAt={board.generatedAt} />
-      <KpiGrid board={board} />
-      <div className="grid gap-5 xl:grid-cols-2">
-        {board.items.length ? (
-          <PriorityWorkList items={board.items} />
-        ) : (
-          <ViewState heading="section" state="empty" />
-        )}
-        <FleetStatus fleet={board.fleet} />
-      </div>
-      {board.items.length ? <TodaySchedule items={board.items} /> : null}
+      <DashboardHeader generatedAt={dashboard.data?.generatedAt} />
+      <QueryRegion query={dashboard} skeleton={<DashboardSkeleton />}>
+        {(board) => <DashboardContent board={board} />}
+      </QueryRegion>
     </div>
   );
 }

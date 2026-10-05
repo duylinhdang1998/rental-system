@@ -2,12 +2,14 @@ import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { navigationForRole } from '@/shared/navigation/routes';
+import { useNavigationPrefetch } from '@/shared/hooks/use-navigation-prefetch';
 
 const MOBILE_ITEM_COUNT = 5;
 
 export function MobileNavigation() {
   const { t } = useTranslation();
   const { user } = useSession();
+  const prefetch = useNavigationPrefetch();
   if (!user) return null;
   const items = navigationForRole(user.role).slice(0, MOBILE_ITEM_COUNT);
   return (
@@ -22,6 +24,8 @@ export function MobileNavigation() {
           }
           end={path === '/'}
           key={path}
+          onFocus={() => prefetch(path)}
+          onPointerDown={() => prefetch(path)}
           to={path}
         >
           <Icon aria-hidden className="size-5" />

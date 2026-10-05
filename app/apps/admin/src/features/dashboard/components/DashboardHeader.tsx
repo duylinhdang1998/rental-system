@@ -5,7 +5,7 @@ import { formatDate, resolveInitialLocale } from '@/shared/i18n/locale';
 import { Button } from '@/components/ui/button';
 
 interface DashboardHeaderProps {
-  generatedAt: string;
+  generatedAt?: string;
 }
 
 export function DashboardHeader({ generatedAt }: DashboardHeaderProps) {
@@ -14,7 +14,11 @@ export function DashboardHeader({ generatedAt }: DashboardHeaderProps) {
     <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <p className="text-sm font-bold uppercase tracking-wide text-brand-ink">
-          {formatDate(new Date(generatedAt), resolveInitialLocale(i18n.language))}
+          {generatedAt ? (
+            formatDate(new Date(generatedAt), resolveInitialLocale(i18n.language))
+          ) : (
+            <span aria-hidden className="block h-5 w-32 rounded bg-muted" />
+          )}
         </p>
         <h1 className="mt-1 type-h1 text-ink">{t('dashboardTitle')}</h1>
         <p className="mt-2 text-ink-muted">{t('dashboardGreeting')}</p>
