@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { PageSkeleton } from '@/shared/ui/PageSkeleton';
 import { ResultsSkeleton } from '@/shared/ui/ResultsSkeleton';
 
-interface ViewStateCopy {
+export interface ViewStateCopy {
   description: string;
   title: string;
 }

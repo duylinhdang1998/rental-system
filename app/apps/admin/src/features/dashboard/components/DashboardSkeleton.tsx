@@ -1,6 +1,7 @@
 import { ResultsSkeleton } from '@/shared/ui/ResultsSkeleton';
 
 const CARDS = ['available', 'rented', 'due', 'overdue'];
+const LOADING_COPY = { description: 'loadingBody', title: 'loadingTitle' };
 
 export function DashboardSkeleton() {
   return (
@@ -15,7 +16,7 @@ export function DashboardSkeleton() {
         ))}
       </div>
       <div className="grid gap-5 xl:grid-cols-2">
-        <ResultsSkeleton />
+        <ResultsSkeleton copy={LOADING_COPY} />
         <div aria-hidden className="surface-card min-h-56 bg-panel-subtle" />
       </div>
     </div>

@@ -1,15 +1,17 @@
 import { LoaderCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import type { ViewStateCopy } from '@/shared/ui/ViewState';
 
 const ROWS = ['first', 'second', 'third', 'fourth', 'fifth'];
 
-export function ResultsSkeleton() {
+export function ResultsSkeleton({ copy }: { copy?: ViewStateCopy }) {
   const { t } = useTranslation();
   return (
     <section aria-busy="true" className="grid gap-3" data-testid="results-skeleton">
-      <h3 className="sr-only">{t('dataLoadingTitle')}</h3>
+      <h3 className="sr-only">{t(copy?.title ?? 'dataLoadingTitle')}</h3>
       <p className="flex items-center gap-2 text-sm text-ink-muted" role="status">
-        <LoaderCircle aria-hidden className="size-4 animate-spin" /> {t('dataLoadingBody')}
+        <LoaderCircle aria-hidden className="size-4 animate-spin" />{' '}
+        {t(copy?.description ?? 'dataLoadingBody')}
       </p>
       <div aria-hidden className="surface-card overflow-hidden">
         <div className="h-12 border-b border-line bg-panel-subtle" />
